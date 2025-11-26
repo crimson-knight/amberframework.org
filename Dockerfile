@@ -55,6 +55,7 @@ COPY --from=builder /usr/lib/x86_64-linux-gnu/*libpcre* /usr/lib/x86_64-linux-gn
 COPY --from=builder /usr/lib/x86_64-linux-gnu/*libevent* /usr/lib/x86_64-linux-gnu/
 
 COPY --from=builder /app/user/blog /app/user/blog
+COPY --from=builder /app/user/docs /app/user/docs
 COPY --from=builder /app/user/config /app/user/config
 COPY --from=builder /app/user/public /app/user/public
 COPY --from=builder /app/user/bin/amberframework /app/user/bin/amberframework
