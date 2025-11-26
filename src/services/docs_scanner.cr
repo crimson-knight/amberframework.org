@@ -99,13 +99,16 @@ module DocsScanner
     version = DocVersionConfig.find(version_id)
     return [] of NavItem unless version
 
-    # Get pages that are actually in this version (for badge detection)
-    own_pages = scan_version_only(version_id)
-    own_relative_paths = own_pages.map(&.relative_path).to_set
-
-    # Check parent for changed vs new detection
+    # For base versions (no inheritance), don't show any badges
+    # Everything would be "new" which is meaningless
+    own_relative_paths = Set(String).new
     parent_relative_paths = Set(String).new
+
     if parent_id = version.inherits_from
+      # Only calculate badges for versions with inheritance
+      own_pages = scan_version_only(version_id)
+      own_relative_paths = own_pages.map(&.relative_path).to_set
+
       parent_pages = scan_version_only(parent_id)
       parent_relative_paths = parent_pages.map(&.relative_path).to_set
     end

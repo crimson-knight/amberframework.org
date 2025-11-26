@@ -92,9 +92,40 @@ class DocsController < ApplicationController
     end
   end
 
+  # Return raw markdown content (for Copy Page feature)
+  def raw
+    full_path = params["path"].as(String)
+    path_parts = full_path.split("/", 2)
+
+    potential_version = path_parts[0]
+
+    if DocVersionConfig.valid?(potential_version)
+      version_id = potential_version
+      page_path = path_parts.size > 1 ? path_parts[1] : ""
+    else
+      version_id = DocVersionConfig.default.id
+      page_path = full_path
+    end
+
+    page = DocsScanner.find_page(version_id, page_path)
+
+    if page
+      response.content_type = "text/plain; charset=utf-8"
+      response.headers["Content-Disposition"] = "inline"
+      page.content
+    else
+      response.status_code = 404
+      "Page not found"
+    end
+  end
+
   private def calculate_page_badge
     return unless page = @page
     return unless version = @version
+
+    # For base versions (no inheritance), don't show any badges
+    # Everything would be "new" which is meaningless
+    return unless version.inherits_from
 
     # Check if page exists in this version's folder
     own_pages = DocsScanner.scan_version_only(@version_id)

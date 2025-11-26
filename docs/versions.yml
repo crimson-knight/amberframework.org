@@ -18,17 +18,17 @@
 #
 # The default_version is shown when accessing /docs without a version specifier.
 
-default_version: v1
+default_version: v1.4.1
 
 versions:
-  - id: v1
-    name: "1.x"
-    label: "1.x (Stable)"
-    amber_versions: "1.0.0 - 1.4.x"
+  - id: v1.4.1
+    name: "1.4.1"
+    label: "1.4.1 (Stable)"
+    amber_versions: "1.4.1"
     status: stable
     inherits_from: ~
-    release_date: "2018-01-01"
-    description: "Documentation for Amber Framework 1.x series"
+    release_date: "2023-01-01"
+    description: "Documentation for Amber Framework 1.4.1"
 
   # Example of how to add a preview version:
   # - id: v2-preview

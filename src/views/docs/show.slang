@@ -30,17 +30,37 @@ main.main-content
           nav.docs-sidebar.mb-30
             == render_template "docs/_sidebar.slang"
         .col-12.col-lg-9
-          nav.breadcrumbs.mb-20 aria-label="Breadcrumb"
-            a href="/docs" Docs
-            - if version
-              span.separator.mx-2 /
-              a href="/docs/#{@version_id}" = version.label
-            - @breadcrumbs.each do |crumb|
-              span.separator.mx-2 /
-              a href="/docs/#{crumb[:path]}" = crumb[:title]
-            - unless @path.empty?
-              span.separator.mx-2 /
-              span = page.title
+          .d-flex.justify-content-between.align-items-start.mb-20
+            nav.breadcrumbs aria-label="Breadcrumb"
+              a href="/docs" Docs
+              - if version
+                span.separator.mx-2 /
+                a href="/docs/#{@version_id}" = version.label
+              - @breadcrumbs.each do |crumb|
+                span.separator.mx-2 /
+                a href="/docs/#{crumb[:path]}" = crumb[:title]
+              - unless @path.empty?
+                span.separator.mx-2 /
+                span = page.title
+
+            / Copy Page dropdown
+            .copy-page-dropdown
+              .dropdown
+                button.btn.btn-sm.btn-outline-secondary.dropdown-toggle type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                  i.fa.fa-copy.mr-1
+                  | Copy Page
+                .dropdown-menu.dropdown-menu-right
+                  a.dropdown-item href="#" onclick="copyPageMarkdown(); return false;"
+                    i.fa.fa-clipboard.mr-2
+                    | Copy as Markdown
+                  a.dropdown-item href="/docs/raw/#{@version_id}/#{@path}" target="_blank"
+                    i.fa.fa-file-text-o.mr-2
+                    | View as Markdown
+                  .dropdown-divider
+                  - claude_url = "https://claude.ai/new?q=#{URI.encode_www_form("Help me understand this documentation:\n\n" + page.content)}"
+                  a.dropdown-item href="#{claude_url}" target="_blank" rel="noopener"
+                    i.fa.fa-external-link.mr-2
+                    | Open in Claude
 
           article.docs-content
             == render_markdown(page.content)
@@ -115,3 +135,71 @@ css:
   .alert { border-radius: 4px; }
   .alert-warning { background: #fff8e6; border: 1px solid #ffc107; color: #856404; }
   .alert-secondary { background: #e9ecef; border: 1px solid #6c757d; color: #383d41; }
+
+  /* Copy page dropdown */
+  .copy-page-dropdown .dropdown-menu { min-width: 180px; }
+  .copy-page-dropdown .dropdown-item { font-size: 14px; padding: 8px 16px; }
+  .copy-page-dropdown .dropdown-item i { width: 16px; text-align: center; }
+  .copy-page-dropdown .dropdown-divider { margin: 4px 0; }
+
+  /* Copy toast notification */
+  .copy-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #28a745;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .copy-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .copy-toast i { margin-right: 8px; }
+
+/ Hidden element to store raw markdown for copy
+- raw_url = "/docs/raw/#{@version_id}/#{@path}"
+
+javascript:
+  var rawMarkdownUrl = '#{raw_url}';
+
+  function copyPageMarkdown() {
+    fetch(rawMarkdownUrl)
+      .then(response => response.text())
+      .then(markdown => {
+        navigator.clipboard.writeText(markdown).then(() => {
+          showCopyToast('Copied to clipboard!');
+        }).catch(err => {
+          console.error('Failed to copy:', err);
+          showCopyToast('Failed to copy', true);
+        });
+      })
+      .catch(err => {
+        console.error('Failed to fetch markdown:', err);
+        showCopyToast('Failed to fetch page', true);
+      });
+  }
+
+  function showCopyToast(message, isError) {
+    var existing = document.querySelector('.copy-toast');
+    if (existing) existing.remove();
+
+    var toast = document.createElement('div');
+    toast.className = 'copy-toast';
+    toast.innerHTML = '<i class="fa fa-' + (isError ? 'times' : 'check') + '"></i>' + message;
+    if (isError) toast.style.background = '#dc3545';
+    document.body.appendChild(toast);
+
+    setTimeout(function() { toast.classList.add('show'); }, 10);
+    setTimeout(function() {
+      toast.classList.remove('show');
+      setTimeout(function() { toast.remove(); }, 300);
+    }, 2000);
+  }

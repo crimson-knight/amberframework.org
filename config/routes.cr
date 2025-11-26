@@ -22,6 +22,7 @@ Amber::Server.configure do |app|
 
     # Documentation routes (served locally, versioned)
     get "/docs", DocsController, :index
+    get "/docs/raw/*path", DocsController, :raw
     get "/docs/*path", DocsController, :show
 
     # Documentation API (for changelog/diff features)
