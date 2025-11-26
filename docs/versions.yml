@@ -21,6 +21,15 @@
 default_version: v1.4.1
 
 versions:
+  - id: v2
+    name: "2.0"
+    label: "2.0 (Preview)"
+    amber_versions: "2.0.0"
+    status: preview
+    inherits_from: v1.4.1
+    release_date: ~
+    description: "Amber Framework 2.0 with Schema API, Grant ORM, Asset Pipeline, and Gemma file attachments"
+
   - id: v1.4.1
     name: "1.4.1"
     label: "1.4.1 (Stable)"
@@ -29,13 +38,3 @@ versions:
     inherits_from: ~
     release_date: "2023-01-01"
     description: "Documentation for Amber Framework 1.4.1"
-
-  # Example of how to add a preview version:
-  # - id: v2-preview
-  #   name: "2.0"
-  #   label: "2.0 (Preview)"
-  #   amber_versions: "2.0.0-preview"
-  #   status: preview
-  #   inherits_from: v1
-  #   release_date: ~
-  #   description: "Preview documentation for upcoming Amber 2.0"
