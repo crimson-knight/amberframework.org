@@ -32,7 +32,7 @@ main.main-content
         .col-12.col-lg-9
           .d-flex.justify-content-between.align-items-start.mb-20
             nav.breadcrumbs aria-label="Breadcrumb"
-              a href="/docs" Docs
+              a href="/docs/latest" Docs
               - if version
                 span.separator.mx-2 /
                 a href="/docs/#{@version_id}" = version.label

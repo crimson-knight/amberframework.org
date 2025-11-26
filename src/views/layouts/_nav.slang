@@ -16,7 +16,7 @@ nav.topbar.topbar-inverse.topbar-expand-md.topbar-sticky
             | Media
         li.nav-item
           - active = context.request.path.starts_with?("/docs") ? "active" : ""
-          a class="nav-link #{active}" href="/docs"
+          a class="nav-link #{active}" href="/docs/latest"
             | Guides
         li.nav-item
           a.nav-link href="https://github.com/amberframework/amber" target="_blank"

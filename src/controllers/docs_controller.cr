@@ -23,10 +23,9 @@ class DocsController < ApplicationController
   @page_badge : String? = nil
   @page_badge_class : String? = nil
 
-  # Root /docs - redirect to default version
+  # Root /docs - redirect to /docs/latest
   def index
-    default_version = DocVersionConfig.default
-    redirect_to location: "/docs/#{default_version.id}", status: 302
+    redirect_to location: "/docs/latest", status: 302
   end
 
   # Handle /docs/*path - could be version index or versioned page
@@ -34,18 +33,24 @@ class DocsController < ApplicationController
     full_path = params["path"].as(String)
     path_parts = full_path.split("/", 2)
 
-    # Check if first part is a version
+    # Check if first part is a version or "latest"
     potential_version = path_parts[0]
+
+    # Handle "latest" as an alias for the default version
+    if potential_version == "latest"
+      default_version = DocVersionConfig.default.id
+      remaining_path = path_parts.size > 1 ? path_parts[1] : ""
+      target = remaining_path.empty? ? "/docs/#{default_version}" : "/docs/#{default_version}/#{remaining_path}"
+      redirect_to location: target, status: 302
+      return
+    end
 
     if DocVersionConfig.valid?(potential_version)
       @version_id = potential_version
       @path = path_parts.size > 1 ? path_parts[1] : ""
     else
-      # No version specified, use default and treat entire path as page path
-      @version_id = DocVersionConfig.default.id
-      @path = full_path
-      # Redirect to versioned URL for consistency
-      redirect_to location: "/docs/#{@version_id}/#{@path}", status: 302
+      # No version specified, redirect to /docs/latest with the path
+      redirect_to location: "/docs/latest/#{full_path}", status: 302
       return
     end
 
@@ -99,7 +104,11 @@ class DocsController < ApplicationController
 
     potential_version = path_parts[0]
 
-    if DocVersionConfig.valid?(potential_version)
+    # Handle "latest" alias
+    if potential_version == "latest"
+      version_id = DocVersionConfig.default.id
+      page_path = path_parts.size > 1 ? path_parts[1] : ""
+    elsif DocVersionConfig.valid?(potential_version)
       version_id = potential_version
       page_path = path_parts.size > 1 ? path_parts[1] : ""
     else

@@ -28,4 +28,4 @@
       .alert.alert-secondary.mt-10.py-2.px-3.fs-12
         i.fa.fa-archive.mr-1
         | This documentation is for an older version.
-        a.ml-1 href="/docs/#{DocVersionConfig.default.id}" View current version
+        a.ml-1 href="/docs/latest" View current version

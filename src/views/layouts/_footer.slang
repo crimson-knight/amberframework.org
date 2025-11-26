@@ -20,7 +20,7 @@ footer.site-footer.py-30.bg-gray
           a.nav-link href="https://twitter.com/amberframework" target="_blank"
             i.fa.fa-twitter
             |  Twitter
-          a.nav-link href="/docs"
+          a.nav-link href="/docs/latest"
             i.fa.fa-book
             |  Documentation
           a.nav-link href="https://github.com/amberframework/" target="_blank"

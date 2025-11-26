@@ -6,7 +6,7 @@ html lang="en"
     meta name="description" content="#{@meta}"
     meta name="keywords" content="amber, documentation, crystal, framework, guides, api"
     title = @title
-    link rel="canonical" href="https://amberframework.org/docs"
+    link rel="canonical" href="https://amberframework.org/docs/latest"
     link href="/dist/main.bundle.css" rel="stylesheet"
     link rel="apple-touch-icon" href="/favicon.png"
     link rel="icon" href="/favicon.png"
