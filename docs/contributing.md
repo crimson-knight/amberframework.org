@@ -38,7 +38,7 @@ Following these guidelines helps to communicate that you respect the time of the
 
 Be a law abiding contributor!
 
-This project adheres to the Contributor Covenant [CODE OF CONDUCT](code-of-conduct.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to our [chat group](https://gitter.im/amberframework/amber).
+This project adheres to the Contributor Covenant [CODE OF CONDUCT](code-of-conduct.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to our [Discord](https://discord.gg/vwvP5zakSn).
 
 ## How Can I Contribute
 

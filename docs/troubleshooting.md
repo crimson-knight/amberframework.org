@@ -36,7 +36,7 @@ rm -rf lib
 
 ## Something else doesn't work
 
-Ask around on the [Amber Gitter channel](https://gitter.im/amberframework/amber), or [create an issue](https://github.com/amberframework/amber/issues).
+Ask around on the [Amber Discord](https://discord.gg/vwvP5zakSn), or [create an issue](https://github.com/amberframework/amber/issues).
 
 If you figure it out, edit this document as a courtesy to the next person having the same problem.
 
