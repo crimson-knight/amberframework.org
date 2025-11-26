@@ -16,6 +16,6 @@ header.header.header-inverse.h-fullscreen.p-0.bg-primary.overflow-hidden.orange-
           br
           | Latest release: #{@latest_amber_version} - #{@latest_amber_release_date}
         br
-        a.btn.btn-lg.btn-round.shadow-3.btn-primary href="https://docs.amberframework.org/amber/getting-started" target="_blank"
+        a.btn.btn-lg.btn-round.shadow-3.btn-primary href="/docs/getting-started"
           | Getting Started Guide
         br

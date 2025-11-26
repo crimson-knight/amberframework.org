@@ -1,5 +1,7 @@
 require "amber"
 require "markd"
+require "../src/models/**"
+require "../src/services/**"
 require "../src/controllers/application_controller"
 require "../src/controllers/**"
 

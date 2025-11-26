@@ -20,9 +20,12 @@ Amber::Server.configure do |app|
     get "/blog", BlogController, :index
     get "/blog/:year/:month/:day/:id", BlogController, :show
 
-    # Redirect old guides to GitBook
-    get "/docs/*", HomeController, :guides
-    get "/guides/*", HomeController, :guides
+    # Documentation routes (served locally)
+    get "/docs", DocsController, :index
+    get "/docs/*path", DocsController, :show
+
+    # Legacy redirects for backward compatibility
+    get "/guides/*path", HomeController, :legacy_guides_redirect
     get "/amber/*path", HomeController, :amber
     get "/granite/*", HomeController, :granite
     get "/recipes/*", HomeController, :examples

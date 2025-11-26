@@ -1,0 +1,486 @@
+# flyctl launch added from .gitignore
+doc
+lib
+.crystal
+.shards
+.vscode
+tmp
+log
+bin
+node_modules
+**/.env
+**/.amber_secret_key
+**/.encryption_key
+**/.DS_Store
+**/.directory
+
+**/amberframework
+**/amberframework.dwarf
+
+# flyctl launch added from lib/amber/.gitignore
+lib/amber/doc
+lib/amber/docs
+lib/amber/bin
+lib/amber/.shards
+lib/amber/.vscode
+lib/amber/**/.DS_Store
+lib/amber/**/lib
+lib/amber/**/.shards
+lib/amber/amber
+lib/amber/tmp
+lib/amber/**/shard.lock
+lib/amber/**/package-lock.json
+lib/amber/**/node_modules
+lib/amber/myapp
+lib/amber/**/cli
+lib/amber/**/cli.dwarf
+
+# flyctl launch added from lib/amber_router/.gitignore
+lib/amber_router/doc
+lib/amber_router/lib
+lib/amber_router/bin
+lib/amber_router/.shards
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/amber_router/shard.lock
+
+# flyctl launch added from lib/backtracer/.gitignore
+lib/backtracer/docs
+lib/backtracer/lib
+lib/backtracer/bin
+lib/backtracer/.shards
+lib/backtracer/**/*.dwarf
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in applications that use them
+lib/backtracer/shard.lock
+
+# flyctl launch added from lib/callback/.gitignore
+lib/callback/doc
+lib/callback/libs
+lib/callback/lib
+lib/callback/.crystal
+lib/callback/.shards
+
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/callback/shard.lock
+
+
+# flyctl launch added from lib/cli/.gitignore
+lib/cli/doc
+lib/cli/.crystal
+lib/cli/.shards
+lib/cli/lib
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/cli/shard.lock
+
+# flyctl launch added from lib/compiled_license/.gitignore
+lib/compiled_license/doc
+lib/compiled_license/lib
+lib/compiled_license/bin
+lib/compiled_license/.shards
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/compiled_license/shard.lock
+
+# flyctl launch added from lib/db/.gitignore
+lib/db/docs
+lib/db/lib
+lib/db/bin
+lib/db/.shards
+lib/db/**/*.dwarf
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/db/shard.lock
+
+
+# flyctl launch added from lib/exception_page/.gitignore
+lib/exception_page/docs
+lib/exception_page/lib
+lib/exception_page/bin
+lib/exception_page/.shards
+lib/exception_page/**/*.dwarf
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/exception_page/shard.lock
+
+# flyctl launch added from lib/future/.gitignore
+lib/future/docs
+lib/future/lib
+lib/future/bin
+lib/future/.shards
+lib/future/**/*.dwarf
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in applications that use them
+lib/future/shard.lock
+
+# flyctl launch added from lib/garnet_spec/.gitignore
+lib/garnet_spec/**/.shards
+lib/garnet_spec/**/tmp
+lib/garnet_spec/**/lib
+lib/garnet_spec/**/.DS_Store
+lib/garnet_spec/**/shard.lock
+
+# flyctl launch added from lib/inflector/.gitignore
+lib/inflector/doc
+lib/inflector/libs
+lib/inflector/.crystal
+lib/inflector/.shards
+
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/inflector/shard.lock
+
+
+# flyctl launch added from lib/json_mapping/.gitignore
+lib/json_mapping/docs
+lib/json_mapping/lib
+lib/json_mapping/bin
+lib/json_mapping/.shards
+lib/json_mapping/**/*.dwarf
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in applications that use them
+lib/json_mapping/shard.lock
+
+# flyctl launch added from lib/kilt/.gitignore
+lib/kilt/doc
+lib/kilt/lib
+lib/kilt/.crystal
+lib/kilt/.shards
+
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/kilt/shard.lock
+
+
+# flyctl launch added from lib/liquid/.gitignore
+lib/liquid/doc
+lib/liquid/libs
+lib/liquid/lib
+lib/liquid/bin
+lib/liquid/.shards
+
+lib/liquid/**/*~
+lib/liquid/**/\#*\#
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/liquid/shard.lock
+
+# flyctl launch added from lib/markd/.gitignore
+lib/markd/doc
+lib/markd/lib
+lib/markd/bin
+lib/markd/.shards
+lib/markd/src/main.cr
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/markd/shard.lock
+
+# vscode
+lib/markd/.history
+
+# flyctl launch added from lib/micrate/.gitignore
+lib/micrate/doc
+lib/micrate/libs
+lib/micrate/lib
+lib/micrate/bin
+lib/micrate/.shards
+
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/micrate/shard.lock
+
+# flyctl launch added from lib/mysql/.gitignore
+lib/mysql/doc
+lib/mysql/lib
+lib/mysql/.crystal
+lib/mysql/.shards
+
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/mysql/shard.lock
+
+
+# flyctl launch added from lib/optarg/.gitignore
+lib/optarg/doc
+lib/optarg/.crystal
+lib/optarg/.shards
+lib/optarg/.crystal-version
+lib/optarg/lib
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/optarg/shard.lock
+
+# flyctl launch added from lib/pg/.gitignore
+lib/pg/**/.crystal
+lib/pg/**/.shards
+lib/pg/**/shard.lock
+lib/pg/**/lib
+lib/pg/**/tmp
+lib/pg/**/test*.cr
+lib/pg/**/spec/.run_auth_specs
+lib/pg/**/.cert
+
+# flyctl launch added from lib/pool/.gitignore
+lib/pool/**/.crystal
+lib/pool/**/.shards
+lib/pool/**/lib
+
+# flyctl launch added from lib/redis/.gitignore
+lib/redis/**/.crystal
+lib/redis/**/.deps
+lib/redis/**/.deps.lock
+lib/redis/**/.shards
+lib/redis/**/lib
+lib/redis/**/redis
+lib/redis/**/TODO.md
+lib/redis/**/experiments
+lib/redis/**/shard.lock
+lib/redis/**/*.code-workspace
+
+# flyctl launch added from lib/selenium/.gitignore
+lib/selenium/.crystal
+lib/selenium/.shards
+lib/selenium/lib
+
+# flyctl launch added from lib/shell-table/.gitignore
+lib/shell-table/doc
+lib/shell-table/lib
+lib/shell-table/bin
+lib/shell-table/.shards
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/shell-table/shard.lock
+
+# flyctl launch added from lib/slang/.gitignore
+lib/slang/doc
+lib/slang/libs
+lib/slang/.crystal
+lib/slang/.shards
+
+lib/slang/examples/.crystal
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/slang/shard.lock
+
+
+# flyctl launch added from lib/sqlite3/.gitignore
+lib/sqlite3/doc
+lib/sqlite3/lib
+lib/sqlite3/.crystal
+lib/sqlite3/.shards
+
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/sqlite3/shard.lock
+
+
+# flyctl launch added from lib/teeplate/.gitignore
+lib/teeplate/doc
+lib/teeplate/libs
+lib/teeplate/.crystal
+lib/teeplate/.shards
+lib/teeplate/lib
+
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/teeplate/shard.lock
+
+# flyctl launch added from lib/teeplate/test/file_tree_template/expected/.gitignore
+lib/teeplate/test/file_tree_template/expected/doc
+lib/teeplate/test/file_tree_template/expected/libs
+lib/teeplate/test/file_tree_template/expected/.crystal
+lib/teeplate/test/file_tree_template/expected/.shards
+
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/teeplate/test/file_tree_template/expected/shard.lock
+
+# flyctl launch added from lib/teeplate/test/file_tree_template/template/.gitignore
+lib/teeplate/test/file_tree_template/template/doc
+lib/teeplate/test/file_tree_template/template/libs
+lib/teeplate/test/file_tree_template/template/.crystal
+lib/teeplate/test/file_tree_template/template/.shards
+
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/teeplate/test/file_tree_template/template/shard.lock
+
+# flyctl launch added from lib/teeplate/test/filtering_file_entries/expected/.gitignore
+lib/teeplate/test/filtering_file_entries/expected/doc
+lib/teeplate/test/filtering_file_entries/expected/libs
+lib/teeplate/test/filtering_file_entries/expected/.crystal
+lib/teeplate/test/filtering_file_entries/expected/.shards
+
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/teeplate/test/filtering_file_entries/expected/shard.lock
+
+# flyctl launch added from lib/teeplate/test/filtering_file_entries/template/.gitignore
+lib/teeplate/test/filtering_file_entries/template/doc
+lib/teeplate/test/filtering_file_entries/template/libs
+lib/teeplate/test/filtering_file_entries/template/.crystal
+lib/teeplate/test/filtering_file_entries/template/.shards
+
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/teeplate/test/filtering_file_entries/template/shard.lock
+
+# flyctl launch added from lib/teeplate/test/listing_rendered_files/template/.gitignore
+lib/teeplate/test/listing_rendered_files/template/doc
+lib/teeplate/test/listing_rendered_files/template/libs
+lib/teeplate/test/listing_rendered_files/template/.crystal
+lib/teeplate/test/listing_rendered_files/template/.shards
+
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in application that uses them
+lib/teeplate/test/listing_rendered_files/template/shard.lock
+
+# flyctl launch added from lib/yaml_mapping/.gitignore
+lib/yaml_mapping/docs
+lib/yaml_mapping/lib
+lib/yaml_mapping/bin
+lib/yaml_mapping/.shards
+lib/yaml_mapping/**/*.dwarf
+
+# Libraries don't need dependency lock
+# Dependencies will be locked in applications that use them
+lib/yaml_mapping/shard.lock
+
+# flyctl launch added from node_modules/minipass-sized/.gitignore
+# ignore most things, include some others
+node_modules/minipass-sized/*
+node_modules/minipass-sized/.*
+
+!node_modules/minipass-sized/**/bin
+!node_modules/minipass-sized/**/lib
+!node_modules/minipass-sized/**/docs
+!node_modules/minipass-sized/**/package.json
+!node_modules/minipass-sized/**/package-lock.json
+!node_modules/minipass-sized/**/README.md
+!node_modules/minipass-sized/**/CONTRIBUTING.md
+!node_modules/minipass-sized/**/LICENSE
+!node_modules/minipass-sized/**/CHANGELOG.md
+!node_modules/minipass-sized/**/example
+!node_modules/minipass-sized/**/scripts
+!node_modules/minipass-sized/**/tap-snapshots
+!node_modules/minipass-sized/**/test
+!node_modules/minipass-sized/**/.travis.yml
+!node_modules/minipass-sized/**/.gitignore
+!node_modules/minipass-sized/**/.gitattributes
+!node_modules/minipass-sized/**/coverage-map.js
+!node_modules/minipass-sized/**/index.js
+
+# flyctl launch added from node_modules/node-sass/src/libsass/.gitignore
+# Miscellaneous stuff
+
+node_modules/node-sass/src/libsass/sassc
+node_modules/node-sass/src/libsass/sass-spec
+
+node_modules/node-sass/src/libsass/**/VERSION
+node_modules/node-sass/src/libsass/**/.DS_Store
+node_modules/node-sass/src/libsass/**/.sass-cache
+node_modules/node-sass/src/libsass/**/*.gem
+node_modules/node-sass/src/libsass/**/*.gcno
+node_modules/node-sass/src/libsass/**/.svn/*
+node_modules/node-sass/src/libsass/**/.cproject
+node_modules/node-sass/src/libsass/**/.project
+node_modules/node-sass/src/libsass/**/.settings
+node_modules/node-sass/src/libsass/**/*.db
+node_modules/node-sass/src/libsass/**/*.aps
+
+# Configuration stuff
+
+node_modules/node-sass/src/libsass/**/GNUmakefile.in
+node_modules/node-sass/src/libsass/**/GNUmakefile
+node_modules/node-sass/src/libsass/aclocal.m4
+node_modules/node-sass/src/libsass/autom4te.cache
+node_modules/node-sass/src/libsass/src/config.h
+node_modules/node-sass/src/libsass/config.h.in
+node_modules/node-sass/src/libsass/config.log
+node_modules/node-sass/src/libsass/config.status
+node_modules/node-sass/src/libsass/configure
+node_modules/node-sass/src/libsass/libtool
+node_modules/node-sass/src/libsass/m4/libtool.m4
+node_modules/node-sass/src/libsass/m4/ltoptions.m4
+node_modules/node-sass/src/libsass/m4/ltsugar.m4
+node_modules/node-sass/src/libsass/m4/ltversion.m4
+node_modules/node-sass/src/libsass/m4/lt~obsolete.m4
+node_modules/node-sass/src/libsass/script/ar-lib
+node_modules/node-sass/src/libsass/script/compile
+node_modules/node-sass/src/libsass/script/config.guess
+node_modules/node-sass/src/libsass/script/config.sub
+node_modules/node-sass/src/libsass/script/depcomp
+node_modules/node-sass/src/libsass/script/install-sh
+node_modules/node-sass/src/libsass/script/ltmain.sh
+node_modules/node-sass/src/libsass/script/missing
+node_modules/node-sass/src/libsass/script/test-driver
+node_modules/node-sass/src/libsass/src/stamp-h1
+node_modules/node-sass/src/libsass/src/Makefile.in
+node_modules/node-sass/src/libsass/src/Makefile
+node_modules/node-sass/src/libsass/**/libsass/*
+
+# Build stuff
+
+node_modules/node-sass/src/libsass/**/*.o
+node_modules/node-sass/src/libsass/**/*.lo
+node_modules/node-sass/src/libsass/**/*.so
+node_modules/node-sass/src/libsass/**/*.dll
+node_modules/node-sass/src/libsass/**/*.a
+node_modules/node-sass/src/libsass/**/*.suo
+node_modules/node-sass/src/libsass/**/*.sdf
+node_modules/node-sass/src/libsass/**/*.opendb
+node_modules/node-sass/src/libsass/**/*.opensdf
+node_modules/node-sass/src/libsass/**/a.out
+node_modules/node-sass/src/libsass/**/libsass.js
+node_modules/node-sass/src/libsass/**/tester
+node_modules/node-sass/src/libsass/**/tester.exe
+node_modules/node-sass/src/libsass/**/build
+node_modules/node-sass/src/libsass/**/config.h.in*
+node_modules/node-sass/src/libsass/**/lib/pkgconfig
+
+node_modules/node-sass/src/libsass/**/bin/*
+node_modules/node-sass/src/libsass/**/.deps
+node_modules/node-sass/src/libsass/**/.libs
+node_modules/node-sass/src/libsass/**/win/bin
+node_modules/node-sass/src/libsass/**/*.user
+node_modules/node-sass/src/libsass/**/win/*.db
+
+# Final results
+
+node_modules/node-sass/src/libsass/**/sassc++
+node_modules/node-sass/src/libsass/**/libsass.la
+node_modules/node-sass/src/libsass/**/src/support/libsass.pc
+
+# Cloned testing dirs
+node_modules/node-sass/src/libsass/**/sassc
+node_modules/node-sass/src/libsass/**/sass-spec
+
+node_modules/node-sass/src/libsass/**/installer
+fly.toml
