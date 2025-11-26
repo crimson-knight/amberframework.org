@@ -20,9 +20,12 @@ Amber::Server.configure do |app|
     get "/blog", BlogController, :index
     get "/blog/:year/:month/:day/:id", BlogController, :show
 
-    # Documentation routes (served locally)
+    # Documentation routes (served locally, versioned)
     get "/docs", DocsController, :index
     get "/docs/*path", DocsController, :show
+
+    # Documentation API (for changelog/diff features)
+    get "/api/docs/changes/:version", DocsController, :changes
 
     # Legacy redirects for backward compatibility
     get "/guides/*path", HomeController, :legacy_guides_redirect

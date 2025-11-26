@@ -1,4 +1,5 @@
 require "../models/doc_page"
+require "../models/doc_version"
 require "../services/docs_scanner"
 require "../services/markdown_preprocessor"
 
@@ -14,34 +15,60 @@ class DocsController < ApplicationController
   @prev_page : DocPage? = nil
   @next_page : DocPage? = nil
 
-  # Cache docs at class level (similar to BlogController)
-  @@pages : Array(DocPage)? = nil
-  @@nav_tree : Array(NavItem)? = nil
+  # Version-related instance variables
+  @version : DocVersion? = nil
+  @version_id : String = ""
+  @all_versions : Array(DocVersion) = [] of DocVersion
+  @is_inherited : Bool = false
+  @page_badge : String? = nil
+  @page_badge_class : String? = nil
 
+  # Root /docs - redirect to default version
   def index
-    @path = ""
-    @page = find_page("")
-    @nav_tree = nav_tree
-    @breadcrumbs = [] of NamedTuple(title: String, path: String)
-    prev_page, next_page = DocsScanner.prev_next(pages, "")
-    @prev_page = prev_page
-    @next_page = next_page
-
-    if @page
-      render("show.slang")
-    else
-      raise Amber::Exceptions::RouteNotFound.new(request)
-    end
+    default_version = DocVersionConfig.default
+    redirect_to location: "/docs/#{default_version.id}", status: 302
   end
 
+  # Handle /docs/*path - could be version index or versioned page
   def show
-    @path = params["path"].as(String)
-    @page = find_page(@path)
-    @nav_tree = nav_tree
-    @breadcrumbs = DocsScanner.breadcrumbs(pages, @path)
-    prev_page, next_page = DocsScanner.prev_next(pages, @path)
+    full_path = params["path"].as(String)
+    path_parts = full_path.split("/", 2)
+
+    # Check if first part is a version
+    potential_version = path_parts[0]
+
+    if DocVersionConfig.valid?(potential_version)
+      @version_id = potential_version
+      @path = path_parts.size > 1 ? path_parts[1] : ""
+    else
+      # No version specified, use default and treat entire path as page path
+      @version_id = DocVersionConfig.default.id
+      @path = full_path
+      # Redirect to versioned URL for consistency
+      redirect_to location: "/docs/#{@version_id}/#{@path}", status: 302
+      return
+    end
+
+    @version = DocVersionConfig.find(@version_id)
+    @all_versions = DocVersionConfig.all
+
+    unless @version
+      raise Amber::Exceptions::RouteNotFound.new(request)
+    end
+
+    # Find page using version-aware scanner
+    @page = DocsScanner.find_page(@version_id, @path)
+    @nav_tree = DocsScanner.build_nav_tree_for_version(@version_id)
+    @breadcrumbs = DocsScanner.breadcrumbs(@version_id, "#{@version_id}/#{@path}")
+
+    prev_page, next_page = DocsScanner.prev_next(@version_id, @path)
     @prev_page = prev_page
     @next_page = next_page
+
+    # Calculate page badge (new/updated)
+    if @page
+      calculate_page_badge
+    end
 
     if @page
       render("show.slang")
@@ -50,21 +77,59 @@ class DocsController < ApplicationController
     end
   end
 
-  private def pages : Array(DocPage)
-    @@pages ||= DocsScanner.scan_all
+  # API endpoint to get changed files for a version (useful for changelog)
+  def changes
+    version_id = params["version"]?.to_s
+    unless DocVersionConfig.valid?(version_id)
+      return respond_with do
+        json({error: "Invalid version"}.to_json)
+      end
+    end
+
+    changes = DocsScanner.changed_files(version_id)
+    respond_with do
+      json(changes.to_json)
+    end
   end
 
-  private def nav_tree : Array(NavItem)
-    @@nav_tree ||= DocsScanner.build_nav_tree(pages)
-  end
+  private def calculate_page_badge
+    return unless page = @page
+    return unless version = @version
 
-  private def find_page(path : String) : DocPage?
-    DocsScanner.find_page(pages, path)
+    # Check if page exists in this version's folder
+    own_pages = DocsScanner.scan_version_only(@version_id)
+    own_paths = own_pages.map(&.relative_path).to_set
+
+    unless own_paths.includes?(page.relative_path)
+      @is_inherited = true
+      return
+    end
+
+    # Check parent version
+    if parent_id = version.inherits_from
+      parent_pages = DocsScanner.scan_version_only(parent_id)
+      parent_paths = parent_pages.map(&.relative_path).to_set
+
+      if parent_paths.includes?(page.relative_path)
+        @page_badge = "Updated"
+        @page_badge_class = "badge-info"
+      else
+        @page_badge = "New"
+        @page_badge_class = "badge-success"
+      end
+    end
   end
 
   # Helper to render markdown with preprocessing
   def render_markdown(content : String) : String
     processed = MarkdownPreprocessor.process(content)
     Markd.to_html(processed)
+  end
+
+  # Helper to get URL for a page in a different version
+  def version_url(target_version : String, current_path : String) : String
+    # Strip current version from path
+    path_without_version = current_path.sub(/^#{Regex.escape(@version_id)}\//, "")
+    "/docs/#{target_version}/#{path_without_version}".sub(/\/$/, "")
   end
 end

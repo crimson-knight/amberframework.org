@@ -1,0 +1,41 @@
+# Documentation Version Configuration
+#
+# This file defines the available documentation versions and their inheritance chain.
+# When a page doesn't exist in a version folder, the system falls back to the
+# inherited version, allowing new versions to only contain changed/new documentation.
+#
+# Version folder naming:
+#   - Use lowercase with hyphens: v1, v2-preview, v2
+#   - Major versions: v1, v2, v3
+#   - Preview/beta: v2-preview, v2-beta
+#   - Release candidates: v2-rc1
+#
+# Status types:
+#   - stable: Current recommended version
+#   - preview: Upcoming version, may have incomplete docs
+#   - deprecated: Old version, still accessible but not recommended
+#   - archived: Very old, may be removed
+#
+# The default_version is shown when accessing /docs without a version specifier.
+
+default_version: v1
+
+versions:
+  - id: v1
+    name: "1.x"
+    label: "1.x (Stable)"
+    amber_versions: "1.0.0 - 1.4.x"
+    status: stable
+    inherits_from: ~
+    release_date: "2018-01-01"
+    description: "Documentation for Amber Framework 1.x series"
+
+  # Example of how to add a preview version:
+  # - id: v2-preview
+  #   name: "2.0"
+  #   label: "2.0 (Preview)"
+  #   amber_versions: "2.0.0-preview"
+  #   status: preview
+  #   inherits_from: v1
+  #   release_date: ~
+  #   description: "Preview documentation for upcoming Amber 2.0"
