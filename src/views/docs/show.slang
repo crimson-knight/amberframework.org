@@ -136,11 +136,82 @@ css:
   .alert-warning { background: #fff8e6; border: 1px solid #ffc107; color: #856404; }
   .alert-secondary { background: #e9ecef; border: 1px solid #6c757d; color: #383d41; }
 
-  /* Copy page dropdown */
-  .copy-page-dropdown .dropdown-menu { min-width: 180px; }
-  .copy-page-dropdown .dropdown-item { font-size: 14px; padding: 8px 16px; }
-  .copy-page-dropdown .dropdown-item i { width: 16px; text-align: center; }
-  .copy-page-dropdown .dropdown-divider { margin: 4px 0; }
+  /* Copy page dropdown - Light mode (default) */
+  .copy-page-dropdown .btn {
+    background: #fff;
+    border: 1.5px solid #f6a623;
+    color: #f6a623;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .copy-page-dropdown .btn:hover,
+  .copy-page-dropdown .btn:focus {
+    background: #f6a623;
+    border-color: #f6a623;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(246,166,35,0.3);
+  }
+  .copy-page-dropdown .btn i { margin-right: 5px; }
+  .copy-page-dropdown .dropdown-menu {
+    min-width: 200px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    border-radius: 8px;
+    padding: 6px 0;
+    background: #fff;
+  }
+  .copy-page-dropdown .dropdown-item {
+    font-size: 14px;
+    padding: 10px 16px;
+    color: #333;
+    transition: all 0.15s ease;
+  }
+  .copy-page-dropdown .dropdown-item:hover {
+    background: #fff5e6;
+    color: #e69500;
+  }
+  .copy-page-dropdown .dropdown-item i {
+    width: 18px;
+    text-align: center;
+    color: #f6a623;
+    margin-right: 8px;
+  }
+  .copy-page-dropdown .dropdown-item:hover i { color: #e69500; }
+  .copy-page-dropdown .dropdown-divider {
+    margin: 6px 12px;
+    border-top: 1px solid #eee;
+  }
+
+  /* Copy page dropdown - Dark mode */
+  @media (prefers-color-scheme: dark) {
+    .copy-page-dropdown .btn {
+      background: #2d2d2d;
+      border-color: #f6a623;
+      color: #f6a623;
+    }
+    .copy-page-dropdown .btn:hover,
+    .copy-page-dropdown .btn:focus {
+      background: #f6a623;
+      color: #1a1a1a;
+    }
+    .copy-page-dropdown .dropdown-menu {
+      background: #2d2d2d;
+      border-color: #444;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    .copy-page-dropdown .dropdown-item {
+      color: #e0e0e0;
+    }
+    .copy-page-dropdown .dropdown-item:hover {
+      background: #3d3d3d;
+      color: #f6a623;
+    }
+    .copy-page-dropdown .dropdown-item i { color: #f6a623; }
+    .copy-page-dropdown .dropdown-divider {
+      border-top-color: #444;
+    }
+  }
 
   /* Copy toast notification */
   .copy-toast {
