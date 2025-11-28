@@ -1,17 +1,20 @@
 # Service to auto-discover and scan documentation markdown files
-# Supports versioned documentation with inheritance
+# Supports versioned documentation with inheritance and deletions
 
 module DocsScanner
   extend self
 
-  DOCS_ROOT = "docs"
+  DOCS_ROOT        = "docs"
+  DELETED_FILENAME = "_deleted.yml"
 
   # Cache structure: version_id => pages
   @@version_pages : Hash(String, Array(DocPage)) = {} of String => Array(DocPage)
   @@version_nav_trees : Hash(String, Array(NavItem)) = {} of String => Array(NavItem)
+  @@version_deleted_paths : Hash(String, Set(String)) = {} of String => Set(String)
 
   # Scan all markdown files for a specific version
   # Includes inherited pages from parent versions
+  # Respects _deleted.yml files that mark pages as deleted from this version
   def scan_version(version_id : String) : Array(DocPage)
     return @@version_pages[version_id] if @@version_pages.has_key?(version_id)
 
@@ -25,12 +28,30 @@ module DocsScanner
     # We need to track relative paths to handle overrides correctly
     pages_by_relative = {} of String => DocPage
 
+    # Track accumulated deletions through the chain
+    deleted_paths = Set(String).new
+
     # Process chain in reverse (base first, then overlays)
     chain.reverse.each do |v|
+      # First, add pages from this version
       scan_folder(v.folder_path, v.id).each do |page|
-        pages_by_relative[page.relative_path] = page
+        # Only add if not already marked as deleted
+        unless deleted_paths.includes?(page.relative_path)
+          pages_by_relative[page.relative_path] = page
+        end
+      end
+
+      # Then process deletions for this version
+      # Deletions cascade - once deleted, stays deleted in child versions
+      version_deletions = load_deleted_paths(v.id)
+      version_deletions.each do |deleted_path|
+        deleted_paths.add(deleted_path)
+        pages_by_relative.delete(deleted_path)
       end
     end
+
+    # Store accumulated deletions for this version (used by badges)
+    @@version_deleted_paths[version_id] = deleted_paths
 
     # Convert to array and update URL paths for this version
     pages = pages_by_relative.values.map do |page|
@@ -177,6 +198,39 @@ module DocsScanner
     end
   end
 
+  # Load paths marked as deleted for a specific version
+  # Reads from _deleted.yml in the version's folder
+  # Returns empty set if file doesn't exist
+  private def load_deleted_paths(version_id : String) : Set(String)
+    version = DocVersionConfig.find(version_id)
+    return Set(String).new unless version
+
+    deleted_file = File.join(version.folder_path, DELETED_FILENAME)
+    return Set(String).new unless File.exists?(deleted_file)
+
+    begin
+      yaml_content = YAML.parse(File.read(deleted_file))
+      paths = Set(String).new
+
+      # Handle array format: ["path1", "path2"]
+      if yaml_content.as_a?
+        yaml_content.as_a.each do |item|
+          if path = item.as_s?
+            # Normalize path: ensure no leading slash, handle various formats
+            normalized = path.strip.lstrip('/')
+            paths.add(normalized) unless normalized.empty?
+          end
+        end
+      end
+
+      paths
+    rescue ex
+      # Log error but don't crash - return empty set
+      puts "Warning: Error parsing #{deleted_file}: #{ex.message}"
+      Set(String).new
+    end
+  end
+
   private def find_section_key(section : String, section_map : Hash(String, NavItem), version_id : String) : String?
     # Try with version prefix
     versioned_path = "#{version_id}/#{section}"
@@ -318,6 +372,14 @@ module DocsScanner
   def clear_cache
     @@version_pages.clear
     @@version_nav_trees.clear
+    @@version_deleted_paths.clear
+  end
+
+  # Get paths marked as deleted for a version (for display/debugging)
+  def deleted_paths(version_id : String) : Set(String)
+    # Ensure scan_version has been called to populate the cache
+    scan_version(version_id)
+    @@version_deleted_paths[version_id]? || Set(String).new
   end
 
   # Backward compatibility: scan_all returns default version pages
