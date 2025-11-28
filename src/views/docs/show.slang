@@ -62,6 +62,9 @@ main.main-content
                     i.fa.fa-external-link.mr-2
                     | Open in Claude
 
+          / Version Timeline
+          == render_template "docs/_version_timeline.slang"
+
           article.docs-content
             == render_markdown(page.content)
 
@@ -135,6 +138,159 @@ css:
   .alert { border-radius: 4px; }
   .alert-warning { background: #fff8e6; border: 1px solid #ffc107; color: #856404; }
   .alert-secondary { background: #e9ecef; border: 1px solid #6c757d; color: #383d41; }
+
+  /* Version Timeline Bar */
+  .version-timeline {
+    background: #f8f9fa;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    border: 1px solid #e9ecef;
+  }
+  .version-timeline-track {
+    display: flex;
+    gap: 4px;
+    align-items: stretch;
+  }
+  .version-timeline-segment {
+    flex: 1;
+    min-width: 40px;
+    max-width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+    border-radius: 4px;
+    padding: 4px 2px;
+    position: relative;
+  }
+  .version-timeline-segment:hover {
+    transform: translateY(-2px);
+  }
+  .version-timeline-segment.unavailable-status:hover {
+    cursor: not-allowed;
+    transform: none;
+  }
+  .segment-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    width: 100%;
+  }
+  .segment-bar {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: #28a745;
+    margin-bottom: 4px;
+    position: relative;
+  }
+  .segment-bar.unavailable {
+    background: #dee2e6;
+  }
+  .version-timeline-segment.current .segment-bar {
+    height: 12px;
+    box-shadow: 0 0 0 2px #f6a623;
+  }
+  .version-timeline-segment.current .segment-label {
+    font-weight: 600;
+    color: #f6a623;
+  }
+  .change-indicator {
+    position: absolute;
+    top: -3px;
+    right: 2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid #fff;
+  }
+  .change-indicator.added {
+    background: #17a2b8;
+  }
+  .change-indicator.reduced {
+    background: #ffc107;
+  }
+  .segment-label {
+    font-size: 10px;
+    color: #495057;
+    text-align: center;
+  }
+  .segment-label.unavailable {
+    color: #adb5bd;
+  }
+  .version-timeline-segment.available {
+    background: rgba(40, 167, 69, 0.08);
+  }
+  .version-timeline-segment.unavailable-status {
+    opacity: 0.6;
+  }
+  /* Timeline tooltips */
+  .version-timeline-segment[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+    pointer-events: none;
+  }
+  .version-timeline-segment[data-tooltip]:hover::before {
+    content: "";
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #333;
+    z-index: 1000;
+  }
+  /* Timeline responsive */
+  @media (max-width: 767px) {
+    .version-timeline {
+      padding: 8px 12px;
+    }
+    .version-timeline-segment {
+      min-width: 30px;
+      max-width: 50px;
+    }
+    .segment-label {
+      font-size: 8px;
+    }
+    .segment-bar {
+      height: 6px;
+    }
+    .version-timeline-segment.current .segment-bar {
+      height: 10px;
+    }
+  }
+  /* Timeline dark mode */
+  @media (prefers-color-scheme: dark) {
+    .version-timeline {
+      background: #2d2d2d;
+      border-color: #444;
+    }
+    .segment-bar.unavailable {
+      background: #444;
+    }
+    .segment-label {
+      color: #e0e0e0;
+    }
+    .segment-label.unavailable {
+      color: #666;
+    }
+    .version-timeline-segment.available {
+      background: rgba(40, 167, 69, 0.15);
+    }
+  }
 
   /* Copy page dropdown - Light mode (default) */
   .copy-page-dropdown .btn {
