@@ -28,4 +28,9 @@ grep -F '2.0.0-beta.2' docs/v2/cli/new.md
 grep -F 'Amber CLI' docs/v2/cli/index.md
 grep -F '2.0.2' docs/v2/getting-started/installation.md
 
+if grep -Eq '^- cli/(index|new|generate|watch)\.md$' docs/v2/_deleted.yml; then
+  echo "Published V2 CLI guides must not be listed as deleted" >&2
+  exit 1
+fi
+
 echo "Amber V2 beta onboarding documentation checks passed"

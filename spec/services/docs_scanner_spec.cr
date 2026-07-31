@@ -32,9 +32,13 @@ describe DocsScanner do
       deleted.should_not be_empty
     end
 
-    it "includes CLI paths in v2 deletions" do
+    it "includes legacy CLI paths in v2 deletions" do
       deleted = DocsScanner.deleted_paths("v2")
-      deleted.includes?("cli/index.md").should be_true
+      deleted.includes?("cli/recipes.md").should be_true
+      deleted.includes?("cli/index.md").should be_false
+      deleted.includes?("cli/new.md").should be_false
+      deleted.includes?("cli/generate.md").should be_false
+      deleted.includes?("cli/watch.md").should be_false
     end
 
     it "includes Granite paths in v2 deletions" do
@@ -54,10 +58,12 @@ describe DocsScanner do
   end
 
   describe "deletion inheritance behavior" do
-    it "does not include deleted CLI pages in v2" do
+    it "includes the published V2 CLI pages" do
       pages = DocsScanner.scan_version("v2")
       cli_pages = pages.select { |p| p.url_path.includes?("cli/") }
-      cli_pages.should be_empty
+      cli_pages.map(&.url_path).should contain("v2/cli/new")
+      cli_pages.map(&.url_path).should contain("v2/cli/generate")
+      cli_pages.map(&.url_path).should contain("v2/cli/watch")
     end
 
     it "does include CLI pages in v1.4.1" do
@@ -104,9 +110,14 @@ describe DocsScanner do
       page.should_not be_nil
     end
 
-    it "returns nil for deleted pages in v2" do
-      page = DocsScanner.find_page("v2", "cli")
-      page.should be_nil
+    it "finds every published V2 CLI guide" do
+      ["cli", "cli/new", "cli/generate", "cli/watch"].each do |path|
+        DocsScanner.find_page("v2", path).should_not be_nil
+      end
+    end
+
+    it "returns nil for a legacy CLI page deleted in v2" do
+      DocsScanner.find_page("v2", "cli/recipes").should be_nil
     end
 
     it "finds deleted pages in v1.4.1" do
@@ -126,10 +137,18 @@ describe DocsScanner do
       nav.should_not be_empty
     end
 
-    it "v2 nav tree does not contain CLI section" do
+    it "v2 nav tree contains the published CLI section and commands" do
       nav = DocsScanner.build_nav_tree_for_version("v2")
-      cli_items = nav.select { |item| item.title.downcase.includes?("cli") }
-      cli_items.should be_empty
+      cli_item = nav.find { |item| item.path == "v2/cli" }
+      cli_item.should_not be_nil
+
+      if cli_item
+        cli_item.children.map(&.path).should eq([
+          "v2/cli/new",
+          "v2/cli/generate",
+          "v2/cli/watch",
+        ])
+      end
     end
 
     it "v1.4.1 nav tree contains CLI section" do

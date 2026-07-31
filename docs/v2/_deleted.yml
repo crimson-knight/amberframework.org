@@ -16,13 +16,9 @@
 - guides/models/granite/bulk-insertions.md
 - guides/models/granite/associations.md
 
-# CLI commands (V2 uses shard dependencies instead of CLI generators)
-- cli/index.md
-- cli/new.md
-- cli/generate.md
+# Legacy CLI commands that are not part of the V2 CLI
 - cli/recipes.md
 - cli/routes.md
-- cli/watch.md
 - cli/plugins.md
 - cli/encrypt.md
 - cli/exec.md
