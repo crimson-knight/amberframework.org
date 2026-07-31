@@ -62,6 +62,9 @@ main.main-content
                     i.fa.fa-external-link.mr-2
                     | Open in Claude
 
+          / Version Timeline
+          == render_template "docs/_version_timeline.slang"
+
           article.docs-content
             == render_markdown(page.content)
 
@@ -135,6 +138,200 @@ css:
   .alert { border-radius: 4px; }
   .alert-warning { background: #fff8e6; border: 1px solid #ffc107; color: #856404; }
   .alert-secondary { background: #e9ecef; border: 1px solid #6c757d; color: #383d41; }
+
+  /* Version Timeline Bar */
+  .version-timeline {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .version-timeline-track {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+  }
+  .version-timeline-segment {
+    flex: 1;
+    min-width: 50px;
+    max-width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.15s ease;
+    border-radius: 6px;
+    padding: 8px 6px;
+    position: relative;
+    background: #f9f9f9;
+    border: 1px solid #eee;
+  }
+  .version-timeline-segment:hover {
+    transform: translateY(-2px);
+    background: #f0f0f0;
+  }
+  .version-timeline-segment.unavailable-status {
+    background: #fafafa;
+    border-color: #eee;
+  }
+  .version-timeline-segment.unavailable-status:hover {
+    cursor: not-allowed;
+    transform: none;
+    background: #fafafa;
+  }
+  .segment-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    width: 100%;
+  }
+  .segment-bar {
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #34c759 0%, #28a745 100%);
+    margin-bottom: 6px;
+    position: relative;
+    box-shadow: 0 1px 2px rgba(40, 167, 69, 0.3);
+  }
+  .segment-bar.unavailable {
+    background: #d0d0d0;
+    box-shadow: none;
+  }
+  .version-timeline-segment.current {
+    background: #fff8e6;
+    border-color: #f6a623;
+  }
+  .version-timeline-segment.current .segment-bar {
+    height: 14px;
+    box-shadow: 0 0 0 3px #f6a623, 0 2px 4px rgba(246, 166, 35, 0.3);
+  }
+  .version-timeline-segment.current .segment-label {
+    font-weight: 700;
+    color: #d68c00;
+  }
+  .change-indicator {
+    position: absolute;
+    top: -4px;
+    right: 4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  }
+  .change-indicator.added {
+    background: #17a2b8;
+  }
+  .change-indicator.reduced {
+    background: #ffc107;
+  }
+  .segment-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: #333;
+    text-align: center;
+  }
+  .segment-label.unavailable {
+    color: #999;
+    font-weight: 400;
+  }
+  .version-timeline-segment.available {
+    background: #f0fff4;
+    border-color: #c3e6cb;
+  }
+  .version-timeline-segment.available:hover {
+    background: #e6f7ec;
+  }
+  /* Timeline tooltips */
+  .version-timeline-segment[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    z-index: 1000;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .version-timeline-segment[data-tooltip]:hover::before {
+    content: "";
+    position: absolute;
+    bottom: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: #333;
+    z-index: 1000;
+  }
+  /* Timeline responsive */
+  @media (max-width: 767px) {
+    .version-timeline {
+      padding: 10px 14px;
+    }
+    .version-timeline-segment {
+      min-width: 40px;
+      max-width: 70px;
+      padding: 6px 4px;
+    }
+    .segment-label {
+      font-size: 9px;
+    }
+    .segment-bar {
+      height: 8px;
+    }
+    .version-timeline-segment.current .segment-bar {
+      height: 12px;
+    }
+  }
+  /* Timeline dark mode */
+  @media (prefers-color-scheme: dark) {
+    .version-timeline {
+      background: #1e1e1e;
+      border-color: #333;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    .version-timeline-segment {
+      background: #2a2a2a;
+      border-color: #3a3a3a;
+    }
+    .version-timeline-segment:hover {
+      background: #333;
+    }
+    .version-timeline-segment.available {
+      background: #1a2f1a;
+      border-color: #2d4a2d;
+    }
+    .version-timeline-segment.available:hover {
+      background: #223d22;
+    }
+    .version-timeline-segment.current {
+      background: #3d3520;
+      border-color: #f6a623;
+    }
+    .segment-bar.unavailable {
+      background: #444;
+    }
+    .segment-label {
+      color: #e0e0e0;
+    }
+    .segment-label.unavailable {
+      color: #777;
+    }
+    .version-timeline-segment.current .segment-label {
+      color: #f6a623;
+    }
+  }
 
   /* Copy page dropdown - Light mode (default) */
   .copy-page-dropdown .btn {

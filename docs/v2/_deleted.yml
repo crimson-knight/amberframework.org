@@ -1,0 +1,29 @@
+# Pages deleted from V2 documentation
+# These pages exist in v1.4.1 but should not appear in V2
+# Deletions cascade through the inheritance chain
+
+# Jennifer ORM (replaced by Grant in V2)
+- guides/models/jennifer/index.md
+- guides/models/jennifer/migrations.md
+- guides/models/jennifer/models.md
+
+# Granite ORM (replaced by Grant in V2)
+- guides/models/granite/index.md
+- guides/models/granite/callbacks.md
+- guides/models/granite/migrations.md
+- guides/models/granite/validations.md
+- guides/models/granite/querying.md
+- guides/models/granite/bulk-insertions.md
+- guides/models/granite/associations.md
+
+# CLI commands (V2 uses shard dependencies instead of CLI generators)
+- cli/index.md
+- cli/new.md
+- cli/generate.md
+- cli/recipes.md
+- cli/routes.md
+- cli/watch.md
+- cli/plugins.md
+- cli/encrypt.md
+- cli/exec.md
+- cli/database.md

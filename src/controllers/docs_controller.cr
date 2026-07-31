@@ -23,6 +23,18 @@ class DocsController < ApplicationController
   @page_badge : String? = nil
   @page_badge_class : String? = nil
 
+  # Version timeline data
+  alias TimelineEntry = NamedTuple(
+    version_id: String,
+    label: String,
+    short_label: String,
+    exists: Bool,
+    is_current: Bool,
+    change_type: String?,
+    line_diff: Int32?)
+  @version_timeline : Array(TimelineEntry) = [] of TimelineEntry
+  @show_version_timeline : Bool = false
+
   # Root /docs - redirect to /docs/latest
   def index
     redirect_to location: "/docs/latest", status: 302
@@ -73,6 +85,7 @@ class DocsController < ApplicationController
     # Calculate page badge (new/updated)
     if @page
       calculate_page_badge
+      build_version_timeline
     end
 
     if @page
@@ -157,6 +170,66 @@ class DocsController < ApplicationController
         @page_badge = "New"
         @page_badge_class = "badge-success"
       end
+    end
+  end
+
+  private def build_version_timeline
+    return unless page = @page
+
+    history = DocsScanner.get_history_for_page(@version_id, @path)
+    return unless history
+
+    timeline = [] of TimelineEntry
+
+    history.entries.each do |entry|
+      change_type = case entry.status
+                    when .updated?
+                      "added"
+                    when .reduced?
+                      "reduced"
+                    else
+                      nil
+                    end
+
+      timeline << {
+        version_id:  entry.version_id,
+        label:       DocVersionConfig.find(entry.version_id).try(&.label) || entry.version_name,
+        short_label: entry.version_name,
+        exists:      entry.available?,
+        is_current:  entry.version_id == @version_id,
+        change_type: change_type,
+        line_diff:   entry.line_delta,
+      }
+    end
+
+    @version_timeline = timeline
+    @show_version_timeline = timeline.size > 1
+  end
+
+  # Helper for timeline segment CSS class
+  def version_timeline_status_class(entry : TimelineEntry) : String
+    if entry[:exists]
+      "available"
+    else
+      "unavailable-status"
+    end
+  end
+
+  # Helper for timeline tooltip text
+  def version_timeline_tooltip(entry : TimelineEntry) : String
+    if entry[:exists]
+      case entry[:change_type]
+      when "added"
+        diff = entry[:line_diff]
+        "#{entry[:label]}: +#{diff} lines"
+      when "reduced"
+        diff = entry[:line_diff]
+        "#{entry[:label]}: #{diff} lines"
+      else
+        "#{entry[:label]}: Available"
+      end
+    else
+      "#{entry[:label]}: Not available"
     end
   end
 

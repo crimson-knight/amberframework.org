@@ -87,9 +87,9 @@ class DocPage
   # e.g., "docs/v1/guides/installation.md" -> "v1/guides/installation"
   private def self.file_to_url(file_path : String, version_folder : String? = nil) : String
     path = file_path
-      .sub(/^docs\//, "")      # Remove docs/ prefix
-      .sub(/\.md$/, "")        # Remove .md extension
-      .sub(/\/index$/, "")     # /index becomes /
+      .sub(/^docs\//, "")  # Remove docs/ prefix
+      .sub(/\.md$/, "")    # Remove .md extension
+      .sub(/\/index$/, "") # /index becomes /
 
     # Handle root index
     if version_folder
@@ -104,10 +104,10 @@ class DocPage
   # Convert file path to relative path within version folder
   # e.g., "docs/v1/guides/installation.md" -> "guides/installation.md"
   private def self.file_to_relative(file_path : String, version_folder : String?) : String
-    path = file_path.sub(/^docs\//, "")  # Remove docs/ prefix
+    path = file_path.sub(/^docs\//, "") # Remove docs/ prefix
 
     if version_folder
-      path = path.sub(/^#{Regex.escape(version_folder)}\//, "")  # Remove version prefix
+      path = path.sub(/^#{Regex.escape(version_folder)}\//, "") # Remove version prefix
     end
 
     path
@@ -121,8 +121,8 @@ class NavItem
   property order : Int32
   property is_section : Bool
   property children : Array(NavItem)
-  property badge : String?        # "New", "Updated", etc.
-  property badge_class : String?  # CSS class for badge
+  property badge : String?       # "New", "Updated", etc.
+  property badge_class : String? # CSS class for badge
 
   def initialize(@title : String, @path : String, @order : Int32 = 100, @is_section : Bool = false)
     @children = [] of NavItem
@@ -138,5 +138,78 @@ class NavItem
   def set_badge(text : String?, css_class : String? = nil)
     @badge = text
     @badge_class = css_class
+  end
+end
+
+# Status of a page in a specific version
+enum PageVersionStatus
+  Added     # Page first appears in this version
+  Updated   # Line count increased from previous (>5 lines)
+  Reduced   # Line count decreased from previous (>5 lines)
+  Unchanged # Same line count as previous (within ±5 lines)
+  Removed   # Page deleted via _deleted.yml
+  Inherited # Inherited unchanged from parent version
+end
+
+# Represents a page's state in a single version
+struct PageVersionEntry
+  property version_id : String
+  property version_name : String
+  property line_count : Int32
+  property status : PageVersionStatus
+  property file_exists : Bool
+  property is_inherited : Bool
+  property line_delta : Int32?
+
+  def initialize(
+    @version_id : String,
+    @version_name : String,
+    @line_count : Int32,
+    @status : PageVersionStatus,
+    @file_exists : Bool,
+    @is_inherited : Bool,
+    @line_delta : Int32? = nil,
+  )
+  end
+
+  # Check if page is available in this version (not removed)
+  def available? : Bool
+    !status.removed?
+  end
+
+  # Get CSS class for change indicator
+  def change_indicator_class : String?
+    case status
+    when .updated?
+      "added"
+    when .reduced?
+      "reduced"
+    else
+      nil
+    end
+  end
+end
+
+# Complete version history for a single page
+struct PageVersionHistory
+  property relative_path : String
+  property entries : Array(PageVersionEntry)
+
+  def initialize(@relative_path : String, @entries : Array(PageVersionEntry) = [] of PageVersionEntry)
+  end
+
+  # Get entry for a specific version
+  def for_version(version_id : String) : PageVersionEntry?
+    entries.find { |e| e.version_id == version_id }
+  end
+
+  # Get all versions where page exists (not removed)
+  def available_versions : Array(PageVersionEntry)
+    entries.select { |e| e.available? }
+  end
+
+  # Check if page has significant changes across versions
+  def has_changes? : Bool
+    entries.any? { |e| e.status.updated? || e.status.reduced? || e.status.added? }
   end
 end

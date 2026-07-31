@@ -1,17 +1,27 @@
 # Service to auto-discover and scan documentation markdown files
-# Supports versioned documentation with inheritance
+# Supports versioned documentation with inheritance and deletions
 
 module DocsScanner
   extend self
 
-  DOCS_ROOT = "docs"
+  DOCS_ROOT        = "docs"
+  DELETED_FILENAME = "_deleted.yml"
 
   # Cache structure: version_id => pages
   @@version_pages : Hash(String, Array(DocPage)) = {} of String => Array(DocPage)
   @@version_nav_trees : Hash(String, Array(NavItem)) = {} of String => Array(NavItem)
+  @@version_deleted_paths : Hash(String, Set(String)) = {} of String => Set(String)
+
+  # Cache for version history tracking
+  @@page_histories : Hash(String, PageVersionHistory) = {} of String => PageVersionHistory
+  @@version_line_counts : Hash(String, Hash(String, Int32)) = {} of String => Hash(String, Int32)
+
+  # Minimum line difference threshold to show change indicator
+  LINE_CHANGE_THRESHOLD = 5
 
   # Scan all markdown files for a specific version
   # Includes inherited pages from parent versions
+  # Respects _deleted.yml files that mark pages as deleted from this version
   def scan_version(version_id : String) : Array(DocPage)
     return @@version_pages[version_id] if @@version_pages.has_key?(version_id)
 
@@ -25,12 +35,30 @@ module DocsScanner
     # We need to track relative paths to handle overrides correctly
     pages_by_relative = {} of String => DocPage
 
+    # Track accumulated deletions through the chain
+    deleted_paths = Set(String).new
+
     # Process chain in reverse (base first, then overlays)
     chain.reverse.each do |v|
+      # First, add pages from this version
       scan_folder(v.folder_path, v.id).each do |page|
-        pages_by_relative[page.relative_path] = page
+        # Only add if not already marked as deleted
+        unless deleted_paths.includes?(page.relative_path)
+          pages_by_relative[page.relative_path] = page
+        end
+      end
+
+      # Then process deletions for this version
+      # Deletions cascade - once deleted, stays deleted in child versions
+      version_deletions = load_deleted_paths(v.id)
+      version_deletions.each do |deleted_path|
+        deleted_paths.add(deleted_path)
+        pages_by_relative.delete(deleted_path)
       end
     end
+
+    # Store accumulated deletions for this version (used by badges)
+    @@version_deleted_paths[version_id] = deleted_paths
 
     # Convert to array and update URL paths for this version
     pages = pages_by_relative.values.map do |page|
@@ -123,7 +151,7 @@ module DocsScanner
     pages : Array(DocPage),
     version_id : String,
     own_paths : Set(String),
-    parent_paths : Set(String)
+    parent_paths : Set(String),
   ) : Array(NavItem)
     root_items = [] of NavItem
     section_map = {} of String => NavItem
@@ -177,6 +205,39 @@ module DocsScanner
     end
   end
 
+  # Load paths marked as deleted for a specific version
+  # Reads from _deleted.yml in the version's folder
+  # Returns empty set if file doesn't exist
+  private def load_deleted_paths(version_id : String) : Set(String)
+    version = DocVersionConfig.find(version_id)
+    return Set(String).new unless version
+
+    deleted_file = File.join(version.folder_path, DELETED_FILENAME)
+    return Set(String).new unless File.exists?(deleted_file)
+
+    begin
+      yaml_content = YAML.parse(File.read(deleted_file))
+      paths = Set(String).new
+
+      # Handle array format: ["path1", "path2"]
+      if yaml_content.as_a?
+        yaml_content.as_a.each do |item|
+          if path = item.as_s?
+            # Normalize path: ensure no leading slash, handle various formats
+            normalized = path.strip.lstrip('/')
+            paths.add(normalized) unless normalized.empty?
+          end
+        end
+      end
+
+      paths
+    rescue ex
+      # Log error but don't crash - return empty set
+      puts "Warning: Error parsing #{deleted_file}: #{ex.message}"
+      Set(String).new
+    end
+  end
+
   private def find_section_key(section : String, section_map : Hash(String, NavItem), version_id : String) : String?
     # Try with version prefix
     versioned_path = "#{version_id}/#{section}"
@@ -191,7 +252,7 @@ module DocsScanner
     section_map : Hash(String, NavItem),
     root_items : Array(NavItem),
     pages : Array(DocPage),
-    version_id : String
+    version_id : String,
   )
     parts = section_path.split("/")
     current_path = version_id
@@ -318,6 +379,253 @@ module DocsScanner
   def clear_cache
     @@version_pages.clear
     @@version_nav_trees.clear
+    @@version_deleted_paths.clear
+    @@page_histories.clear
+    @@version_line_counts.clear
+  end
+
+  # ===========================================
+  # Version History Tracking
+  # ===========================================
+
+  # Get the complete version history for a page by its relative path
+  def get_page_version_history(relative_path : String) : PageVersionHistory
+    return @@page_histories[relative_path] if @@page_histories.has_key?(relative_path)
+
+    history = compute_page_version_history(relative_path)
+    @@page_histories[relative_path] = history
+    history
+  end
+
+  # Get version history for a page by its URL path
+  def get_history_for_page(version_id : String, url_path : String) : PageVersionHistory?
+    page = find_page(version_id, url_path)
+    return nil unless page
+
+    get_page_version_history(page.relative_path)
+  end
+
+  # Compute the complete version history for a page
+  private def compute_page_version_history(relative_path : String) : PageVersionHistory
+    versions = DocVersionConfig.all
+
+    # Filter to only latest patch per minor version
+    display_versions = filter_to_latest_patches(versions)
+
+    entries = [] of PageVersionEntry
+    previous_line_count : Int32? = nil
+
+    # Process versions in chronological order (oldest first)
+    display_versions.each do |version|
+      entry = compute_version_entry(relative_path, version, previous_line_count)
+      entries << entry
+
+      # Update previous line count for next iteration (unless removed)
+      unless entry.status.removed?
+        previous_line_count = entry.line_count if entry.line_count > 0
+      end
+    end
+
+    PageVersionHistory.new(relative_path, entries)
+  end
+
+  # Compute a single version entry for a page
+  private def compute_version_entry(
+    relative_path : String,
+    version : DocVersion,
+    previous_line_count : Int32?,
+  ) : PageVersionEntry
+    # Check if page is deleted in this version
+    deleted_paths = load_deleted_paths(version.id)
+    if deleted_paths.includes?(relative_path)
+      return PageVersionEntry.new(
+        version_id: version.id,
+        version_name: version.name,
+        line_count: 0,
+        status: PageVersionStatus::Removed,
+        file_exists: false,
+        is_inherited: false,
+        line_delta: previous_line_count ? -previous_line_count : nil
+      )
+    end
+
+    # Check if file exists directly in this version's folder
+    file_path = File.join(version.folder_path, relative_path)
+    file_exists = File.exists?(file_path)
+
+    # Get line count (from this version or inherited)
+    line_count = get_line_count_for_page(relative_path, version.id)
+
+    # If page doesn't exist at all in this version's tree
+    if line_count == 0 && !file_exists
+      source_ver = source_version(version.id, relative_path)
+      if source_ver.nil?
+        return PageVersionEntry.new(
+          version_id: version.id,
+          version_name: version.name,
+          line_count: 0,
+          status: PageVersionStatus::Removed,
+          file_exists: false,
+          is_inherited: false,
+          line_delta: nil
+        )
+      end
+    end
+
+    # Determine if inherited (exists through parent, not directly in this version)
+    is_inherited = !file_exists && line_count > 0
+
+    # Determine status
+    status = determine_status(line_count, previous_line_count, file_exists, is_inherited)
+
+    # Calculate line delta
+    line_delta = previous_line_count ? (line_count - previous_line_count) : nil
+
+    PageVersionEntry.new(
+      version_id: version.id,
+      version_name: version.name,
+      line_count: line_count,
+      status: status,
+      file_exists: file_exists,
+      is_inherited: is_inherited,
+      line_delta: line_delta
+    )
+  end
+
+  # Determine the status of a page in a version
+  private def determine_status(
+    line_count : Int32,
+    previous_line_count : Int32?,
+    file_exists : Bool,
+    is_inherited : Bool,
+  ) : PageVersionStatus
+    # First version for this page
+    if previous_line_count.nil?
+      return PageVersionStatus::Added
+    end
+
+    # Inherited without changes
+    if is_inherited
+      return PageVersionStatus::Inherited
+    end
+
+    # Compare line counts with threshold
+    delta = line_count - previous_line_count
+
+    if delta > LINE_CHANGE_THRESHOLD
+      PageVersionStatus::Updated
+    elsif delta < -LINE_CHANGE_THRESHOLD
+      PageVersionStatus::Reduced
+    else
+      PageVersionStatus::Unchanged
+    end
+  end
+
+  # Get line count for a page in a version (cached)
+  private def get_line_count_for_page(relative_path : String, version_id : String) : Int32
+    # Check cache first
+    if counts = @@version_line_counts[version_id]?
+      if count = counts[relative_path]?
+        return count
+      end
+    end
+
+    # Find the actual file through inheritance chain
+    chain = DocVersionConfig.inheritance_chain(version_id)
+
+    chain.each do |v|
+      file_path = File.join(v.folder_path, relative_path)
+      if File.exists?(file_path)
+        count = count_lines(file_path)
+
+        # Cache the result
+        @@version_line_counts[version_id] ||= {} of String => Int32
+        @@version_line_counts[version_id][relative_path] = count
+
+        return count
+      end
+    end
+
+    0 # Page doesn't exist
+  end
+
+  # Count non-empty content lines in a markdown file (excluding frontmatter)
+  private def count_lines(file_path : String) : Int32
+    return 0 unless File.exists?(file_path)
+
+    content = File.read(file_path)
+
+    # Remove YAML frontmatter
+    body = if content.starts_with?("---")
+             lines = content.split("\n")
+             end_index = 0
+             found_start = false
+
+             lines.each_with_index do |line, i|
+               if line.strip == "---"
+                 if !found_start
+                   found_start = true
+                 else
+                   end_index = i
+                   break
+                 end
+               end
+             end
+
+             if end_index > 0
+               lines[(end_index + 1)..].join("\n")
+             else
+               content
+             end
+           else
+             content
+           end
+
+    # Count non-empty lines
+    body.lines.count { |line| !line.strip.empty? }
+  end
+
+  # Filter versions to only show latest patch per major.minor
+  private def filter_to_latest_patches(versions : Array(DocVersion)) : Array(DocVersion)
+    # Group by major.minor
+    grouped = {} of String => Array(DocVersion)
+
+    versions.each do |v|
+      # Parse version: "1.4.1" -> major_minor = "1.4"
+      parts = v.name.split(".")
+      major_minor = if parts.size >= 2
+                      "#{parts[0]}.#{parts[1]}"
+                    else
+                      v.name
+                    end
+
+      grouped[major_minor] ||= [] of DocVersion
+      grouped[major_minor] << v
+    end
+
+    # Keep only the highest patch version in each group
+    result = grouped.values.compact_map do |group|
+      group.max_by { |v| parse_version_number(v.name) }
+    end
+
+    # Sort by version number (oldest first for timeline)
+    result.sort_by { |v| parse_version_number(v.name) }
+  end
+
+  # Parse version string to tuple for comparison
+  private def parse_version_number(name : String) : {Int32, Int32, Int32}
+    parts = name.gsub(/[^0-9.]/, "").split(".")
+    major = parts[0]?.try(&.to_i?) || 0
+    minor = parts[1]?.try(&.to_i?) || 0
+    patch = parts[2]?.try(&.to_i?) || 0
+    {major, minor, patch}
+  end
+
+  # Get paths marked as deleted for a version (for display/debugging)
+  def deleted_paths(version_id : String) : Set(String)
+    # Ensure scan_version has been called to populate the cache
+    scan_version(version_id)
+    @@version_deleted_paths[version_id]? || Set(String).new
   end
 
   # Backward compatibility: scan_all returns default version pages
