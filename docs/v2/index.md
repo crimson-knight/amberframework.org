@@ -3,12 +3,12 @@ title: "Amber 2.0 Beta"
 section: ""
 order: 10
 is_section: true
-description: "Install, verify, and evaluate Amber 2.0.0-beta.1"
+description: "Install, verify, and evaluate Amber 2.0.0-beta.2"
 ---
 
 # Amber 2.0 Beta
 
-Amber `2.0.0-beta.1` is available for evaluation. This is a prerelease: expect
+Amber `2.0.0-beta.2` is available for evaluation. This is a prerelease: expect
 breaking changes and do not treat it as a production-support promise.
 
 The release-gated first-run path is a server-rendered ECR web application

@@ -81,7 +81,7 @@ curl --fail http://127.0.0.1:3000/css/app.css
 ```
 
 Both requests must succeed. The generated `shard.yml` pins
-`amberframework/amber` at `2.0.0-beta.1`; it must not reference a personal fork.
+`amberframework/amber` at `2.0.0-beta.2`; it must not reference a personal fork.
 
 ## Manual framework dependency
 
@@ -91,7 +91,7 @@ For an existing Crystal app:
 dependencies:
   amber:
     github: amberframework/amber
-    version: 2.0.0-beta.1
+    version: 2.0.0-beta.2
 
 crystal: ">= 1.20.0, < 2.0"
 ```

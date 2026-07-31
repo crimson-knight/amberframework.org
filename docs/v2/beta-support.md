@@ -2,7 +2,7 @@
 title: "Beta Support"
 section: ""
 order: 15
-description: "Supported platforms and feature boundaries for Amber 2.0.0-beta.1"
+description: "Supported platforms and feature boundaries for Amber 2.0.0-beta.2"
 ---
 
 # Amber V2 Beta Support
@@ -35,7 +35,7 @@ personal fork is an acceptable default dependency.
 
 ## Versions
 
-- Amber framework: `2.0.0-beta.1`
+- Amber framework: `2.0.0-beta.2`
 - Amber CLI: `2.0.2` or newer
 - Crystal: `>= 1.20.0, < 2.0`
 

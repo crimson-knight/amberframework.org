@@ -8,7 +8,7 @@ description: "Upgrading from Amber 1.x to Amber 2.0"
 
 # Migration Guide: Amber 1.x to 2.0
 
-> Amber `2.0.0-beta.1` release-gates the framework core and ECR web template.
+> Amber `2.0.0-beta.2` release-gates the framework core and ECR web template.
 > Grant, Gemma, Asset Pipeline, persistence/auth generators, and native output
 > are preview surfaces. Treat their migration sections as evaluation material,
 > not prerequisites for adopting the framework beta.
@@ -148,7 +148,7 @@ While Redis is no longer required, it's still fully supported:
 dependencies:
   amber:
     github: amberframework/amber
-    version: 2.0.0-beta.1
+    version: 2.0.0-beta.2
 ```
 
 Add an ORM, database driver, assets, or attachments only from that component's

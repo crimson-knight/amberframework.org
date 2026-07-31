@@ -230,7 +230,7 @@ end
 dependencies:
   amber:
     github: amberframework/amber
-    version: 2.0.0-beta.1
+    version: 2.0.0-beta.2
 
   # Redis now optional
   redis:

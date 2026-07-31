@@ -7,7 +7,7 @@ description: "Encrypted attributes, secure tokens, and signed IDs in Grant ORM"
 
 # Security Features
 
-> **Preview ecosystem guide:** Grant is not part of the Amber 2.0.0-beta.1
+> **Preview ecosystem guide:** Grant is not part of the Amber 2.0.0-beta.2
 > core web-app release gate. Its package version, API, and platform support may
 > change independently. Do not add a personal fork as a default dependency.
 

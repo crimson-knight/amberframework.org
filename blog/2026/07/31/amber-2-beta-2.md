@@ -1,6 +1,8 @@
-# Amber 2.0 Beta 1: a complete first-run path
+# Amber 2.0 Beta 2: a complete first-run path
 
-Amber `2.0.0-beta.1` is ready for evaluation together with Amber CLI `2.0.2`.
+Amber `2.0.0-beta.2` is ready for evaluation together with Amber CLI `2.0.2`.
+It supersedes beta.1 for new applications by fixing server startup with
+Crystal 1.21's default multithreaded runtime.
 This beta is focused on one thing that has to work before broader ecosystem
 claims mean much: a new user on a supported Mac or Linux machine can install
 the CLI, generate an Amber V2 web app, test it, build it, and run it.
@@ -29,7 +31,7 @@ crystal build src/my_app.cr -o bin/my_app
 amber watch
 ```
 
-The generated app pins Amber `2.0.0-beta.1` from the official framework
+The generated app pins Amber `2.0.0-beta.2` from the official framework
 repository, uses ECR and typed configuration, serves its generated static
 assets, and does not pull an ORM or every database driver into a hello-world
 build.

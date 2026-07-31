@@ -36,7 +36,7 @@ amber new . --type web
 
 The generated web app contains:
 
-- `amberframework/amber` pinned to `2.0.0-beta.1`
+- `amberframework/amber` pinned to `2.0.0-beta.2`
 - Crystal `>= 1.20.0, < 2.0`
 - ECR layout and homepage
 - typed development, test, and production YAML

@@ -22,7 +22,7 @@ Dependencies install automatically. If you used `--no-deps`, run `shards
 install` now.
 
 The generated project uses ECR, typed environment YAML, and static routes. Its
-`shard.yml` pins Amber `2.0.0-beta.1` from `amberframework/amber`.
+`shard.yml` pins Amber `2.0.0-beta.2` from `amberframework/amber`.
 
 ## Prove the clean scaffold works
 

@@ -8,7 +8,7 @@ description: "Migrate from Granite ORM to Grant ORM"
 # Migrating from Granite to Grant
 
 > **Preview migration path:** Grant is not included in the Amber
-> `2.0.0-beta.1` core web template. Confirm a compatible official Grant release
+> `2.0.0-beta.2` core web template. Confirm a compatible official Grant release
 > and its current API before beginning this migration; do not substitute a
 > personal fork as an application default.
 

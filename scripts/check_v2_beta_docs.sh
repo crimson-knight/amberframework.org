@@ -10,7 +10,7 @@ files=(
   docs/v2/cli/new.md
   docs/v2/cli/generate.md
   docs/v2/cli/watch.md
-  blog/2026/07/31/amber-2-beta-1.md
+  blog/2026/07/31/amber-2-beta-2.md
 )
 
 for file in "${files[@]}"; do
@@ -25,7 +25,7 @@ fi
 
 grep -F 'brew tap amberframework/amber_cli' docs/v2/getting-started/installation.md
 grep -F 'brew install amber_cli' docs/v2/getting-started/installation.md
-grep -F '2.0.0-beta.1' docs/v2/cli/new.md
+grep -F '2.0.0-beta.2' docs/v2/cli/new.md
 grep -F 'Amber CLI' docs/v2/cli/index.md
 grep -F '2.0.2' docs/v2/getting-started/installation.md
 
