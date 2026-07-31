@@ -36,10 +36,12 @@ A database is not required for the generated core web app.
 The tap and formula use an underscore. The installed executable is `amber`:
 
 ```bash
-brew tap amberframework/amber_cli
-brew install amber_cli
+brew install amberframework/amber_cli/amber_cli
 amber --version
 ```
+
+The fully qualified command follows Homebrew's tap-trust model and trusts only
+the `amber_cli` formula. The installed executable remains `amber`.
 
 Expect Amber CLI `2.0.2` or newer.
 

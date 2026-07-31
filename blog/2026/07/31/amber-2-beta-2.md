@@ -12,8 +12,7 @@ the CLI, generate an Amber V2 web app, test it, build it, and run it.
 On Apple Silicon macOS or x86_64 Linux with Homebrew:
 
 ```bash
-brew tap amberframework/amber_cli
-brew install amber_cli
+brew install amberframework/amber_cli/amber_cli
 amber --version
 ```
 

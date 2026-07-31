@@ -12,8 +12,7 @@ Amber CLI `2.0.2` is the standalone project generator, development watcher,
 generator suite, database tool, and diagnostics LSP for Amber V2.
 
 ```bash
-brew tap amberframework/amber_cli
-brew install amber_cli
+brew install amberframework/amber_cli/amber_cli
 amber --version
 ```
 
