@@ -7,6 +7,10 @@ description: "Validating file uploads for size, type, and dimensions"
 
 # File Validation
 
+> **Preview ecosystem guide:** Gemma is not part of the Amber 2.0.0-beta.1
+> core web-app release gate. Its package version, API, and platform support may
+> change independently. Do not add a personal fork as a default dependency.
+
 Gemma provides validation helpers for Grant models to ensure uploaded files meet your requirements.
 
 ## Setup
@@ -329,11 +333,14 @@ end
 
 ### Display in Views
 
-```slang
-- if @user.errors[:avatar].any?
-  .alert.alert-danger
-    - @user.errors[:avatar].each do |error|
-      p = "Avatar #{error}"
+```ecr
+<% if @user.errors[:avatar].any? %>
+  <div class="alert alert-danger">
+    <% @user.errors[:avatar].each do |error| %>
+      <p>Avatar <%= error %></p>
+    <% end %>
+  </div>
+<% end %>
 ```
 
 ## MIME Type Detection

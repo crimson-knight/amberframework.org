@@ -7,6 +7,10 @@ description: "Configure FileSystem, S3, and Memory storage for file uploads"
 
 # Storage Backends
 
+> **Preview ecosystem guide:** Gemma is not part of the Amber 2.0.0-beta.1
+> core web-app release gate. Its package version, API, and platform support may
+> change independently. Do not add a personal fork as a default dependency.
+
 Gemma supports multiple storage backends for flexibility across different environments. All storages implement the same interface, allowing you to switch backends without changing application code.
 
 ## Configuration

@@ -3,12 +3,19 @@ title: "Grant ORM"
 section: "guides/models"
 order: 10
 is_section: true
-description: "ActiveRecord-style ORM for Crystal - the default data layer in Amber 2.0"
+description: "Preview ActiveRecord-style ORM material for Amber V2 evaluators"
 ---
 
 # Grant ORM
 
-Grant is an ActiveRecord-style ORM for Crystal that provides a familiar, productive interface for database operations. In Amber 2.0, Grant is the default ORM, similar to how ActiveRecord is for Rails.
+> **Preview ecosystem guide:** Grant is not part of the Amber 2.0.0-beta.1
+> core web-app release gate. Its package version, API, and platform support may
+> change independently. Do not add a personal fork as a default dependency.
+
+Grant is an ActiveRecord-style ORM for Crystal that provides a familiar
+interface for database operations. It is being evaluated as part of the wider
+V2 ecosystem, but the core beta web template does not install it or select a
+default ORM.
 
 ## Why Grant?
 

@@ -2,278 +2,125 @@
 title: "Installation"
 section: "getting-started"
 order: 10
-description: "Installing Crystal and setting up your development environment for Amber V2"
+description: "Install Amber CLI 2.0.2 on supported macOS and Linux systems"
 ---
 
-# Installation
+# Install Amber V2 Beta
 
-Amber 2.0 takes a different approach from V1. Instead of a CLI tool that generates applications, V2 uses direct shard dependencies. This means:
+The supported onboarding path uses the standalone Amber CLI. The framework
+itself remains a shard dependency generated into each application.
 
-- **No CLI installation required** - Just add Amber to your `shard.yml`
-- **No Node.js/npm required** - Asset Pipeline uses native ESM, no bundler needed
-- **No Redis required by default** - Pluggable adapters let you choose your backend
+## Supported systems
+
+- Apple Silicon macOS
+- x86_64 Linux
+
+Intel macOS, Linux ARM64, and Windows are not release-gated in this beta.
 
 ## Prerequisites
 
-Before you begin, ensure you have the following installed:
-
-### Crystal Language
-
-Crystal 1.10.0 or higher is required.
-
-#### macOS
+Install Crystal 1.20 or newer, but earlier than 2.0, using the
+[official Crystal instructions](https://crystal-lang.org/install/). You also
+need Git and `shards`.
 
 ```bash
-# Using Homebrew
-brew install crystal
-
-# Using MacPorts
-sudo port install crystal
+crystal --version
+shards --version
+git --version
 ```
 
-#### Ubuntu / Debian
+A database is not required for the generated core web app.
+
+## Homebrew
+
+The tap and formula use an underscore. The installed executable is `amber`:
 
 ```bash
-curl -fsSL https://crystal-lang.org/install.sh | sudo bash
+brew tap amberframework/amber_cli
+brew install amber_cli
+amber --version
 ```
 
-#### Other Linux Distributions
+Expect Amber CLI `2.0.2` or newer.
 
-See the [Crystal Installation Guide](https://crystal-lang.org/install/) for instructions for your distribution.
+## Direct archive
 
-### Database
-
-Amber works with PostgreSQL (default), MySQL, or SQLite.
-
-#### PostgreSQL (Recommended)
+Choose `darwin-arm64` on Apple Silicon macOS or `linux-x86_64` on x86_64 Linux:
 
 ```bash
-# macOS
-brew install postgresql
+version=v2.0.2
+platform=darwin-arm64
+asset="amber_cli-${platform}.tar.gz"
 
-# Ubuntu/Debian
-sudo apt-get install postgresql postgresql-contrib libpq-dev
+curl -fLO "https://github.com/amberframework/amber_cli/releases/download/${version}/${asset}"
+curl -fLO "https://github.com/amberframework/amber_cli/releases/download/${version}/${asset}.sha256"
+shasum -a 256 -c "${asset}.sha256"
+tar -xzf "${asset}"
+install -m 0755 amber amber-lsp /usr/local/bin/
+amber --version
 ```
 
-#### MySQL
+On Linux, use `sha256sum -c`. Prefix only the `install` command with `sudo` if
+needed.
+
+## Verify the installation
 
 ```bash
-# macOS
-brew install mysql
-
-# Ubuntu/Debian
-sudo apt-get install mysql-server libmysqlclient-dev
+amber new amber_beta_smoke --type web
+cd amber_beta_smoke
+crystal spec
+crystal build src/amber_beta_smoke.cr -o bin/amber_beta_smoke
+amber watch
 ```
 
-#### SQLite
+In another terminal:
 
 ```bash
-# macOS
-brew install sqlite
-
-# Ubuntu/Debian
-sudo apt-get install sqlite3 libsqlite3-dev
+curl --fail http://127.0.0.1:3000/
+curl --fail http://127.0.0.1:3000/css/app.css
 ```
 
-### Git
+Both requests must succeed. The generated `shard.yml` pins
+`amberframework/amber` at `2.0.0-beta.1`; it must not reference a personal fork.
 
-```bash
-# macOS (usually pre-installed, or via Xcode Command Line Tools)
-xcode-select --install
+## Manual framework dependency
 
-# Ubuntu/Debian
-sudo apt-get install git
-```
-
-## Getting Amber V2
-
-Unlike V1, Amber V2 is added directly to your project's `shard.yml`. There's no global installation step.
-
-### For New Projects
-
-Create a new directory and `shard.yml`:
-
-```bash
-mkdir my-app
-cd my-app
-```
-
-Create `shard.yml` with Amber V2 dependencies:
+For an existing Crystal app:
 
 ```yaml
-name: my-app
-version: 0.1.0
-crystal: ">= 1.10.0"
-
 dependencies:
   amber:
-    github: crimson-knight/amber
-    branch: master
+    github: amberframework/amber
+    version: 2.0.0-beta.1
 
-  # ORM
-  grant:
-    github: crimson-knight/grant
-    branch: main
-
-  # Asset Pipeline (optional - for frontend assets)
-  asset_pipeline:
-    github: amberframework/asset_pipeline
-
-  # Database adapters (all required by Grant at compile time)
-  pg:
-    github: will/crystal-pg
-  mysql:
-    github: crystal-lang/crystal-mysql
-  sqlite3:
-    github: crystal-lang/crystal-sqlite3
-
-targets:
-  my-app:
-    main: src/my-app.cr
+crystal: ">= 1.20.0, < 2.0"
 ```
 
-Then install dependencies:
+Do not use the moving `v2-dev` branch in a reproducible beta application.
+
+## Update or remove
 
 ```bash
-shards install
+brew update
+brew upgrade amber_cli
+# or
+brew uninstall amber_cli
+brew untap amberframework/amber_cli
 ```
-
-## What's Different from V1?
-
-| Feature | Amber V1 | Amber V2 |
-|---------|----------|----------|
-| Installation | `brew install amber` or build CLI from source | Add to `shard.yml` |
-| Create app | `amber new myapp` | Create `shard.yml` manually |
-| Scaffolding | `amber g scaffold Pet name:string` | Create files manually |
-| ORM | Granite | Grant (ActiveRecord-style) |
-| Assets | Webpack + npm | Asset Pipeline (native ESM) |
-| Sessions | Redis required | Cookie, Memory, or Redis adapters |
-
-## V2 Project Dependencies
-
-Here's a complete `shard.yml` for a typical V2 application:
-
-```yaml
-name: my-app
-version: 0.1.0
-crystal: ">= 1.10.0"
-
-dependencies:
-  # Core framework
-  amber:
-    github: crimson-knight/amber
-    branch: master
-
-  # ORM with ActiveRecord-style features
-  grant:
-    github: crimson-knight/grant
-    branch: main
-
-  # Native ESM asset pipeline (no Webpack/npm)
-  asset_pipeline:
-    github: amberframework/asset_pipeline
-
-  # File uploads (optional)
-  gemma:
-    github: amberframework/gemma
-
-  # Database adapters (all required by Grant at compile time)
-  pg:
-    github: will/crystal-pg
-  mysql:
-    github: crystal-lang/crystal-mysql
-  sqlite3:
-    github: crystal-lang/crystal-sqlite3
-
-development_dependencies:
-  ameba:
-    github: crystal-ameba/ameba
-
-targets:
-  my-app:
-    main: src/my-app.cr
-```
-
-## Verifying Your Installation
-
-After running `shards install`, verify Crystal and the dependencies:
-
-```bash
-# Check Crystal version
-crystal version
-# Should output: Crystal 1.10.0 or higher
-
-# Check shards installed correctly
-shards list
-# Should show amber, grant, asset_pipeline, etc.
-
-# Compile a simple test
-echo 'require "amber"; puts "Amber loaded!"' > test.cr
-crystal run test.cr
-rm test.cr
-```
-
-## Next Steps
-
-With dependencies installed, you're ready to build your first Amber V2 application:
-
-- **[Getting Started Tutorial](index/)** - Build a complete Pet Tracker app
-- **[Grant ORM Guide](../guides/models/grant/)** - Learn the new ActiveRecord-style ORM
-- **[Asset Pipeline Guide](../guides/assets/)** - Modern frontend without Webpack
-- **[Schema API Guide](../guides/schema-api/)** - Type-safe request validation
 
 ## Troubleshooting
 
-### Crystal not found
-
-Ensure Crystal is in your PATH:
+If the wrong executable runs, inspect every match:
 
 ```bash
-echo $PATH
-which crystal
+type -a amber
+amber --version
 ```
 
-If installed via Homebrew, you may need to add it:
+Remove or rename an old Amber V1 executable, or put Homebrew earlier in `PATH`.
+On macOS, the beta binary must not require `openssl@1.1`; include
+`otool -L "$(command -v amber)"` in an issue.
 
-```bash
-export PATH="/usr/local/opt/crystal/bin:$PATH"
-```
-
-### Shard installation fails
-
-Check your `shard.yml` syntax and ensure you have network access to GitHub:
-
-```bash
-# Test GitHub access
-curl -I https://github.com/crimson-knight/amber
-
-# Clear shard cache and retry
-rm -rf lib .shards
-shards install
-```
-
-### Database connection errors
-
-Ensure your database server is running:
-
-```bash
-# PostgreSQL
-pg_isready
-
-# MySQL
-mysqladmin ping
-
-# Or check service status
-brew services list  # macOS
-systemctl status postgresql  # Linux
-```
-
-### OpenSSL issues on macOS
-
-If you see linker errors related to SSL:
-
-```bash
-export PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig"
-export LDFLAGS="-L/usr/local/opt/openssl/lib"
-export CPPFLAGS="-I/usr/local/opt/openssl/include"
-```
+If there is no archive for your architecture, the platform is not release-gated
+yet. A source build can help contributors evaluate it, but is not the supported
+installation promise.

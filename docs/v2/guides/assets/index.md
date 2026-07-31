@@ -8,6 +8,10 @@ description: "Modern JavaScript asset management with ESM modules and import map
 
 # Asset Pipeline
 
+> **Preview ecosystem guide:** Asset Pipeline is not part of the Amber 2.0.0-beta.1
+> core web-app release gate. Its package version, API, and platform support may
+> change independently. Do not add a personal fork as a default dependency.
+
 Amber 2.0 introduces a modern Asset Pipeline that replaces Webpack with native browser ESM modules and import maps. This provides a faster, simpler development experience without complex build tooling.
 
 ## Why Asset Pipeline?
@@ -68,15 +72,18 @@ end
 
 ### 3. Add to Layout
 
-```slang
-doctype html
-html
-  head
-    title My Amber App
-    == FRONT_LOADER.render_import_map_tag
-  body
-    == content
-    == FRONT_LOADER.render_stimulus_initialization_script
+```ecr
+<!doctype html>
+<html>
+  <head>
+    <title>My Amber App</title>
+    <%= FRONT_LOADER.render_import_map_tag %>
+  </head>
+  <body>
+    <%= content %>
+    <%= FRONT_LOADER.render_stimulus_initialization_script %>
+  </body>
+</html>
 ```
 
 ### 4. Create a Controller

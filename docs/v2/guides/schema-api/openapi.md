@@ -199,7 +199,7 @@ class OpenAPIController < ApplicationController
   end
 
   def swagger_ui
-    render "openapi/swagger_ui.slang"
+    render "openapi/swagger_ui.ecr"
   end
 end
 ```

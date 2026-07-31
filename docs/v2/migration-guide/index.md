@@ -8,6 +8,11 @@ description: "Upgrading from Amber 1.x to Amber 2.0"
 
 # Migration Guide: Amber 1.x to 2.0
 
+> Amber `2.0.0-beta.1` release-gates the framework core and ECR web template.
+> Grant, Gemma, Asset Pipeline, persistence/auth generators, and native output
+> are preview surfaces. Treat their migration sections as evaluation material,
+> not prerequisites for adopting the framework beta.
+
 This guide covers the major changes in Amber 2.0 and how to migrate your existing applications.
 
 ## Overview
@@ -16,12 +21,12 @@ Amber 2.0 is a significant release that modernizes the framework while maintaini
 
 | Component | Amber 1.x | Amber 2.0 |
 |-----------|-----------|-----------|
-| JavaScript | Webpack bundling | Native ESM + Import Maps |
-| ORM | Granite | Grant (ActiveRecord-style) |
+| JavaScript | Webpack bundling | No bundled asset pipeline; preview ESM tooling is separate |
+| ORM | Granite | No bundled ORM; Grant migration material is preview |
 | Sessions | Hard-coded Redis | Pluggable Adapters |
 | WebSockets | Hard-coded Redis | Pluggable PubSub Adapters |
 | Request Validation | Manual | Schema API |
-| File Uploads | Manual | Gemma attachment system |
+| File Uploads | Manual | No bundled attachment shard; Gemma material is preview |
 
 ## Migration Path
 
@@ -29,9 +34,9 @@ We recommend migrating incrementally:
 
 1. **Update Dependencies** - Update `shard.yml` for Amber 2.0
 2. **Migrate Sessions** - Switch from Redis to adapter system
-3. **Migrate ORM** - Move from Granite to Grant
-4. **Migrate Assets** - Replace Webpack with Asset Pipeline
-5. **Adopt New Features** - Add Schema API, Gemma as needed
+3. **Keep persistence explicit** - Continue a compatible ORM or evaluate a new one separately
+4. **Migrate templates** - Convert Slang/Kilt views to ECR
+5. **Adopt core features** - Add Schema API, jobs, mailers, and adapters incrementally
 
 ## Breaking Changes Summary
 
@@ -143,26 +148,12 @@ While Redis is no longer required, it's still fully supported:
 dependencies:
   amber:
     github: amberframework/amber
-    version: ~> 2.0.0
-
-  # New in 2.0
-  grant:
-    github: amberframework/grant
-    version: ~> 0.3.0
-
-  asset_pipeline:
-    github: amberframework/asset_pipeline
-    version: ~> 0.36.0
-
-  gemma:
-    github: amberframework/gemma
-    version: ~> 0.6.5
-
-  # Optional: Keep Granite for migration period
-  granite:
-    github: amberframework/granite
-    version: ~> 0.6.0
+    version: 2.0.0-beta.1
 ```
+
+Add an ORM, database driver, assets, or attachments only from that component's
+own compatible release instructions. They are no longer implicit framework
+dependencies.
 
 ### Run Migration
 

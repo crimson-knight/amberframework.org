@@ -7,6 +7,10 @@ description: "Attaching single and multiple files to Grant models"
 
 # File Attachments
 
+> **Preview ecosystem guide:** Gemma is not part of the Amber 2.0.0-beta.1
+> core web-app release gate. Its package version, API, and platform support may
+> change independently. Do not add a personal fork as a default dependency.
+
 Gemma provides seamless integration with Grant ORM through the `Attachable` module. This guide covers single and multiple file attachments.
 
 ## Setup
@@ -283,25 +287,6 @@ image.metadata["mime_type"]  # => "image/jpeg"
 
 ## Form Integration
 
-### Slang Template
-
-```slang
-form action="/users" method="post" enctype="multipart/form-data"
-  .form-group
-    label for="avatar" Avatar
-    input type="file" name="avatar" id="avatar" accept="image/*"
-
-  / Show existing avatar
-  - if @user.avatar
-    .current-avatar
-      img src=@user.avatar_url alt="Current avatar"
-      label
-        input type="checkbox" name="remove_avatar" value="1"
-        | Remove avatar
-
-  button type="submit" Save
-```
-
 ### ECR Template
 
 ```erb
@@ -345,7 +330,7 @@ class UsersController < ApplicationController
     if user.save
       redirect_to "/users/#{user.id}"
     else
-      render "users/edit.slang"
+      render "users/edit.ecr"
     end
   end
 end

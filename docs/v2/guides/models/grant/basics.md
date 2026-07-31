@@ -7,6 +7,10 @@ description: "Defining models, columns, and data types in Grant ORM"
 
 # Models and Columns
 
+> **Preview ecosystem guide:** Grant is not part of the Amber 2.0.0-beta.1
+> core web-app release gate. Its package version, API, and platform support may
+> change independently. Do not add a personal fork as a default dependency.
+
 Models in Grant represent database tables and provide an object-oriented interface for data interaction.
 
 ## Basic Model Definition

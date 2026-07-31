@@ -7,6 +7,10 @@ description: "Lifecycle hooks and callback methods in Grant ORM"
 
 # Callbacks
 
+> **Preview ecosystem guide:** Grant is not part of the Amber 2.0.0-beta.1
+> core web-app release gate. Its package version, API, and platform support may
+> change independently. Do not add a personal fork as a default dependency.
+
 Callbacks are methods that get called at certain moments of an object's lifecycle. They allow you to trigger logic before or after alterations to your model's state.
 
 ## Available Callbacks

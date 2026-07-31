@@ -71,17 +71,18 @@ html
 ```
 
 **After (Asset Pipeline):**
-```slang
-doctype html
-html
-  head
-    title My App
-    / Import map must be in head
-    == FRONT_LOADER.render_import_map_tag
-  body
-    == content
-    / Stimulus initialization at end
-    == FRONT_LOADER.render_stimulus_initialization_script
+```ecr
+<!doctype html>
+<html>
+  <head>
+    <title>My App</title>
+    <%= FRONT_LOADER.render_import_map_tag %>
+  </head>
+  <body>
+    <%= content %>
+    <%= FRONT_LOADER.render_stimulus_initialization_script %>
+  </body>
+</html>
 ```
 
 ### 4. Migrate Dependencies
@@ -327,8 +328,8 @@ my_app/
 Asset Pipeline focuses on JavaScript. For CSS, continue using your existing approach:
 
 **Option 1: Plain CSS**
-```slang
-link rel="stylesheet" href="/css/application.css"
+```ecr
+<link rel="stylesheet" href="/css/application.css">
 ```
 
 **Option 2: Sass compilation**
@@ -403,10 +404,11 @@ import_map.add_import("lodash", "https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/
 ### Import map not loading
 
 Import map must be in `<head>` before any module scripts:
-```slang
-head
-  == FRONT_LOADER.render_import_map_tag  / Must be first!
-  / ... other head content
+```ecr
+<head>
+  <%= FRONT_LOADER.render_import_map_tag %>
+  <!-- other head content -->
+</head>
 ```
 
 ### Stimulus controllers not connecting

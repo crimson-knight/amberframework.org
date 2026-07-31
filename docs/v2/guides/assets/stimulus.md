@@ -7,6 +7,10 @@ description: "Building interactive UIs with Stimulus and the Asset Pipeline"
 
 # Stimulus Integration
 
+> **Preview ecosystem guide:** Asset Pipeline is not part of the Amber 2.0.0-beta.1
+> core web-app release gate. Its package version, API, and platform support may
+> change independently. Do not add a personal fork as a default dependency.
+
 The Asset Pipeline provides first-class support for Stimulus, the modest JavaScript framework from Hotwire. It automatically detects controllers, handles imports, and registers them with the Stimulus application.
 
 ## Basic Setup
@@ -37,15 +41,18 @@ end
 
 ### Render in Layout
 
-```slang
-doctype html
-html
-  head
-    title My App
-    == FRONT_LOADER.render_import_map_tag
-  body
-    == content
-    == FRONT_LOADER.render_stimulus_initialization_script
+```ecr
+<!doctype html>
+<html>
+  <head>
+    <title>My App</title>
+    <%= FRONT_LOADER.render_import_map_tag %>
+  </head>
+  <body>
+    <%= content %>
+    <%= FRONT_LOADER.render_stimulus_initialization_script %>
+  </body>
+</html>
 ```
 
 ## Automatic Controller Detection

@@ -7,6 +7,10 @@ description: "Data validation and error handling in Grant ORM"
 
 # Validations
 
+> **Preview ecosystem guide:** Grant is not part of the Amber 2.0.0-beta.1
+> core web-app release gate. Its package version, API, and platform support may
+> change independently. Do not add a personal fork as a default dependency.
+
 Grant provides a robust validation system that ensures data integrity before persisting to the database.
 
 ## Basic Validation

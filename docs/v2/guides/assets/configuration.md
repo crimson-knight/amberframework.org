@@ -7,6 +7,10 @@ description: "Asset Pipeline configuration and deployment options"
 
 # Configuration
 
+> **Preview ecosystem guide:** Asset Pipeline is not part of the Amber 2.0.0-beta.1
+> core web-app release gate. Its package version, API, and platform support may
+> change independently. Do not add a personal fork as a default dependency.
+
 This guide covers Asset Pipeline configuration options, environment setup, and deployment best practices.
 
 ## FrontLoader Options
@@ -206,31 +210,24 @@ FRONT_LOADER.render_initialization_script(production_js)
 
 ## Layout Integration
 
-### Slang Template
+### ECR Template
 
-```slang
-doctype html
-html
-  head
-    meta charset="utf-8"
-    meta name="viewport" content="width=device-width, initial-scale=1"
-    title = page_title
-
-    / Import map must be in <head> before any module scripts
-    == FRONT_LOADER.render_import_map_tag
-
-    / CSS
-    link rel="stylesheet" href="/css/application.css"
-
-  body
-    header
-      == render_partial "layouts/_navigation"
-
-    main
-      == content
-
-    footer
-      == render_partial "layouts/_footer"
+```ecr
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= page_title %></title>
+    <%= FRONT_LOADER.render_import_map_tag %>
+    <link rel="stylesheet" href="/css/application.css">
+  </head>
+  <body>
+    <header><%= render_partial "layouts/_navigation" %></header>
+    <main><%= content %></main>
+    <footer><%= render_partial "layouts/_footer" %></footer>
+  </body>
+</html>
 
     / Stimulus initialization at end of body
     == FRONT_LOADER.render_stimulus_initialization_script

@@ -8,6 +8,10 @@ description: "File attachment toolkit for Crystal applications"
 
 # File Uploads with Gemma
 
+> **Preview ecosystem guide:** Gemma is not part of the Amber 2.0.0-beta.1
+> core web-app release gate. Its package version, API, and platform support may
+> change independently. Do not add a personal fork as a default dependency.
+
 Gemma is a file attachment toolkit for Crystal applications, inspired by [Shrine for Ruby](https://shrinerb.com). It provides a clean API for attaching files to your models with support for multiple storage backends.
 
 ## Why Gemma?
@@ -82,7 +86,7 @@ class UsersController < ApplicationController
     if user.save
       redirect_to "/users/#{user.id}"
     else
-      render "users/new.slang"
+      render "users/new.ecr"
     end
   end
 end
@@ -90,9 +94,10 @@ end
 
 ### 4. Display in View
 
-```slang
-- if user.avatar
-  img src=user.avatar_url alt="Avatar"
+```ecr
+<% if user.avatar %>
+  <img src="<%= user.avatar_url %>" alt="Avatar">
+<% end %>
 ```
 
 ## How It Works

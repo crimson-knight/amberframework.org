@@ -7,6 +7,10 @@ description: "Finding and filtering data with Grant's fluent query interface"
 
 # Querying
 
+> **Preview ecosystem guide:** Grant is not part of the Amber 2.0.0-beta.1
+> core web-app release gate. Its package version, API, and platform support may
+> change independently. Do not add a personal fork as a default dependency.
+
 Grant provides a fluent, chainable query API that generates efficient SQL while maintaining type safety.
 
 ## Basic Querying
