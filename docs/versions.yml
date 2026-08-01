@@ -23,16 +23,16 @@ default_version: v1.4.1
 versions:
   - id: v2
     name: "2.0"
-    label: "2.0 Beta"
-    amber_versions: "2.0.0-beta.2"
+    label: "2.0 (Preview)"
+    amber_versions: "2.0.0"
     status: preview
-    inherits_from: ~
-    release_date: "2026-07-31"
-    description: "Amber Framework 2.0 beta core with ECR web templates and the new Amber CLI"
+    inherits_from: v1.4.1
+    release_date: ~
+    description: "Amber Framework 2.0 with Schema API, Grant ORM, Asset Pipeline, and Gemma file attachments"
 
   - id: v1.4.1
     name: "1.4.1"
-    label: "1.4.1 Stable"
+    label: "1.4.1 (Stable)"
     amber_versions: "1.4.1"
     status: stable
     inherits_from: ~

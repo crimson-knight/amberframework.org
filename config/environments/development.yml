@@ -1,20 +1,20 @@
+port: 3000
 name: amberframework.org
-
-server:
-  host: 0.0.0.0
-  port: 3000
-  secret_key_base: amberframework-development
-
 logging:
   severity: debug
   colorize: true
   filter:
     - password
     - confirm_password
-  skip: []
+  skip:
+    -
   context:
     - request
     - session
     - headers
     - cookies
     - params
+
+host: 0.0.0.0
+port_reuse: true
+process_count: 1
