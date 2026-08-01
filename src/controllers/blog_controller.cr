@@ -2,7 +2,7 @@ class BlogController < ApplicationController
   @posts = YAML.parse_all File.read("blog/posts.yml")
 
   def index
-    render("index.ecr")
+    render("index.slang")
   end
 
   def show
@@ -13,7 +13,7 @@ class BlogController < ApplicationController
       item["file"].to_s == filepath
     end
     if post
-      render("show.ecr")
+      render("show.slang")
     else
       raise Amber::Exceptions::RouteNotFound.new(request)
     end

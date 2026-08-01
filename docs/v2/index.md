@@ -26,9 +26,7 @@ amber watch
 
 Start with [Installation](getting-started/installation/) for the platform
 matrix, checksums, and troubleshooting, then follow the
-[web-app walkthrough](getting-started/). The
-[web template reference](guides/web-template/) explains every generated layer
-and its release boundary.
+[web-app walkthrough](getting-started/).
 
 ## What is in the framework beta
 

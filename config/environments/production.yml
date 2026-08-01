@@ -1,21 +1,16 @@
+port: 3000
 name: amberframework.org
-
-server:
-  host: 0.0.0.0
-  port: 3000
-  secret_key_base: amberframework-production-overridden-by-environment
-
 logging:
-  severity: info
+  severity: debug
   colorize: false
   filter:
     - password
     - confirm_password
-  skip: []
+  skip:
+    -
   context:
     - request
 
-pipes:
-  static:
-    headers:
-      "Cache-Control": "public, max-age=3600"
+host: 0.0.0.0
+port_reuse: false
+process_count: 1
