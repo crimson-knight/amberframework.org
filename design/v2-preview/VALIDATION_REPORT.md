@@ -1,7 +1,9 @@
 # Amber V2 preview validation report
 
-Date: August 1, 2026  
-Branch: `agent/v2-experience-preview`  
+Date: August 1, 2026
+
+Branch: `agent/v2-experience-preview`
+
 Release state: **LOCAL PREVIEW — NOT PUSHED, NOT MERGED, NOT DEPLOYED**
 
 This report records technical proof. It does not grant release approval.

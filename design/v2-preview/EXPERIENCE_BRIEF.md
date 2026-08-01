@@ -54,4 +54,3 @@ The site should make these principles explicit:
 4. Keep framework, data, files, and background work as clear responsibilities.
 5. Prefer small, understandable interactions over opaque client frameworks.
 6. State beta and preview boundaries honestly.
-

@@ -51,4 +51,3 @@ The proof handoff must include:
   Amber's Way, and privacy page;
 - external-request inventory showing first-party assets only;
 - explicit list of remaining `PROPOSED`, `PREVIEW`, and `UNKNOWN` decisions.
-
