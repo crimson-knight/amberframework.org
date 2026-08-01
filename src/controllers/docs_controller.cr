@@ -4,8 +4,7 @@ require "../services/docs_scanner"
 require "../services/markdown_preprocessor"
 
 class DocsController < ApplicationController
-  # Use standard application layout (same as blog)
-  LAYOUT = "application.slang"
+  LAYOUT = "application.ecr"
 
   # Instance variable type annotations
   @path : String = ""
@@ -89,7 +88,7 @@ class DocsController < ApplicationController
     end
 
     if @page
-      render("show.slang")
+      render("show.ecr")
     else
       raise Amber::Exceptions::RouteNotFound.new(request)
     end
@@ -241,8 +240,15 @@ class DocsController < ApplicationController
 
   # Helper to get URL for a page in a different version
   def version_url(target_version : String, current_path : String) : String
-    # Strip current version from path
-    path_without_version = current_path.sub(/^#{Regex.escape(@version_id)}\//, "")
-    "/docs/#{target_version}/#{path_without_version}".sub(/\/$/, "")
+    path_without_version = current_path.sub(/^#{Regex.escape(@version_id)}\//, "").strip("/")
+
+    if path_without_version.empty?
+      "/docs/#{target_version}"
+    elsif DocsScanner.find_page(target_version, path_without_version)
+      "/docs/#{target_version}/#{path_without_version}"
+    else
+      # A version-specific page should never turn version switching into a 404.
+      "/docs/#{target_version}"
+    end
   end
 end
