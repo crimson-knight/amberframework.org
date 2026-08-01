@@ -1,0 +1,9 @@
+<% @title = "Server error — Amber Framework" %>
+<header class="page-hero">
+  <div class="site-container">
+    <p class="eyebrow">500 · Server error</p>
+    <h1>Something fractured.</h1>
+    <p>The Amber Framework website hit an unexpected error. Please try again or report the path in the framework issue tracker.</p>
+    <% if @development %><pre><%= @ex.inspect_with_backtrace %></pre><% end %>
+  </div>
+</header>

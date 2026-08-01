@@ -1,0 +1,15 @@
+<% @title = "#{post["title"]} — Amber Framework" %>
+<% @meta = "#{post["title"]} — an Amber Framework release and community update." %>
+
+<header class="page-hero">
+  <div class="site-container">
+    <p class="eyebrow"><%= post["date"] %> · <%= post["author"] %></p>
+    <h1><%= post["title"] %></h1>
+  </div>
+</header>
+
+<main class="section">
+  <article class="content-narrow post-article">
+    <%= Markd.to_html(File.read(filepath)) %>
+  </article>
+</main>

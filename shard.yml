@@ -1,10 +1,10 @@
 name: amberframework
-version: 0.1.0
+version: 2.0.0-beta.2
 
 authors:
   - Amber <amberframework.org>
 
-crystal: 1.7.3
+crystal: ">= 1.20.0, < 2.0"
 
 license: MIT
 
@@ -15,12 +15,7 @@ targets:
 dependencies:
   amber:
     github: amberframework/amber
-    version: 1.3.2
+    version: 2.0.0-beta.2
   markd:
     github: icyleaf/markd
-
-development_dependencies:
-  garnet_spec:
-    github: amberframework/garnet-spec
-    version: ~> 0.1.1
 

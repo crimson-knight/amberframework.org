@@ -1,0 +1,23 @@
+<% @title = "Blog — Amber Framework" %>
+<% @meta = "Release notes and stories from the Amber Framework community." %>
+
+<header class="page-hero">
+  <div class="site-container">
+    <p class="eyebrow">From the framework</p>
+    <h1>Amber blog</h1>
+    <p>Release notes, project updates, and practical guidance for building with Amber and Crystal.</p>
+  </div>
+</header>
+
+<main class="section">
+  <div class="content-narrow">
+    <ul class="post-list">
+      <% @posts.each do |post| %>
+        <li>
+          <div class="post-meta"><%= post["date"] %> · <%= post["author"] %></div>
+          <h2><a href="/<%= post["file"].to_s.sub(/.md$/, "") %>"><%= post["title"] %></a></h2>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</main>
