@@ -12,6 +12,7 @@ grep -F 'version: 2.0.0-beta.2' docs/v2/getting-started/installation.md
 grep -F 'brew install amberframework/amber_cli/amber_cli' src/views/home/index.ecr
 grep -F 'amber new my_app --type web' src/views/home/index.ecr
 grep -F 'Get started with V2' src/views/layouts/_nav.ecr
+grep -F "menuButton.setAttribute('aria-label', open ? 'Open navigation' : 'Close navigation');" public/assets/js/amber-site.js
 grep -F 'data-version-select' src/views/docs/_version_selector.ecr
 grep -F 'inherits_from: ~' docs/versions.yml
 grep -F 'These guides do not inherit Amber 1.4.1 pages.' docs/v2/guides/index.md
