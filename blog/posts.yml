@@ -1,12 +1,12 @@
 title: Amber 2.0 Beta 2 - A Complete First-Run Path
 file: blog/2026/07/31/amber-2-beta-2.md
-image: /assets/characters/amber-laptop-hero.webp
+image: /assets/characters/amber-hero-original-studio.webp
 date: Jul 31, 2026
 author: Seth Tucker
 profile: https://github.com/crimson-knight
 category: Release
 character: Amber
-character_image: /assets/characters/amber-id.webp
+character_image: /assets/characters/amber-id-original-studio.webp
 summary: A verified installation path, a standalone CLI, and the release boundary for evaluating Amber 2.0.0-beta.2.
 ---
 title: "Shards-Alpha: Supply Chain Compliance + AI Tooling for Crystal"
@@ -17,18 +17,18 @@ author: Seth Tucker
 profile: https://github.com/crimson-knight
 category: Tooling
 character: Grant
-character_image: /assets/characters/grant-id.webp
+character_image: /assets/characters/grant-id-original-studio.webp
 summary: Supply-chain compliance and AI-assisted tooling for Crystal packages, records, and release workflows.
 ---
 title: Amber 2.0 Road Map
 file: blog/2023/04/24/amber-2.0-roadmap.md
-image: /assets/characters/amber-id.webp
+image: /assets/characters/amber-id-original-studio.webp
 date: Apr 24, 2023
 author: Seth Tucker
 profile: https://github.com/crimson-knight
 category: Roadmap
 character: Amber
-character_image: /assets/characters/amber-id.webp
+character_image: /assets/characters/amber-id-original-studio.webp
 summary: The business-framework direction behind Amber 2 and the responsibilities a mature application needs.
 ---
 title: Amber 2023 & Beyond
@@ -39,7 +39,7 @@ author: Seth Tucker
 profile: https://github.com/crimson-knight
 category: Community
 character: Amber
-character_image: /assets/characters/amber-id.webp
+character_image: /assets/characters/amber-id-original-studio.webp
 summary: A state-of-the-framework look at Amber's community, priorities, and path forward.
 ---
 title: Amber - 2017 in Review
@@ -50,38 +50,38 @@ author: Mark Siemers
 profile: https://github.com/marksiemers
 category: Retrospective
 character: Amber
-character_image: /assets/characters/amber-id.webp
+character_image: /assets/characters/amber-id-original-studio.webp
 summary: The releases, contributors, and lessons that shaped Amber during 2017.
 ---
 title: Amber 0.3.0 has been released including enhancements and bug fixes
 file: blog/2017/10/18/amber-0.3.0-has-been-released-including-enhancements-and-bug-fixes.md
-image: /assets/characters/grant-id.webp
+image: /assets/characters/grant-id-original-studio.webp
 date: Oct 18, 2017
 author: Massimiliano Bertinetti
 profile: https://github.com/codelessfuture
 category: Release
 character: Grant
-character_image: /assets/characters/grant-id.webp
+character_image: /assets/characters/grant-id-original-studio.webp
 summary: Enhancements and fixes included in the Amber 0.3.0 release.
 ---
 title: Amber 0.2.7 has been released including enhancements and bug fixes
 file: blog/2017/10/11/amber-0.2.7-has-been-released-including-enhancements-and-bug-fixes.md
-image: /assets/characters/gemma-id.webp
+image: /assets/characters/gemma-id-original-studio.webp
 date: Oct 11, 2017
 author: Faustino Aguilar
 profile: https://github.com/faustinoaq
 category: Release
 character: Gemma
-character_image: /assets/characters/gemma-id.webp
+character_image: /assets/characters/gemma-id-original-studio.webp
 summary: The Amber 0.2.7 maintenance release and its collection of improvements.
 ---
 title: New website for Amber Framework
 file: blog/2017/10/07/new-website-for-amber-framework.md
-image: /assets/characters/amber-chibi.webp
+image: /assets/characters/amber-chibi-original-studio.webp
 date: Oct 07, 2017
 author: Faustino Aguilar
 profile: https://github.com/faustinoaq
 category: Website
 character: Amber
-character_image: /assets/characters/amber-id.webp
+character_image: /assets/characters/amber-id-original-studio.webp
 summary: The story behind an earlier Amber Framework website and community home.

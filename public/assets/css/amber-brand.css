@@ -1649,8 +1649,9 @@ pre {
 .blog-hero-art img {
   position: absolute;
   right: -3%;
-  bottom: -82px;
-  width: 430px;
+  bottom: -68px;
+  width: 370px;
+  height: auto;
   border: 1px solid var(--line-strong);
   border-radius: 190px 190px 24px 24px;
   box-shadow: var(--shadow-md);
@@ -1812,7 +1813,7 @@ pre {
 
   .blog-hero-grid { grid-template-columns: 1fr; }
   .blog-hero-art { min-height: 240px; }
-  .blog-hero-art img { right: 50%; bottom: -82px; width: 320px; transform: translateX(50%); }
+  .blog-hero-art img { right: 50%; bottom: -62px; width: 300px; transform: translateX(50%); }
   .post-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .post-card:first-child { grid-template-columns: 1fr; }
 }

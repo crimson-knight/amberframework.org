@@ -14,11 +14,11 @@ grep -F 'Owner explicitly says the branch may merge and deploy.' design/v2-previ
 
 for asset in \
   public/assets/brand/amber-crystal.svg \
-  public/assets/characters/amber-laptop-hero.webp \
-  public/assets/characters/amber-id.webp \
-  public/assets/characters/grant-id.webp \
-  public/assets/characters/gemma-id.webp \
-  public/assets/characters/amber-chibi.webp \
+  public/assets/characters/amber-hero-original-studio.webp \
+  public/assets/characters/amber-id-original-studio.webp \
+  public/assets/characters/grant-id-original-studio.webp \
+  public/assets/characters/gemma-id-original-studio.webp \
+  public/assets/characters/amber-chibi-original-studio.webp \
   public/assets/fonts/Manrope-Variable.woff2 \
   public/assets/fonts/Fraunces-Variable.woff2 \
   public/assets/fonts/Fraunces-Italic-Variable.woff2 \
@@ -49,6 +49,11 @@ if rg -n -i '^image:\s+https?://' blog/posts.yml; then
   fail "blog metadata still references a remote image"
 fi
 
+if rg -n 'amber-laptop-hero\.webp|amber-id\.webp|grant-id\.webp|gemma-id\.webp|amber-chibi\.webp' \
+  src/views blog/posts.yml; then
+  fail "the comparison-only character set is still referenced by the active preview"
+fi
+
 if rg -n 'document\.cookie|localStorage|sessionStorage|indexedDB' public/assets/js/amber-site.js; then
   fail "preview JavaScript persists visitor data"
 fi
@@ -57,6 +62,11 @@ grep -F 'amber new my_app' src/views/home/index.ecr >/dev/null
 grep -F 'web is the default' src/views/home/index.ecr >/dev/null
 grep -F 'amber new field_app --type native' src/views/home/index.ecr >/dev/null
 grep -F 'Not release-gated with the web beta' src/views/home/index.ecr >/dev/null
+grep -F '/assets/characters/amber-hero-original-studio.webp' src/views/home/index.ecr >/dev/null
+grep -F '/assets/characters/amber-id-original-studio.webp' src/views/home/characters.ecr >/dev/null
+grep -F '/assets/characters/grant-id-original-studio.webp' src/views/home/characters.ecr >/dev/null
+grep -F '/assets/characters/gemma-id-original-studio.webp' src/views/home/characters.ecr >/dev/null
+grep -F '/assets/characters/amber-chibi-original-studio.webp' src/views/docs/show.ecr >/dev/null
 
 grep -F 'class="table-scroll"' src/services/markdown_preprocessor.cr >/dev/null
 grep -F 'class="code-window"' src/services/markdown_preprocessor.cr >/dev/null

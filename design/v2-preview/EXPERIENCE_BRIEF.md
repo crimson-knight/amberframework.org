@@ -38,6 +38,13 @@ The installed Amber CLI is the authority for template claims:
 - Amber leads the hero and appears throughout the docs, blog, and guide moments.
 - Grant uses teal data and warehouse motifs.
 - Gemma uses violet file, parcel, and delivery motifs.
+- The character studio is playful and low-key: compact rounded faces, visible
+  cheek blush, expressive brows, bright open smiles, simplified linework, warm
+  cel shading, and energetic poses.
+- Avoid glossy fashion-editorial rendering, long severe facial proportions,
+  stern executive poses, tactical seriousness, and polished enterprise-anime
+  styling. Those traits make the same cast feel as if it moved to another
+  studio.
 - Character cards read like personnel files or ID badges.
 - Motion communicates state: terminal progress, browser opening, card depth,
   and a restrained crystal field. It never blocks reading or ignores reduced

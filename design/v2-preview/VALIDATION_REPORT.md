@@ -8,6 +8,24 @@ Release state: **LOCAL PREVIEW — NOT PUSHED, NOT MERGED, NOT DEPLOYED**
 
 This report records technical proof. It does not grant release approval.
 
+## Original-studio character correction
+
+The owner rejected the first generated character set as too serious and as if
+the same brand had moved to a different studio. The active preview now uses a
+versioned five-image correction for Amber, Grant, and Gemma. The corrected set
+has rounder facial construction, visible blush, brighter smiles, softer
+linework, warmer cel shading, and more playful acting. The first set remains in
+the repository only for visual comparison and is not referenced by active
+templates or blog metadata.
+
+Desktop browser proof confirmed the corrected wide hero, crew directory,
+personnel view, blog hero, and documentation guide note. All corrected images
+loaded at their natural dimensions and created no page-level horizontal
+overflow. The blog hero needed an explicit automatic image height; without it,
+the HTML height attribute stretched the square chibi source and clipped her
+face behind the navigation. The corrected 370-by-370 placement now keeps her
+full face and pose visible.
+
 ## Automated checks
 
 Passed:

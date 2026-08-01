@@ -8,10 +8,45 @@ The owner-provided visual references live outside the repository in:
 
 `/Users/crimsonknight/Documents/remote_sync_vault/amber_framework_brand_ideas`
 
-Generated character assets in `public/assets/characters/` were created through
-the locally authenticated Higgsfield CLI using GPT Image 2 with those images as
-identity and style references. Generated files remain preview-only until the
-owner reviews and approves them.
+The owner references establish the canonical studio: playful, low-key character
+acting with compact rounded faces, visible cheek blush, open smiles, simplified
+linework, warm cel shading, and energetic poses. Generated files remain
+preview-only until the owner reviews and approves them.
+
+## Original-studio correction (active preview set)
+
+The active preview set was generated with Codex built-in image generation after
+the owner identified the first set as too serious and stylistically distant from
+the references. Existing files were retained for side-by-side comparison; the
+correction uses versioned filenames rather than overwriting them.
+
+| Active local asset | Built-in generation source |
+|---|---|
+| `amber-hero-original-studio.webp` | `exec-b2cd0447-7726-4ba1-aa77-48b2501354db.png` |
+| `amber-id-original-studio.webp` | `exec-905db6da-3b42-4a36-9f20-edcb52d608ef.png` |
+| `grant-id-original-studio.webp` | `exec-e192560b-8ebb-4898-a711-b50986cb1d72.png` |
+| `gemma-id-original-studio.webp` | `exec-aeff5a84-d2db-47ae-8639-45c27868f558.png` |
+| `amber-chibi-original-studio.webp` | `exec-b9e4843e-6d5c-4388-90a0-4a9d543348d4.png` |
+
+The generation source directory is:
+
+`/Users/crimsonknight/.codex/generated_images/019fb8fe-b340-7f60-8fe6-b412352a3660/`
+
+The five prompts shared the canonical-studio constraints above and explicitly
+excluded glossy, sultry, stern, executive, tactical, and fashion-editorial
+rendering. Character-specific direction preserved Amber's cream technical
+jacket and amber crystal motif, Grant's teal data and warehouse motifs, and
+Gemma's violet hair and file or fulfillment motifs. Portrait and chibi sources
+were resized to 800 by 800 pixels; the wide hero remains 1536 by 1024. All were
+encoded as quality-84 WebP assets.
+
+## First generated set (comparison only)
+
+The earlier character assets were created through the locally authenticated
+Higgsfield CLI using GPT Image 2 with the same owner references. They are no
+longer wired into the active preview because their longer facial proportions,
+more composed acting, and glossy rendering shifted the cast toward a different
+studio style.
 
 | Final local asset | Higgsfield job |
 |---|---|
@@ -21,9 +56,9 @@ owner reviews and approves them.
 | `gemma-id.webp` | `42a4c5bf-e49a-4cc1-b13b-99ecdf9c2ac3` |
 | `amber-chibi.webp` | `0c8a5114-522a-4436-8f1e-b28aa87814b9` |
 
-The source PNG exports were converted to the checked-in WebP files and removed
-after visual and natural-dimension checks. This keeps the preview lightweight
-without losing the reproducible Higgsfield job references.
+The Higgsfield source PNG exports were converted to the checked-in WebP files
+and removed after visual and natural-dimension checks. The WebP comparison files
+remain locally available and retain their reproducible Higgsfield job references.
 
 ## Fonts
 
