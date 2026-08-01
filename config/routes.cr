@@ -17,6 +17,10 @@ Amber::Server.configure do |app|
   routes :web do
     get "/", HomeController, :index
     get "/media", HomeController, :media
+    get "/characters", HomeController, :characters
+    get "/characters/:id", HomeController, :character
+    get "/amber-way", HomeController, :amber_way
+    get "/privacy", HomeController, :privacy
     get "/blog", BlogController, :index
     get "/blog/:year/:month/:day/:id", BlogController, :show
 

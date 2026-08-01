@@ -22,6 +22,7 @@ instructions.
 ## Preview ecosystem material
 
 - [Asset Pipeline](assets/) — separate native-ESM project
+- [Native application template](native-preview/) — macOS, iOS, and Android preview
 - [Grant](models/grant/) — separate ORM project
 - [Gemma](uploads/) — separate attachment project
 

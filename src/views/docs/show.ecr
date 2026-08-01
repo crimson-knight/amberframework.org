@@ -42,6 +42,14 @@
       <p class="docs-kicker"><%= version.try(&.description) || "Amber Framework guide" %></p>
     </div>
 
+    <aside class="docs-guide-moment" aria-label="Amber guide note">
+      <img src="/assets/characters/amber-chibi.webp" width="180" height="180" alt="Amber holding a laptop and pointing toward the guide">
+      <div>
+        <strong>Amber's guide note</strong>
+        <p>Check the version marker before copying a command. V2 beta and V1 stable pages stay separate on purpose.</p>
+      </div>
+    </aside>
+
     <%= render(partial: "docs/_version_timeline.ecr") %>
 
     <article class="docs-content">

@@ -1,3 +1,5 @@
+require "markd"
+
 # Service to preprocess markdown content, converting GitBook-specific syntax to HTML
 
 module MarkdownPreprocessor
@@ -14,6 +16,38 @@ module MarkdownPreprocessor
     result
   end
 
+  # Render site Markdown with GitHub Flavored Markdown enabled so the tables
+  # used throughout the versioned guides become semantic HTML tables.
+  def render(content : String, *, preprocess : Bool = true) : String
+    source = preprocess ? process(content) : content
+    options = Markd::Options.new(gfm: true)
+    enhance_html(Markd.to_html(source, options))
+  end
+
+  # Add presentation wrappers after Markdown has been rendered. The wrapper
+  # keeps table semantics intact while providing an overflow region, and gives
+  # every code sample the same local terminal-window component.
+  def enhance_html(html : String) : String
+    result = wrap_tables(html)
+    wrap_code_windows(result)
+  end
+
+  private def wrap_tables(html : String) : String
+    html.gsub(/(<table(?:\s[^>]*)?>.*?<\/table>)/m) do
+      %(<div class="table-scroll" role="region" aria-label="Scrollable documentation table" tabindex="0">#{$1}</div>)
+    end
+  end
+
+  private def wrap_code_windows(html : String) : String
+    html.gsub(/<pre><code(?: class="language-([^"]+)")?>(.*?)<\/code><\/pre>/m) do
+      language = $~[1]? || "code"
+      label = {"bash", "console", "shell", "sh", "zsh"}.includes?(language) ? "terminal" : language
+      code = $2
+
+      %(<div class="code-window"><div class="code-window-toolbar"><span class="code-window-language">#{label}</span></div><pre><code class="language-#{language}">#{code}</code></pre></div>)
+    end
+  end
+
   # Convert {% hint style="info" %}content{% endhint %} to styled divs
   private def convert_hints(content : String) : String
     # Match hint blocks (multiline)
@@ -22,7 +56,7 @@ module MarkdownPreprocessor
       inner = $2.strip
 
       # Process the inner content as markdown
-      inner_html = Markd.to_html(inner)
+      inner_html = Markd.to_html(inner, Markd::Options.new(gfm: true))
 
       %(<div class="hint hint-#{style}">#{inner_html}</div>)
     end
@@ -36,7 +70,7 @@ module MarkdownPreprocessor
 
       # Extract code-tabs-items
       result = inner.gsub(/{%\s*code-tabs-item\s+title="([^"]+)"\s*%}(.*?){%\s*endcode-tabs-item\s*%}/m) do |item_match|
-        title = $1.gsub("\\_", "_")  # Unescape underscores
+        title = $1.gsub("\\_", "_") # Unescape underscores
         code = $2.strip
 
         %(<div class="code-block-titled"><div class="code-title">#{title}</div>\n#{code}\n</div>)

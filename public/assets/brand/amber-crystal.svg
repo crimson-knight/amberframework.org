@@ -1,19 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title description">
-  <title id="title">Amber Framework crystal</title>
-  <desc id="description">A faceted amber-orange crystal mark</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 64" role="img" aria-labelledby="amber-crystal-title amber-crystal-desc">
+  <title id="amber-crystal-title">Amber Framework crystal</title>
+  <desc id="amber-crystal-desc">A tall, symmetrical faceted amber crystal</desc>
   <defs>
-    <linearGradient id="amber-a" x1="9" y1="9" x2="54" y2="58" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#ffbf59"/>
-      <stop offset="1" stop-color="#ef5f0c"/>
+    <linearGradient id="amber-crystal-core" x1="12" y1="8" x2="36" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffd584"/>
+      <stop offset="0.48" stop-color="#ff8a1f"/>
+      <stop offset="1" stop-color="#d84c08"/>
+    </linearGradient>
+    <linearGradient id="amber-crystal-light" x1="11" y1="16" x2="28" y2="44" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff1c9"/>
+      <stop offset="1" stop-color="#ffa13c"/>
     </linearGradient>
   </defs>
-  <path fill="url(#amber-a)" d="M22 4h25l11 20-7 28-20 9L8 46 5 19z"/>
-  <path fill="#ffcc78" d="M22 4 5 19l22 6z"/>
-  <path fill="#f68a20" d="m22 4 5 21 20-21z"/>
-  <path fill="#dc4c0a" d="m27 25 24 27 7-28z"/>
-  <path fill="#f57613" d="M8 46 27 25l4 36z"/>
-  <path fill="#ffa53a" d="M5 19 8 46l19-21z"/>
-  <path fill="#ffb44c" d="m27 25 31-1L47 4z"/>
-  <path fill="#b93708" d="m31 61 20-9-24-27z"/>
-  <path fill="none" stroke="#9f3008" stroke-linejoin="round" stroke-width="1.4" d="M22 4h25l11 20-7 28-20 9L8 46 5 19 22 4Zm0 0 5 21m20-21L27 25M5 19l22 6M8 46l19-21m4 36-4-36m24 27L27 25m31-1-31 1" opacity=".72"/>
+  <path d="M24 2 40 18l-6 30-10 14-10-14-6-30L24 2Z" fill="url(#amber-crystal-core)" stroke="#a93806" stroke-width="1.25" stroke-linejoin="round"/>
+  <path d="m24 2-7 19 7 11 7-11L24 2Z" fill="#ffb343"/>
+  <path d="M8 18h9l7 14-16-14Z" fill="url(#amber-crystal-light)"/>
+  <path d="m40 18-9 3-7 11 16-14Z" fill="#ef650e"/>
+  <path d="m8 18 16 14-10 16-6-30Z" fill="#f47a16"/>
+  <path d="m40 18-16 14 10 16 6-30Z" fill="#c94108"/>
+  <path d="m24 32 10 16-10 14V32Z" fill="#e65b0b"/>
+  <path d="m24 32-10 16 10 14V32Z" fill="#ff9f32"/>
+  <path d="M24 2v60M8 18h32M17 21l14 .02M14 48l20 .01" fill="none" stroke="#fff3cf" stroke-width="0.8" stroke-linecap="round" opacity="0.62"/>
+  <path d="M24 2 40 18l-6 30-10 14-10-14-6-30L24 2Zm0 0-7 19 7 11 7-11L24 2ZM8 18l16 14-10 16m26-30L24 32l10 16" fill="none" stroke="#9f3106" stroke-width="0.85" stroke-linejoin="round" opacity="0.74"/>
 </svg>

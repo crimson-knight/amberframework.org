@@ -6,24 +6,15 @@
     <meta name="description" content="<%= @meta %>">
     <meta name="keywords" content="Amber Framework, Crystal language, web framework, Amber 2, Amber CLI">
     <meta name="theme-color" content="#fffaf3">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <title><%= @title %></title>
     <link rel="canonical" href="https://amberframework.org<%= context.request.path %>">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,520;9..144,700;9..144,800&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
     <link href="/assets/css/amber-brand.css" rel="stylesheet">
     <link rel="apple-touch-icon" href="/favicon.png">
     <link rel="icon" href="/favicon.png">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RER390YYB5"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-RER390YYB5');
-    </script>
   </head>
-  <body>
+  <body data-no-tracking="true">
     <%= render(partial: "layouts/_nav.ecr") %>
     <%= content %>
     <%= render(partial: "layouts/_footer.ecr") %>

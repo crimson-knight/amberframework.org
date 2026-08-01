@@ -234,8 +234,7 @@ class DocsController < ApplicationController
 
   # Helper to render markdown with preprocessing
   def render_markdown(content : String) : String
-    processed = MarkdownPreprocessor.process(content)
-    Markd.to_html(processed)
+    MarkdownPreprocessor.render(content)
   end
 
   # Helper to get URL for a page in a different version

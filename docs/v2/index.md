@@ -17,12 +17,16 @@ configuration, sessions, static files, tests, and a development watcher without
 requiring a database.
 
 ```bash
-brew install amberframework/amber_cli/amber_cli
-amber new my_app --type web
+brew tap amberframework/amber_cli
+brew install amber_cli
+amber new my_app
 cd my_app
 crystal spec
 amber watch
 ```
+
+Web is the default application type. `amber new my_app --type web` is the
+explicit equivalent. Native generation is a separate preview surface.
 
 Start with [Installation](getting-started/installation/) for the platform
 matrix, checksums, and troubleshooting, then follow the

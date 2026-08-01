@@ -1,15 +1,19 @@
 <% @title = "#{post["title"]} — Amber Framework" %>
 <% @meta = "#{post["title"]} — an Amber Framework release and community update." %>
 
-<header class="page-hero">
-  <div class="site-container">
-    <p class="eyebrow"><%= post["date"] %> · <%= post["author"] %></p>
-    <h1><%= post["title"] %></h1>
+<header class="page-hero post-page-hero">
+  <div class="site-container page-hero-grid">
+    <div>
+      <p class="eyebrow"><%= post["date"] %> · <%= post["author"] %></p>
+      <h1><%= post["title"] %></h1>
+      <p><%= post["summary"]? || "An Amber Framework release and community update." %></p>
+    </div>
+    <img class="page-hero-character" src="<%= post["character_image"]? || "/assets/characters/amber-id.webp" %>" width="640" height="640" alt="<%= post["character"]? || "Amber" %> character portrait">
   </div>
 </header>
 
 <main class="section">
   <article class="content-narrow post-article">
-    <%= Markd.to_html(File.read(filepath)) %>
+    <%= MarkdownPreprocessor.render(File.read(filepath), preprocess: false) %>
   </article>
 </main>

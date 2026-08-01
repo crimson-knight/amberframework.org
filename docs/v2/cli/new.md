@@ -26,11 +26,15 @@ the final component becomes the project name. Paths containing spaces are
 rejected.
 
 ```bash
+amber new my_app
 amber new my_app --type web
 amber new projects/admin --type web -d sqlite
 amber new /tmp/amber_smoke --type web --no-deps
 amber new . --type web
 ```
+
+The first two commands generate the same web application. Omitting `--type`
+is the recommended first run; the explicit form is useful in automation.
 
 ## Web template contract
 
@@ -61,4 +65,5 @@ amber watch
 Verify both `/` and `/css/app.css`.
 
 `--type native` remains available for contributors and early adopters, but it
-is not part of the Amber V2 beta install/build guarantee.
+is not part of the Amber V2 beta install/build guarantee. Read the [native
+preview guide](../guides/native-preview/) before evaluating it.

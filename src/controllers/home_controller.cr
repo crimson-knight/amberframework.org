@@ -7,6 +7,26 @@ class HomeController < ApplicationController
     render("media.ecr")
   end
 
+  def characters
+    render("characters.ecr")
+  end
+
+  def character
+    unless {"amber", "grant", "gemma"}.includes?(params["id"])
+      raise Amber::Exceptions::RouteNotFound.new(request)
+    end
+
+    render("character.ecr")
+  end
+
+  def amber_way
+    render("amber_way.ecr")
+  end
+
+  def privacy
+    render("privacy.ecr")
+  end
+
   def guides
     redirect_to location: "/docs", status: 302
   end
