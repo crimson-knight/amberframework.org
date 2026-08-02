@@ -2,7 +2,7 @@
 set -euo pipefail
 
 test -s public/assets/brand/amber-crystal.svg
-test -s public/assets/characters/amber-hero-original-studio.webp
+test -s public/assets/characters/amber-hero-inviting-studio.webp
 test -s public/assets/characters/amber-id-original-studio.webp
 test -s public/assets/css/amber-brand.css
 test -s public/assets/js/amber-site.js
@@ -16,8 +16,12 @@ grep -F 'amber new my_app' src/views/home/index.ecr
 grep -F 'Preview V2' src/views/layouts/_nav.ecr
 grep -F "menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');" public/assets/js/amber-site.js
 grep -F 'data-version-select' src/views/docs/_version_selector.ecr
-grep -F 'inherits_from: ~' docs/versions.yml
-grep -F 'These guides do not inherit Amber 1.4.1 pages.' docs/v2/guides/index.md
+grep -F 'inherits_from: v1.4.1' docs/versions.yml
+grep -F 'V2 carries forward framework concepts that still apply' docs/v2/guides/index.md
+grep -F 'Amber CLI V2 does not expose the V1 `amber routes` command' docs/v2/guides/routing/routes.md
+grep -F 'The V1 guide' docs/v2/guides/controllers/sessions.md
+grep -F 'HTTP::Server::Response' docs/v2/guides/controllers/request-and-response-objects.md
+grep -F 'guides/controllers/params.md: guides/schema-api' docs/v2/_replacements.yml
 grep -F 'Web is the default.' docs/v2/guides/web-template/index.md
 grep -F '.code-window' public/assets/css/amber-brand.css
 grep -F '.table-scroll' public/assets/css/amber-brand.css
@@ -25,11 +29,6 @@ grep -F 'padding: 1.15rem 1.25rem;' public/assets/css/amber-brand.css
 
 if find src/views -type f -name '*.slang' | grep -q .; then
   echo "Amber V2 site must use ECR views only" >&2
-  exit 1
-fi
-
-if rg -n 'inherits_from: v1\.4\.1' docs/versions.yml; then
-  echo "V2 docs must not silently inherit unreviewed V1 instructions" >&2
   exit 1
 fi
 

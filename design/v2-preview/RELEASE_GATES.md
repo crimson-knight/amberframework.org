@@ -20,6 +20,7 @@ A green automated check does not authorize a production merge or deployment.
 - [ ] `native` is presented as a preview, including its platform boundary.
 - [ ] Installation commands have been executed from a clean environment.
 - [ ] The generated web app builds, tests, starts, and serves its CSS.
+- [ ] The homepage's generated-app browser matches the current CLI template.
 - [ ] Grant and Gemma claims match their actual preview boundaries.
 
 ## Privacy and ownership
@@ -39,6 +40,12 @@ A green automated check does not authorize a production merge or deployment.
 - [ ] Keyboard, focus, menu, reduced-motion, and contrast checks pass.
 - [ ] Desktop and mobile pages have no unexpected horizontal overflow.
 - [ ] The terminal demo can replay and reveals a local-app browser preview.
+- [ ] Carried-forward V1 pages are labeled and keep internal links in V2.
+- [ ] Every retired V2 page has a working replacement or explicit unavailable
+      state; mapped legacy URLs redirect to the replacement.
+- [ ] V2 deployment guidance is reproduced from a clean production build and
+      runtime configuration check.
+- [ ] Copy/View Markdown and both AI handoff links are checked in release QA.
 - [ ] Crystal-field and card effects remain decorative and pointer-safe.
 
 ## Proof artifact

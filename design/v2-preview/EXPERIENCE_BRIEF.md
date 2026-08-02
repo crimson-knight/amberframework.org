@@ -24,6 +24,11 @@ map to real software boundaries rather than decorative mascots.
   approved. The preview may explain the responsibility but must label any
   proposed identity as a concept.
 
+The homepage gives Grant a dedicated persistence spotlight before the full
+crew roster. That spotlight must say that Grant is an independently changing
+ecosystem preview and that the core web template does not silently install or
+select an ORM.
+
 ## Application types
 
 The installed Amber CLI is the authority for template claims:
@@ -53,11 +58,17 @@ The installed Amber CLI is the authority for template claims:
 
 ## The Amber Way
 
-The site should make these principles explicit:
+The site should explain Amber's established six-part foundation:
 
-1. Own the path from source to browser.
-2. Serve essential CSS, JavaScript, fonts, and imagery locally.
-3. Make the default path complete before presenting optional paths.
-4. Keep framework, data, files, and background work as clear responsibilities.
-5. Prefer small, understandable interactions over opaque client frameworks.
-6. State beta and preview boundaries honestly.
+1. **Productivity:** conventions and a coherent application structure remove
+   routine decisions.
+2. **Performance:** Crystal's type system and native compilation belong in the
+   architecture from the beginning.
+3. **Happiness:** clear errors, readable defaults, and fast feedback protect
+   developer attention.
+4. **Humility:** borrow tested ideas, acknowledge incomplete work, and invite
+   correction.
+5. **Respect:** treat user and contributor time as valuable through complete
+   documentation and explicit changes.
+6. **Trust:** keep code, responsibilities, and context understandable enough
+   for another developer or coding agent to extend safely.

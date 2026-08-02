@@ -14,7 +14,7 @@ grep -F 'Owner explicitly says the branch may merge and deploy.' design/v2-previ
 
 for asset in \
   public/assets/brand/amber-crystal.svg \
-  public/assets/characters/amber-hero-original-studio.webp \
+  public/assets/characters/amber-hero-inviting-studio.webp \
   public/assets/characters/amber-id-original-studio.webp \
   public/assets/characters/grant-id-original-studio.webp \
   public/assets/characters/gemma-id-original-studio.webp \
@@ -62,7 +62,10 @@ grep -F 'amber new my_app' src/views/home/index.ecr >/dev/null
 grep -F 'web is the default' src/views/home/index.ecr >/dev/null
 grep -F 'amber new field_app --type native' src/views/home/index.ecr >/dev/null
 grep -F 'Not release-gated with the web beta' src/views/home/index.ecr >/dev/null
-grep -F '/assets/characters/amber-hero-original-studio.webp' src/views/home/index.ecr >/dev/null
+grep -F '/assets/characters/amber-hero-inviting-studio.webp' src/views/home/index.ecr >/dev/null
+grep -F 'Grant keeps the records straight.' src/views/home/index.ecr >/dev/null
+grep -F 'The core web template does not install an ORM by default' src/views/home/index.ecr >/dev/null
+grep -F '/docs/v2/guides/models/grant' src/views/home/index.ecr >/dev/null
 grep -F '/assets/characters/amber-id-original-studio.webp' src/views/home/characters.ecr >/dev/null
 grep -F '/assets/characters/grant-id-original-studio.webp' src/views/home/characters.ecr >/dev/null
 grep -F '/assets/characters/gemma-id-original-studio.webp' src/views/home/characters.ecr >/dev/null
@@ -75,8 +78,20 @@ grep -F 'display: table;' public/assets/css/amber-brand.css >/dev/null
 grep -F '.docs-content pre code,' public/assets/css/amber-brand.css >/dev/null
 
 grep -F 'data-terminal-demo' src/views/home/index.ecr >/dev/null
+grep -F 'data-terminal-mode="typed"' src/views/home/index.ecr >/dev/null
+grep -F 'data-terminal-url' src/views/home/index.ecr >/dev/null
+grep -F 'terminalDemo.classList.add('"'"'is-browser-open'"'"')' public/assets/js/amber-site.js >/dev/null
 grep -F 'data-crystal-field' src/views/home/index.ecr >/dev/null
 grep -F 'prefers-reduced-motion' public/assets/css/amber-brand.css >/dev/null
 grep -F 'IntersectionObserver' public/assets/js/amber-site.js >/dev/null
+grep -F 'data-open-docs-ai="claude"' src/views/docs/show.ecr >/dev/null
+grep -F 'data-open-docs-ai="chatgpt"' src/views/docs/show.ecr >/dev/null
+grep -F 'View as Markdown' src/views/docs/show.ecr >/dev/null
+grep -F 'code.language-crystal' public/assets/js/amber-site.js >/dev/null
+grep -F '.token-keyword' public/assets/css/amber-brand.css >/dev/null
+grep -F 'max-height: none;' public/assets/css/amber-brand.css >/dev/null
+grep -F 'class="nav-group' src/views/docs/_sidebar.ecr >/dev/null
+grep -F 'replacement-link' src/views/docs/_version_timeline.ecr >/dev/null
+grep -F 'version_id: @version_id, page_path: source_path' src/controllers/docs_controller.cr >/dev/null
 
 echo "Amber V2 preview release-boundary, privacy, asset, table, code-window, and interaction checks passed"

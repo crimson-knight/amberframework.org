@@ -13,14 +13,30 @@ acting with compact rounded faces, visible cheek blush, open smiles, simplified
 linework, warm cel shading, and energetic poses. Generated files remain
 preview-only until the owner reviews and approves them.
 
-## Original-studio correction (active preview set)
+## Inviting hero refinement (active homepage hero)
+
+The active homepage hero is `amber-hero-inviting-studio.webp`. It was created
+with Codex built-in image **edit** mode from
+`amber-hero-original-studio.webp`; the source PNG is
+`exec-d23f9739-f173-4133-8725-e5b1473c19c6.png` in the generation directory
+below.
+
+The edit prompt asked to change only Amber's foreground hand and lower arm to
+an anatomically clear, palm-up beckoning gesture with softly curled fingers,
+while preserving her open smile, blush, face, hair, outfit, laptop, warm cel
+shading, wide composition, and left-side negative space. It explicitly
+excluded grabbing, pointing, reaching at the viewer, extra fingers, and a
+serious or glossy studio shift. The 1536-by-1024 result was encoded as a
+quality-84 WebP without overwriting the prior source.
+
+## Original-studio correction
 
 The active preview set was generated with Codex built-in image generation after
 the owner identified the first set as too serious and stylistically distant from
 the references. Existing files were retained for side-by-side comparison; the
 correction uses versioned filenames rather than overwriting them.
 
-| Active local asset | Built-in generation source |
+| Corrected local asset | Built-in generation source |
 |---|---|
 | `amber-hero-original-studio.webp` | `exec-b2cd0447-7726-4ba1-aa77-48b2501354db.png` |
 | `amber-id-original-studio.webp` | `exec-905db6da-3b42-4a36-9f20-edcb52d608ef.png` |
@@ -28,17 +44,19 @@ correction uses versioned filenames rather than overwriting them.
 | `gemma-id-original-studio.webp` | `exec-aeff5a84-d2db-47ae-8639-45c27868f558.png` |
 | `amber-chibi-original-studio.webp` | `exec-b9e4843e-6d5c-4388-90a0-4a9d543348d4.png` |
 
-The generation source directory is:
+The generation source directory, including the inviting hero edit, is:
 
 `/Users/crimsonknight/.codex/generated_images/019fb8fe-b340-7f60-8fe6-b412352a3660/`
 
-The five prompts shared the canonical-studio constraints above and explicitly
+The original five prompts shared the canonical-studio constraints above and explicitly
 excluded glossy, sultry, stern, executive, tactical, and fashion-editorial
 rendering. Character-specific direction preserved Amber's cream technical
 jacket and amber crystal motif, Grant's teal data and warehouse motifs, and
 Gemma's violet hair and file or fulfillment motifs. Portrait and chibi sources
 were resized to 800 by 800 pixels; the wide hero remains 1536 by 1024. All were
-encoded as quality-84 WebP assets.
+encoded as quality-84 WebP assets. The portrait and chibi files remain active;
+the original wide hero is retained as the reproducible source for the active
+beckoning version.
 
 ## First generated set (comparison only)
 

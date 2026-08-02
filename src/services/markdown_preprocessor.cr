@@ -6,20 +6,22 @@ module MarkdownPreprocessor
   extend self
 
   # Process markdown content, converting GitBook syntax to HTML
-  def process(content : String) : String
+  def process(content : String, *, version_id : String? = nil, page_path : String? = nil) : String
     result = content
+    # Rewrite links before rendering GitBook hint or tab bodies to HTML. Once a
+    # body is HTML, a Markdown-only rewrite can no longer see its links.
+    result = fix_internal_links(result, version_id, page_path)
     result = convert_hints(result)
     result = convert_code_tabs(result)
-    result = convert_page_refs(result)
-    result = fix_internal_links(result)
+    result = convert_page_refs(result, version_id, page_path)
     result = fix_asset_paths(result)
     result
   end
 
   # Render site Markdown with GitHub Flavored Markdown enabled so the tables
   # used throughout the versioned guides become semantic HTML tables.
-  def render(content : String, *, preprocess : Bool = true) : String
-    source = preprocess ? process(content) : content
+  def render(content : String, *, preprocess : Bool = true, version_id : String? = nil, page_path : String? = nil) : String
+    source = preprocess ? process(content, version_id: version_id, page_path: page_path) : content
     options = Markd::Options.new(gfm: true)
     enhance_html(Markd.to_html(source, options))
   end
@@ -72,8 +74,9 @@ module MarkdownPreprocessor
       result = inner.gsub(/{%\s*code-tabs-item\s+title="([^"]+)"\s*%}(.*?){%\s*endcode-tabs-item\s*%}/m) do |item_match|
         title = $1.gsub("\\_", "_") # Unescape underscores
         code = $2.strip
+        rendered_code = Markd.to_html(code, Markd::Options.new(gfm: true))
 
-        %(<div class="code-block-titled"><div class="code-title">#{title}</div>\n#{code}\n</div>)
+        %(<div class="code-block-titled"><div class="code-title">#{title}</div>\n#{rendered_code}\n</div>)
       end
 
       result
@@ -81,24 +84,22 @@ module MarkdownPreprocessor
   end
 
   # Convert {% page-ref page="path" %} to markdown links
-  private def convert_page_refs(content : String) : String
+  private def convert_page_refs(content : String, version_id : String?, page_path : String?) : String
     content.gsub(/{%\s*page-ref\s+page="([^"]+)"\s*%}/m) do |match|
       path = $1
-        .sub(/\.md$/, "")
-        .sub(/^\.\.\//, "")
-        .sub(/^\.\//, "")
-        .sub(/README$/, "")
-        .strip("/")
+      destination = documentation_path(path, version_id, page_path)
+      label = path.sub(/\.md$/, "").sub(/README$/, "").strip("/").split("/").last
 
       # Create a link
-      %(<p class="page-ref"><a href="/docs/#{path}">Continue reading: #{path.split("/").last}</a></p>)
+      %(<p class="page-ref"><a href="#{destination}">Continue reading: #{label}</a></p>)
     end
   end
 
   # Fix internal markdown links to use /docs/ URLs
-  private def fix_internal_links(content : String) : String
-    # Match markdown links that end with .md
-    content.gsub(/\[([^\]]+)\]\(([^)]+\.md)\)/) do |match|
+  private def fix_internal_links(content : String, version_id : String?, page_path : String?) : String
+    # Match Markdown document links and directory index links. Assets, anchors,
+    # downloads, and external URLs are intentionally left alone.
+    content.gsub(/\[([^\]]+)\]\(([^)]+(?:\.md(?:#[^)]+)?|\/))\)/) do |match|
       link_text = $1
       path = $2
 
@@ -106,17 +107,46 @@ module MarkdownPreprocessor
       if path.starts_with?("http://") || path.starts_with?("https://")
         match
       else
-        # Convert relative path to absolute /docs/ URL
-        clean_path = path
-          .sub(/\.md$/, "")
-          .sub(/README$/, "")
-          .sub(/^\.\.\//, "")
-          .sub(/^\.\//, "")
-          .strip("/")
-
-        "[#{link_text}](/docs/#{clean_path})"
+        "[#{link_text}](#{documentation_path(path, version_id, page_path)})"
       end
     end
+  end
+
+  # Resolve a Markdown page from the current guide instead of flattening every
+  # relative link to the documentation root. Versioned pages must keep readers
+  # inside the version they intentionally selected.
+  private def documentation_path(path : String, version_id : String?, page_path : String?) : String
+    path_and_anchor = path.split("#", 2)
+    relative_path = path_and_anchor[0]
+    anchor = path_and_anchor[1]?
+
+    segments = [] of String
+    unless relative_path.starts_with?("/")
+      current_segments = page_path.to_s.strip("/").split("/")
+      current_segments.pop unless current_segments.empty?
+      segments.concat(current_segments)
+    end
+
+    relative_path
+      .sub(/\.md$/, "")
+      .sub(/README$/, "")
+      .sub(/\/?index$/, "")
+      .strip("/")
+      .split("/")
+      .each do |segment|
+        case segment
+        when "", "."
+          next
+        when ".."
+          segments.pop unless segments.empty?
+        else
+          segments << segment
+        end
+      end
+
+    version_prefix = version_id ? "/docs/#{version_id}" : "/docs"
+    destination = segments.empty? ? version_prefix : "#{version_prefix}/#{segments.join("/")}"
+    anchor ? "#{destination}##{anchor}" : destination
   end
 
   # Fix asset paths to use /docs/assets/

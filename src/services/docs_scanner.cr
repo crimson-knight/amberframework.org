@@ -4,13 +4,15 @@
 module DocsScanner
   extend self
 
-  DOCS_ROOT        = "docs"
-  DELETED_FILENAME = "_deleted.yml"
+  DOCS_ROOT             = "docs"
+  DELETED_FILENAME      = "_deleted.yml"
+  REPLACEMENTS_FILENAME = "_replacements.yml"
 
   # Cache structure: version_id => pages
   @@version_pages : Hash(String, Array(DocPage)) = {} of String => Array(DocPage)
   @@version_nav_trees : Hash(String, Array(NavItem)) = {} of String => Array(NavItem)
   @@version_deleted_paths : Hash(String, Set(String)) = {} of String => Set(String)
+  @@version_replacements : Hash(String, Hash(String, String)) = {} of String => Hash(String, String)
 
   # Cache for version history tracking
   @@page_histories : Hash(String, PageVersionHistory) = {} of String => PageVersionHistory
@@ -194,7 +196,10 @@ module DocsScanner
   end
 
   private def calculate_badge(relative_path : String, own_paths : Set(String), parent_paths : Set(String)) : {String?, String?}
-    return {nil, nil} unless own_paths.includes?(relative_path)
+    unless own_paths.includes?(relative_path)
+      return {"Carried", "badge-inherited"} if parent_paths.includes?(relative_path)
+      return {nil, nil}
+    end
 
     if parent_paths.includes?(relative_path)
       # Exists in both: Updated
@@ -236,6 +241,40 @@ module DocsScanner
       puts "Warning: Error parsing #{deleted_file}: #{ex.message}"
       Set(String).new
     end
+  end
+
+  # Return the V2 destination for a page intentionally retired in a version.
+  # A missing mapping means the page is unavailable without a direct replacement.
+  def replacement_path(version_id : String, relative_path : String) : String?
+    load_replacements(version_id)[relative_path]?
+  end
+
+  private def load_replacements(version_id : String) : Hash(String, String)
+    return @@version_replacements[version_id] if @@version_replacements.has_key?(version_id)
+
+    version = DocVersionConfig.find(version_id)
+    return {} of String => String unless version
+
+    replacements_file = File.join(version.folder_path, REPLACEMENTS_FILENAME)
+    replacements = if File.exists?(replacements_file)
+                     begin
+                       YAML.parse(File.read(replacements_file)).as_h.each_with_object({} of String => String) do |(source, destination), result|
+                         source_path = source.as_s?.try(&.strip.lstrip('/'))
+                         destination_path = destination.as_s?.try(&.strip.strip('/'))
+                         if source_path && destination_path && !source_path.empty? && !destination_path.empty?
+                           result[source_path] = destination_path
+                         end
+                       end
+                     rescue ex
+                       puts "Warning: Error parsing #{replacements_file}: #{ex.message}"
+                       {} of String => String
+                     end
+                   else
+                     {} of String => String
+                   end
+
+    @@version_replacements[version_id] = replacements
+    replacements
   end
 
   private def find_section_key(section : String, section_map : Hash(String, NavItem), version_id : String) : String?
@@ -380,6 +419,7 @@ module DocsScanner
     @@version_pages.clear
     @@version_nav_trees.clear
     @@version_deleted_paths.clear
+    @@version_replacements.clear
     @@page_histories.clear
     @@version_line_counts.clear
   end

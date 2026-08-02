@@ -30,7 +30,9 @@ class DocsController < ApplicationController
     exists: Bool,
     is_current: Bool,
     change_type: String?,
-    line_diff: Int32?)
+    line_diff: Int32?,
+    replacement_path: String?,
+    replacement_title: String?)
   @version_timeline : Array(TimelineEntry) = [] of TimelineEntry
   @show_version_timeline : Bool = false
 
@@ -89,6 +91,8 @@ class DocsController < ApplicationController
 
     if @page
       render("show.ecr")
+    elsif replacement = DocsScanner.replacement_path(@version_id, "#{@path}.md")
+      redirect_to location: "/docs/#{@version_id}/#{replacement}", status: 302
     else
       raise Amber::Exceptions::RouteNotFound.new(request)
     end
@@ -190,14 +194,21 @@ class DocsController < ApplicationController
                       nil
                     end
 
+      replacement_path = entry.available? ? nil : DocsScanner.replacement_path(entry.version_id, history.relative_path)
+      replacement_title = replacement_path.try do |path|
+        DocsScanner.find_page(entry.version_id, path).try(&.title)
+      end
+
       timeline << {
-        version_id:  entry.version_id,
-        label:       DocVersionConfig.find(entry.version_id).try(&.label) || entry.version_name,
-        short_label: entry.version_name,
-        exists:      entry.available?,
-        is_current:  entry.version_id == @version_id,
-        change_type: change_type,
-        line_diff:   entry.line_delta,
+        version_id:        entry.version_id,
+        label:             DocVersionConfig.find(entry.version_id).try(&.label) || entry.version_name,
+        short_label:       entry.version_name,
+        exists:            entry.available?,
+        is_current:        entry.version_id == @version_id,
+        change_type:       change_type,
+        line_diff:         entry.line_delta,
+        replacement_path:  replacement_path,
+        replacement_title: replacement_title,
       }
     end
 
@@ -234,7 +245,8 @@ class DocsController < ApplicationController
 
   # Helper to render markdown with preprocessing
   def render_markdown(content : String) : String
-    MarkdownPreprocessor.render(content)
+    source_path = @page.try(&.relative_path).to_s.sub(/\.md$/, "")
+    MarkdownPreprocessor.render(content, version_id: @version_id, page_path: source_path)
   end
 
   # Helper to get URL for a page in a different version

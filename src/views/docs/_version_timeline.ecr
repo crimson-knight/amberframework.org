@@ -10,9 +10,16 @@
               <div class="segment-bar"></div>
               <div class="segment-label"><%= entry[:short_label] %></div>
             </a>
+          <% elsif replacement_path = entry[:replacement_path] %>
+            <a class="segment-link replacement-link" href="/docs/<%= entry[:version_id] %>/<%= replacement_path %>">
+              <div class="segment-bar replacement"></div>
+              <div class="segment-label"><%= entry[:short_label] %></div>
+              <div class="segment-note">Replaced by <%= entry[:replacement_title] || "a V2 guide" %> →</div>
+            </a>
           <% else %>
             <div class="segment-bar unavailable"></div>
             <div class="segment-label"><%= entry[:short_label] %></div>
+            <div class="segment-note">Unavailable in this version</div>
           <% end %>
         </div>
       <% end %>

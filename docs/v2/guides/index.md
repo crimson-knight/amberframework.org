@@ -1,17 +1,21 @@
 ---
-title: "V2 Guides"
+title: "Guides"
 section: ""
 order: 40
 is_section: true
-description: "Verified Amber V2 core guides and clearly separated ecosystem previews"
+description: "Amber V2 guides, reviewed replacements, and clearly marked carried-forward references"
 ---
 
-# Amber V2 Guides
+# Guides
 
-These guides do not inherit Amber 1.4.1 pages. Every page shown in the V2
-navigation is authored for the V2 release so older Slang, Kilt, bundled CLI,
-Webpack, Granite, or Redis assumptions cannot silently appear as current
-instructions.
+V2 carries forward framework concepts that still apply—controllers, requests,
+responses, sessions, routing, cookies, testing, and other stable APIs. A
+carried-forward page is labeled in the interface so you can distinguish it from
+a guide reviewed or replaced specifically for V2.
+
+Pages built around removed components are excluded rather than inherited.
+Granite and Jennifer point to Grant replacements; legacy bundled-CLI commands
+remain retired; assets and the standalone Amber CLI use their V2 guides.
 
 ## Supported beta core
 
@@ -30,8 +34,8 @@ Preview pages describe work that can be evaluated, but they are not part of the
 clean web-template compile guarantee. Start with the supported web template and
 add preview projects deliberately.
 
-## Stable V1 reference
+## Maintaining a V1 application
 
 Amber 1.4.1 documentation remains available from the version selector. Choose
-that version when maintaining an existing V1 application; do not combine its
-commands with a new V2 project.
+that version when maintaining an existing V1 application. The V2 navigation
+uses explicit badges and replacement links where the path changed.

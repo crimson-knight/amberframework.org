@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="hero-art hero-art-amber reveal" aria-label="Amber, the framework lead, building an application">
-      <img src="/assets/characters/amber-hero-original-studio.webp" width="1536" height="1024" alt="Amber smiling beside her laptop and reaching toward floating amber crystals">
+      <img src="/assets/characters/amber-hero-inviting-studio.webp" width="1536" height="1024" alt="Amber smiling beside her laptop and beckoning the visitor to join her">
       <a class="character-callout" href="/characters/amber">
         <span class="callout-kicker">Framework lead</span>
         <strong>Amber</strong>
@@ -57,7 +57,7 @@
       </div>
 
       <div class="build-demo reveal" data-terminal-demo>
-        <div class="terminal terminal-demo" aria-label="Illustrated Amber CLI installation session">
+        <div class="terminal terminal-demo" aria-label="Amber CLI installation and first-run terminal session">
           <div class="terminal-toolbar">
             <span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span>
             <span class="terminal-title">amber-v2 — zsh</span>
@@ -66,16 +66,19 @@
               <a href="/docs/v2/getting-started/installation">Exact guide</a>
             </div>
           </div>
-          <div class="terminal-screen" aria-live="polite">
-            <div class="terminal-line" data-terminal-line><span class="terminal-prompt">$</span> <span class="terminal-command">brew tap amberframework/amber_cli</span></div>
-            <div class="terminal-line" data-terminal-line><span class="terminal-success">✓ Tap ready: amberframework/amber_cli</span></div>
-            <div class="terminal-line" data-terminal-line><span class="terminal-prompt">$</span> <span class="terminal-command">brew install amber_cli</span></div>
-            <div class="terminal-line" data-terminal-line><span class="terminal-success">✓ Amber CLI 2.0.2 installed</span></div>
-            <div class="terminal-line" data-terminal-line><span class="terminal-muted">amber → /opt/homebrew/bin/amber</span></div>
-            <div class="terminal-line" data-terminal-line><span class="terminal-prompt">$</span> <span class="terminal-command">amber new my_app</span> <span class="terminal-comment"># web is the default</span></div>
-            <div class="terminal-line" data-terminal-line><span class="terminal-accent">Created my_app with Amber 2.0.0-beta.2</span></div>
-            <div class="terminal-line" data-terminal-line><span class="terminal-prompt">$</span> <span class="terminal-command">cd my_app &amp;&amp; shards install &amp;&amp; amber watch</span></div>
-            <div class="terminal-line" data-terminal-line data-terminal-ready><span class="terminal-success">Listening at http://localhost:3000</span></div>
+          <div class="terminal-screen" aria-live="polite" data-terminal-screen>
+            <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="brew tap amberframework/amber_cli"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Tapping amberframework/amber_cli"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-muted" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Tap ready — 1 formula available"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-success" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="brew install amber_cli"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Downloading amber_cli 2.0.2"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-muted" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Compiling with Crystal 1.21"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-accent" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Installed /opt/homebrew/bin/amber"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-success" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="amber new my_app"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-comment"> # web is the default</span><span class="terminal-cursor" aria-hidden="true"></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Created my_app · Amber 2.0.0-beta.2"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-accent" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="cd my_app && amber watch"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Resolving dependencies · compiling my_app"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-muted" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-ready" data-terminal-line data-terminal-mode="ready" data-terminal-text="Listening at"><span class="terminal-state terminal-state-ready" data-terminal-state>◆</span> <span class="terminal-success" data-terminal-output></span> <button class="terminal-url" type="button" data-terminal-url aria-label="Open the generated application preview">http://localhost:3000</button></div>
           </div>
         </div>
 
@@ -85,19 +88,18 @@
             <div class="browser-address">http://localhost:3000</div>
           </div>
           <div class="generated-app-page">
-            <span class="generated-mark"><img src="/assets/brand/amber-crystal.svg" width="30" height="40" alt=""></span>
-            <p class="generated-overline">AMBER V2</p>
-            <h3>Welcome to my_app!</h3>
-            <p>Your Amber V2 application is running successfully.</p>
+            <div class="welcome">
+            <h1>Welcome to my_app!</h1>
+            <p>Your Amber V2 beta web application is running.</p>
             <ul>
               <li>Edit <code>src/views/home/index.ecr</code></li>
               <li>Add routes in <code>config/routes.cr</code></li>
-              <li>Generate a controller when you are ready</li>
+              <li>Run <code>crystal spec</code> before committing</li>
             </ul>
+            </div>
           </div>
         </div>
       </div>
-      <p class="demo-disclaimer">The animation is an illustrated session. The linked installation guide contains the exact commands, versions, checksums, and platform boundary.</p>
     </div>
   </section>
 
@@ -153,6 +155,29 @@
     </div>
   </section>
 
+  <section class="section grant-spotlight-section">
+    <div class="site-container">
+      <div class="grant-spotlight reveal">
+        <div class="grant-spotlight-art">
+          <img src="/assets/characters/grant-id-original-studio.webp" width="800" height="800" alt="Grant, Amber's records specialist, organizing the application data layer">
+          <span class="grant-file-stamp">AF-014 · Records</span>
+        </div>
+        <div class="grant-spotlight-copy">
+          <p class="eyebrow">Ecosystem preview · persistence</p>
+          <h2>Grant keeps the records straight.</h2>
+          <p>When an application needs a relational data layer, Grant is the V2 ecosystem path for models, migrations, relations, validations, callbacks, and queries. The core web template does not install an ORM by default, so the preview stays an intentional choice.</p>
+          <div class="grant-capabilities" aria-label="Grant preview capabilities">
+            <span>Typed models</span><span>Auditable migrations</span><span>Readable queries</span>
+          </div>
+          <div class="grant-actions">
+            <a class="button button-primary" href="/docs/v2/guides/models/grant">Evaluate the Grant preview</a>
+            <a class="button button-secondary" href="/characters/grant">Meet Grant</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section crew-section">
     <div class="site-container">
       <div class="section-heading">
@@ -187,7 +212,7 @@
       <div>
         <p class="eyebrow">The philosophy behind the defaults</p>
         <h2>Learn Amber's Way.</h2>
-        <p>Own the path from source to browser. Serve essential assets locally. Complete the default. Make every responsibility clear. State every preview boundary honestly.</p>
+        <p>Productivity. Performance. Happiness. Humility. Respect. Trust. The product values and community commitments that shape Amber.</p>
         <a class="button button-primary" href="/amber-way">Read the six principles</a>
       </div>
     </div>

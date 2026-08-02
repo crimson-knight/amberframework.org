@@ -7,7 +7,7 @@
   <div class="site-container">
     <p class="eyebrow">Amber Framework documentation</p>
     <h1><%= page.title %></h1>
-    <p><%= version.try(&.label) || "Versioned guide" %><% if badge = @page_badge %> <span class="badge <%= @page_badge_class %>"><%= badge %></span><% end %></p>
+    <p><%= version.try(&.label) || "Versioned guide" %><% if @is_inherited %> <span class="badge badge-inherited">Carried forward</span><% elsif badge = @page_badge %> <span class="badge <%= @page_badge_class %>"><%= badge %></span><% end %></p>
   </div>
 </header>
 
@@ -34,7 +34,15 @@
           <a href="/docs/<%= crumb[:path] %>"><%= crumb[:title] %></a>
         <% end %>
       </nav>
-      <button class="copy-page" type="button" data-copy-page data-raw-url="/docs/raw/<%= @version_id %>/<%= @path %>">Copy Markdown</button>
+      <details class="docs-actions">
+        <summary>Page tools <span aria-hidden="true">▾</span></summary>
+        <div class="docs-actions-menu">
+          <button type="button" data-copy-page data-raw-url="/docs/raw/<%= @version_id %>/<%= @path %>">Copy as Markdown</button>
+          <a href="/docs/raw/<%= @version_id %>/<%= @path %>" target="_blank" rel="noopener">View as Markdown</a>
+          <a href="https://claude.ai/new" target="_blank" rel="noopener" data-open-docs-ai="claude" data-docs-title="<%= page.title %>" data-raw-url="/docs/raw/<%= @version_id %>/<%= @path %>">Open in Claude</a>
+          <a href="https://chatgpt.com/" target="_blank" rel="noopener" data-open-docs-ai="chatgpt" data-docs-title="<%= page.title %>" data-raw-url="/docs/raw/<%= @version_id %>/<%= @path %>">Open in ChatGPT</a>
+        </div>
+      </details>
     </div>
 
     <div class="docs-title-row">
@@ -45,8 +53,13 @@
     <aside class="docs-guide-moment" aria-label="Amber guide note">
       <img src="/assets/characters/amber-chibi-original-studio.webp" width="180" height="180" alt="Amber holding a laptop and pointing toward the guide">
       <div>
-        <strong>Amber's guide note</strong>
-        <p>Check the version marker before copying a command. V2 beta and V1 stable pages stay separate on purpose.</p>
+        <% if @is_inherited %>
+          <strong>Carried forward from Amber 1.4.1</strong>
+          <p>This framework concept still applies in V2, but this page has not received a V2-specific rewrite. Follow V2 installation, CLI, templates, assets, and persistence guides whenever they differ.</p>
+        <% else %>
+          <strong>Amber's guide note</strong>
+          <p>This page is authored or reviewed for V2. Use the version timeline to move between stable, carried-forward, replaced, and unavailable material.</p>
+        <% end %>
       </div>
     </aside>
 
