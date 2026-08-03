@@ -8,15 +8,18 @@
   <% character_docs = "/docs/v2/guides/models/grant" %>
   <% character_summary = "Grant is the data specialist—the warehouse manager who knows where every record belongs and how it got there." %>
   <% character_personality = "Calm, exact, and quietly confident. Grant prefers a clear schema, an auditable migration, and a query whose intent can be read without a scavenger hunt." %>
-  <% character_responsibilities = ["Models and relations", "Migrations and schema evolution", "Queries and transactions", "Caching and stored queue records"] %>
+  <% character_responsibilities = ["Models and relations", "Migrations and schema evolution", "Queries and transactions", "Record and query caching"] %>
   <% character_line = "If the business needs to remember it, Grant gives it a reliable place to live." %>
   <% character_scene = "/assets/characters/grant-records-warehouse-higgsfield.webp" %>
   <% character_scene_width = 1800 %>
   <% character_scene_height = 1005 %>
   <% character_scene_alt = "Grant retrieving an application record from a large archive warehouse" %>
-  <% character_analogy_title = "If you come from Rails" %>
-  <% character_analogy = "Grant covers the record-keeping territory associated with Active Record and Solid Cache. When a queue stores work as database records, Grant owns that durable record layer; the worker runtime remains a separate responsibility." %>
-  <% character_analogs = ["Active Record", "Solid Cache", "Database-backed queue records"] %>
+  <% character_translations = [
+    {id: "rails", label: "Ruby on Rails", title: "Active Record", copy: "Grant is Amber's Active Record pattern and ORM library: models, relations, migrations, validations, transactions, and queries. Grant can cache records and query work, but background jobs and their worker runtime remain a separate, currently unpersonified system.", chips: ["Active Record pattern", "Models and migrations", "Queries and transactions"]},
+    {id: "django", label: "Django", title: "Django ORM", copy: "Grant covers the responsibility Django developers know through models, QuerySets, relationships, transactions, and migrations, with Amber's Crystal-native Grant APIs and conventions.", chips: ["Models", "QuerySets", "Migrations"]},
+    {id: "phoenix", label: "Phoenix", title: "Ecto", copy: "Grant occupies the persistence boundary Phoenix developers associate with Ecto: schemas, changes, repositories, queries, transactions, and migrations—expressed through Amber's Active Record approach.", chips: ["Schemas", "Changes and validation", "Repos and migrations"]},
+    {id: "laravel", label: "Laravel", title: "Eloquent ORM", copy: "Grant is the closest Amber responsibility to Eloquent: models, relationships, query composition, persistence lifecycle, transactions, and schema migrations.", chips: ["Models", "Relationships", "Queries and migrations"]}
+  ] %>
 <% elsif character_id == "gemma" %>
   <% character_name = "Gemma" %>
   <% character_number = "AF-027" %>
@@ -32,9 +35,12 @@
   <% character_scene_width = 1800 %>
   <% character_scene_height = 1005 %>
   <% character_scene_alt = "Gemma routing a large digital file crate through a logistics warehouse" %>
-  <% character_analogy_title = "If you come from Rails" %>
-  <% character_analogy = "Gemma fills the responsibility associated with Active Storage: accepting uploads, validating payloads, moving large objects into S3-compatible stores, and delivering them without tying application code to one provider." %>
-  <% character_analogs = ["Active Storage", "S3-compatible object stores", "Upload and delivery policy"] %>
+  <% character_translations = [
+    {id: "rails", label: "Ruby on Rails", title: "Active Storage", copy: "Gemma fills the responsibility associated with Active Storage: accepting uploads, validating payloads, moving large objects into S3-compatible stores, and delivering them without tying application code to one provider.", chips: ["Attachments", "Storage services", "Upload and delivery policy"]},
+    {id: "django", label: "Django", title: "FileField and Storage API", copy: "Gemma brings together the territory Django splits across FileField, uploaded-file handling, and configurable storage backends, with one Amber-owned attachment and delivery boundary.", chips: ["FileField", "Uploaded files", "Storage backends"]},
+    {id: "phoenix", label: "Phoenix", title: "Plug.Upload and LiveView uploads", copy: "Gemma is the closest Amber responsibility to Phoenix upload handling: temporary upload intake, limits and validation, durable storage handoff, streaming, and delivery.", chips: ["Plug.Upload", "LiveView uploads", "Durable storage handoff"]},
+    {id: "laravel", label: "Laravel", title: "UploadedFile and Filesystem", copy: "Gemma covers the work Laravel developers recognize across uploaded files and the Filesystem abstraction: validation, storage selection, object movement, and delivery.", chips: ["UploadedFile", "Filesystem", "Validation and delivery"]}
+  ] %>
 <% else %>
   <% character_name = "Amber" %>
   <% character_number = "AF-001" %>
@@ -50,10 +56,19 @@
   <% character_scene_width = 1800 %>
   <% character_scene_height = 1208 %>
   <% character_scene_alt = "Amber smiling at her desk and inviting the developer into the application" %>
-  <% character_analogy_title = "If you come from Rails" %>
-  <% character_analogy = "Amber owns the framework surface that Rails developers recognize across routing, Action Pack, Action View, configuration, and the application structure that connects them." %>
-  <% character_analogs = ["Routing", "Action Pack", "Action View and application configuration"] %>
+  <% character_translations = [
+    {id: "rails", label: "Ruby on Rails", title: "The Rails web application layer", copy: "Amber owns the framework surface Rails developers recognize across routing, controllers, Action View, configuration, and the application structure that connects them.", chips: ["Routing", "Controllers", "Views and configuration"]},
+    {id: "django", label: "Django", title: "URLconf, views, templates, and settings", copy: "Amber is the closest responsibility to Django's connected web layer: URL routing, request handling, templates, static asset delivery, settings, and the application structure around them.", chips: ["URLconf", "Views and templates", "Settings and assets"]},
+    {id: "phoenix", label: "Phoenix", title: "Router, controllers, HEEx, and config", copy: "Amber covers the Phoenix-shaped web boundary: routing, controllers, interactive presentation, templates, endpoint configuration, and the conventions that connect the application.", chips: ["Router", "Controllers and interaction", "HEEx and configuration"]},
+    {id: "laravel", label: "Laravel", title: "Routing, controllers, Blade, and config", copy: "Amber owns the web application responsibilities Laravel developers see across routes, controllers, Blade presentation, asset delivery, configuration, and project structure.", chips: ["Routing", "Controllers", "Blade and configuration"]}
+  ] %>
 <% end %>
+
+<% crew_profiles = [
+  {id: "amber", name: "Amber", role: "Framework lead", image: "/assets/characters/amber-id-original-studio.webp"},
+  {id: "grant", name: "Grant", role: "Records and persistence", image: "/assets/characters/grant-id-original-studio.webp"},
+  {id: "gemma", name: "Gemma", role: "Files and fulfillment", image: "/assets/characters/gemma-id-original-studio.webp"}
+] %>
 
 <% @title = "#{character_name} — Amber Framework character" %>
 <% @meta = "Meet #{character_name}, #{character_role.downcase} in the Amber Framework ecosystem." %>
@@ -107,12 +122,51 @@
       </div>
       <div class="role-analogy-copy">
         <p class="file-label">Responsibility translator</p>
-        <h2><%= character_analogy_title %></h2>
-        <p><%= character_analogy %></p>
-        <div class="role-analogy-chips" aria-label="Comparable responsibilities">
-          <% character_analogs.each do |analogy| %><span><%= analogy %></span><% end %>
+        <div class="responsibility-picker">
+          <label for="responsibility-select-<%= character_class %>">I usually work in</label>
+          <select id="responsibility-select-<%= character_class %>" data-responsibility-select>
+            <% character_translations.each do |translation| %>
+              <option value="<%= translation[:id] %>"><%= translation[:label] %></option>
+            <% end %>
+          </select>
+        </div>
+        <div class="responsibility-result" aria-live="polite">
+          <span class="responsibility-result-kicker">Closest Amber responsibility</span>
+          <h2 data-translation-title><%= character_translations.first[:title] %></h2>
+          <p data-translation-copy><%= character_translations.first[:copy] %></p>
+          <div class="role-analogy-chips" aria-label="Comparable responsibilities" data-translation-chips>
+            <% character_translations.first[:chips].each do |analogy| %><span><%= analogy %></span><% end %>
+          </div>
         </div>
         <p class="boundary-note">This is a responsibility comparison, not a promise of API compatibility.</p>
+        <div hidden data-translation-library>
+          <% character_translations.each do |translation| %>
+            <div data-translation-profile="<%= translation[:id] %>">
+              <span data-profile-title><%= translation[:title] %></span>
+              <span data-profile-copy><%= translation[:copy] %></span>
+              <div data-profile-chips><% translation[:chips].each do |analogy| %><span><%= analogy %></span><% end %></div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section crew-next-section">
+    <div class="site-container">
+      <div class="crew-next-heading">
+        <div><p class="eyebrow">Continue through the crew</p><h2>Meet the other owners.</h2></div>
+        <a class="text-link" href="/characters">See the full crew directory →</a>
+      </div>
+      <div class="crew-next-grid">
+        <% crew_profiles.each do |profile| %>
+          <% if profile[:id] != character_class %>
+            <a class="crew-next-card crew-next-<%= profile[:id] %>" href="/characters/<%= profile[:id] %>">
+              <img src="<%= profile[:image] %>" width="800" height="800" alt="Portrait of <%= profile[:name] %>">
+              <span><small><%= profile[:role] %></small><strong><%= profile[:name] %></strong><em>Open personnel file →</em></span>
+            </a>
+          <% end %>
+        <% end %>
       </div>
     </div>
   </section>

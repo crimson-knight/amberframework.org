@@ -38,6 +38,14 @@ The live browser loaded:
 - cache-revisioned CSS and JavaScript URLs so a previous preview stylesheet
   cannot silently override new markup.
 
+The primary identity now uses the 1254-by-1254 transparent
+`amber-chibi-hero-mark-v2.webp`: full-body, playful original-studio Amber,
+feet shoulder-width, one hand at her hip, and one clear peace sign. It appears
+in the navigation, footer, homepage support summary, Amber's Way, docs guide
+note, and design-system distribution page. The older faceted crystal remains a
+supporting motif rather than the standalone primary mark. `webpinfo` confirmed
+the alpha channel, and every rendered copy loaded at its expected natural size.
+
 At 1280 CSS pixels, the corrected hero measured 760 pixels tall with zero page
 overflow. At a 2560-by-1100 override (2545 CSS pixels after the scrollbar), the
 hero art measured 1121 by 752 pixels and stayed anchored to the lower-right
@@ -105,19 +113,25 @@ does not present native as release-gated with the web beta.
 
 ## Character responsibility proof
 
-Grant and Gemma now include a responsibility translator rather than only
-mascot copy:
+Amber, Grant, and Gemma now include a real selectable responsibility translator
+for Ruby on Rails, Django, Phoenix, and Laravel. Selecting a framework changes
+the closest Amber responsibility, explanation, and comparison chips in place.
+Every page states that the comparison is about responsibility, not API
+compatibility.
 
-- Grant maps record keeping to Active Record, Solid Cache, and durable
-  database-backed queue records while separating the worker runtime.
-- Gemma maps file logistics to Active Storage, S3-compatible object stores,
-  upload validation, and delivery policy.
+Grant maps record keeping to the Active Record pattern and ORM responsibility.
+His page explicitly says he can cache record and query work but does not own
+background jobs, queues, or the worker runtime. Gemma maps attachments, upload
+intake, validation, storage, and delivery. Amber maps the connected routing,
+controller, presentation, interaction, configuration, and application surface.
 
-Both pages say the comparison is about responsibility, not API compatibility.
-The 1800-by-1005 Higgsfield warehouse scenes loaded successfully, measured
-inside a 1200-pixel desktop panel, and produced zero overflow. A 375-pixel
-mobile proof stacked the 345-pixel scene and copy inside a 347-pixel panel with
-zero overflow.
+The 1800-by-1005 warehouse scenes loaded successfully. Grant's homepage crop
+uses a 72% horizontal focal point and keeps his full figure in the 430-pixel
+desktop panel and 345-pixel mobile panel. Gemma's responsibility scene uses a
+15% source focal point, landing her on the left third line rather than clipping
+her at the outer edge. Desktop and 390-by-844 mobile proofs produced zero
+horizontal overflow. Each character page also exposes two bottom crew cards;
+the cards measured 347 pixels wide in the mobile proof.
 
 ## Template delivery finding
 
@@ -140,6 +154,15 @@ while V2-authored pages are labeled `New` or `Updated`. The sidebar uses native
 collapsible sections, opens only the active documentation branch, and does not
 create its own scrolling region.
 
+The documentation banner is 157 pixels tall at desktop and 146 pixels at the
+mobile content width, with one page title and one page-state badge. The repeated
+version label is removed. Copy as Markdown, View as Markdown, Open in Claude,
+and Open in ChatGPT are visible controls rather than a hidden menu. The Claude
+and OpenAI identity assets loaded locally at their expected natural dimensions.
+At mobile width the four controls form a two-by-two 169-pixel grid with no
+overflow. The adjacent note explains why a local preview generates a local raw
+Markdown URL and why the hosted origin will generate a public URL.
+
 `docs/v2/_deleted.yml` removes obsolete material from V2 navigation.
 `docs/v2/_replacements.yml` maps superseded pages to their current
 destinations. The version timeline names replacements, and direct deprecated
@@ -153,18 +176,16 @@ V2 Markdown links.
 
 ## Automated checks
 
-Passed after the responsive and copy changes:
+Passed after the crew, docs, dependency, and primary-mark changes:
 
 ```text
-env CRYSTAL_CACHE_DIR=/tmp/amber_site_v2_feedback_cache crystal spec
+env CRYSTAL_CACHE_DIR=/tmp/amber_site_v2_feedback2_cache crystal spec
 # 40 examples, 0 failures, 0 errors, 0 pending
 
-scripts/check_v2_beta_docs.sh
 scripts/check_v2_site_launch.sh
 scripts/check_v2_preview.sh
 git diff --check
-env CRYSTAL_CACHE_DIR=/tmp/amber_site_v2_feedback_cache crystal build \
-  src/amberframework.cr -o /tmp/amberframework-v2-feedback-preview-final6
+env CRYSTAL_CACHE_DIR=/tmp/amber_site_v2_build_cache shards build amberframework
 ```
 
 The validation scripts now require the responsive hero files, Higgsfield scene
@@ -174,10 +195,13 @@ and the explicitly proposed template-delivery plan.
 
 ## Browser and privacy proof
 
-The final local binary was audited at `http://127.0.0.1:3212` at 1280 pixels,
-2560-by-1100 ultrawide, and a true 390-by-844 mobile override. The homepage,
-terminal demo, application-type choices, Grant page, and Gemma page produced no
-page-level horizontal overflow. Browser error and warning logs were empty.
+The final local binary was audited at `http://127.0.0.1:3212` at the default
+1280-by-720 viewport and a true 390-by-844 mobile override. The homepage,
+Grant and Gemma character pages, Amber's Way, documentation, and media page
+produced no page-level horizontal overflow. Select interaction changed the
+translation title and comparison chips, all required images reported nonzero
+natural dimensions, and desktop and mobile screenshots confirmed the focal
+positions described above.
 
 Runtime assets remain local. The preview adds no analytics, cookies, external
 fonts, third-party scripts, or third-party documentation images.

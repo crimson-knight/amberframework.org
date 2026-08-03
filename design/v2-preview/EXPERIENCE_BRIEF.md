@@ -61,15 +61,19 @@ The installed Amber CLI is the authority for template claims:
 - The application-type background begins with the supported web path and
   changes to frontier art when native receives pointer, keyboard, or centered
   mobile focus. Card calls to action follow the same focus state.
-- The crystal mark is tall, symmetrical, faceted, and legible at favicon size.
+- Amber's full-body chibi character is the primary identity mark: playful,
+  blushing, feet shoulder-width, and giving a welcoming peace sign. The crystal
+  remains a supporting motif for fields, accents, and technical diagrams.
 
 ## Responsibility translation
 
-Character pages may translate ownership into familiar Rails responsibilities,
-but must not claim API compatibility. Grant maps to Active Record, Solid Cache,
-and the durable record layer behind database-backed queues. Gemma maps to
-Active Storage and S3-compatible upload, object-storage, and delivery policy.
-Amber maps to routing, Action Pack, Action View, configuration, and application
+Character pages provide a selectable responsibility translator for Ruby on
+Rails, Django, Phoenix, and Laravel, but must not claim API compatibility.
+Grant maps to each ecosystem's ORM and persistence layer. Grant may cache
+records and query work, but background jobs, queues, and the worker runtime are
+a separate unpersonified system. Gemma maps upload, attachment, storage, and
+delivery responsibilities. Amber maps the connected web framework surface:
+routing, controllers, presentation, interaction, configuration, and application
 structure.
 
 ## Template delivery boundary
@@ -96,3 +100,9 @@ The site should explain Amber's established six-part foundation:
    documentation and explicit changes.
 6. **Trust:** keep code, responsibilities, and context understandable enough
    for another developer or coding agent to extend safely.
+
+The Way also states Amber's implementation posture: provide opinionated,
+first-party solutions where the framework can responsibly own the complete
+path, and require external dependencies to earn their place. Reducing the
+number of upstream packages reduces supply-chain and disruption exposure but
+does not eliminate risk or replace first-party security review and maintenance.

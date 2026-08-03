@@ -9,7 +9,7 @@ A green automated check does not authorize a production merge or deployment.
 
 - [ ] Owner has reviewed desktop and mobile screenshots.
 - [ ] Owner has reviewed every generated character asset.
-- [ ] Owner has approved the crystal mark and typography.
+- [ ] Owner has approved the chibi Amber primary mark, supporting crystal motif, and typography.
 - [ ] Owner has approved the background-worker character direction or its
       omission.
 - [ ] Owner explicitly says the branch may merge and deploy.

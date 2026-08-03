@@ -5,6 +5,7 @@ test -s public/assets/brand/amber-crystal.svg
 test -s public/assets/characters/amber-hero-desk-transparent-higgsfield.webp
 test -s public/assets/characters/amber-frontier-higgsfield.webp
 test -s public/assets/characters/amber-id-original-studio.webp
+test -s public/assets/characters/amber-chibi-hero-mark-v2.webp
 test -s public/assets/css/amber-brand.css
 test -s public/assets/js/amber-site.js
 test -s docs/v2/guides/web-template/index.md

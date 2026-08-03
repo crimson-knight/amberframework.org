@@ -112,6 +112,25 @@ encoded as quality-84 WebP assets. The portrait and chibi files remain active;
 the original wide hero is retained as the reproducible source for the active
 beckoning version.
 
+## Primary chibi character mark
+
+`public/assets/characters/amber-chibi-hero-mark-v2.webp` is the active primary
+character mark. Codex built-in image generation used
+`amber-chibi-original-studio.webp` and `amber-id-original-studio.webp` as the
+style and identity references. The generated source is:
+
+`/Users/crimsonknight/.codex/generated_images/019fb8fe-b340-7f60-8fe6-b412352a3660/exec-dc9b6888-9017-4000-84fe-f18cee888396.png`
+
+The prompt requested one full-body, playful original-studio Amber with large
+amber eyes, visible blush, a warm smile, her cream technical jacket, feet at
+shoulder width, one hand at her hip, and one clear peace sign. It prohibited a
+serious or editorial studio shift, props, text, cropping, extra characters, and
+green in the subject. Generation used a flat `#00ff00` background; the bundled
+`remove_chroma_key.py` helper removed that background with a soft, contracted,
+despilled matte before `cwebp` encoded the 1254-by-1254 transparent asset at
+quality 92 and alpha quality 100. The original generated PNG remains in the
+generation directory and was not overwritten.
+
 ## First generated set (comparison only)
 
 The earlier character assets were created through the locally authenticated
@@ -140,8 +159,19 @@ beside the fonts. The official TTF sources were converted to the checked-in
 WOFF2 files and then removed as redundant runtime copies. The production
 website must not call Google Fonts.
 
+## Third-party identity assets
+
+These marks are stored locally and used only to identify the tools or services
+named beside them. The site makes no runtime request to the source sites.
+
+| Local asset | Source and handling |
+|---|---|
+| `crys-mascot.svg` | Exact Crys mascot SVG from the official Crystal media page, `https://crystal-lang.org/media/`; colors and proportions are unchanged. |
+| `claude-icon-rounded.svg` | Exact rounded Claude icon extracted from the official Anthropic press kit linked by `https://www.anthropic.com/news`; the asset remains unchanged. |
+| `openai-symbol-2025.svg` | Standalone OpenAI 2025 symbol from `https://commons.wikimedia.org/wiki/File:OpenAI_logo_2025_(symbol).svg`, which identifies it as derived from OpenAI's official mark. Usage follows `https://openai.com/brand/`; the path data is unchanged. |
+
 ## Code-native assets
 
-The Amber crystal mark, crystal-field particles, icons, terminal window,
-browser preview, and motion are authored as local SVG, HTML, CSS, and vanilla
-JavaScript. No third-party front-end runtime is required.
+The Amber crystal supporting motif, crystal-field particles, Markdown icons,
+terminal window, browser preview, and motion are authored as local SVG, HTML,
+CSS, and vanilla JavaScript. No third-party front-end runtime is required.

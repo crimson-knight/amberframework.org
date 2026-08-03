@@ -3,11 +3,15 @@
 <% @title = "#{page.title} — Amber Framework documentation" %>
 <% @meta = page.description.empty? ? "Amber Framework documentation" : page.description %>
 
-<header class="page-hero">
-  <div class="site-container">
-    <p class="eyebrow">Amber Framework documentation</p>
-    <h1><%= page.title %></h1>
-    <p><%= version.try(&.label) || "Versioned guide" %><% if @is_inherited %> <span class="badge badge-inherited">Carried forward</span><% elsif badge = @page_badge %> <span class="badge <%= @page_badge_class %>"><%= badge %></span><% end %></p>
+<header class="docs-page-banner">
+  <div class="site-container docs-page-banner-inner">
+    <div>
+      <p class="eyebrow">Documentation</p>
+      <h1><%= page.title %></h1>
+    </div>
+    <div class="docs-page-banner-meta">
+      <% if @is_inherited %><span class="badge badge-inherited">Carried forward</span><% elsif badge = @page_badge %><span class="badge <%= @page_badge_class %>"><%= badge %></span><% end %>
+    </div>
   </div>
 </header>
 
@@ -34,24 +38,17 @@
           <a href="/docs/<%= crumb[:path] %>"><%= crumb[:title] %></a>
         <% end %>
       </nav>
-      <details class="docs-actions">
-        <summary>Page tools <span aria-hidden="true">▾</span></summary>
-        <div class="docs-actions-menu">
-          <button type="button" data-copy-page data-raw-url="/docs/raw/<%= @version_id %>/<%= @path %>">Copy as Markdown</button>
-          <a href="/docs/raw/<%= @version_id %>/<%= @path %>" target="_blank" rel="noopener">View as Markdown</a>
-          <a href="https://claude.ai/new" target="_blank" rel="noopener" data-open-docs-ai="claude" data-docs-title="<%= page.title %>" data-raw-url="/docs/raw/<%= @version_id %>/<%= @path %>">Open in Claude</a>
-          <a href="https://chatgpt.com/" target="_blank" rel="noopener" data-open-docs-ai="chatgpt" data-docs-title="<%= page.title %>" data-raw-url="/docs/raw/<%= @version_id %>/<%= @path %>">Open in ChatGPT</a>
-        </div>
-      </details>
+      <div class="docs-actions-list" aria-label="Page tools">
+        <button class="docs-action-button" type="button" data-copy-page data-raw-url="/docs/raw/<%= @version_id %>/<%= @path %>"><span class="docs-markdown-icon" aria-hidden="true">M↓</span><span data-copy-label>Copy as Markdown</span></button>
+        <a class="docs-action-button" href="/docs/raw/<%= @version_id %>/<%= @path %>" target="_blank" rel="noopener"><span class="docs-markdown-icon" aria-hidden="true">M↗</span><span>View as Markdown</span></a>
+        <a class="docs-action-button" href="https://claude.ai/new" target="_blank" rel="noopener" data-open-docs-ai="claude" data-docs-title="<%= page.title %>" data-raw-url="/docs/raw/<%= @version_id %>/<%= @path %>"><img src="/assets/brand/claude-icon-rounded.svg" width="18" height="18" alt=""><span>Open in Claude</span></a>
+        <a class="docs-action-button" href="https://chatgpt.com/" target="_blank" rel="noopener" data-open-docs-ai="chatgpt" data-docs-title="<%= page.title %>" data-raw-url="/docs/raw/<%= @version_id %>/<%= @path %>"><span class="openai-icon" aria-hidden="true"><img src="/assets/brand/openai-symbol-2025.svg" width="18" height="18" alt=""></span><span>Open in ChatGPT</span></a>
+      </div>
     </div>
-
-    <div class="docs-title-row">
-      <h1><%= page.title %></h1>
-      <p class="docs-kicker"><%= version.try(&.description) || "Amber Framework guide" %></p>
-    </div>
+    <p class="docs-tools-note">These AI links pass the raw Markdown URL for this page. A local preview passes a local URL; the hosted site passes its public URL.</p>
 
     <aside class="docs-guide-moment" aria-label="Amber guide note">
-      <img src="/assets/characters/amber-chibi-original-studio.webp" width="180" height="180" alt="Amber holding a laptop and pointing toward the guide">
+      <img src="/assets/characters/amber-chibi-hero-mark-v2.webp" width="180" height="180" alt="Chibi Amber giving a peace sign">
       <div>
         <% if @is_inherited %>
           <strong>Carried forward from Amber 1.4.1</strong>

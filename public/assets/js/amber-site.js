@@ -34,24 +34,51 @@
     });
   });
 
+  document.querySelectorAll('[data-responsibility-select]').forEach((select) => {
+    const panel = select.closest('.role-analogy-copy');
+    const library = panel?.querySelector('[data-translation-library]');
+    const title = panel?.querySelector('[data-translation-title]');
+    const copy = panel?.querySelector('[data-translation-copy]');
+    const chips = panel?.querySelector('[data-translation-chips]');
+    if (!panel || !library || !title || !copy || !chips) return;
+
+    const updateTranslation = () => {
+      const profile = Array.from(library.querySelectorAll('[data-translation-profile]'))
+        .find((candidate) => candidate.getAttribute('data-translation-profile') === select.value);
+      if (!profile) return;
+
+      title.textContent = profile.querySelector('[data-profile-title]')?.textContent || '';
+      copy.textContent = profile.querySelector('[data-profile-copy]')?.textContent || '';
+      chips.replaceChildren(...Array.from(profile.querySelectorAll('[data-profile-chips] span')).map((source) => {
+        const chip = document.createElement('span');
+        chip.textContent = source.textContent;
+        return chip;
+      }));
+    };
+
+    select.addEventListener('change', updateTranslation);
+    updateTranslation();
+  });
+
   document.querySelectorAll('[data-copy-page]').forEach((button) => {
     button.addEventListener('click', async () => {
       const url = button.getAttribute('data-raw-url');
       if (!url) return;
 
-      const original = button.textContent;
+      const label = button.querySelector('[data-copy-label]') || button;
+      const original = label.textContent;
       try {
         const response = await fetch(url, {credentials: 'same-origin'});
         if (!response.ok) throw new Error(`Request failed: ${response.status}`);
         await navigator.clipboard.writeText(await response.text());
-        button.textContent = 'Copied';
+        label.textContent = 'Copied';
       } catch (error) {
         console.error('Unable to copy documentation page', error);
-        button.textContent = 'Copy failed';
+        label.textContent = 'Copy failed';
       }
 
       window.setTimeout(() => {
-        button.textContent = original;
+        label.textContent = original;
       }, 1800);
     });
   });
