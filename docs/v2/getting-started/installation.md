@@ -21,7 +21,8 @@ Intel macOS, Linux ARM64, and Windows are not release-gated in this beta.
 
 Install Crystal 1.20 or newer, but earlier than 2.0, using the
 [official Crystal instructions](https://crystal-lang.org/install/). You also
-need Git and `shards`.
+need Git and `shards`. Treat 1.20 as the compatibility floor; for a new Amber
+application, use the latest stable Crystal release that satisfies this range.
 
 ```bash
 crystal --version

@@ -141,6 +141,7 @@
     });
 
     const resetSession = () => {
+      const wasOpen = terminalDemo.classList.contains('is-browser-open');
       terminalDemo.classList.remove('is-browser-open');
       terminal.classList.add('is-animating');
       terminalUrl?.classList.remove('is-activated');
@@ -151,6 +152,7 @@
         if (output) output.textContent = '';
         if (state) state.textContent = line.classList.contains('terminal-line-ready') ? '◆' : '⠋';
       });
+      return wasOpen;
     };
 
     const showCompleteSession = () => {
@@ -215,8 +217,8 @@
       clearTimers();
       runId += 1;
       const activeRun = runId;
-      resetSession();
-      await wait(260);
+      const wasOpen = resetSession();
+      await wait(wasOpen ? 820 : 260);
 
       for (const line of lines) {
         if (!await typeLine(line, activeRun)) return;
@@ -229,6 +231,38 @@
     terminalUrl?.addEventListener('click', () => openGeneratedApp(runId));
     replaySession();
   }
+
+  document.querySelectorAll('[data-application-types]').forEach((section) => {
+    const choices = [...section.querySelectorAll('[data-application-choice]')];
+    const activate = (choice) => {
+      const application = choice?.getAttribute('data-application-choice') || 'web';
+      section.setAttribute('data-active-application', application);
+      choices.forEach((candidate) => candidate.classList.toggle('is-centered', candidate === choice));
+    };
+
+    choices.forEach((choice) => {
+      choice.addEventListener('pointerenter', (event) => {
+        if (event.pointerType !== 'touch') activate(choice);
+      });
+      choice.addEventListener('focusin', () => activate(choice));
+    });
+
+    section.addEventListener('pointerleave', (event) => {
+      if (event.pointerType !== 'touch') activate(choices[0]);
+    });
+
+    if ('IntersectionObserver' in window && window.matchMedia('(max-width: 820px)').matches) {
+      const visibleRatios = new Map(choices.map((choice) => [choice, 0]));
+      const centeredChoiceObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          visibleRatios.set(entry.target, entry.isIntersecting ? entry.intersectionRatio : 0);
+        });
+        const centered = [...visibleRatios.entries()].sort((a, b) => b[1] - a[1])[0];
+        if (centered?.[1] > 0) activate(centered[0]);
+      }, {rootMargin: '-28% 0px -28% 0px', threshold: [0.15, 0.35, 0.6]});
+      choices.forEach((choice) => centeredChoiceObserver.observe(choice));
+    }
+  });
 
   if (!reducedMotion && 'IntersectionObserver' in window) {
     document.body.classList.add('motion-ready');

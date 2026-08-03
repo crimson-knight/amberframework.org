@@ -31,6 +31,7 @@ grep -F 'not release-gated with the V2 web beta' docs/v2/guides/native-preview/i
 grep -F '2.0.0-beta.2' docs/v2/cli/new.md
 grep -F 'Amber CLI' docs/v2/cli/index.md
 grep -F '2.0.2' docs/v2/getting-started/installation.md
+grep -F 'use the latest stable Crystal release' docs/v2/getting-started/installation.md
 
 if grep -Eq '^- cli/(index|new|generate|watch)\.md$' docs/v2/_deleted.yml; then
   echo "Published V2 CLI guides must not be listed as deleted" >&2

@@ -21,6 +21,10 @@ A green automated check does not authorize a production merge or deployment.
 - [ ] Installation commands have been executed from a clean environment.
 - [ ] The generated web app builds, tests, starts, and serves its CSS.
 - [ ] The homepage's generated-app browser matches the current CLI template.
+- [ ] One canonical template source feeds both generation and the website
+      proof; duplicate template representations cannot drift silently.
+- [ ] Documentation distinguishes the current embedded-template behavior from
+      any proposed remote template channel.
 - [ ] Grant and Gemma claims match their actual preview boundaries.
 
 ## Privacy and ownership
@@ -40,6 +44,13 @@ A green automated check does not authorize a production merge or deployment.
 - [ ] Keyboard, focus, menu, reduced-motion, and contrast checks pass.
 - [ ] Desktop and mobile pages have no unexpected horizontal overflow.
 - [ ] The terminal demo can replay and reveals a local-app browser preview.
+- [ ] At desktop width the terminal keeps one width, begins centered, and moves
+      left while the browser grows from its former right edge; both transitions
+      end together without snapping.
+- [ ] Homepage hero, navigation, and character callout remain stable during
+      pointer movement at an ultrawide viewport.
+- [ ] Application-type backgrounds and calls to action work with pointer,
+      keyboard focus, and centered mobile scroll state.
 - [ ] Carried-forward V1 pages are labeled and keep internal links in V2.
 - [ ] Every retired V2 page has a working replacement or explicit unavailable
       state; mapped legacy URLs redirect to the replacement.

@@ -1,11 +1,11 @@
-<% @title = "Amber 2 preview — Build the business, not the boilerplate" %>
-<% @meta = "Preview the Amber 2 web framework, default web application path, native application preview, and character-led Crystal ecosystem." %>
+<% @title = "Amber 2 — Build the business, not the boilerplate" %>
+<% @meta = "Beta test Amber 2, an opinionated Crystal web framework with a complete web path, self-documenting schemas, and a cross-platform native frontier." %>
 
 <div class="release-strip preview-strip">
   <div class="site-container">
-    <span class="release-pill">Preview</span>
-    <span>Amber V2 experience proof — owner approval is required before release.</span>
-    <a href="/docs/v2/beta-support">Review the beta boundary →</a>
+    <span class="release-pill">V2 beta</span>
+    <span>Amber 2 is ready for beta testing.</span>
+    <a href="/docs/v2/getting-started/installation">Install the beta →</a>
   </div>
 </div>
 
@@ -21,21 +21,25 @@
   </div>
   <div class="site-container hero-grid">
     <div class="hero-copy reveal">
-      <p class="eyebrow">Amber 2 · The Crystal web framework</p>
+      <p class="eyebrow">Amber 2 · A Crystal web framework</p>
       <h1>Build the business.<br><em>Not the boilerplate.</em></h1>
-      <p class="hero-lead">Amber gives one developer a complete, typed path from idea to a running web application—with clear conventions that can grow with the business.</p>
+      <p class="hero-lead">Amber gives one developer a complete path from idea to enterprise—strong conventions, self-documenting contracts, and cross-platform foundations included.</p>
       <div class="hero-actions">
         <a class="button button-primary" href="/docs/v2/getting-started/installation">Start the web path</a>
         <a class="button button-secondary" href="#application-types">Compare application types</a>
       </div>
       <div class="hero-proof-row" aria-label="Preview support summary">
-        <span><strong>Default</strong> web application</span>
-        <span><strong>Preview</strong> native application</span>
-        <span><strong>Local</strong> front-end assets</span>
+        <span><strong>Crystal</strong> 1.20 or newer</span>
+        <span><strong>Recommended</strong> latest stable Crystal</span>
+        <span><strong>Beta</strong> complete web path</span>
       </div>
     </div>
     <div class="hero-art hero-art-amber reveal" aria-label="Amber, the framework lead, building an application">
-      <img src="/assets/characters/amber-hero-inviting-studio.webp" width="1536" height="1024" alt="Amber smiling beside her laptop and beckoning the visitor to join her">
+      <picture>
+        <source media="(max-width: 620px)" srcset="/assets/characters/amber-hero-desk-mobile-higgsfield.webp">
+        <source media="(max-width: 1100px)" srcset="/assets/characters/amber-hero-desk-desktop-higgsfield.webp">
+        <img src="/assets/characters/amber-hero-desk-transparent-higgsfield.webp" width="1800" height="1208" alt="Amber smiling behind her desk and beckoning the visitor to join her">
+      </picture>
       <a class="character-callout" href="/characters/amber">
         <span class="callout-kicker">Framework lead</span>
         <strong>Amber</strong>
@@ -69,16 +73,16 @@
           <div class="terminal-screen" aria-live="polite" data-terminal-screen>
             <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="brew tap amberframework/amber_cli"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
             <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Tapping amberframework/amber_cli"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-muted" data-terminal-output></span></div>
-            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Tap ready — 1 formula available"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-success" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Tap ready — amber_cli formula available"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-success" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="brew install amber_cli"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
             <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Downloading amber_cli 2.0.2"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-muted" data-terminal-output></span></div>
-            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Compiling with Crystal 1.21"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-accent" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Compiling with Crystal 1.20+"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-accent" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Installed /opt/homebrew/bin/amber"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-success" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="amber new my_app"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-comment"> # web is the default</span><span class="terminal-cursor" aria-hidden="true"></span></div>
-            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Created my_app · Amber 2.0.0-beta.2"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-accent" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Successfully created my_app · Amber 2.0.0-beta.2"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-accent" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="cd my_app && amber watch"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
             <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Resolving dependencies · compiling my_app"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-muted" data-terminal-output></span></div>
-            <div class="terminal-line terminal-line-ready" data-terminal-line data-terminal-mode="ready" data-terminal-text="Listening at"><span class="terminal-state terminal-state-ready" data-terminal-state>◆</span> <span class="terminal-success" data-terminal-output></span> <button class="terminal-url" type="button" data-terminal-url aria-label="Open the generated application preview">http://localhost:3000</button></div>
+            <div class="terminal-line terminal-line-ready" data-terminal-line data-terminal-mode="ready" data-terminal-text="Listening at"><span class="terminal-state terminal-state-ready" data-terminal-state>◆</span> <span class="terminal-success" data-terminal-output></span> <button class="terminal-url" type="button" data-terminal-url aria-label="Open the generated application preview">http://localhost:3000</button><span class="demo-pointer" aria-hidden="true"><span></span></span></div>
           </div>
         </div>
 
@@ -88,14 +92,17 @@
             <div class="browser-address">http://localhost:3000</div>
           </div>
           <div class="generated-app-page">
-            <div class="welcome">
+            <div class="generated-app-body">
+              <div class="welcome">
             <h1>Welcome to my_app!</h1>
-            <p>Your Amber V2 beta web application is running.</p>
-            <ul>
-              <li>Edit <code>src/views/home/index.ecr</code></li>
-              <li>Add routes in <code>config/routes.cr</code></li>
-              <li>Run <code>crystal spec</code> before committing</li>
-            </ul>
+                <p>Your Amber V2 application is running successfully.</p>
+                <h2>Getting Started</h2>
+                <ul>
+                  <li>Edit this page: <code>src/views/home/index.ecr</code></li>
+                  <li>Add routes: <code>config/routes.cr</code></li>
+                  <li>Add a controller: <code>amber generate controller Posts</code></li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -103,8 +110,12 @@
     </div>
   </section>
 
-  <section class="section section-tinted" id="application-types">
-    <div class="site-container">
+  <section class="section section-tinted application-types-section" id="application-types" data-application-types data-active-application="web">
+    <div class="application-type-scenes" aria-hidden="true">
+      <div class="application-type-scene application-type-scene-web"></div>
+      <div class="application-type-scene application-type-scene-native"><img src="/assets/characters/amber-frontier-higgsfield.webp" width="1800" height="1005" alt=""></div>
+    </div>
+    <div class="site-container application-types-content">
       <div class="section-heading">
         <div>
           <p class="eyebrow">Choose the application</p>
@@ -114,21 +125,22 @@
       </div>
 
       <div class="app-type-grid">
-        <article class="app-type-card app-type-default reveal" data-tilt>
+        <article class="app-type-card app-type-default reveal" data-application-choice="web">
           <div class="app-type-heading"><span class="app-type-icon">&lt;/&gt;</span><span class="status-badge">Default · V2 beta</span></div>
           <h3>Web application</h3>
           <p>HTTP server, routes, controllers, ECR views, locally served CSS and JavaScript, configuration, and the complete first-run path.</p>
           <pre><code>amber new my_app
 # equivalent to --type web</code></pre>
-          <a href="/docs/v2/guides/web-template">Inspect the generated web template →</a>
+          <a class="app-type-cta" href="/docs/v2/guides/web-template">Start with the web template →</a>
         </article>
 
-        <article class="app-type-card app-type-preview reveal" data-tilt>
+        <article class="app-type-card app-type-preview reveal" data-application-choice="native">
           <div class="app-type-heading"><span class="app-type-icon">◇</span><span class="status-badge">Explicit preview</span></div>
           <h3>Native application</h3>
           <p>A cross-platform preview for macOS, iOS, and Android using Asset Pipeline UI, FSDD process managers, crystal-audio, and platform build scripts.</p>
           <pre><code>amber new field_app --type native</code></pre>
-          <span class="boundary-copy">Not release-gated with the web beta. Evaluate it as a separate preview.</span>
+          <span class="boundary-copy">macOS, iOS, and Android are generated today. Linux native UI bindings remain frontier work.</span>
+          <a class="app-type-cta" href="/docs/v2/guides/native-preview">Explore the native frontier →</a>
         </article>
       </div>
     </div>
@@ -141,16 +153,16 @@
           <p class="eyebrow">Framework core</p>
           <h2>Opinionated where<br>the path should be clear.</h2>
         </div>
-        <p>Amber keeps the essential pieces close enough to understand: compiled routes, typed configuration, ECR views, request schemas, and a first-party application structure.</p>
+        <p>Amber takes a strong position on the pieces modern applications repeatedly need, then gives developers and coding agents one coherent structure to extend.</p>
       </div>
 
       <div class="feature-grid">
-        <article class="feature-card reveal" data-tilt><span class="feature-icon">A</span><h3>Typed configuration</h3><p>Catch configuration mistakes at startup and keep environment behavior explicit.</p></article>
-        <article class="feature-card reveal" data-tilt><span class="feature-icon">{ }</span><h3>Compiled routing</h3><p>Describe HTTP routes with a focused DSL backed by Crystal’s compiler.</p></article>
-        <article class="feature-card reveal" data-tilt><span class="feature-icon">&lt;%</span><h3>ECR-first views</h3><p>Render server-side HTML with Crystal’s native embedded templates.</p></article>
-        <article class="feature-card reveal" data-tilt><span class="feature-icon">↗</span><h3>Schema API</h3><p>Keep request and response contracts close to the application code that uses them.</p></article>
-        <article class="feature-card reveal" data-tilt><span class="feature-icon">⚡</span><h3>Crystal performance</h3><p>Compile to a native binary and use Crystal 1.21’s multithreaded runtime.</p></article>
-        <article class="feature-card reveal" data-tilt><span class="feature-icon">CLI</span><h3>One development loop</h3><p>Install, generate, test, build, and watch from a purpose-built Amber CLI.</p></article>
+        <article class="feature-card reveal" data-tilt><span class="feature-icon">◆</span><h3>Opinionated completeness</h3><p>Start with conventions and first-party structure shaped by patterns that already work, not a box of unrelated choices.</p></article>
+        <article class="feature-card reveal" data-tilt><span class="feature-icon">⚡</span><h3>Native performance, familiar memory</h3><p>Compile type-safe Crystal to a small native service while retaining garbage collection familiar to Ruby and Elixir developers.</p></article>
+        <article class="feature-card reveal" data-tilt><span class="feature-icon">↗</span><h3>Self-documenting schemas</h3><p>Define request contracts once, validate them at compile time, and expose machine-readable API documentation from the Schema API.</p></article>
+        <article class="feature-card reveal" data-tilt><span class="feature-icon">AI</span><h3>Tooling for coding agents</h3><p>Predictable generators, explicit boundaries, schema metadata, and diagnostics give people and AI the same map of the application.</p></article>
+        <article class="feature-card reveal" data-tilt><span class="feature-icon">⌘</span><h3>One development loop</h3><p>Install, generate, test, build, and watch through a purpose-built CLI that keeps the supported path visible.</p></article>
+        <article class="feature-card reveal" data-tilt><span class="feature-icon">∞</span><h3>Cross-platform frontier</h3><p>Ship the web path now and evaluate native macOS, iOS, and Android foundations without pretending Linux UI bindings are finished.</p></article>
       </div>
     </div>
   </section>
@@ -159,7 +171,7 @@
     <div class="site-container">
       <div class="grant-spotlight reveal">
         <div class="grant-spotlight-art">
-          <img src="/assets/characters/grant-id-original-studio.webp" width="800" height="800" alt="Grant, Amber's records specialist, organizing the application data layer">
+          <img src="/assets/characters/grant-records-warehouse-higgsfield.webp" width="1800" height="1005" alt="Grant organizing application records in a large archive warehouse">
           <span class="grant-file-stamp">AF-014 · Records</span>
         </div>
         <div class="grant-spotlight-copy">
@@ -202,7 +214,7 @@
           <div class="personnel-file"><span class="file-label">AF-027 · Files</span><h3>Gemma</h3><p>Moves attachments from validation through storage and delivery.</p><span class="status-badge">Ecosystem preview</span><span class="file-link">Open file · Read docs →</span></div>
         </a>
       </div>
-      <div class="crew-actions"><a class="button button-secondary" href="/characters">Meet the whole crew</a><span>Background-job casting remains proposed.</span></div>
+      <div class="crew-actions"><a class="button button-secondary" href="/characters">Meet the whole crew</a><span>Each character maps to a real software responsibility.</span></div>
     </div>
   </section>
 

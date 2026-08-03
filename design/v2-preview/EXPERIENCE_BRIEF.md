@@ -51,10 +51,34 @@ The installed Amber CLI is the authority for template claims:
   styling. Those traits make the same cast feel as if it moved to another
   studio.
 - Character cards read like personnel files or ID badges.
-- Motion communicates state: terminal progress, browser opening, card depth,
-  and a restrained crystal field. It never blocks reading or ignores reduced
-  motion preferences.
+- Homepage character art has transparent edges and responsive crops; the desk
+  sits against the lower-right viewport edge while the code-native crystal
+  field remains visible behind it.
+- Motion communicates state: terminal progress, a pointer click and ping,
+  simultaneous terminal movement and browser growth, card focus, and a
+  restrained crystal field. It never blocks reading or ignores reduced-motion
+  preferences.
+- The application-type background begins with the supported web path and
+  changes to frontier art when native receives pointer, keyboard, or centered
+  mobile focus. Card calls to action follow the same focus state.
 - The crystal mark is tall, symmetrical, faceted, and legible at favicon size.
+
+## Responsibility translation
+
+Character pages may translate ownership into familiar Rails responsibilities,
+but must not claim API compatibility. Grant maps to Active Record, Solid Cache,
+and the durable record layer behind database-backed queues. Gemma maps to
+Active Storage and S3-compatible upload, object-storage, and delivery policy.
+Amber maps to routing, Action Pack, Action View, configuration, and application
+structure.
+
+## Template delivery boundary
+
+Amber CLI `2.0.2` embeds the generated scaffold, so a template fix currently
+requires a CLI patch release. The beta docs must say this plainly and must not
+promise remote template freshness. The signed remote-channel design in
+`TEMPLATE_DELIVERY_STRATEGY.md` remains proposed until its trust, caching,
+compatibility, and offline behavior are implemented and release-tested.
 
 ## The Amber Way
 

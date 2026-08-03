@@ -9,12 +9,19 @@ fail() {
 test -s design/v2-preview/EXPERIENCE_BRIEF.md
 test -s design/v2-preview/RELEASE_GATES.md
 test -s design/v2-preview/ASSET_PROVENANCE.md
+test -s design/v2-preview/TEMPLATE_DELIVERY_STRATEGY.md
 grep -F 'PREVIEW — NOT APPROVED FOR RELEASE' design/v2-preview/EXPERIENCE_BRIEF.md >/dev/null
 grep -F 'Owner explicitly says the branch may merge and deploy.' design/v2-preview/RELEASE_GATES.md >/dev/null
+grep -F 'PROPOSED — NOT IMPLEMENTED' design/v2-preview/TEMPLATE_DELIVERY_STRATEGY.md >/dev/null
 
 for asset in \
   public/assets/brand/amber-crystal.svg \
-  public/assets/characters/amber-hero-inviting-studio.webp \
+  public/assets/characters/amber-hero-desk-transparent-higgsfield.webp \
+  public/assets/characters/amber-hero-desk-desktop-higgsfield.webp \
+  public/assets/characters/amber-hero-desk-mobile-higgsfield.webp \
+  public/assets/characters/amber-frontier-higgsfield.webp \
+  public/assets/characters/grant-records-warehouse-higgsfield.webp \
+  public/assets/characters/gemma-file-logistics-higgsfield.webp \
   public/assets/characters/amber-id-original-studio.webp \
   public/assets/characters/grant-id-original-studio.webp \
   public/assets/characters/gemma-id-original-studio.webp \
@@ -29,6 +36,8 @@ done
 
 grep -F '@font-face' public/assets/css/amber-brand.css >/dev/null
 grep -F '/assets/fonts/Manrope-Variable.woff2' public/assets/css/amber-brand.css >/dev/null
+grep -F '/assets/css/amber-brand.css?v=2.0.0-beta.2-20260803' src/views/layouts/application.ecr >/dev/null
+grep -F '/assets/js/amber-site.js?v=2.0.0-beta.2-20260803' src/views/layouts/application.ecr >/dev/null
 grep -F 'data-no-tracking="true"' src/views/layouts/application.ecr >/dev/null
 grep -F 'We do not track you.' src/views/home/privacy.ecr >/dev/null
 grep -F 'No analytics.' src/views/home/privacy.ecr >/dev/null
@@ -61,8 +70,15 @@ fi
 grep -F 'amber new my_app' src/views/home/index.ecr >/dev/null
 grep -F 'web is the default' src/views/home/index.ecr >/dev/null
 grep -F 'amber new field_app --type native' src/views/home/index.ecr >/dev/null
-grep -F 'Not release-gated with the web beta' src/views/home/index.ecr >/dev/null
-grep -F '/assets/characters/amber-hero-inviting-studio.webp' src/views/home/index.ecr >/dev/null
+grep -F 'Amber 2 is ready for beta testing.' src/views/home/index.ecr >/dev/null
+grep -F 'Crystal</strong> 1.20 or newer' src/views/home/index.ecr >/dev/null
+grep -F 'Linux native UI bindings remain frontier work' src/views/home/index.ecr >/dev/null
+grep -F '/assets/characters/amber-hero-desk-transparent-higgsfield.webp' src/views/home/index.ecr >/dev/null
+grep -F '/assets/characters/amber-hero-desk-desktop-higgsfield.webp' src/views/home/index.ecr >/dev/null
+grep -F '/assets/characters/amber-hero-desk-mobile-higgsfield.webp' src/views/home/index.ecr >/dev/null
+grep -F '/assets/characters/amber-frontier-higgsfield.webp' src/views/home/index.ecr >/dev/null
+grep -F 'Your Amber V2 application is running successfully.' src/views/home/index.ecr >/dev/null
+grep -F 'amber generate controller Posts' src/views/home/index.ecr >/dev/null
 grep -F 'Grant keeps the records straight.' src/views/home/index.ecr >/dev/null
 grep -F 'The core web template does not install an ORM by default' src/views/home/index.ecr >/dev/null
 grep -F '/docs/v2/guides/models/grant' src/views/home/index.ecr >/dev/null
@@ -80,8 +96,14 @@ grep -F '.docs-content pre code,' public/assets/css/amber-brand.css >/dev/null
 grep -F 'data-terminal-demo' src/views/home/index.ecr >/dev/null
 grep -F 'data-terminal-mode="typed"' src/views/home/index.ecr >/dev/null
 grep -F 'data-terminal-url' src/views/home/index.ecr >/dev/null
+grep -F 'class="demo-pointer"' src/views/home/index.ecr >/dev/null
 grep -F 'terminalDemo.classList.add('"'"'is-browser-open'"'"')' public/assets/js/amber-site.js >/dev/null
+grep -F 'transition: left 760ms' public/assets/css/amber-brand.css >/dev/null
+grep -F 'transition: opacity 760ms ease, transform 760ms' public/assets/css/amber-brand.css >/dev/null
 grep -F 'data-crystal-field' src/views/home/index.ecr >/dev/null
+grep -F 'data-application-choice="web"' src/views/home/index.ecr >/dev/null
+grep -F 'data-application-choice="native"' src/views/home/index.ecr >/dev/null
+grep -F 'visibleRatios' public/assets/js/amber-site.js >/dev/null
 grep -F 'prefers-reduced-motion' public/assets/css/amber-brand.css >/dev/null
 grep -F 'IntersectionObserver' public/assets/js/amber-site.js >/dev/null
 grep -F 'data-open-docs-ai="claude"' src/views/docs/show.ecr >/dev/null
@@ -93,5 +115,10 @@ grep -F 'max-height: none;' public/assets/css/amber-brand.css >/dev/null
 grep -F 'class="nav-group' src/views/docs/_sidebar.ecr >/dev/null
 grep -F 'replacement-link' src/views/docs/_version_timeline.ecr >/dev/null
 grep -F 'version_id: @version_id, page_path: source_path' src/controllers/docs_controller.cr >/dev/null
+grep -F 'Amber CLI `2.0.2` embeds its web scaffold' docs/v2/guides/web-template/index.md >/dev/null
+grep -F 'a template correction currently requires an Amber CLI' docs/v2/guides/web-template/index.md >/dev/null
+grep -F 'This is a responsibility comparison, not a promise of API compatibility.' src/views/home/character.ecr >/dev/null
+grep -F 'Active Storage' src/views/home/character.ecr >/dev/null
+grep -F 'Solid Cache' src/views/home/character.ecr >/dev/null
 
-echo "Amber V2 preview release-boundary, privacy, asset, table, code-window, and interaction checks passed"
+echo "Amber V2 preview release-boundary, privacy, asset, template, table, code-window, and interaction checks passed"

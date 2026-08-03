@@ -2,14 +2,21 @@
 <% if character_id == "grant" %>
   <% character_name = "Grant" %>
   <% character_number = "AF-014" %>
-  <% character_role = "Records and logistics" %>
+  <% character_role = "Records and persistence" %>
   <% character_class = "grant" %>
   <% character_image = "/assets/characters/grant-id-original-studio.webp" %>
   <% character_docs = "/docs/v2/guides/models/grant" %>
   <% character_summary = "Grant is the data specialist—the warehouse manager who knows where every record belongs and how it got there." %>
   <% character_personality = "Calm, exact, and quietly confident. Grant prefers a clear schema, an auditable migration, and a query whose intent can be read without a scavenger hunt." %>
-  <% character_responsibilities = ["Models and relations", "Migrations and schema evolution", "Queries and transactions", "Validation and record integrity"] %>
+  <% character_responsibilities = ["Models and relations", "Migrations and schema evolution", "Queries and transactions", "Caching and stored queue records"] %>
   <% character_line = "If the business needs to remember it, Grant gives it a reliable place to live." %>
+  <% character_scene = "/assets/characters/grant-records-warehouse-higgsfield.webp" %>
+  <% character_scene_width = 1800 %>
+  <% character_scene_height = 1005 %>
+  <% character_scene_alt = "Grant retrieving an application record from a large archive warehouse" %>
+  <% character_analogy_title = "If you come from Rails" %>
+  <% character_analogy = "Grant covers the record-keeping territory associated with Active Record and Solid Cache. When a queue stores work as database records, Grant owns that durable record layer; the worker runtime remains a separate responsibility." %>
+  <% character_analogs = ["Active Record", "Solid Cache", "Database-backed queue records"] %>
 <% elsif character_id == "gemma" %>
   <% character_name = "Gemma" %>
   <% character_number = "AF-027" %>
@@ -17,10 +24,17 @@
   <% character_class = "gemma" %>
   <% character_image = "/assets/characters/gemma-id-original-studio.webp" %>
   <% character_docs = "/docs/v2/guides/uploads" %>
-  <% character_summary = "Gemma owns the things that have to move, land safely, and remain findable: uploads, attachments, storage, and delivery." %>
+  <% character_summary = "Gemma owns the things that have to move, land safely, and remain findable: uploads, attachments, S3-compatible storage, and delivery." %>
   <% character_personality = "Fast, resourceful, and unflappable when the payload is large. Gemma likes explicit limits, verified formats, and storage adapters that can change without rewriting the app." %>
   <% character_responsibilities = ["File attachments", "Storage adapters", "Validation and limits", "Streaming and delivery"] %>
   <% character_line = "From upload to delivery, Gemma keeps every file accounted for." %>
+  <% character_scene = "/assets/characters/gemma-file-logistics-higgsfield.webp" %>
+  <% character_scene_width = 1800 %>
+  <% character_scene_height = 1005 %>
+  <% character_scene_alt = "Gemma routing a large digital file crate through a logistics warehouse" %>
+  <% character_analogy_title = "If you come from Rails" %>
+  <% character_analogy = "Gemma fills the responsibility associated with Active Storage: accepting uploads, validating payloads, moving large objects into S3-compatible stores, and delivering them without tying application code to one provider." %>
+  <% character_analogs = ["Active Storage", "S3-compatible object stores", "Upload and delivery policy"] %>
 <% else %>
   <% character_name = "Amber" %>
   <% character_number = "AF-001" %>
@@ -32,6 +46,13 @@
   <% character_personality = "Warm, energetic, decisively helpful, and a little opinionated about clear conventions. Amber wants the first path to work completely before asking a developer to assemble options." %>
   <% character_responsibilities = ["Routing and controllers", "ECR views and presentation", "Interaction and asset delivery", "Application structure and configuration"] %>
   <% character_line = "Tell Amber what the business needs to do; she will give it a clear place in the app." %>
+  <% character_scene = "/assets/characters/amber-hero-desk-transparent-higgsfield.webp" %>
+  <% character_scene_width = 1800 %>
+  <% character_scene_height = 1208 %>
+  <% character_scene_alt = "Amber smiling at her desk and inviting the developer into the application" %>
+  <% character_analogy_title = "If you come from Rails" %>
+  <% character_analogy = "Amber owns the framework surface that Rails developers recognize across routing, Action Pack, Action View, configuration, and the application structure that connects them." %>
+  <% character_analogs = ["Routing", "Action Pack", "Action View and application configuration"] %>
 <% end %>
 
 <% @title = "#{character_name} — Amber Framework character" %>
@@ -76,6 +97,23 @@
         </ul>
         <p class="boundary-note">The character is shorthand for a software boundary, not a substitute for the API documentation.</p>
       </article>
+    </div>
+  </section>
+
+  <section class="section role-analogy-section">
+    <div class="site-container role-analogy-panel role-analogy-<%= character_class %> reveal">
+      <div class="role-analogy-scene">
+        <img src="<%= character_scene %>" width="<%= character_scene_width %>" height="<%= character_scene_height %>" alt="<%= character_scene_alt %>">
+      </div>
+      <div class="role-analogy-copy">
+        <p class="file-label">Responsibility translator</p>
+        <h2><%= character_analogy_title %></h2>
+        <p><%= character_analogy %></p>
+        <div class="role-analogy-chips" aria-label="Comparable responsibilities">
+          <% character_analogs.each do |analogy| %><span><%= analogy %></span><% end %>
+        </div>
+        <p class="boundary-note">This is a responsibility comparison, not a promise of API compatibility.</p>
+      </div>
     </div>
   </section>
 </main>

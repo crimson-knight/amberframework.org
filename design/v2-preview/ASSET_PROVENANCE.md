@@ -13,9 +13,62 @@ acting with compact rounded faces, visible cheek blush, open smiles, simplified
 linework, warm cel shading, and energetic poses. Generated files remain
 preview-only until the owner reviews and approves them.
 
-## Inviting hero refinement (active homepage hero)
+## Responsive desk hero (active homepage hero)
 
-The active homepage hero is `amber-hero-inviting-studio.webp`. It was created
+The active homepage hero is a responsive transparent asset set created through
+the locally authenticated Higgsfield CLI. It preserves the approved playful
+Amber pose, her desk, laptop, mug, notebook, papers, open smile, and blush while
+removing the painted room and loose floating crystal decorations. The live CSS
+places the desk on the lower-right edge so the code-native crystal field remains
+visible behind it without a rectangular image boundary.
+
+| Active local asset | Purpose |
+|---|---|
+| `amber-hero-desk-transparent-higgsfield.webp` | 1800 by 1208 wide-screen source with alpha |
+| `amber-hero-desk-desktop-higgsfield.webp` | 1500 by 1208 desktop crop with alpha |
+| `amber-hero-desk-mobile-higgsfield.webp` | 1250 by 1208 mobile crop with alpha |
+
+The precision edit used Higgsfield Nano Banana Pro job
+`4d8abedb-6926-423e-aa14-442b726dd877`. Its prompt instructed the model to
+preserve Amber's exact face, smile, blush, hand, fingers, outfit, laptop, mug,
+notebook, papers, and complete desk while removing only the room, orbit lines,
+floating crystals, and loose desk crystals. Because that model rendered a
+checker pattern rather than an alpha channel, a local saturation-and-luminance
+key produced the final transparency before responsive crops were encoded with
+`cwebp`. Automatic background-removal jobs
+`37df4ada-0d15-4c2a-b946-6935d27a7583` and
+`16e7828a-d15a-47a1-8bf3-4baa61393c0f` were reviewed but rejected because they
+removed too much of the desk or left an inferior edge. Rejected outputs are not
+wired into the site.
+
+## Application and responsibility scenes
+
+The native-application frontier uses Higgsfield job
+`7a9e57d6-ddfd-4cb3-9ce2-ff4335500c25`, encoded as
+`amber-frontier-higgsfield.webp`. Its prompt placed Amber, Grant, and Gemma at
+the edge of a warm, expansive, unexplored landscape. The result is used only as
+atmospheric background art under a strong site gradient; it is not a canonical
+portrait because the distant figures soften the established studio details.
+
+Grant's records warehouse is Higgsfield job
+`25fe362e-93ae-4357-8301-4f0e1a0d5d63`, encoded as
+`grant-records-warehouse-higgsfield.webp`. The prompt asked for the playful,
+blushing Grant to work inside a huge archive of paper records and database-like
+drawers—not a vinyl-record warehouse.
+
+Gemma's file-logistics warehouse is Higgsfield job
+`20a2cb94-d466-42a0-8923-2433cbe8eb7e`, encoded as
+`gemma-file-logistics-higgsfield.webp`. The prompt asked for playful Gemma to
+route a large glowing digital-file crate through a violet logistics warehouse,
+expressing uploads, S3-compatible storage, and delivery.
+
+All three scene sources were exported from Higgsfield, visually inspected, and
+encoded as local quality WebP assets. They do not introduce a runtime image
+dependency.
+
+## Prior inviting hero refinement (retained source)
+
+The prior homepage hero, `amber-hero-inviting-studio.webp`, was created
 with Codex built-in image **edit** mode from
 `amber-hero-original-studio.webp`; the source PNG is
 `exec-d23f9739-f173-4133-8725-e5b1473c19c6.png` in the generation directory
@@ -27,7 +80,8 @@ while preserving her open smile, blush, face, hair, outfit, laptop, warm cel
 shading, wide composition, and left-side negative space. It explicitly
 excluded grabbing, pointing, reaching at the viewer, extra fingers, and a
 serious or glossy studio shift. The 1536-by-1024 result was encoded as a
-quality-84 WebP without overwriting the prior source.
+quality-84 WebP without overwriting the prior source. It remains reproducible
+source material but is no longer wired into the homepage.
 
 ## Original-studio correction
 

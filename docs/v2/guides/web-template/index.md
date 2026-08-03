@@ -60,6 +60,26 @@ my_app/
 The empty extension directories are intentional. They give generators stable
 destinations without forcing unused dependencies into a new application.
 
+## First rendered page
+
+The current `NewCommand` writes a centered system-font welcome page. Its visible
+content is:
+
+```text
+Welcome to my_app!
+Your Amber V2 application is running successfully.
+
+Getting Started
+- Edit this page: src/views/home/index.ecr
+- Add routes: config/routes.cr
+- Add a controller: amber generate controller Posts
+```
+
+The generated `public/css/app.css` constrains the body to 960 pixels, applies a
+system font stack, centers `.welcome`, and gives it 60 pixels of vertical
+padding. This page—not the unused template-source example—is the contract that
+the homepage demonstration must reproduce.
+
 ## Framework pin
 
 The generated `shard.yml` uses the official repository and an exact prerelease
@@ -76,6 +96,26 @@ dependencies:
 
 An official generated project must not point at a personal fork, `master`, or
 the moving `v2-dev` branch.
+
+## Template freshness
+
+Amber CLI `2.0.2` embeds its web scaffold in the executable. It does not fetch a
+template manifest when `amber new` runs. That makes generation deterministic
+and usable offline, but a template correction currently requires an Amber CLI
+patch release.
+
+Before creating a new application with Homebrew, refresh the CLI:
+
+```bash
+brew update
+brew upgrade amber_cli
+amber --version
+```
+
+Updating the CLI changes future generated projects; it does not rewrite an
+existing application. A signed remote-template channel with a bundled offline
+fallback is under design, but it is not behavior users should depend on in
+`2.0.2`.
 
 ## Typed environments
 
