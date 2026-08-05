@@ -4,7 +4,7 @@ version: 0.1.0
 authors:
   - Amber <amberframework.org>
 
-crystal: 1.7.3
+crystal: 1.21.0
 
 license: MIT
 
@@ -15,7 +15,7 @@ targets:
 dependencies:
   amber:
     github: amberframework/amber
-    version: 1.3.2
+    commit: 97b4523b893c559a989423f7238b35fe67939546  # v1.5.0
   markd:
     github: icyleaf/markd
 

@@ -2,7 +2,7 @@ version: 2.0
 shards:
   amber:
     git: https://github.com/amberframework/amber.git
-    version: 1.3.2
+    version: 1.5.0+git.commit.97b4523b893c559a989423f7238b35fe67939546
 
   amber_router:
     git: https://github.com/amberframework/amber-router.git
@@ -10,7 +10,7 @@ shards:
 
   backtracer:
     git: https://github.com/sija/backtracer.cr.git
-    version: 1.2.2
+    version: 1.2.4
 
   callback:
     git: https://github.com/amberframework/callback.git
@@ -26,11 +26,11 @@ shards:
 
   db:
     git: https://github.com/crystal-lang/crystal-db.git
-    version: 0.10.1
+    version: 0.11.0
 
   exception_page:
     git: https://github.com/crystal-loot/exception_page.git
-    version: 0.2.2
+    version: 0.5.0
 
   future:
     git: https://github.com/crystal-community/future.cr.git
@@ -62,19 +62,19 @@ shards:
 
   micrate:
     git: https://github.com/amberframework/micrate.git
-    version: 0.12.0
+    version: 0.15.1
 
   mysql:
     git: https://github.com/crystal-lang/crystal-mysql.git
-    version: 0.13.0
+    version: 0.14.0
 
   optarg:
     git: https://github.com/amberframework/optarg.git
-    version: 0.9.3
+    version: 0.9.5
 
   pg:
     git: https://github.com/will/crystal-pg.git
-    version: 0.23.2
+    version: 0.26.0
 
   pool:
     git: https://github.com/ysbaddaden/pool.git
@@ -98,7 +98,7 @@ shards:
 
   sqlite3:
     git: https://github.com/crystal-lang/crystal-sqlite3.git
-    version: 0.18.0
+    version: 0.19.0
 
   teeplate:
     git: https://github.com/amberframework/teeplate.git
