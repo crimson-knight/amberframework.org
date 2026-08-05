@@ -18,6 +18,7 @@ dependencies:
     commit: 97b4523b893c559a989423f7238b35fe67939546  # v1.5.0
   markd:
     github: icyleaf/markd
+    commit: d61dd52d40e659b53cb78712a7b1190cfdb9bc66  # was unconstrained; lock resolved v0.5.0 -> d61dd52
 
 development_dependencies:
   garnet_spec:
