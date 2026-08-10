@@ -7,7 +7,8 @@ description: "Built-in validators and custom validation in Amber 2.0"
 
 # Validation
 
-The Schema API provides comprehensive validation with built-in validators and support for custom validation logic.
+Schema fields can enforce presence, length, format, numeric bounds, and custom
+rules before application code receives a typed value.
 
 ## Built-in Validators
 

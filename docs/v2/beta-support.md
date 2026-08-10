@@ -7,6 +7,10 @@ description: "Supported platforms and feature boundaries for Amber 2.0.0-beta.2"
 
 # Amber V2 Beta Support
 
+“Release-gated” means the documented installation, generation, dependency,
+spec, build, launch, homepage, and static-asset checks are repeated on that
+platform before the beta is published.
+
 ## Platform matrix
 
 | Surface | Status |
@@ -29,9 +33,9 @@ description: "Supported platforms and feature boundaries for Amber 2.0.0-beta.2"
 | `amber new APP --type native` | Preview |
 | Grant, Gemma, and Asset Pipeline guides | Preview ecosystem material |
 
-“Preview” means the code can be evaluated, but a clean beta web app is not
-promised to compile it without extra dependencies. It does not mean that a
-personal fork is an acceptable default dependency.
+“Preview” means the code can be evaluated, but it is not included in the clean
+beta web application's compile guarantee. Add preview packages only from their
+own compatible official release instructions.
 
 ## Versions
 
@@ -39,5 +43,5 @@ personal fork is an acceptable default dependency.
 - Amber CLI: `2.0.2` or newer
 - Crystal: `>= 1.20.0, < 2.0`
 
-New applications pin the framework version exactly. Release documentation must
-not substitute `v2-dev`, `master`, or a personal fork for that pin.
+Generated applications pin the framework prerelease exactly. Do not replace it
+with `v2-dev`, `master`, or a personal fork when following the supported path.

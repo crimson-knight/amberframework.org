@@ -16,7 +16,7 @@
 - guides/models/granite/bulk-insertions.md
 - guides/models/granite/associations.md
 
-# Legacy CLI commands that are not part of the V2 CLI
+# Legacy CLI pages that are replaced by the consolidated V2 CLI reference
 - cli/recipes.md
 - cli/routes.md
 - cli/plugins.md

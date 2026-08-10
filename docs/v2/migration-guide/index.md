@@ -3,146 +3,53 @@ title: "Migration Guide"
 section: ""
 order: 80
 is_section: true
-description: "Upgrading from Amber 1.x to Amber 2.0"
+description: "Upgrade an Amber 1.x application to the Amber 2.0 web-framework core"
 ---
 
 # Migration Guide: Amber 1.x to 2.0
 
 > Amber `2.0.0-beta.2` release-gates the framework core and ECR web template.
 > Grant, Gemma, Asset Pipeline, persistence/auth generators, and native output
-> are preview surfaces. Treat their migration sections as evaluation material,
+> are preview surfaces. Treat their migration guides as separate evaluations,
 > not prerequisites for adopting the framework beta.
 
-This guide covers the major changes in Amber 2.0 and how to migrate your existing applications.
+Migrate the framework core first and preserve working application behavior at
+each step. Persistence, front-end tooling, uploads, and native output have their
+own release boundaries; changing them at the same time makes a failure harder to
+locate and harder to reverse.
 
-## Overview
+## What changes in V2
 
-Amber 2.0 is a significant release that modernizes the framework while maintaining the simplicity and productivity that Crystal developers love. The major changes are:
+| Application boundary | Amber 1.x starting point | Amber 2.0 path |
+|---|---|---|
+| Views | ECR, Slang, or Kilt | ECR for new and generated V2 views |
+| JavaScript and CSS | Commonly Webpack-managed | Static files work without a bundler; Asset Pipeline is a separate preview |
+| Persistence | Commonly Granite or Jennifer | No ORM or database driver is bundled; choose and verify persistence separately |
+| Sessions | Redis-oriented configuration | Built-in memory adapter or an explicitly registered external adapter |
+| WebSocket pub/sub | Redis-oriented configuration | Built-in in-process adapter or an explicitly registered external adapter |
+| Request validation | Controller-specific parsing | Optional typed Schema API |
+| File attachments | Application-specific integration | No bundled attachment library; Gemma is an ecosystem preview |
 
-| Component | Amber 1.x | Amber 2.0 |
-|-----------|-----------|-----------|
-| JavaScript | Webpack bundling | No bundled asset pipeline; preview ESM tooling is separate |
-| ORM | Granite | No bundled ORM; Grant migration material is preview |
-| Sessions | Hard-coded Redis | Pluggable Adapters |
-| WebSockets | Hard-coded Redis | Pluggable PubSub Adapters |
-| Request Validation | Manual | Schema API |
-| File Uploads | Manual | No bundled attachment shard; Gemma material is preview |
+## Before changing dependencies
 
-## Migration Path
+Create a migration branch and capture a working baseline:
 
-We recommend migrating incrementally:
+1. Record the Crystal, Amber, ORM, database-driver, Redis, and asset-tool versions.
+2. Run the existing specs and build the application binary.
+3. Smoke-test the routes, session behavior, background work, WebSockets, and
+   static assets the application actually uses.
+4. Back up the database and prove the restore procedure before changing an ORM
+   or running a schema migration.
+5. List every Slang/Kilt template, Webpack entry point, Redis integration, and
+   framework-generated file that will need an explicit decision.
 
-1. **Update Dependencies** - Update `shard.yml` for Amber 2.0
-2. **Migrate Sessions** - Switch from Redis to adapter system
-3. **Keep persistence explicit** - Continue a compatible ORM or evaluate a new one separately
-4. **Migrate templates** - Convert Slang/Kilt views to ECR
-5. **Adopt core features** - Add Schema API, jobs, mailers, and adapters incrementally
+Do not begin by deleting the old asset, persistence, or session configuration.
+Keep the last working path available until its replacement has passed the same
+checks.
 
-## Breaking Changes Summary
+## 1. Update the framework core
 
-### Configuration
-
-**1.x:**
-```crystal
-Amber::Server.configure do |app|
-  app.session = {
-    :redis => Redis.new(url: ENV["REDIS_URL"]),
-    :key => "session_id",
-    :secret => ENV["SECRET_KEY_BASE"]
-  }
-end
-```
-
-**2.0:**
-```crystal
-Amber::Server.configure do |app|
-  app.session = Amber::SessionAdapters::CookieStore.new(
-    secret_key: ENV["SECRET_KEY_BASE"]
-  )
-end
-```
-
-### WebSocket PubSub
-
-**1.x:**
-```crystal
-# Hard-coded Redis
-channel.subscribe("chat_room_1")
-channel.broadcast("message", "chat_room_1", data)
-```
-
-**2.0:**
-```crystal
-# Via adapter
-pubsub = Amber::PubSubAdapters::MemoryAdapter.new
-channel.subscribe("chat_room_1")
-pubsub.publish("chat_room_1", data)
-```
-
-### Model Layer
-
-**1.x (Granite):**
-```crystal
-class User < Granite::Base
-  connection pg
-  table users
-
-  column id : Int64, primary: true
-  column email : String
-end
-```
-
-**2.0 (Grant):**
-```crystal
-class User < Grant::Base
-  column id : Int64, primary: true
-  column email : String
-
-  has_many :posts
-  validates :email, presence: true, format: EMAIL_REGEX
-end
-```
-
-### JavaScript Assets
-
-**1.x (Webpack):**
-```javascript
-// webpack.config.js required
-// npm install required
-// node_modules/ required
-import $ from "jquery"
-```
-
-**2.0 (ESM + Import Maps):**
-```crystal
-# Crystal configuration
-import_map.add_import("jquery", "https://cdn.jsdelivr.net/npm/jquery@3.7.1/+esm")
-```
-
-```javascript
-// Native ESM, no build step
-import $ from "jquery"
-```
-
-## Compatibility Notes
-
-### Granite Support
-
-Granite remains compatible with Amber 2.0. You can:
-- Continue using Granite alongside Grant
-- Migrate models incrementally
-- Use Grant for new models while keeping Granite for existing ones
-
-### Redis Support
-
-While Redis is no longer required, it's still fully supported:
-- Redis session adapter available
-- Redis pub/sub adapter available
-- Upgrade path for existing Redis infrastructure
-
-## Quick Start
-
-### Update shard.yml
+Pin the official Amber prerelease in `shard.yml`:
 
 ```yaml
 dependencies:
@@ -151,52 +58,100 @@ dependencies:
     version: 2.0.0-beta.2
 ```
 
-Add an ORM, database driver, assets, or attachments only from that component's
-own compatible release instructions. They are no longer implicit framework
-dependencies.
-
-### Run Migration
+Then update dependencies and restore the baseline before adopting optional V2
+features:
 
 ```bash
 shards update
-
-# Remove webpack if no longer needed
-rm -rf node_modules package.json webpack.config.js
-
-# Test your application
 crystal spec
+crystal build src/your_app.cr -o bin/your_app
 ```
 
-## Detailed Migration Guides
+Resolve compile errors against the [V2 routing](../guides/routing/),
+[controllers](../guides/controllers/), [views](../guides/views/), and
+[configuration](../getting-started/) guides. Keep persistence and asset-tool
+changes out of this step whenever possible.
 
-Each major component has its own detailed migration guide:
+## 2. Move generated and legacy views to ECR
 
-- [Webpack to ESM](webpack-to-esm/) - Migrate from Webpack bundling to native ESM modules
-- [Granite to Grant](granite-to-grant/) - Migrate from Granite ORM to Grant ORM
-- [Redis to Adapters](redis-to-adapters/) - Migrate from hard-coded Redis to pluggable adapters
+Amber V2 removes Kilt and Slang from the supported framework path. Convert one
+view boundary at a time, preserve its rendered HTML contract, and run the
+request or feature specs that exercise it. New V2 generators emit ECR.
 
-## Getting Help
+The [Views guide](../guides/views/) documents layouts, partials, helpers, and
+escaping behavior for the V2 path.
 
-If you encounter issues during migration:
+## 3. Make sessions and pub/sub explicit
 
-1. Check the specific migration guides above
-2. Review the [Amber 2.0 Release Notes](https://github.com/amberframework/amber/releases)
-3. Ask in the [Amber Discord](https://discord.gg/amber)
-4. Open an issue on [GitHub](https://github.com/amberframework/amber/issues)
+Amber V2 includes in-memory session and pub/sub adapters. They keep a clean
+application independent of Redis, but their state is local to one process.
 
-## Timeline Recommendations
+Applications that require shared state across processes or hosts must register
+and test an external implementation. Redis is not a built-in adapter guarantee;
+it is one backend an application can integrate through the adapter interfaces.
 
-### Small Applications (< 10 models)
-Migrate all at once. Set aside a day for the migration.
+Use the [Redis-to-adapters guide](redis-to-adapters/) to inventory the existing
+behavior, then verify expiration, logout, session rotation, broadcasts, and
+multi-process delivery before switching production traffic.
 
-### Medium Applications (10-50 models)
-- Week 1: Update dependencies, migrate sessions/adapters
-- Week 2: Migrate models incrementally
-- Week 3: Migrate assets, test thoroughly
+## 4. Keep persistence as a separate decision
 
-### Large Applications (50+ models)
-- Phase 1: Update to Amber 2.0, keep Granite
-- Phase 2: Migrate sessions to adapter system
-- Phase 3: Incrementally migrate models to Grant
-- Phase 4: Replace Webpack with Asset Pipeline
-- Phase 5: Adopt new features (Schema API, Gemma)
+The V2 web template does not install an ORM or database driver. An existing
+Granite or Jennifer application may keep its current persistence layer while the
+framework core is evaluated, but compatibility depends on that application's
+Crystal version, shard versions, and usage. Amber does not make a blanket
+compatibility promise for those combinations.
+
+Grant is the V2 ecosystem direction for new persistence work, but its migration
+material remains preview. Do not mix two ORMs in a production migration unless
+the ownership of connections, transactions, migrations, and models is explicit.
+Review the [model-layer boundary](../guides/models/) before using the
+[Granite-to-Grant preview guide](granite-to-grant/).
+
+## 5. Preserve working assets before replacing tooling
+
+The supported V2 web application serves CSS, JavaScript, images, and fonts from
+`public/` without requiring Node.js or a bundler. That does not require an
+existing application to remove a working Webpack pipeline during the framework
+upgrade.
+
+If you evaluate native ESM or the separate Asset Pipeline project, treat it as
+its own migration. Compare the generated files, import behavior, cache headers,
+and production deployment before retiring the previous build. The
+[Webpack-to-ESM guide](webpack-to-esm/) and [Asset Pipeline guides](../guides/assets/)
+describe preview paths rather than a requirement of the web-framework beta.
+
+## 6. Adopt optional V2 features after the baseline passes
+
+Schema API, jobs, mailers, adapters, and expanded testing helpers can be adopted
+independently. Add one application boundary, write or update its specs, and
+restore the complete build before moving to the next.
+
+## Verification gates
+
+Use observed behavior instead of an estimated migration timeline:
+
+| Gate | Evidence to keep |
+|---|---|
+| Framework | Dependency resolution, complete specs, and a compiled application binary |
+| HTTP | Representative request specs for routes, pipelines, parameters, redirects, and errors |
+| Sessions | Login/logout, expiration, rotation, cookie settings, and multi-process behavior where required |
+| WebSockets | Subscription, broadcast, reconnect, and cross-process delivery where required |
+| Assets | Production-built CSS and JavaScript, static-file responses, and browser smoke tests |
+| Persistence | Database backup/restore proof, migrations, transactions, and representative reads and writes |
+| Deployment | A staging build produced through the same commands and configuration used in production |
+
+A migration boundary is complete when its previous behavior is reproduced or an
+intentional change is documented and tested—not when a predetermined number of
+days has elapsed.
+
+## Getting help
+
+When reporting a migration problem, include the smallest failing example plus
+the Crystal version, Amber version, previous Amber version, relevant shard
+versions, exact command, and complete output.
+
+- Review the [Amber V2 release notes](https://github.com/amberframework/amber/releases).
+- Ask in the [Amber Discord](https://discord.gg/vwvP5zakSn).
+- Report framework behavior in the [Amber issue tracker](https://github.com/amberframework/amber/issues).
+- Report CLI and generator behavior in the [Amber CLI issue tracker](https://github.com/amberframework/amber_cli/issues).

@@ -77,7 +77,7 @@ grep -F 'amber new field_app --type native' src/views/home/index.ecr >/dev/null
 grep -F 'Amber 2 is ready for beta testing.' src/views/home/index.ecr >/dev/null
 grep -F '/assets/brand/crys-mascot.svg' src/views/home/index.ecr >/dev/null
 grep -F 'Crystal</strong> 1.20+ · latest stable recommended' src/views/home/index.ecr >/dev/null
-grep -F 'amber_cli</strong> 2.0.2' src/views/home/index.ecr >/dev/null
+grep -F 'amber_cli</strong> V2 · standalone' src/views/home/index.ecr >/dev/null
 grep -F 'Linux native UI bindings remain frontier work' src/views/home/index.ecr >/dev/null
 grep -F '/assets/characters/amber-hero-desk-transparent-higgsfield.webp' src/views/home/index.ecr >/dev/null
 grep -F '/assets/characters/amber-hero-desk-desktop-higgsfield.webp' src/views/home/index.ecr >/dev/null
@@ -129,8 +129,8 @@ grep -F 'max-height: none;' public/assets/css/amber-brand.css >/dev/null
 grep -F 'class="nav-group' src/views/docs/_sidebar.ecr >/dev/null
 grep -F 'replacement-link' src/views/docs/_version_timeline.ecr >/dev/null
 grep -F 'version_id: @version_id, page_path: source_path' src/controllers/docs_controller.cr >/dev/null
-grep -F 'Amber CLI `2.0.2` embeds its web scaffold' docs/v2/guides/web-template/index.md >/dev/null
-grep -F 'a template correction currently requires an Amber CLI' docs/v2/guides/web-template/index.md >/dev/null
+grep -F 'The CLI embeds its web scaffold in the executable.' docs/v2/guides/web-template/index.md >/dev/null
+grep -F 'a template correction requires an Amber CLI' docs/v2/guides/web-template/index.md >/dev/null
 grep -F 'Your new idea' docs/v2/guides/web-template/index.md >/dev/null
 grep -F 'This is a responsibility comparison, not a promise of API compatibility.' src/views/home/character.ecr >/dev/null
 grep -F 'data-responsibility-select' src/views/home/character.ecr >/dev/null

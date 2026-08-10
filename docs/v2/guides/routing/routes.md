@@ -66,6 +66,5 @@ routes :web do
 end
 ```
 
-Amber CLI V2 does not expose the V1 `amber routes` command. Confirm routing with
-request specs and the compiler rather than copying the old command or its route
-matrix screenshot.
+Run `amber routes` from the project root to print the declared route table. Pair
+that inspection with request specs and the compiler to verify dispatch behavior.

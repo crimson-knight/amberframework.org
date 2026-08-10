@@ -9,7 +9,8 @@ description: "Managing JavaScript dependencies with import maps"
 
 > **Preview ecosystem guide:** Asset Pipeline is not part of the Amber 2.0.0-beta.2
 > core web-app release gate. Its package version, API, and platform support may
-> change independently. Do not add a personal fork as a default dependency.
+> change independently. Confirm a compatible official release before adding it
+> to an application.
 
 Import maps allow you to control how JavaScript module specifiers are resolved by the browser, enabling you to use bare module names like `import _ from "lodash"` without a bundler.
 

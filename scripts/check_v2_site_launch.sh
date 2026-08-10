@@ -20,7 +20,7 @@ grep -F "menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open
 grep -F 'data-version-select' src/views/docs/_version_selector.ecr
 grep -F 'inherits_from: v1.4.1' docs/versions.yml
 grep -F 'V2 carries forward framework concepts that still apply' docs/v2/guides/index.md
-grep -F 'Amber CLI V2 does not expose the V1 `amber routes` command' docs/v2/guides/routing/routes.md
+grep -F 'Run `amber routes` from the project root' docs/v2/guides/routing/routes.md
 grep -F 'The V1 guide' docs/v2/guides/controllers/sessions.md
 grep -F 'HTTP::Server::Response' docs/v2/guides/controllers/request-and-response-objects.md
 grep -F 'guides/controllers/params.md: guides/schema-api' docs/v2/_replacements.yml
@@ -38,6 +38,12 @@ fi
 if rg -n '/dist/main\.bundle|application\.slang|render\("[^\"]+\.slang"\)|amberframework/amber:1\.3\.2' \
   Dockerfile config src README.md; then
   echo "Amber V2 site still references a legacy Slang, Webpack, or Amber 1 runtime" >&2
+  exit 1
+fi
+
+if rg -n 'owner proofing|Owner approval|PROPOSED — NOT APPROVED|generic centered welcome|Amber advertisement' \
+  src/views docs/v2; then
+  echo "Amber V2 public copy still contains internal proofing or placeholder language" >&2
   exit 1
 fi
 

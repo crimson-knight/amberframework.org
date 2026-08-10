@@ -8,7 +8,9 @@ description: "Pluggable session storage and pub/sub messaging in Amber 2.0"
 
 # Adapter System
 
-Amber 2.0 introduces a pluggable adapter system for session storage and pub/sub messaging. This replaces the hard Redis dependency from v1.x with a flexible architecture that works out-of-the-box and can be extended with custom backends.
+Amber 2.0 routes session storage and pub/sub messaging through adapter
+interfaces. In-memory adapters are built in; an application can register a
+separate implementation when it needs an external store or message broker.
 
 ## Why Adapters?
 
@@ -23,7 +25,7 @@ Amber 2.0 solves this with:
 - Memory-based adapters work immediately
 - No external dependencies required
 - Implement custom adapters for any backend
-- Easy testing without external services
+- Tests can use the in-memory implementations without an external service
 
 ## Built-in Adapters
 

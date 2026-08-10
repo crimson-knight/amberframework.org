@@ -2,7 +2,7 @@
 title: "Native Application Preview"
 section: "guides"
 order: 20
-description: "The honest platform and support boundary for Amber CLI native generation"
+description: "Generated platforms, prerequisites, and release boundaries for Amber CLI native applications"
 ---
 
 # Amber V2 Native Application Preview

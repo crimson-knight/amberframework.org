@@ -10,7 +10,8 @@ description: "Modern JavaScript asset management with ESM modules and import map
 
 > **Preview ecosystem guide:** Asset Pipeline is not part of the Amber 2.0.0-beta.2
 > core web-app release gate. Its package version, API, and platform support may
-> change independently. Do not add a personal fork as a default dependency.
+> change independently. Confirm a compatible official release before adding it
+> to an application.
 
 Amber 2.0 introduces a modern Asset Pipeline that replaces Webpack with native browser ESM modules and import maps. This provides a faster, simpler development experience without complex build tooling.
 

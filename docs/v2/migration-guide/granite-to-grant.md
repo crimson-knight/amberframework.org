@@ -20,7 +20,7 @@ Granite-to-Grant migration.
 | Feature | Granite | Grant |
 |---------|---------|-------|
 | Associations | Limited (has_many only) | Full (belongs_to, has_many, has_one, polymorphic) |
-| Validations | Basic | Comprehensive with custom validators |
+| Validations | Granite validation API | Built-in and custom Grant validators |
 | Callbacks | Before/after save | Full lifecycle (create, update, destroy) |
 | Query Interface | Basic where/find | Chainable scopes, joins, includes |
 | Transactions | Manual | Built-in with savepoints |

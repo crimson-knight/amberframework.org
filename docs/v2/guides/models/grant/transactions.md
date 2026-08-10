@@ -9,9 +9,12 @@ description: "Database transactions and locking strategies in Grant ORM"
 
 > **Preview ecosystem guide:** Grant is not part of the Amber 2.0.0-beta.2
 > core web-app release gate. Its package version, API, and platform support may
-> change independently. Do not add a personal fork as a default dependency.
+> change independently. Confirm a compatible official release before adding it
+> to an application.
 
-Proper transaction management is essential for data integrity. Grant provides comprehensive support for transactions, isolation levels, and locking strategies.
+Use a transaction when several writes must commit or roll back together. Grant
+also exposes isolation and locking controls for workflows that coordinate
+concurrent database changes.
 
 ## Basic Transactions
 

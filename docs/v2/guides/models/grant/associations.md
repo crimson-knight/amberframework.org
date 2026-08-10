@@ -9,9 +9,11 @@ description: "Defining relationships between models in Grant ORM"
 
 > **Preview ecosystem guide:** Grant is not part of the Amber 2.0.0-beta.2
 > core web-app release gate. Its package version, API, and platform support may
-> change independently. Do not add a personal fork as a default dependency.
+> change independently. Confirm a compatible official release before adding it
+> to an application.
 
-Grant provides powerful association methods to define relationships between models.
+Grant associations declare how models find related records and where the foreign
+key for that relationship lives.
 
 ## belongs_to
 

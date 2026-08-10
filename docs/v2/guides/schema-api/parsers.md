@@ -2,12 +2,13 @@
 title: "Parsers"
 section: "guides/schema-api"
 order: 30
-description: "Content type handling for JSON, XML, Forms, and more"
+description: "Content type handling for JSON, XML, forms, CSV, Protocol Buffers, and MessagePack"
 ---
 
 # Parsers
 
-The Schema API supports multiple content types with specialized parsers for each format.
+Select a parser through the schema's content type. Amber provides explicit
+parsers for the formats listed below.
 
 ## Supported Content Types
 

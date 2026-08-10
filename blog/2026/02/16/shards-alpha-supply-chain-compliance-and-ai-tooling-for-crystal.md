@@ -6,7 +6,7 @@ Everything `shards` does, `shards-alpha` does too — plus the new stuff. It's d
 
 ## Why This Matters for Amber
 
-Amber 2.0 is about empowering a solo developer to go from idea to enterprise. That means the tooling around the framework has to handle the hard stuff: security audits, license compliance, dependency integrity, and now — making your AI assistant actually understand your dependencies. Shards-alpha brings all of that into the package manager where it belongs.
+Amber 2.0 is designed around a verified path from installation to a working application. The surrounding toolchain has a different job: make security audits, license compliance, dependency integrity, and AI-readable package documentation visible before they become release surprises. Shards-alpha brings that work into the package manager.
 
 ## Supply Chain Compliance
 

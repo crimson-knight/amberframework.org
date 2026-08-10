@@ -18,6 +18,6 @@ pipeline, while files under `public/` are served through the static pipeline.
 - [Pipelines](pipelines.md) — compose request handlers in execution order.
 - [Routes](routes.md) — map paths, resources, namespaces, and constraints.
 
-Routes are compile-time application structure. Amber CLI V2 does not currently
-publish the retired `amber routes` command, so `config/routes.cr`, request specs,
-and compiler errors are the source of truth for the beta.
+Run `amber routes` from the project root to inspect the routes declared in
+`config/routes.cr`. The compiler and request specs remain the source of truth
+for whether those routes dispatch successfully.

@@ -9,7 +9,8 @@ description: "Encrypted attributes, secure tokens, and signed IDs in Grant ORM"
 
 > **Preview ecosystem guide:** Grant is not part of the Amber 2.0.0-beta.2
 > core web-app release gate. Its package version, API, and platform support may
-> change independently. Do not add a personal fork as a default dependency.
+> change independently. Confirm a compatible official release before adding it
+> to an application.
 
 Grant provides built-in security features for protecting sensitive data, generating secure tokens, and creating tamper-proof URLs.
 

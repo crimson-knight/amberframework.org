@@ -7,7 +7,8 @@ description: "Schema definition, field types, and options in Amber 2.0"
 
 # Schema Basics
 
-This guide covers the fundamentals of defining schemas in Amber 2.0.
+A schema declares an input contract: accepted content type, typed fields,
+defaults, validation rules, and the value or error type produced after parsing.
 
 ## Schema Definition
 

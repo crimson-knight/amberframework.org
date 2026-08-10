@@ -9,9 +9,11 @@ description: "Asset Pipeline configuration and deployment options"
 
 > **Preview ecosystem guide:** Asset Pipeline is not part of the Amber 2.0.0-beta.2
 > core web-app release gate. Its package version, API, and platform support may
-> change independently. Do not add a personal fork as a default dependency.
+> change independently. Confirm a compatible official release before adding it
+> to an application.
 
-This guide covers Asset Pipeline configuration options, environment setup, and deployment best practices.
+Configure where Asset Pipeline reads JavaScript, where it writes browser-ready
+files, and when its cache is cleared across development and deployment.
 
 ## FrontLoader Options
 
