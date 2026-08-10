@@ -40,8 +40,8 @@ done
 
 grep -F '@font-face' public/assets/css/amber-brand.css >/dev/null
 grep -F '/assets/fonts/Manrope-Variable.woff2' public/assets/css/amber-brand.css >/dev/null
-grep -F '/assets/css/amber-brand.css?v=2.0.0-beta.2-20260803c' src/views/layouts/application.ecr >/dev/null
-grep -F '/assets/js/amber-site.js?v=2.0.0-beta.2-20260803c' src/views/layouts/application.ecr >/dev/null
+grep -F '/assets/css/amber-brand.css?v=2.0.0-beta.2-20260810a' src/views/layouts/application.ecr >/dev/null
+grep -F '/assets/js/amber-site.js?v=2.0.0-beta.2-20260810a' src/views/layouts/application.ecr >/dev/null
 grep -F 'data-no-tracking="true"' src/views/layouts/application.ecr >/dev/null
 grep -F 'We do not track you.' src/views/home/privacy.ecr >/dev/null
 grep -F 'No analytics.' src/views/home/privacy.ecr >/dev/null
@@ -82,8 +82,12 @@ grep -F 'Linux native UI bindings remain frontier work' src/views/home/index.ecr
 grep -F '/assets/characters/amber-hero-desk-transparent-higgsfield.webp' src/views/home/index.ecr >/dev/null
 grep -F '/assets/characters/amber-hero-desk-desktop-higgsfield.webp' src/views/home/index.ecr >/dev/null
 grep -F '/assets/characters/amber-hero-desk-mobile-higgsfield.webp' src/views/home/index.ecr >/dev/null
-grep -F '/assets/characters/amber-frontier-higgsfield.webp' src/views/home/index.ecr >/dev/null
-grep -F 'Your Amber V2 application is running successfully.' src/views/home/index.ecr >/dev/null
+if rg -n '/assets/characters/amber-frontier-higgsfield.webp' src/views/home/index.ecr; then
+  fail "the off-brand frontier image is still used by the application-type hover state"
+fi
+grep -F 'class="native-platform-map"' src/views/home/index.ecr >/dev/null
+grep -F 'Your new idea' src/views/home/index.ecr >/dev/null
+grep -F 'Ready to customize' src/views/home/index.ecr >/dev/null
 grep -F 'amber generate controller Posts' src/views/home/index.ecr >/dev/null
 grep -F 'Grant keeps the records straight.' src/views/home/index.ecr >/dev/null
 grep -F 'The core web template does not install an ORM by default' src/views/home/index.ecr >/dev/null
@@ -106,6 +110,8 @@ grep -F 'data-terminal-mode="typed"' src/views/home/index.ecr >/dev/null
 grep -F 'data-terminal-url' src/views/home/index.ecr >/dev/null
 grep -F 'class="demo-pointer"' src/views/home/index.ecr >/dev/null
 grep -F 'terminalDemo.classList.add('"'"'is-browser-open'"'"')' public/assets/js/amber-site.js >/dev/null
+grep -F "rootMargin: '0px 0px -50% 0px'" public/assets/js/amber-site.js >/dev/null
+grep -F "terminalDemo.dataset.terminalState = 'waiting'" public/assets/js/amber-site.js >/dev/null
 grep -F 'transition: left 760ms' public/assets/css/amber-brand.css >/dev/null
 grep -F 'transition: opacity 760ms ease, transform 760ms' public/assets/css/amber-brand.css >/dev/null
 grep -F 'data-crystal-field' src/views/home/index.ecr >/dev/null
@@ -125,6 +131,7 @@ grep -F 'replacement-link' src/views/docs/_version_timeline.ecr >/dev/null
 grep -F 'version_id: @version_id, page_path: source_path' src/controllers/docs_controller.cr >/dev/null
 grep -F 'Amber CLI `2.0.2` embeds its web scaffold' docs/v2/guides/web-template/index.md >/dev/null
 grep -F 'a template correction currently requires an Amber CLI' docs/v2/guides/web-template/index.md >/dev/null
+grep -F 'Your new idea' docs/v2/guides/web-template/index.md >/dev/null
 grep -F 'This is a responsibility comparison, not a promise of API compatibility.' src/views/home/character.ecr >/dev/null
 grep -F 'data-responsibility-select' src/views/home/character.ecr >/dev/null
 grep -F 'data-translation-profile' src/views/home/character.ecr >/dev/null

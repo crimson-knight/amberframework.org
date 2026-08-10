@@ -76,30 +76,45 @@ The localhost cue displays a pointer, moves it onto the URL, and runs the
 `pointer-ping` ring for 620 ms. Browser interaction confirmed the URL's active
 state and the pseudo-element animation.
 
+The terminal now begins in an explicit `waiting` state. At the desktop proof it
+had zero completed lines while its top edge sat at 392 pixels—just below the
+376-pixel viewport midpoint. At the mobile proof it remained waiting at 430
+pixels against a 352-pixel midpoint, then changed to `running` only after its
+top crossed to 330 pixels. The observer uses a bottom root margin of `-50%`, so
+the animation does not run while the demo is merely peeking into the viewport.
+
 All 12 terminal outputs completed, the generated browser opened without
 changing page scroll position, and the stage produced zero horizontal overflow.
-The browser content now matches the authoritative inline writer in Amber CLI
-`NewCommand`, including:
+The browser content now matches the authoritative inline writer on the
+`agent/v2-template-brand` Amber CLI branch, including:
 
 ```text
-Welcome to my_app!
-Your Amber V2 application is running successfully.
+my_app                                      Amber V2 beta
 
-Getting Started
-- Edit this page: src/views/home/index.ecr
-- Add routes: config/routes.cr
-- Add a controller: amber generate controller Posts
+Amber V2 · Web application
+Your new idea starts here.
+
+my_app is running. Your first route, view, and locally served asset pipeline
+are ready to shape.
+
+Server rendered · Crystal powered · Ready to customize
+First edits · Make it yours.
 ```
 
-At mobile width, the terminal and application preview stack at the same
-345-pixel content width. The finished stage measured 363 pixels wide and
-produced zero page overflow.
+At the default desktop proof the generated page filled its 430-pixel viewport
+without internal vertical or horizontal overflow. At the responsive proof, the
+313-pixel stage and 295-pixel browser preview stacked cleanly, the starter
+collapsed to one column, and the document and generated page both produced zero
+horizontal overflow.
 
 ## Application frontier proof
 
 The application-type section begins on the web state. Keyboard focus on the
-native CTA changed `data-active-application` to `native`, brought the native
-scene to opacity 1, and revealed the native CTA at opacity 1. Returning focus to
+native CTA changed `data-active-application` to `native` and brought the native
+scene to opacity 1. The former full-bleed cinematic image is no longer referenced
+by the homepage. Its replacement is a six-part, code-native platform map made
+from orbit lines, macOS/iOS/Android device silhouettes, and the same faceted
+amber crystal geometry used elsewhere in the brand system. Returning focus to
 web restores the supported web treatment.
 
 At mobile width, the center observer exposed the web CTA while the web card
@@ -137,9 +152,15 @@ the cards measured 347 pixels wide in the mobile proof.
 
 Amber CLI `2.0.2` writes the web scaffold from inline methods in
 `NewCommand#create_project_structure`; it does not render the separate template
-tree or fetch a remote template manifest. Those two local representations have
-already drifted. The website now mirrors the executable behavior, and the web
-template guide tells users to upgrade the CLI before generating a new app.
+tree or fetch a remote template manifest. The authoritative writer, its
+generator spec, the fallback template-source example, the website demonstration,
+and the web-template guide are now aligned on the redesigned starter structure.
+The isolated CLI proof ran 142 examples with zero failures or errors.
+
+The site and CLI work remain on review branches. The design change still needs
+an Amber CLI patch release before the published Homebrew formula can generate
+this exact starter; the documentation and site must not deploy ahead of that
+versioned CLI artifact.
 
 The signed remote-template channel in `TEMPLATE_DELIVERY_STRATEGY.md` is
 **PROPOSED — NOT IMPLEMENTED**. It requires immutable versions, compatibility

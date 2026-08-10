@@ -62,23 +62,41 @@ destinations without forcing unused dependencies into a new application.
 
 ## First rendered page
 
-The current `NewCommand` writes a centered system-font welcome page. Its visible
-content is:
+The V2 template update gives a new application a small, production-shaped
+design system instead of a generic centered welcome message. It uses no remote
+fonts, images, JavaScript packages, or build step: the crystal mark, warm paper
+field, status chips, and responsive layout are all authored in the generated
+ECR and `public/css/app.css`.
+
+Its visible content begins with:
 
 ```text
-Welcome to my_app!
-Your Amber V2 application is running successfully.
+my_app                                      Amber V2 beta
 
-Getting Started
-- Edit this page: src/views/home/index.ecr
-- Add routes: config/routes.cr
-- Add a controller: amber generate controller Posts
+Amber V2 · Web application
+Your new idea starts here.
+
+my_app is running. Your first route, view, and locally served asset pipeline
+are ready to shape.
+
+Server rendered · Crystal powered · Ready to customize
+
+First edits · Make it yours.
+01 Edit the page              src/views/home/index.ecr
+02 Add a route                config/routes.cr
+03 Generate a controller      amber generate controller Posts
 ```
 
-The generated `public/css/app.css` constrains the body to 960 pixels, applies a
-system font stack, centers `.welcome`, and gives it 60 pixels of vertical
-padding. This page—not the unused template-source example—is the contract that
-the homepage demonstration must reproduce.
+The starter visual language intentionally echoes the Amber Framework site
+without turning a new product into an Amber advertisement. Warm neutrals,
+faceted geometry, editorial type hierarchy, and compact operational status are
+the reusable layer; Amber's character artwork and website-only fonts are not
+copied into generated applications.
+
+The homepage demonstration and the authoritative inline `NewCommand` writer
+must carry the same headings, steps, class names, and color tokens. The separate
+template-source example is kept aligned as a fallback, but it is not the runtime
+source used by the `2.0.2` executable.
 
 ## Framework pin
 

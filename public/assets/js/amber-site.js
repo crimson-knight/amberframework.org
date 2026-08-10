@@ -186,6 +186,7 @@
       clearTimers();
       runId += 1;
       terminal.classList.remove('is-animating');
+      terminalDemo.dataset.terminalState = 'complete';
       lines.forEach((line) => {
         const output = line.querySelector('[data-terminal-output]');
         if (output) output.textContent = line.dataset.terminalText || '';
@@ -231,6 +232,7 @@
       await wait(420);
       if (activeRun !== runId) return;
       terminalDemo.classList.add('is-browser-open');
+      terminalDemo.dataset.terminalState = 'complete';
       await wait(480);
       terminalUrl?.classList.remove('is-activated');
     };
@@ -244,6 +246,7 @@
       clearTimers();
       runId += 1;
       const activeRun = runId;
+      terminalDemo.dataset.terminalState = 'running';
       const wasOpen = resetSession();
       await wait(wasOpen ? 820 : 260);
 
@@ -256,7 +259,21 @@
 
     replay?.addEventListener('click', replaySession);
     terminalUrl?.addEventListener('click', () => openGeneratedApp(runId));
-    replaySession();
+
+    if (reducedMotion) {
+      showCompleteSession();
+    } else if ('IntersectionObserver' in window) {
+      terminalDemo.dataset.terminalState = 'waiting';
+      resetSession();
+      const terminalStartObserver = new IntersectionObserver((entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        terminalStartObserver.disconnect();
+        replaySession();
+      }, {rootMargin: '0px 0px -50% 0px', threshold: 0});
+      terminalStartObserver.observe(terminalDemo);
+    } else {
+      replaySession();
+    }
   }
 
   document.querySelectorAll('[data-application-types]').forEach((section) => {
