@@ -8,15 +8,65 @@ description: "Upgrade an Amber 1.x application to the Amber 2.0 web-framework co
 
 # Migration Guide: Amber 1.x to 2.0
 
+Start with the smallest possible upgrade. For many Amber 1.x applications that
+already use ECR and do not depend on Amber's old bundled integrations, the
+first—and sometimes only—application change is the Amber version in
+`shard.yml`. V2 is mostly additive framework work, not an invitation to rewrite
+your product.
+
+The standalone Amber CLI is independent from this runtime upgrade. Install or
+update it when you want V2 generators; an existing application can change its
+framework shard without being regenerated.
+
 > Amber `2.0.0-beta.2` release-gates the framework core and ECR web template.
 > Grant, Gemma, Asset Pipeline, persistence/auth generators, and native output
-> are preview surfaces. Treat their migration guides as separate evaluations,
-> not prerequisites for adopting the framework beta.
+> are separate preview surfaces, not prerequisites for adopting the framework
+> beta.
 
-Migrate the framework core first and preserve working application behavior at
-each step. Persistence, front-end tooling, uploads, and native output have their
-own release boundaries; changing them at the same time makes a failure harder to
-locate and harder to reverse.
+## Try the direct upgrade first
+
+**File: `shard.yml` — change the existing `amber` dependency version.**
+
+```yaml
+dependencies:
+  amber:
+    github: amberframework/amber
+    version: 2.0.0-beta.2
+```
+
+Keep the rest of the application's dependencies unchanged for this first pass.
+
+**Run from: the application root, beside `shard.yml`.**
+
+```bash
+shards update amber
+crystal spec
+shards build
+```
+
+If those commands pass, launch the application through its normal development
+command and smoke-test the routes it actually serves. You do not need to adopt
+the Schema API, replace an ORM, remove working front-end tooling, or regenerate
+the project merely because V2 offers newer options.
+
+## When the direct upgrade needs a follow-up
+
+The migration remains bounded, but it is not literally one line for every
+application. Check the matching row only when the application uses that feature:
+
+| Existing application uses | Follow-up |
+|---|---|
+| ECR views and public static files | Usually no view-system migration |
+| Slang or another Kilt renderer | Convert those templates to ECR |
+| Amber's bundled Redis assumptions | Select and verify explicit session and pub/sub adapters |
+| Database drivers that arrived through Amber | Declare the application's driver directly |
+| Old `YAML.mapping` configuration types | Move those types to `YAML::Serializable` |
+| Framework-internal require paths | Replace them with the public Amber entry point or current API |
+| A working Webpack or other asset build | Keep it during the framework upgrade; migrate it separately if useful |
+
+This inventory is why the guide contains more than a version edit. It is a map
+for the exceptions, not evidence that an ordinary Amber application must be
+rebuilt.
 
 ## What changes in V2
 
@@ -30,7 +80,7 @@ locate and harder to reverse.
 | Request validation | Controller-specific parsing | Optional typed Schema API |
 | File attachments | Application-specific integration | No bundled attachment library; Gemma is an ecosystem preview |
 
-## Before changing dependencies
+## Before changing dependencies in a production application
 
 Create a migration branch and capture a working baseline:
 
@@ -47,27 +97,10 @@ Do not begin by deleting the old asset, persistence, or session configuration.
 Keep the last working path available until its replacement has passed the same
 checks.
 
-## 1. Update the framework core
+## 1. Restore the framework baseline
 
-Pin the official Amber prerelease in `shard.yml`:
-
-```yaml
-dependencies:
-  amber:
-    github: amberframework/amber
-    version: 2.0.0-beta.2
-```
-
-Then update dependencies and restore the baseline before adopting optional V2
-features:
-
-```bash
-shards update
-crystal spec
-crystal build src/your_app.cr -o bin/your_app
-```
-
-Resolve compile errors against the [V2 routing](../guides/routing/),
+After the direct upgrade commands above, resolve any compile errors against the
+[V2 routing](../guides/routing/),
 [controllers](../guides/controllers/), [views](../guides/views/), and
 [configuration](../getting-started/) guides. Keep persistence and asset-tool
 changes out of this step whenever possible.

@@ -1,5 +1,5 @@
 <% @title = "#{post["title"]} — Amber Framework" %>
-<% @meta = "#{post["title"]} — an Amber Framework release and community update." %>
+<% @meta = (post["summary"]? || "An Amber Framework release and community update.").to_s %>
 <script type="application/ld+json"><%= structured_data %></script>
 
 <header class="page-hero post-page-hero">
@@ -17,11 +17,14 @@
   <article class="content-narrow post-article">
     <nav class="post-utility" aria-label="Story formats">
       <a href="/blog">← All stories</a>
-      <span>Read as</span>
+      <a href="/blog/feed.xml">RSS</a>
+      <span>For tools:</span>
       <a href="<%= post_path(post) %>.md">Markdown</a>
       <a href="<%= post_path(post) %>.json">JSON</a>
-      <a href="/blog/feed.xml">RSS</a>
     </nav>
-    <%= MarkdownPreprocessor.render(File.read(filepath), preprocess: false) %>
+    <figure class="post-cover">
+      <img src="<%= post["image"] %>" alt="Illustration for <%= post["title"] %>">
+    </figure>
+    <%= MarkdownPreprocessor.render(File.read(filepath).sub(/\A# [^\n]+\n+/, ""), preprocess: false) %>
   </article>
 </main>

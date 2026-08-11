@@ -11,11 +11,12 @@ class BlogController < ApplicationController
     structured_data = {
       "@context"    => "https://schema.org",
       "@type"       => "Blog",
-      "name"        => "Amber Framework news",
+      "name"        => "Amber Framework blog",
       "description" => "Release notes, engineering stories, and practical Crystal guidance from Amber Framework.",
       "url"         => "#{SITE_URL}/blog",
       "blogPost"    => @posts.map { |post| blog_post_schema(post) },
     }.to_json
+    @image = @posts.first["image"].to_s
     render("index.ecr")
   end
 
@@ -26,6 +27,7 @@ class BlogController < ApplicationController
     filepath = requested_filepath
     post = find_post(filepath)
     if post
+      @image = post["image"].to_s
       structured_data = blog_post_schema(post).to_json
       render("show.ecr")
     else
@@ -36,7 +38,7 @@ class BlogController < ApplicationController
   def index_json
     response.content_type = "application/json; charset=utf-8"
     {
-      title:    "Amber Framework news",
+      title:    "Amber Framework blog",
       url:      "#{SITE_URL}/blog",
       feed_url: "#{SITE_URL}/blog/feed.xml",
       posts:    @posts.map { |post| public_post(post) },
@@ -46,7 +48,7 @@ class BlogController < ApplicationController
   def index_markdown
     response.content_type = "text/markdown; charset=utf-8"
     String.build do |markdown|
-      markdown << "# Amber Framework news\n\n"
+      markdown << "# Amber Framework blog\n\n"
       markdown << "Release notes, engineering stories, and practical Crystal guidance.\n\n"
       markdown << "RSS: #{SITE_URL}/blog/feed.xml\n\n"
       @posts.each do |post|
@@ -81,7 +83,7 @@ class BlogController < ApplicationController
     String.build do |xml|
       xml << %(<?xml version="1.0" encoding="UTF-8"?>\n)
       xml << %(<rss version="2.0"><channel>\n)
-      xml << "<title>Amber Framework news</title>\n"
+      xml << "<title>Amber Framework blog</title>\n"
       xml << "<link>#{SITE_URL}/blog</link>\n"
       xml << "<description>Release notes, engineering stories, and practical Crystal guidance.</description>\n"
       xml << "<language>en-us</language>\n"
@@ -132,6 +134,7 @@ class BlogController < ApplicationController
       url:          "#{SITE_URL}#{post_path(post)}",
       markdown_url: "#{SITE_URL}#{post_path(post)}.md",
       json_url:     "#{SITE_URL}#{post_path(post)}.json",
+      image_url:    "#{SITE_URL}#{post["image"]}",
     }
   end
 

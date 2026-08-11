@@ -3,9 +3,9 @@
 
 <div class="release-strip preview-strip">
   <div class="site-container">
-    <span class="release-pill">V2 beta</span>
-    <span>Amber 2 is ready for beta testing.</span>
-    <a href="/docs/v2/getting-started/installation">Install the beta →</a>
+    <span class="release-pill">V2 web beta</span>
+    <span>Framework beta.2 · Jul 31, 2026 · CLI 2.0.3 · Aug 11, 2026</span>
+    <a href="/releases">What shipped →</a>
   </div>
 </div>
 
@@ -30,8 +30,8 @@
       </div>
       <div class="hero-proof-row" aria-label="Preview support summary">
         <span><img src="/assets/brand/crys-mascot.svg" width="26" height="23" alt=""><span><strong>Crystal</strong> 1.20+ · latest stable recommended</span></span>
-        <span><img src="/assets/characters/amber-chibi-hero-mark-v2.webp" width="26" height="26" alt=""><span><strong>Amber</strong> 2.0 beta</span></span>
-        <span><span class="hero-proof-symbol" aria-hidden="true">⌘</span><span><strong>amber_cli</strong> V2 · standalone</span></span>
+        <span><img src="/assets/characters/amber-chibi-hero-mark-v2.webp" width="26" height="26" alt=""><span><strong>Amber</strong> 2.0.0-beta.2 · Jul 31</span></span>
+        <span><span class="hero-proof-symbol" aria-hidden="true">⌘</span><span><strong>amber_cli</strong> 2.0.3 · Aug 11</span></span>
       </div>
     </div>
     <div class="hero-art hero-art-amber reveal" aria-label="Amber, the framework lead, building an application">
@@ -50,6 +50,15 @@
 </header>
 
 <main>
+  <section class="home-proof-ribbon" aria-label="Amber performance proof">
+    <div class="site-container home-proof-ribbon-grid">
+      <div><strong>$4</strong><span>smallest server target</span></div>
+      <div><strong>5,907</strong><span>full homepage req/s</span></div>
+      <div><strong>1,000</strong><span>joined WebSockets · 0 errors</span></div>
+      <a href="/performance">See the complete human-readable test →</a>
+    </div>
+  </section>
+
   <section class="demo-section" aria-labelledby="first-run-title">
     <div class="site-container">
       <div class="section-heading compact-heading">
@@ -151,7 +160,7 @@
 
       <div class="app-type-grid">
         <article class="app-type-card app-type-default reveal" data-application-choice="web">
-          <div class="app-type-heading"><span class="app-type-icon">&lt;/&gt;</span><span class="status-badge">Default · V2 beta</span></div>
+          <div class="app-type-heading"><span class="app-type-icon">&lt;/&gt;</span><span class="status-badge">Default · release-gated beta</span></div>
           <h3>Web application</h3>
           <p>HTTP server, routes, controllers, ECR views, locally served CSS and JavaScript, configuration, and the complete first-run path.</p>
           <pre><code>amber new my_app
@@ -160,7 +169,7 @@
         </article>
 
         <article class="app-type-card app-type-preview reveal" data-application-choice="native">
-          <div class="app-type-heading"><span class="app-type-icon">◇</span><span class="status-badge">Explicit preview</span></div>
+          <div class="app-type-heading"><span class="app-type-icon">◇</span><span class="status-badge">Preview · outside web gate</span></div>
           <h3>Native application</h3>
           <p>A cross-platform preview for macOS, iOS, and Android using Asset Pipeline UI, FSDD process managers, crystal-audio, and platform build scripts.</p>
           <pre><code>amber new field_app --type native</code></pre>
@@ -196,31 +205,16 @@
     <div class="site-container">
       <div class="home-benchmark-intro reveal">
         <div>
-          <p class="eyebrow">Measured on the smallest target</p>
-          <h2 id="home-benchmark-title">21,795 requests a second.<br><em>On one small server.</em></h2>
+          <p class="eyebrow">The public site, measured on the smallest target</p>
+          <h2 id="home-benchmark-title">One $4 server.<br><em>5,907 real pages a second.</em></h2>
         </div>
-        <p>Amber V2 sustained this median on a DigitalOcean Basic one-vCPU, 512 MB-class Droplet—the $4/month size when the lab ran on July 17, 2026. This was a mixed 1,000-route application with real HTTP sockets, not a static-response shortcut.</p>
-      </div>
-      <div class="benchmark-result-panel home-benchmark-result reveal">
-        <div class="benchmark-headline">
-          <span>Hosted median</span>
-          <strong><b>21,795</b> req/s</strong>
-          <p>Current JSON request path · HTTP/1.1 keep-alive</p>
-        </div>
-        <dl class="benchmark-facts">
-          <div><dt>Target</dt><dd>1 shared vCPU · 512 MB</dd></div>
-          <div><dt>Routes</dt><dd>1,000 mixed endpoints</dd></div>
-          <div><dt>Load</dt><dd>16 connections</dd></div>
-          <div><dt>Trials</dt><dd>7 rotating repetitions</dd></div>
-          <div><dt>Responses</dt><dd>18,728,053 successful</dd></div>
-          <div><dt>Errors</dt><dd>0 socket · 0 non-2xx</dd></div>
-        </dl>
+        <p>On August 11, 2026, the complete 26,271-byte Amber homepage sustained a 5,906.72 req/s median on a DigitalOcean Basic one-vCPU, 512 MB-class Droplet—the $4/month size when the lab ran.</p>
       </div>
       <div class="site-benchmark-proof reveal" aria-labelledby="site-benchmark-title">
         <div class="site-benchmark-copy">
-          <p class="eyebrow">Then we measured this website</p>
-          <h3 id="site-benchmark-title">A real Amber page, plus 1,000 open channels.</h3>
-          <p>On August 11, 2026, this release candidate ran on the same $4 target. Its complete 26 KB homepage sustained a 5,907 req/s median. It then held 1,000 WebSocket clients with zero connection errors while its rendered JSON path still sustained an 8,058 req/s median.</p>
+          <p class="eyebrow">Not a static-response shortcut</p>
+          <h3 id="site-benchmark-title">A complete Amber page, plus 1,000 open channels.</h3>
+          <p>The same application then held 1,000 WebSocket clients with zero connection errors while its rendered JSON path sustained an 8,058 req/s median. The site you are reading is the workload.</p>
         </div>
         <dl class="site-benchmark-numbers">
           <div><dt>Full homepage</dt><dd>5,907 <small>req/s median</small></dd></div>
@@ -228,6 +222,10 @@
           <div><dt>WebSockets</dt><dd>1,000 <small>connected · 0 errors</small></dd></div>
           <div><dt>JSON with 1,000 sockets</dt><dd>8,058 <small>req/s median</small></dd></div>
         </dl>
+      </div>
+      <div class="framework-benchmark-secondary reveal">
+        <div><span>Framework request path · July 17, 2026</span><strong>21,795 <small>req/s median</small></strong></div>
+        <p>A separate mixed 1,000-route JSON workload on the same server class completed 18,728,053 successful responses across seven rotating repetitions with zero socket and non-2xx errors.</p>
       </div>
       <p class="benchmark-boundary reveal"><strong>Read both workloads before repeating the numbers.</strong> The 1,000-connection run used idle joined clients, and its sequential stages were noisy rather than a clean scaling curve. Neither result is a promise that every application, database, proxy, or traffic shape will perform the same way.</p>
       <div class="live-channel-proof reveal" data-live-proof data-state="connecting" role="status" aria-live="polite">
@@ -238,9 +236,8 @@
         </span>
       </div>
       <div class="benchmark-actions reveal">
-        <a class="button button-primary" href="/amber-way#measured-performance">See what Amber believes about performance</a>
-        <a class="button button-secondary" href="/benchmarks/amber-v2-round22-summary.json">Inspect the framework data</a>
-        <a class="button button-secondary" href="/benchmarks/amber-v2-site-websocket-2026-08-11.json">Inspect the website data</a>
+        <a class="button button-primary" href="/performance">Read the complete performance report</a>
+        <a class="button button-secondary" href="/amber-way#measured-performance">See what Amber believes about performance</a>
       </div>
     </div>
   </section>

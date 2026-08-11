@@ -101,6 +101,24 @@
     const destination = new URL(baseUrl);
     destination.searchParams.set('q', prompt);
     link.setAttribute('href', destination.toString());
+
+    if (provider === 'gemini') {
+      link.addEventListener('click', () => {
+        const label = link.querySelector('[data-ai-link-label]');
+        const original = label?.textContent || 'Copy + open Gemini';
+
+        navigator.clipboard.writeText(prompt).then(() => {
+          if (label) label.textContent = 'Copied — paste in Gemini';
+        }).catch((error) => {
+          console.error('Unable to copy the Gemini prompt', error);
+          if (label) label.textContent = 'Gemini opened — copy page manually';
+        });
+
+        window.setTimeout(() => {
+          if (label) label.textContent = original;
+        }, 2800);
+      });
+    }
   });
 
   document.querySelectorAll('[data-relative-date]').forEach((label) => {

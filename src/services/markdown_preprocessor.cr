@@ -20,9 +20,9 @@ module MarkdownPreprocessor
 
   # Render site Markdown with GitHub Flavored Markdown enabled so the tables
   # used throughout the versioned guides become semantic HTML tables.
-  def render(content : String, *, preprocess : Bool = true, version_id : String? = nil, page_path : String? = nil) : String
+  def render(content : String, *, preprocess : Bool = true, safe : Bool = false, version_id : String? = nil, page_path : String? = nil) : String
     source = preprocess ? process(content, version_id: version_id, page_path: page_path) : content
-    options = Markd::Options.new(gfm: true)
+    options = Markd::Options.new(gfm: true, safe: safe)
     enhance_html(Markd.to_html(source, options))
   end
 

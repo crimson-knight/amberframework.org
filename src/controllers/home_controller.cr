@@ -108,6 +108,25 @@ class HomeController < ApplicationController
     render("sponsors.ecr")
   end
 
+  def releases
+    return machine_page("releases", "/releases", markdown: false) if request.path.ends_with?(".json")
+    return machine_page("releases", "/releases", markdown: true) if request.path.ends_with?(".md")
+
+    snapshot = ReleaseCatalog.load
+    framework_releases = ReleaseCatalog.for_project(snapshot, "Amber Framework")
+    cli_releases = ReleaseCatalog.for_project(snapshot, "Amber CLI")
+    stable_release = ReleaseCatalog.find(snapshot, "amberframework/amber", "v1.5.0")
+    beta_release = ReleaseCatalog.find(snapshot, "amberframework/amber", "v2.0.0-beta.2")
+    cli_release = ReleaseCatalog.find(snapshot, "amberframework/amber_cli", "v2.0.3")
+    render("releases.ecr")
+  end
+
+  def performance
+    return machine_page("performance", "/performance", markdown: false) if request.path.ends_with?(".json")
+    return machine_page("performance", "/performance", markdown: true) if request.path.ends_with?(".md")
+    render("performance.ecr")
+  end
+
   def character
     slug = request.path.split('/').last.sub(/\.(?:md|json)$/, "")
     return machine_page(slug, "/characters/#{slug}", markdown: false) if request.path.ends_with?(".json")

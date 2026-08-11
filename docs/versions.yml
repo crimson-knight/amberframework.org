@@ -18,23 +18,32 @@
 #
 # The default_version is shown when accessing /docs without a version specifier.
 
-default_version: v1.4.1
+default_version: v1.5
 
 versions:
   - id: v2
     name: "2.0"
-    label: "2.0 Beta"
+    label: "2.0 Web Beta"
     amber_versions: "2.0.0-beta.2"
     status: preview
     inherits_from: v1.4.1
     release_date: "2026-07-31"
     description: "Amber Framework 2.0 beta core with ECR web templates and the new Amber CLI"
 
+  - id: v1.5
+    name: "1.5"
+    label: "1.5 Stable"
+    amber_versions: "1.5.0"
+    status: stable
+    inherits_from: v1.4.1
+    release_date: "2026-08-01"
+    description: "Current stable Amber Framework line with Crystal 1.21 support"
+
   - id: v1.4.1
     name: "1.4.1"
-    label: "1.4.1 Stable"
+    label: "1.4.1 Legacy"
     amber_versions: "1.4.1"
-    status: stable
+    status: archived
     inherits_from: ~
-    release_date: "2023-01-01"
-    description: "Documentation for Amber Framework 1.4.1"
+    release_date: "2023-08-02"
+    description: "Legacy documentation for Amber Framework 1.4.1"

@@ -49,6 +49,14 @@ describe MarkdownPreprocessor do
       table_count.should be > 0
       wrapper_count.should eq(table_count)
     end
+
+    it "can suppress raw HTML for synchronized external Markdown" do
+      rendered = MarkdownPreprocessor.render("## Notes\n<script>alert('no')</script>\n- safe item", preprocess: false, safe: true)
+
+      rendered.should contain("<h2>Notes</h2>")
+      rendered.should contain("safe item")
+      rendered.should_not contain("<script>")
+    end
   end
 
   describe ".process" do
