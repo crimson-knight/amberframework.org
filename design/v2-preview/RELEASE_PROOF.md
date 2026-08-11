@@ -2,7 +2,7 @@
 
 Date: August 10, 2026 (America/New_York)
 
-Status: **READY TO DEPLOY — PREDEPLOYMENT PROOF COMPLETE**
+Status: **PUBLIC BETA LIVE — PRODUCTION VERIFIED**
 
 ## Owner approval
 
@@ -23,6 +23,8 @@ omission, copy iteration, release merge, and production deployment.
 ## Source and release records
 
 - Website release branch: `agent/v2-public-beta`
+- Website pull request: <https://github.com/crimson-knight/amberframework.org/pull/7>
+- Website production merge: `a589ba5f6f2b86431b4523fdeb809868a87e2397`
 - Amber CLI merge commit: `2c512cbceee822d41d2cbce86de294533ee214ae`
 - Amber CLI pull request: <https://github.com/amberframework/amber_cli/pull/33>
 - Amber CLI release: <https://github.com/amberframework/amber_cli/releases/tag/v2.0.3>
@@ -32,9 +34,7 @@ omission, copy iteration, release merge, and production deployment.
 - Homebrew macOS/Linux install proof: <https://github.com/amberframework/homebrew-amber_cli/actions/runs/31451864810>
 - Production host: DigitalOcean App Platform, application
   `03366d70-743c-469c-842f-d25b44b146b0`, auto-deploying `master`
-
-The website merge commit and DigitalOcean deployment identifier are appended
-after the production deployment reaches a successful state.
+- Active production deployment: `df5ab350-7b01-4ad4-b73f-3661b48b9f0c`
 
 ## Executed validation
 
@@ -80,6 +80,33 @@ mobile menu and documentation selector remained contained, code blocks aligned
 consistently, Copy as Markdown reported success, the terminal waited until it
 crossed the viewport midpoint and completed all 10 outputs, and the generated
 browser opened. Every observed runtime asset used the site origin.
+
+### Public-origin proof
+
+DigitalOcean marked deployment `df5ab350-7b01-4ad4-b73f-3661b48b9f0c`
+`ACTIVE` after building the release image and starting Amber
+`2.0.0-beta.2` in production.
+
+Production browser checks at 390 by 844 covered the homepage, Amber's Way, V2
+index, installation, beta support, `respond_with`, views, import maps, Asset
+Pipeline boundary, performance, web template, Webpack migration, release post,
+Amber character page, and privacy page. Six primary routes were repeated at
+1280-pixel desktop width. The final checks found no broken image and no
+page-level horizontal overflow.
+
+The live terminal began with zero completed lines in `waiting` state while its
+top edge was below the 400-pixel viewport midpoint. After crossing the trigger,
+all 10 outputs completed and the generated-app browser opened. The live asset
+inventory contained only `amberframework.org` hosts.
+
+At 390-pixel width, the expanded documentation menu stayed between x=15 and
+x=375. Claude and ChatGPT handoff links contained the public Amber raw-Markdown
+URL. That raw endpoint returned HTTP 200, `text/plain; charset=utf-8`, and the
+published 2.0.3 installation guide.
+
+The production edge set a necessary Cloudflare `__cf_bm` security cookie. The
+live privacy page discloses that boundary and says accurately that the Amber
+application does not read it or use it for analytics, ads, or profiles.
 
 ## Privacy inventory
 
