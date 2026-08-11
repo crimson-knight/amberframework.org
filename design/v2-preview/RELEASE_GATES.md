@@ -1,6 +1,6 @@
 # Amber V2 website release gates
 
-Status: **READY TO DEPLOY — OWNER APPROVED, ALL PREDEPLOYMENT GATES PASSED**
+Status: **PUBLIC BETA LIVE — ALL RELEASE AND PRODUCTION GATES PASSED**
 
 Every gate must pass and the owner must explicitly approve the rendered proof.
 A green automated check does not authorize a production merge or deployment.

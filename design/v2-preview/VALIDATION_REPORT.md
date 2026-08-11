@@ -2,13 +2,13 @@
 
 Date: August 10, 2026
 
-Branch: `agent/v2-public-beta`
+Production branch: `master` via website pull request 7
 
-Release state: **READY TO DEPLOY — OWNER APPROVED, ALL PREDEPLOYMENT GATES PASSED**
+Release state: **PUBLIC BETA LIVE — PRODUCTION VERIFIED**
 
 This report records the evidence behind the Amber V2 public beta. The final
 deployment identifiers and public-origin checks are recorded in
-`RELEASE_PROOF.md` after production finishes deploying.
+`RELEASE_PROOF.md`.
 
 ## Release contract
 
