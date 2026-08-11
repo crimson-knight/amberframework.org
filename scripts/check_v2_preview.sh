@@ -40,9 +40,9 @@ done
 
 grep -F '@font-face' public/assets/css/amber-brand.css >/dev/null
 grep -F '/assets/fonts/Manrope-Variable.woff2' public/assets/css/amber-brand.css >/dev/null
-grep -F '/assets/css/amber-brand.css?v=2.0.0-beta.2-20260811a' src/views/layouts/application.ecr >/dev/null
+grep -F '/assets/css/amber-brand.css?v=2.0.0-beta.2-20260811b' src/views/layouts/application.ecr >/dev/null
 grep -F '<script type="importmap">' src/views/layouts/application.ecr >/dev/null
-grep -F '"amber/site":"/assets/js/amber-site.js?v=2.0.0-beta.2-20260811a"' src/views/layouts/application.ecr >/dev/null
+grep -F '"amber/site":"/assets/js/amber-site.js?v=2.0.0-beta.2-20260811b"' src/views/layouts/application.ecr >/dev/null
 grep -F '<script type="module">import "amber/site";</script>' src/views/layouts/application.ecr >/dev/null
 grep -F 'data-no-tracking="true"' src/views/layouts/application.ecr >/dev/null
 grep -F 'We do not track you.' src/views/home/privacy.ecr >/dev/null
@@ -126,7 +126,8 @@ grep -F 'IntersectionObserver' public/assets/js/amber-site.js >/dev/null
 grep -F 'data-open-docs-ai="claude"' src/views/docs/show.ecr >/dev/null
 grep -F 'data-open-docs-ai="chatgpt"' src/views/docs/show.ecr >/dev/null
 grep -F 'data-open-docs-ai="gemini"' src/views/docs/show.ecr >/dev/null
-grep -F 'View as Markdown' src/views/docs/show.ecr >/dev/null
+grep -F 'View Markdown' src/views/docs/show.ecr >/dev/null
+grep -F 'View JSON' src/views/docs/show.ecr >/dev/null
 grep -F 'code.language-crystal' public/assets/js/amber-site.js >/dev/null
 grep -F '.token-keyword' public/assets/css/amber-brand.css >/dev/null
 grep -F 'max-height: none;' public/assets/css/amber-brand.css >/dev/null
@@ -146,7 +147,7 @@ grep -F 'Dependencies must earn their place' src/views/home/amber_way.ecr >/dev/
 grep -F 'respond_with do' src/controllers/home_controller.cr >/dev/null
 grep -F 'html { render("amber_way.ecr") }' src/controllers/home_controller.cr >/dev/null
 grep -F 'json { page.to_json }' src/controllers/home_controller.cr >/dev/null
-grep -F 'get "/amber-way.json"' config/routes.cr >/dev/null
+grep -F 'request.path.ends_with?(".json")' src/controllers/home_controller.cr >/dev/null
 grep -F 'One action.' src/views/home/amber_way.ecr >/dev/null
 grep -F 'The filesystem is part of the documentation.' src/views/home/amber_way.ecr >/dev/null
 grep -F 'Views should look like the document they create.' src/views/home/amber_way.ecr >/dev/null

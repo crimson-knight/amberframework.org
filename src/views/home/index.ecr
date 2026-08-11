@@ -192,6 +192,59 @@
     </div>
   </section>
 
+  <section class="section home-benchmark-section" aria-labelledby="home-benchmark-title">
+    <div class="site-container">
+      <div class="home-benchmark-intro reveal">
+        <div>
+          <p class="eyebrow">Measured on the smallest target</p>
+          <h2 id="home-benchmark-title">21,795 requests a second.<br><em>On one small server.</em></h2>
+        </div>
+        <p>Amber V2 sustained this median on a DigitalOcean Basic one-vCPU, 512 MB-class Droplet—the $4/month size when the lab ran on July 17, 2026. This was a mixed 1,000-route application with real HTTP sockets, not a static-response shortcut.</p>
+      </div>
+      <div class="benchmark-result-panel home-benchmark-result reveal">
+        <div class="benchmark-headline">
+          <span>Hosted median</span>
+          <strong><b>21,795</b> req/s</strong>
+          <p>Current JSON request path · HTTP/1.1 keep-alive</p>
+        </div>
+        <dl class="benchmark-facts">
+          <div><dt>Target</dt><dd>1 shared vCPU · 512 MB</dd></div>
+          <div><dt>Routes</dt><dd>1,000 mixed endpoints</dd></div>
+          <div><dt>Load</dt><dd>16 connections</dd></div>
+          <div><dt>Trials</dt><dd>7 rotating repetitions</dd></div>
+          <div><dt>Responses</dt><dd>18,728,053 successful</dd></div>
+          <div><dt>Errors</dt><dd>0 socket · 0 non-2xx</dd></div>
+        </dl>
+      </div>
+      <div class="site-benchmark-proof reveal" aria-labelledby="site-benchmark-title">
+        <div class="site-benchmark-copy">
+          <p class="eyebrow">Then we measured this website</p>
+          <h3 id="site-benchmark-title">A real Amber page, plus 1,000 open channels.</h3>
+          <p>On August 11, 2026, this release candidate ran on the same $4 target. Its complete 26 KB homepage sustained a 5,907 req/s median. It then held 1,000 WebSocket clients with zero connection errors while its rendered JSON path still sustained an 8,058 req/s median.</p>
+        </div>
+        <dl class="site-benchmark-numbers">
+          <div><dt>Full homepage</dt><dd>5,907 <small>req/s median</small></dd></div>
+          <div><dt>Agent index</dt><dd>14,085 <small>req/s median</small></dd></div>
+          <div><dt>WebSockets</dt><dd>1,000 <small>connected · 0 errors</small></dd></div>
+          <div><dt>JSON with 1,000 sockets</dt><dd>8,058 <small>req/s median</small></dd></div>
+        </dl>
+      </div>
+      <p class="benchmark-boundary reveal"><strong>Read both workloads before repeating the numbers.</strong> The 1,000-connection run used idle joined clients, and its sequential stages were noisy rather than a clean scaling curve. Neither result is a promise that every application, database, proxy, or traffic shape will perform the same way.</p>
+      <div class="live-channel-proof reveal" data-live-proof data-state="connecting" role="status" aria-live="polite">
+        <span class="live-channel-signal" aria-hidden="true"></span>
+        <span>
+          <strong data-live-proof-label>Opening a live Amber channel…</strong>
+          <small><code>/ws</code> · <code>site:proof</code> · local ES module</small>
+        </span>
+      </div>
+      <div class="benchmark-actions reveal">
+        <a class="button button-primary" href="/amber-way#measured-performance">See what Amber believes about performance</a>
+        <a class="button button-secondary" href="/benchmarks/amber-v2-round22-summary.json">Inspect the framework data</a>
+        <a class="button button-secondary" href="/benchmarks/amber-v2-site-websocket-2026-08-11.json">Inspect the website data</a>
+      </div>
+    </div>
+  </section>
+
   <section class="section grant-spotlight-section">
     <div class="site-container">
       <div class="grant-spotlight reveal">

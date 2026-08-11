@@ -37,6 +37,8 @@ directory labeled as generated output.
 - [Build a Pet Tracker](pet-tracker/) — the canonical first app, from routes to HTML, JSON, CSS, and browser-native JavaScript
 - [Web template](web-template/) — exact output of Amber CLI 2.0.3
 - [Schema API](schema-api/) — typed request parsing and validation
+- [WebSockets and live pages](websockets/) — server-rendered documents with channel-driven ES module updates
+- [Background jobs](background-jobs/) — queues, retries, delayed work, work stealing, and capacity boundaries
 - [Adapters](adapters/) — framework adapter concepts and extension points
 
 ## Preview ecosystem material

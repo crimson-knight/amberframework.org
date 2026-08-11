@@ -16,6 +16,10 @@ The assistant is a reading and teaching layer. The documentation remains the
 source of truth, and platform support claims still come from the published beta
 matrix and its linked CI evidence.
 
+For tools that support remote MCP servers, use the live, read-only
+[Amber documentation MCP server](mcp.md). It searches the published V2 source
+without requiring a knowledge-file refresh.
+
 ## Download the knowledge file
 
 **Reference download: save this generated Markdown file before opening the GPT
@@ -30,6 +34,10 @@ interpreting a visual layout.
 
 Download a fresh copy after a documentation release. A custom GPT does not
 automatically replace a knowledge file when this website changes.
+
+The Custom GPT workflow below uses a knowledge upload because GPT knowledge and
+remote MCP configuration are different product surfaces. Do not paste the MCP
+endpoint into the Knowledge field.
 
 ## Create the custom GPT
 
@@ -132,8 +140,10 @@ The page-level source contract is:
 **Reference URL pattern:**
 
 ```text
-https://amberframework.org/docs/raw/v2/PAGE_PATH
+https://amberframework.org/docs/v2/PAGE_PATH.md
 ```
 
 For example, the Pet Tracker source is
-`https://amberframework.org/docs/raw/v2/guides/pet-tracker`.
+`https://amberframework.org/docs/v2/guides/pet-tracker.md`. Add `.json` instead
+when the assistant or script needs title, description, version, canonical URL,
+inheritance state, and Markdown content in one structured object.

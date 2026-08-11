@@ -39,9 +39,20 @@ grep -F '.table-scroll' public/assets/css/amber-brand.css
 grep -F 'padding: 1.15rem 1.25rem;' public/assets/css/amber-brand.css
 grep -F 'data-open-docs-ai="gemini"' src/views/docs/show.ecr
 grep -F 'get "/docs/v2/knowledge.md"' config/routes.cr
+grep -F 'documentation_markdown' src/controllers/docs_controller.cr
+grep -F 'documentation_json' src/controllers/docs_controller.cr
+grep -F 'View JSON' src/views/docs/show.ecr
 grep -F 'get "/showcase"' config/routes.cr
 grep -F 'get "/sponsors"' config/routes.cr
 grep -F 'white-space: nowrap;' public/assets/css/amber-brand.css
+grep -F 'get "/blog/feed.xml"' config/routes.cr
+grep -F 'post "/mcp"' config/routes.cr
+grep -F 'amber-v2-site-websocket-2026-08-11.json' src/views/home/index.ecr
+
+for sprite in productivity performance happiness humility respect trust; do
+  test -s "public/assets/characters/way-sprites/${sprite}-a.webp"
+  test -s "public/assets/characters/way-sprites/${sprite}-b.webp"
+done
 
 if rg -n 'Carried forward' src/views docs/v2; then
   echo "Unchanged documentation should be represented by the absence of a change badge" >&2
@@ -72,6 +83,11 @@ fi
 
 if rg -n 'code\s*\{[^}]*padding:.*!important|pre code\s*\{[^}]*padding:\s*0' public/assets/css/amber-brand.css; then
   echo "Code-block padding has multiple competing owners" >&2
+  exit 1
+fi
+
+if rg -n '^```ruby$' docs; then
+  echo "Documentation code fences must identify Crystal examples as Crystal" >&2
   exit 1
 fi
 

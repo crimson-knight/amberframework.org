@@ -29,6 +29,40 @@ four-vCPU host generated load over a private VPC.
 This result is whole HTTP traffic over real sockets. It is not an in-process
 router lookup rate.
 
+## This website on the same smallest target
+
+On August 11, 2026, we compiled the Amber Framework website release candidate
+for Linux `x86_64-v2` and ran it on the current $4/month DigitalOcean size: one
+shared vCPU with 512 MB advertised memory. A separate four-vCPU machine drove
+traffic over the private VPC.
+
+| Actual website path | Median throughput | Median-trial p50 | Median-trial p99 |
+|---|---:|---:|---:|
+| Complete 26,271-byte homepage | **5,907 req/s** | 2.67 ms | 7.07 ms |
+| Rendered `/index.json` | **9,355 req/s** | 1.66 ms | 5.84 ms |
+| Static `/llms.txt` | **14,085 req/s** | 1.08 ms | 3.90 ms |
+
+Each row used four load-generator threads, 16 persistent connections, a
+five-second warmup, and five 15-second trials. Together, these baseline and
+WebSocket-concurrency stages delivered 2,944,287 successful HTTP responses
+with zero reported socket errors and zero non-2xx responses.
+
+The same release candidate then held 100, 500, and 1,000 joined WebSocket
+clients. All 2,600 connection attempts across the stages and the second
+1,000-client cycle succeeded. During the first 1,000-client hold, the rendered
+JSON path sustained a median **8,058 requests/second**; the median trial's p99
+was 26.77 ms.
+
+This is useful capacity evidence, but not a scaling curve. The connection
+stages ran sequentially on a shared-vCPU target and were visibly noisy: the
+500-client stage was slower than the 1,000-client stage. Clients joined a topic
+and then remained idle, so the result does not measure broadcast fan-out, slow
+consumers, TLS, a reverse proxy, a public network, or multiple Amber processes.
+
+The complete [website and WebSocket evidence](/benchmarks/amber-v2-site-websocket-2026-08-11.json)
+includes every throughput trial, response size, resource snapshot, executable
+fingerprint, method, and limitation.
+
 ## Workload
 
 The release-mode `x86_64-v2` binary installed 1,000 routes and replayed the same
@@ -94,3 +128,7 @@ in a machine-readable form. The source experiment used commit
 The result should be rerun for the GA release. If the workload, hardware, or
 harness changes, publish it as a new benchmark rather than silently replacing
 the historical context.
+
+The separate [August 11 website evidence](/benchmarks/amber-v2-site-websocket-2026-08-11.json)
+records what the actual public-site release candidate did under both HTTP and
+held-WebSocket load. Keep these two workloads separate when quoting them.

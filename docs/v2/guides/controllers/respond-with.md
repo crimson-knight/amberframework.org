@@ -2,7 +2,7 @@
 title: "Respond With"
 section: "guides/controllers"
 order: 40
-description: "Negotiate HTML, JSON, text, XML, and JavaScript responses in Amber V2"
+description: "Negotiate HTML, JSON, text, XML, and JavaScript responses in Amber V2 beta.2, with an explicit Markdown route"
 ---
 
 # Respond With
@@ -41,11 +41,26 @@ Each helper accepts a string, a zero-argument block returning a string, or—for
 HTML—rendered ECR output. If Amber cannot match any available response, it
 returns `406 Response Not Acceptable`.
 
+Amber `2.0.0-beta.2` does not ship a `markdown` responder helper. When the
+application publishes Markdown, keep that representation explicit until a
+tagged framework release includes it.
+
+**File: `src/controllers/status_controller.cr` — add this second action inside
+`StatusController`.**
+
+```crystal
+def show_markdown
+  response.content_type = "text/markdown; charset=utf-8"
+  "# Status\n\nOK\n"
+end
+```
+
 **File: `config/routes.cr` — register the action inside the existing `routes
 :web` block.**
 
 ```crystal
 get "/status", StatusController, :show
+get "/status.md", StatusController, :show_markdown
 ```
 
 **File: `src/views/status/show.ecr` — create the HTML representation referenced
@@ -60,6 +75,7 @@ by `render("show.ecr")`.**
 ```bash
 curl -H 'Accept: application/json' http://127.0.0.1:3000/status
 curl http://127.0.0.1:3000/status.json
+curl http://127.0.0.1:3000/status.md
 ```
 
 Keep serialization explicit. For typed request parsing and structured API
