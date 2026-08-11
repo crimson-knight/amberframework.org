@@ -34,7 +34,7 @@ omission, copy iteration, release merge, and production deployment.
 - Homebrew macOS/Linux install proof: <https://github.com/amberframework/homebrew-amber_cli/actions/runs/31451864810>
 - Production host: DigitalOcean App Platform, application
   `03366d70-743c-469c-842f-d25b44b146b0`, auto-deploying `master`
-- Active production deployment: `df5ab350-7b01-4ad4-b73f-3661b48b9f0c`
+- Verified launch deployment: `df5ab350-7b01-4ad4-b73f-3661b48b9f0c`
 
 ## Executed validation
 
