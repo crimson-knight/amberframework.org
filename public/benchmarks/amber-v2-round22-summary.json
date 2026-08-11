@@ -1,0 +1,55 @@
+{
+  "benchmark": "Amber V2 hosted framework workload, round 22",
+  "status": "dated experimental result, not a release SLA",
+  "measured_at_utc": "2026-07-17T12:57:13Z",
+  "source": {
+    "binary_commit": "deccb9358fd378a8d4e060cd13a19a35c609197e",
+    "runner_commit": "744269f4fa83ea5a5cbbbeef58d541d0981171d1",
+    "request_table_sha256": "8543042f1684cf2a42ca7759a4166c171af6aaf22678aa88dee7eab407cbe0f5"
+  },
+  "current_amber_json_params": {
+    "requests_per_second": {
+      "trials": 7,
+      "minimum": 18592.03,
+      "median": 21795.0,
+      "mean": 21739.84,
+      "maximum": 24083.27,
+      "standard_deviation": 1820.571885220999
+    },
+    "median_latency_seconds": {
+      "p50": 0.000655,
+      "p99": 0.0042
+    },
+    "median_server_cpu_cores": 0.9602088079470199,
+    "median_server_peak_memory_bytes": 10797056
+  },
+  "workload": {
+    "protocol": "HTTP/1.1 keep-alive",
+    "routes": 1000,
+    "route_mix": "45% static; 25% REST ID; 15% dynamic action; 5% nested; 5% constrained; 5% glob",
+    "method_mix": "65% GET; 20% POST; 8% PUT; 5% PATCH; 2% DELETE",
+    "traffic_entries": 4096,
+    "connections": 16,
+    "load_generator_threads": 4,
+    "warmup_seconds": 5,
+    "measurement_seconds": 15,
+    "repetitions": 7,
+    "trial_schedule": "paired interleaving with rotating variant order"
+  },
+  "hardware": {
+    "target": "DigitalOcean Basic s-1vcpu-512mb-10gb; 1 vCPU; 480497664 visible memory bytes",
+    "load_generator": "DigitalOcean CPU-Optimized c-4; separate host",
+    "network": "private VPC in nyc3"
+  },
+  "complete_seven_variant_matrix": {
+    "successful_responses": 18728053,
+    "socket_errors": 0,
+    "non_2xx_responses": 0
+  },
+  "limits": [
+    "Not a static-response benchmark",
+    "Not a cross-framework ranking",
+    "Not a production capacity promise or SLA",
+    "Results vary with application code, hardware, compiler, proxy, database, and traffic shape"
+  ]
+}

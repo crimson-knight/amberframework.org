@@ -40,8 +40,10 @@ done
 
 grep -F '@font-face' public/assets/css/amber-brand.css >/dev/null
 grep -F '/assets/fonts/Manrope-Variable.woff2' public/assets/css/amber-brand.css >/dev/null
-grep -F '/assets/css/amber-brand.css?v=2.0.0-beta.2-20260810a' src/views/layouts/application.ecr >/dev/null
-grep -F '/assets/js/amber-site.js?v=2.0.0-beta.2-20260810a' src/views/layouts/application.ecr >/dev/null
+grep -F '/assets/css/amber-brand.css?v=2.0.0-beta.2-20260810b' src/views/layouts/application.ecr >/dev/null
+grep -F '<script type="importmap">' src/views/layouts/application.ecr >/dev/null
+grep -F '"amber/site":"/assets/js/amber-site.js?v=2.0.0-beta.2-20260810b"' src/views/layouts/application.ecr >/dev/null
+grep -F '<script type="module">import "amber/site";</script>' src/views/layouts/application.ecr >/dev/null
 grep -F 'data-no-tracking="true"' src/views/layouts/application.ecr >/dev/null
 grep -F 'We do not track you.' src/views/home/privacy.ecr >/dev/null
 grep -F 'No analytics.' src/views/home/privacy.ecr >/dev/null
@@ -139,6 +141,21 @@ grep -F 'updateTranslation' public/assets/js/amber-site.js >/dev/null
 grep -F 'Active Storage' src/views/home/character.ecr >/dev/null
 grep -F 'background jobs and their worker runtime remain a separate' src/views/home/character.ecr >/dev/null
 grep -F 'Dependencies must earn their place' src/views/home/amber_way.ecr >/dev/null
+grep -F 'respond_with do' src/controllers/home_controller.cr >/dev/null
+grep -F 'html { render("amber_way.ecr") }' src/controllers/home_controller.cr >/dev/null
+grep -F 'json { page.to_json }' src/controllers/home_controller.cr >/dev/null
+grep -F 'get "/amber-way.json"' config/routes.cr >/dev/null
+grep -F 'One action.' src/views/home/amber_way.ecr >/dev/null
+grep -F 'The filesystem is part of the documentation.' src/views/home/amber_way.ecr >/dev/null
+grep -F 'Views should look like the document they create.' src/views/home/amber_way.ecr >/dev/null
+grep -F 'Use the web platform before adding a toolchain.' src/views/home/amber_way.ecr >/dev/null
+grep -F '21,795' src/views/home/amber_way.ecr >/dev/null
+grep -F 'whole HTTP requests per second' src/views/home/amber_way.ecr >/dev/null
+grep -F '21,795 requests/second' docs/v2/guides/performance.md >/dev/null
+grep -F 'millions of lookups per second' docs/v2/guides/performance.md >/dev/null
+grep -F '"median": 21795.0' public/benchmarks/amber-v2-round22-summary.json >/dev/null
+grep -F 'browser-native import map' docs/v2/guides/assets/import-maps.md >/dev/null
+grep -F 'no Node.js dependency, package manager' docs/v2/guides/assets/import-maps.md >/dev/null
 
 if rg -n 'Solid Queue|Solid Cache|stored queue records' src/views/home design/v2-preview/EXPERIENCE_BRIEF.md; then
   fail "Grant still claims ownership of a Rails cache or background-job system"

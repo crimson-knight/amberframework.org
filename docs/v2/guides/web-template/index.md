@@ -18,7 +18,8 @@ Web is the default. `amber new my_app --type web` is the explicit equivalent.
 
 The command defaults to ECR and records `pg` as future database intent, but the
 generated application has no ORM, database shard, migration requirement,
-Node.js dependency, or front-end bundler.
+Node.js dependency, or front-end bundler. Its layout resolves the local
+`public/js/app.js` ES module through a browser-native import map.
 
 ## Generated project
 
@@ -65,7 +66,9 @@ destinations without forcing unused dependencies into a new application.
 A new Amber web application includes a small, production-shaped design system.
 It uses no remote fonts, images, JavaScript packages, or build step: the crystal
 mark, warm paper field, status chips, and responsive layout are authored in the
-generated ECR and `public/css/app.css`.
+generated ECR and `public/css/app.css`. Browser behavior starts in the local
+`public/js/app.js` module; the application layout maps it to the stable name
+`app` without a package manager or CDN.
 
 Its visible content begins with:
 
@@ -90,6 +93,19 @@ The starter carries over the site's warm neutrals, faceted geometry, editorial
 type hierarchy, and compact status labels. It leaves out Amber's character art
 and website fonts so the generated application has a coherent starting system
 without inheriting the framework site's identity.
+
+The generated layout contains the complete front-end entry point:
+
+```ecr
+<link rel="stylesheet" href="/css/app.css">
+<script type="importmap">
+  {"imports":{"app":"/js/app.js"}}
+</script>
+<script type="module">import "app";</script>
+```
+
+See [Import maps](../assets/import-maps/) for splitting the local module into
+application-owned controllers and utilities.
 
 ## Framework pin
 

@@ -20,6 +20,7 @@ Amber::Server.configure do |app|
     get "/characters", HomeController, :characters
     get "/characters/:id", HomeController, :character
     get "/amber-way", HomeController, :amber_way
+    get "/amber-way.json", HomeController, :amber_way
     get "/privacy", HomeController, :privacy
     get "/blog", BlogController, :index
     get "/blog/:year/:month/:day/:id", BlogController, :show

@@ -25,6 +25,10 @@ grep -F 'The V1 guide' docs/v2/guides/controllers/sessions.md
 grep -F 'HTTP::Server::Response' docs/v2/guides/controllers/request-and-response-objects.md
 grep -F 'guides/controllers/params.md: guides/schema-api' docs/v2/_replacements.yml
 grep -F 'Web is the default.' docs/v2/guides/web-template/index.md
+grep -F 'respond_with' docs/v2/guides/views/index.md
+grep -F 'type="importmap"' docs/v2/guides/assets/import-maps.md
+grep -F '21,795 requests/second' docs/v2/guides/performance.md
+grep -F '"median": 21795.0' public/benchmarks/amber-v2-round22-summary.json
 grep -F 'PROPOSED — NOT IMPLEMENTED' design/v2-preview/TEMPLATE_DELIVERY_STRATEGY.md
 grep -F '.code-window' public/assets/css/amber-brand.css
 grep -F '.table-scroll' public/assets/css/amber-brand.css
