@@ -11,6 +11,8 @@ Amber CLI can generate a cross-platform native project, but this surface is a
 preview. It is **not release-gated with the V2 web beta** and is not covered by
 the clean web-template compile guarantee.
 
+**Run from: the parent directory where `field_app/` should be created.**
+
 ```bash
 amber new field_app --type native
 ```
@@ -44,6 +46,8 @@ before native support can graduate.
 ## Choose the supported first run
 
 For the V2 beta installation and onboarding path, create the default web app:
+
+**Run from: the parent directory where `my_app/` should be created.**
 
 ```bash
 amber new my_app

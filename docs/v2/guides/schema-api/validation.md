@@ -7,6 +7,14 @@ description: "Built-in validators and custom validation in Amber 2.0"
 
 # Validation
 
+## Where the examples go
+
+Built-in validation options, conditions, custom validator methods, validator
+classes, contexts, and messages belong under `src/schemas/`. Most blocks on
+this page are fragments to place inside the schema class they describe. Calls
+that validate a request and serialize errors belong in the receiving controller
+under `src/controllers/`, with its route in `config/routes.cr`.
+
 Schema fields can enforce presence, length, format, numeric bounds, and custom
 rules before application code receives a typed value.
 

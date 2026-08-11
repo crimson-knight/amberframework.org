@@ -12,6 +12,15 @@ description: "Database transactions and locking strategies in Grant ORM"
 > change independently. Confirm a compatible official release before adding it
 > to an application.
 
+## Where the examples go
+
+Transaction and locking expressions run from the controller, job, service, or
+spec that owns the multi-record operation. Optimistic-locking columns and
+transaction callback declarations belong inside the matching Grant model under
+`src/models/`. Shared financial or inventory workflows should live in a service
+under `src/services/` with focused specs. Blocks on this page use those
+destinations unless a closer comment identifies a different role.
+
 Use a transaction when several writes must commit or roll back together. Grant
 also exposes isolation and locking controls for workflows that coordinate
 concurrent database changes.

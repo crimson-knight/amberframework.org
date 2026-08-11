@@ -31,8 +31,11 @@ Amber 2.0 solves this with:
 
 ### Memory Adapters (Default)
 
+**File: `config/environments/development.yml` — edit the existing `session:`
+and `pubsub:` keys. Apply the same shape deliberately to `test.yml` or
+`production.yml`; environment files do not inherit from one another.**
+
 ```yaml
-# config/environments/development.yml
 session:
   key: "amber.session"
   store: "signed_cookie"
@@ -54,6 +57,10 @@ Memory adapters are perfect for:
 
 For stateless session storage:
 
+**File: one file under `config/environments/`, such as
+`config/environments/production.yml` — replace that environment's existing
+`session:` section.**
+
 ```yaml
 session:
   key: "amber.session"
@@ -65,8 +72,10 @@ session:
 
 ### Session Configuration
 
+**File: `config/environments/production.yml` — replace the existing `session:`
+section after registering the custom `database` adapter.**
+
 ```yaml
-# config/environments/production.yml
 session:
   key: "myapp.session"
   adapter: "database"  # Your custom adapter
@@ -74,6 +83,9 @@ session:
 ```
 
 ### PubSub Configuration
+
+**File: the applicable file under `config/environments/` — edit the existing
+`pubsub:` section.**
 
 ```yaml
 pubsub:

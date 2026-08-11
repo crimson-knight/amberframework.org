@@ -20,6 +20,15 @@ asset requires their build tools. Start with the supported [Import Maps
 guide](../guides/assets/import-maps/) before deciding whether the separate
 Asset Pipeline preview adds value.
 
+## Where the examples go
+
+Run migration commands from the application root. The supported baseline keeps
+browser-ready JavaScript in `public/js/`, CSS in `public/css/`, and import-map
+tags in `src/views/layouts/application.ecr`. The optional Asset Pipeline path
+keeps editable JavaScript in `src/javascript/`, generated output in
+`public/javascript/`, and loader configuration in `config/application.cr`,
+which the released V2 template loads directly.
+
 ## Why Migrate?
 
 | Aspect | Webpack | Optional Asset Pipeline preview |
@@ -49,10 +58,12 @@ dependencies:
 shards install
 ```
 
-### 2. Create Asset Configuration
+### 2. Configure Asset Pipeline
+
+**File: `config/application.cr` — keep `require "amber"`, then append this
+configuration.**
 
 ```crystal
-# config/initializers/assets.cr
 require "asset_pipeline"
 
 JS_SOURCE_PATH = Path["src/javascript"]
@@ -117,7 +128,7 @@ Find your npm dependencies and replace with CDN imports:
 
 **Asset Pipeline (after):**
 ```crystal
-# config/initializers/assets.cr
+# config/application.cr
 import_map.add_import(
   "@hotwired/stimulus",
   "https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/+esm",
@@ -173,7 +184,7 @@ The Asset Pipeline handles Stimulus initialization automatically.
 ### 6. Register Controllers
 
 ```crystal
-# config/initializers/assets.cr
+# config/application.cr
 import_map = AssetPipeline::ImportMap.new("application", Path["/javascript"])
 
 import_map.add_import(
@@ -228,7 +239,7 @@ $(document).ready(() => {
 
 **ESM:**
 ```crystal
-# config/initializers/assets.cr
+# config/application.cr
 import_map.add_import("jquery", "https://cdn.jsdelivr.net/npm/jquery@3.7.1/+esm")
 ```
 
@@ -390,7 +401,7 @@ time npm run build
 If issues arise, you can run both systems temporarily:
 
 ```crystal
-# config/initializers/assets.cr
+# config/application.cr
 FRONT_LOADER = AssetPipeline::FrontLoader.new(...)
 
 # In layout, conditionally use one or the other

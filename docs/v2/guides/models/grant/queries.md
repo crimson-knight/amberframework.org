@@ -12,6 +12,15 @@ description: "Finding and filtering data with Grant's fluent query interface"
 > change independently. Confirm a compatible official release before adding it
 > to an application.
 
+## Where the examples go
+
+Query expressions run from the controller, job, service, or spec that owns the
+read; they are not complete model files. Named and default scopes belong inside
+the matching Grant model under `src/models/`. The complex-query example should
+be extracted to a service or query object under `src/services/` when it is
+shared or independently tested. Blocks on this page use those destinations
+unless a closer comment identifies a different role.
+
 Grant provides a fluent, chainable query API that generates efficient SQL while maintaining type safety.
 
 ## Basic Querying

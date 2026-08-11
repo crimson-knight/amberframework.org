@@ -8,7 +8,11 @@ description: "Compose Amber V2 request handlers in a deliberate order"
 # Pipelines
 
 A pipeline is the ordered set of `HTTP::Handler`-compatible pipes applied to a
-group of routes. The V2 web template generates this configuration:
+group of routes. The V2 web template generates this configuration.
+
+**File: `config/routes.cr` — this is the generated baseline. Edit the existing
+pipelines in place; do not create a second `Amber::Server.configure` block only
+to change their order.**
 
 ```crystal
 Amber::Server.configure do
@@ -41,7 +45,10 @@ headers deliberately to only the pipelines that need them.
 
 ## A protected pipeline
 
-Define a second pipeline when a route group needs additional handling:
+Define a second pipeline when a route group needs additional handling.
+
+**File: `config/routes.cr` — add both the `:admin` pipeline and its route group
+inside the existing `Amber::Server.configure` block.**
 
 ```crystal
 Amber::Server.configure do
@@ -61,4 +68,7 @@ end
 ```
 
 Custom pipes implement `call(context)` and invoke the next handler when the
-request should continue. A pipe that finalizes a response can stop the chain.
+request should continue. Put `AuthenticateAdmin` in its own source file, for
+example `src/pipes/authenticate_admin.cr`, and require that file from the
+application before `config/routes.cr` is compiled. A pipe that finalizes a
+response can stop the chain.

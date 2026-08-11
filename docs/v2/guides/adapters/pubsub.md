@@ -13,7 +13,11 @@ broker when broadcasts must cross process or host boundaries.
 
 ## Complete adapter contract
 
-A custom adapter inherits `Amber::Adapters::PubSubAdapter`:
+A custom adapter inherits `Amber::Adapters::PubSubAdapter`.
+
+**Reference API: implemented by a class under `src/adapters/`, for example
+`src/adapters/redis_pubsub_adapter.cr`. Do not copy the abstract class into the
+application.**
 
 ```crystal
 abstract class Amber::Adapters::PubSubAdapter
@@ -34,7 +38,8 @@ The adapter owns broker subscriptions and resource cleanup. Calling
 
 ## Built-in memory adapter
 
-Select the in-process adapter by name:
+**File: the applicable file under `config/environments/`, such as
+`config/environments/development.yml` — edit its existing `pubsub:` section.**
 
 ```yaml
 pubsub:
@@ -47,7 +52,8 @@ another process through the memory adapter.
 
 ## Register a shared adapter
 
-Load and register the implementation before Amber configures WebSocket pub/sub:
+**File: `config/application.cr` — keep `require "amber"`, require the adapter
+class, then register it before routes are loaded.**
 
 ```crystal
 # config/application.cr
@@ -59,7 +65,8 @@ Amber::Adapters::AdapterFactory.register_pubsub_adapter("redis") do
 end
 ```
 
-Then select the registered name:
+**File: `config/environments/production.yml` — edit the existing `pubsub:`
+section after the adapter is registered.**
 
 ```yaml
 # config/environments/production.yml

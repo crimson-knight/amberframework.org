@@ -12,6 +12,15 @@ description: "Lifecycle hooks and callback methods in Grant ORM"
 > change independently. Confirm a compatible official release before adding it
 > to an application.
 
+## Where the examples go
+
+Callback declarations and their private methods belong inside the matching
+Grant model under `src/models/`, such as `src/models/user.cr`. Examples that
+invoke `save`, `destroy`, or a bulk operation run from the controller, job,
+service, or spec that owns the operation. External delivery belongs in a job or
+service called after commit. Blocks on this page use those destinations unless
+a closer comment identifies a different role.
+
 Callbacks are methods that get called at certain moments of an object's lifecycle. They allow you to trigger logic before or after alterations to your model's state.
 
 ## Available Callbacks

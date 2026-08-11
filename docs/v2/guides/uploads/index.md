@@ -15,6 +15,18 @@ description: "File attachment toolkit for Crystal applications"
 
 Gemma is a file attachment toolkit for Crystal applications, inspired by [Shrine for Ruby](https://shrinerb.com). It connects model attachments to validation, temporary uploads, permanent storage, and delivery across configurable backends.
 
+## Where the examples go
+
+- Add dependencies in `shard.yml` and run commands from the application root.
+- Configure Gemma in `config/application.cr`, which the released V2 template
+  loads directly.
+- Attachment declarations belong in Grant models under `src/models/`.
+- Upload handling belongs in the receiving controller under `src/controllers/`;
+  form and display markup belongs in the matching ECR file under `src/views/`.
+
+Blocks on this page use those destinations unless a closer label says
+otherwise.
+
 ## Why Gemma?
 
 - **Storage Agnostic** - Switch between filesystem and S3 without changing application code
@@ -25,7 +37,7 @@ Gemma is a file attachment toolkit for Crystal applications, inspired by [Shrine
 
 ## Installation
 
-Add Gemma to your `shard.yml`:
+**File: `shard.yml` — add Gemma under the existing `dependencies:` key.**
 
 ```yaml
 dependencies:
@@ -34,14 +46,17 @@ dependencies:
     version: ~> 0.6.5
 ```
 
-Run `shards install`.
+Run `shards install` from the application root.
 
 ## Quick Start
 
 ### 1. Configure Storage
 
+**File: `config/application.cr` — append this setup after `require "amber"`.
+Do not put it in the generated empty `config/initializers/` directory unless
+you also add and verify an explicit require.**
+
 ```crystal
-# config/initializers/gemma.cr
 require "gemma"
 
 Gemma.configure do |config|
@@ -58,6 +73,8 @@ end
 
 ### 2. Add Attachment to Model
 
+**File: `src/models/user.cr` — keep the attachment declaration inside `User`.**
+
 ```crystal
 require "gemma/grant"
 
@@ -73,6 +90,9 @@ end
 ```
 
 ### 3. Use in Controller
+
+**File: `src/controllers/users_controller.cr` — add this behavior inside the
+action that receives the upload.**
 
 ```crystal
 class UsersController < ApplicationController
@@ -94,6 +114,8 @@ end
 ```
 
 ### 4. Display in View
+
+**File: `src/views/users/show.ecr` — render the attachment inside the user page.**
 
 ```ecr
 <% if user.avatar %>

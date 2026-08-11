@@ -12,6 +12,15 @@ description: "Defining relationships between models in Grant ORM"
 > change independently. Confirm a compatible official release before adding it
 > to an application.
 
+## Where the examples go
+
+Association declarations and helper methods belong inside the matching Grant
+model under `src/models/`, such as `src/models/post.cr`. Usage and eager-loading
+expressions run from the controller, job, service, or spec that owns the
+operation. SQL index examples belong in the migration system selected by the
+application, not in a model file. Blocks on this page use those destinations
+unless a closer comment identifies a different role.
+
 Grant associations declare how models find related records and where the foreign
 key for that relationship lives.
 

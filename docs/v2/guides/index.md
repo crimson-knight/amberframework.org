@@ -17,6 +17,21 @@ Pages built around removed components are excluded rather than inherited.
 Granite and Jennifer point to Grant replacements; legacy bundled-CLI commands
 remain retired; assets and the standalone Amber CLI use their V2 guides.
 
+## How to apply an example
+
+Every code-bearing V2 guide now provides one of two placement contracts:
+
+- a walkthrough labels each block with the exact **File**, **Files**, or
+  **Run from** location and says whether to create, edit, replace, or inspect it;
+- an API reference begins with **Where the examples go**, mapping declarations,
+  usage fragments, configuration, views, and generated output to their normal
+  application directories.
+
+Paths are relative to the application root—the directory containing
+`shard.yml`—unless a guide says otherwise. Treat `public/` as browser-served
+application files only when the guide labels them as source; never hand-edit a
+directory labeled as generated output.
+
 ## Supported beta core
 
 - [Web template](web-template/) — exact output of Amber CLI 2.0.3

@@ -14,7 +14,8 @@ bundler, UI framework, CDN, or Asset Pipeline integration is required.
 
 ## Start with one local module
 
-Create the module under `public/`:
+**File: `public/js/app.js` — replace the generated starter module or create this
+file if the application predates the V2 web template.**
 
 ```javascript
 // public/js/app.js
@@ -28,7 +29,9 @@ menuButton?.addEventListener("click", () => {
 });
 ```
 
-Map the name and import it from `src/views/layouts/application.ecr`:
+**File: `src/views/layouts/application.ecr` — place this block immediately
+before `</body>`. Replace the existing starter import-map block; do not add a
+second import map.**
 
 ```ecr
 <script type="importmap">
@@ -47,7 +50,10 @@ deferred by the browser, so the document is parsed before `app.js` executes.
 ## Split behavior by responsibility
 
 Add local modules when the front end becomes large enough to benefit from
-separate files:
+separate files.
+
+**Reference structure — create these files under the application-owned
+`public/js/` directory:**
 
 ```text
 public/js/
@@ -59,7 +65,8 @@ public/js/
     └── format-date.js
 ```
 
-Give those files stable names in the layout:
+**File: `src/views/layouts/application.ecr` — replace the earlier import-map
+block with this expanded map.**
 
 ```ecr
 <script type="importmap">
@@ -74,7 +81,8 @@ Give those files stable names in the layout:
 <script type="module">import "app";</script>
 ```
 
-Then compose them with standard ES module syntax:
+**File: `public/js/app.js` — replace its contents with the application entry
+point that composes the two controllers.**
 
 ```javascript
 // public/js/app.js
@@ -92,7 +100,9 @@ later.
 ## Styling stays local too
 
 An import map solves JavaScript module names; it does not replace CSS. Keep the
-front-end baseline together and visible:
+front-end baseline together and visible.
+
+**Reference structure:**
 
 ```text
 public/
@@ -102,11 +112,15 @@ public/
     └── controllers/menu.js
 ```
 
+**File: `src/views/layouts/application.ecr` — keep this stylesheet link inside
+`<head>`.**
+
 ```ecr
 <link rel="stylesheet" href="/css/app.css">
 ```
 
-Start `app.css` with application-owned tokens and ordinary platform features:
+**File: `public/css/app.css` — use this as a starting layer, then extend it with
+the application's components.**
 
 ```css
 :root {
@@ -134,7 +148,10 @@ the visual system, and local modules add behavior progressively.
 
 ## Cache versions deliberately
 
-Static files can use a query version when you need an explicit cache boundary:
+Static files can use a query version when you need an explicit cache boundary.
+
+**File: `src/views/layouts/application.ecr` — update the existing asset URLs;
+do not duplicate the stylesheet or import map.**
 
 ```ecr
 <link rel="stylesheet" href="/css/app.css?v=2026-08-10">
@@ -159,3 +176,17 @@ graphs, but it is not required by the Amber 2.0.0-beta.2 web-app contract. Its
 package version, API, and platform support may change independently.
 
 See [Views](../views/) for the complete controller, ECR, and layout boundary.
+
+## Verify the file-to-browser path
+
+**Run from: the application root.**
+
+```bash
+crystal spec
+amber watch
+```
+
+Open a rendered page, use **View Source**, and confirm that it contains one
+import map before the module import. Then request `/js/app.js` directly and
+confirm that Amber returns the file from `public/js/app.js`. If a nested import
+fails, compare its map prefix with the matching directory under `public/js/`.
