@@ -47,7 +47,8 @@ grep -F 'get "/sponsors"' config/routes.cr
 grep -F 'white-space: nowrap;' public/assets/css/amber-brand.css
 grep -F 'get "/blog/feed.xml"' config/routes.cr
 grep -F 'post "/mcp"' config/routes.cr
-grep -F 'amber-v2-site-websocket-2026-08-11.json' src/views/home/index.ecr
+grep -F 'href="/performance"' src/views/home/index.ecr
+grep -F 'amber-v2-site-websocket-2026-08-11.json' src/views/home/performance.ecr
 
 for sprite in productivity performance happiness humility respect trust; do
   test -s "public/assets/characters/way-sprites/${sprite}-a.webp"

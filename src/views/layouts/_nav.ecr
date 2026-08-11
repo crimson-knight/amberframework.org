@@ -3,13 +3,14 @@
     <a class="brand-lockup" href="/" aria-label="Amber Framework home">
       <img class="brand-character-mark" src="/assets/characters/amber-chibi-hero-mark-v2.webp" width="48" height="48" alt="">
       <span>Amber Framework</span>
-      <span class="brand-version">V2 beta</span>
+      <span class="brand-version">V2 web beta</span>
     </a>
 
     <button class="menu-button" type="button" aria-label="Open navigation" aria-expanded="false" data-menu-button>Menu</button>
 
     <div class="site-menu" data-site-menu>
       <a href="/docs/v2"<%= " aria-current=\"page\"" if context.request.path.starts_with?("/docs") %>>Docs</a>
+      <a href="/releases"<%= " aria-current=\"page\"" if context.request.path == "/releases" %>>Releases</a>
       <a href="/showcase"<%= " aria-current=\"page\"" if context.request.path == "/showcase" %>>Showcase</a>
       <a href="/characters"<%= " aria-current=\"page\"" if context.request.path.starts_with?("/characters") %>>Characters</a>
       <a href="/blog"<%= " aria-current=\"page\"" if context.request.path.starts_with?("/blog") %>>Blog</a>

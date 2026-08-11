@@ -47,6 +47,24 @@ module SiteContent
         "## Contributors\nAmber is built by maintainers and community contributors across the framework, CLI, documentation, adapters, and ecosystem projects.",
       ],
     },
+    "releases" => {
+      title:       "Amber releases",
+      description: "Dated Amber Framework and Amber CLI releases synchronized from GitHub, with the V2 web beta boundary explained in plain language.",
+      sections:    [
+        "## Current choices\nAmber Framework 1.5.0 is the stable maintenance line, Amber Framework 2.0.0-beta.2 is the current V2 web-framework beta, and Amber CLI 2.0.3 is the current standalone application generator.",
+        "## What beta means\nThe V2 tag is a prerelease while its web path is tested in public. The release-gated web core is coherent today; persistence, files, native output, and Asset Pipeline are separately labeled preview surfaces rather than evidence that ordinary routes, controllers, or ECR views are expected to be rewritten.",
+        "## Source of truth\nGitHub Releases remains the source of truth. The human page is refreshed from the Amber Framework and Amber CLI repositories every six hours and links every entry back to its original release.",
+      ],
+    },
+    "performance" => {
+      title:       "Amber performance evidence",
+      description: "Human-readable Amber V2 performance results, workloads, limitations, and reproducible source data.",
+      sections:    [
+        "## The public website\nOn August 11, 2026, the complete 26,271-byte Amber homepage sustained a 5,906.72 req/s median on a DigitalOcean Basic one-vCPU, 512 MB-class target. The same lab held 1,000 joined WebSocket clients with zero connection errors.",
+        "## The framework request path\nOn July 17, 2026, an Amber V2 mixed 1,000-route JSON workload sustained a 21,795 req/s hosted median on the same server class across seven rotating repetitions with zero socket and non-2xx errors.",
+        "## Read the boundary\nThese results describe exact workloads, not an SLA or a promise for database-backed applications. The WebSocket clients were idle after joining, and its sequential shared-vCPU stages were noisy rather than a causal scaling curve.",
+      ],
+    },
     "privacy" => {
       title:       "Privacy",
       description: "How the Amber Framework website handles visitor data.",

@@ -27,6 +27,8 @@ Amber::Server.configure do |app|
     get "/characters.md", HomeController, :page_markdown
     get "/showcase.md", HomeController, :page_markdown
     get "/sponsors.md", HomeController, :page_markdown
+    get "/releases.md", HomeController, :page_markdown
+    get "/performance.md", HomeController, :page_markdown
     get "/amber-way.md", HomeController, :page_markdown
     get "/privacy.md", HomeController, :page_markdown
     get "/blog.md", BlogController, :index_markdown
@@ -44,6 +46,8 @@ Amber::Server.configure do |app|
     get "/characters/:id", HomeController, :character
     get "/showcase", HomeController, :showcase
     get "/sponsors", HomeController, :sponsors
+    get "/releases", HomeController, :releases
+    get "/performance", HomeController, :performance
     get "/amber-way", HomeController, :amber_way
     get "/privacy", HomeController, :privacy
     get "/blog", BlogController, :index

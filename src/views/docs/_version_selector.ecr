@@ -4,14 +4,16 @@
     <div class="version-select-wrap">
       <select aria-label="Documentation version" data-version-select>
         <% @all_versions.each do |v| %>
-          <option value="<%= version_url(v.id, @path) %>"<%= " selected" if v.id == @version_id %>><%= v.label %></option>
+          <option value="<%= version_url(v.id, @path) %>"<%= " selected" if v.id == @version_id %>><%= v.label %><%= " · #{v.release_date}" if v.release_date %></option>
         <% end %>
       </select>
     </div>
     <% if version.preview? %>
-      <p class="version-notice">Preview documentation for Amber <%= version.amber_versions %>. APIs may change before stable.</p>
-    <% elsif version.deprecated? %>
+      <p class="version-notice"><strong>Published <%= version.release_date %>.</strong> V2 is a prerelease; the web core is release-gated and other previews are named separately. <a href="/releases">What beta means.</a></p>
+    <% elsif version.deprecated? || version.archived? %>
       <p class="version-notice">This is an older documentation set. <a href="/docs/latest">View the current stable guide.</a></p>
+    <% elsif version.release_date %>
+      <p class="version-notice"><strong>Published <%= version.release_date %>.</strong> Current stable documentation.</p>
     <% end %>
   </div>
 <% end %>

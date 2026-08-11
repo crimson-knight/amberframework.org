@@ -7,6 +7,18 @@ description: "Supported platforms and feature boundaries for Amber 2.0.0-beta.2"
 
 # Amber V2 Beta Support
 
+**Status checked August 11, 2026.** Amber Framework `2.0.0-beta.2` was
+published July 31, 2026. Amber CLI `2.0.3` was published August 11, 2026.
+Amber `1.5.0`, published August 1, 2026, remains the current stable framework
+line.
+
+“Beta” describes the V2 framework tag while applications test it in public. It
+does not mean every Amber feature is equally unfinished, and it does not mean a
+V1 application must be rewritten. The routes, controllers, ECR views,
+configuration, schemas, WebSockets, jobs, and clean web template below are the
+coherent web core being release-gated. Persistence, attachments, native output,
+and Asset Pipeline keep their own preview status.
+
 Platform support has three separate signals:
 
 - **Web compile** means CI built the Amber CLI, generated a clean web app,
@@ -62,9 +74,14 @@ own compatible official release instructions.
 
 ## Versions
 
-- Amber framework: `2.0.0-beta.2`
-- Amber CLI: `2.0.3` or newer
+- Amber V2 framework beta: `2.0.0-beta.2` — published July 31, 2026
+- Amber CLI: `2.0.3` or newer — current release published August 11, 2026
+- Amber stable framework: `1.5.0` — published August 1, 2026
+- Amber legacy framework: `1.4.1` — published August 2, 2023
 - Crystal: `>= 1.20.0, < 2.0`
 
 Generated applications pin the framework prerelease exactly. Do not replace it
 with `v2-dev`, `master`, or a personal fork when following the supported path.
+See the human-readable [release notes](/releases) for the synchronized GitHub
+record and the [V1-to-V2 migration guide](migration-guide/) for the smallest
+safe upgrade attempt.

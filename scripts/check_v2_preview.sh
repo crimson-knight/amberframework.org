@@ -30,6 +30,7 @@ for asset in \
   public/assets/characters/gemma-id-original-studio.webp \
   public/assets/characters/amber-chibi-original-studio.webp \
   public/assets/characters/amber-chibi-hero-mark-v2.webp \
+  public/assets/blog/amber-new-website-character-2026.webp \
   public/assets/fonts/Manrope-Variable.woff2 \
   public/assets/fonts/Fraunces-Variable.woff2 \
   public/assets/fonts/Fraunces-Italic-Variable.woff2 \
@@ -40,9 +41,9 @@ done
 
 grep -F '@font-face' public/assets/css/amber-brand.css >/dev/null
 grep -F '/assets/fonts/Manrope-Variable.woff2' public/assets/css/amber-brand.css >/dev/null
-grep -F '/assets/css/amber-brand.css?v=2.0.0-beta.2-20260811b' src/views/layouts/application.ecr >/dev/null
+grep -F '/assets/css/amber-brand.css?v=2.0.0-beta.2-20260811d' src/views/layouts/application.ecr >/dev/null
 grep -F '<script type="importmap">' src/views/layouts/application.ecr >/dev/null
-grep -F '"amber/site":"/assets/js/amber-site.js?v=2.0.0-beta.2-20260811b"' src/views/layouts/application.ecr >/dev/null
+grep -F '"amber/site":"/assets/js/amber-site.js?v=2.0.0-beta.2-20260811d"' src/views/layouts/application.ecr >/dev/null
 grep -F '<script type="module">import "amber/site";</script>' src/views/layouts/application.ecr >/dev/null
 grep -F 'data-no-tracking="true"' src/views/layouts/application.ecr >/dev/null
 grep -F 'We do not track you.' src/views/home/privacy.ecr >/dev/null
@@ -77,10 +78,10 @@ fi
 grep -F 'amber new my_app' src/views/home/index.ecr >/dev/null
 grep -F 'web is the default' src/views/home/index.ecr >/dev/null
 grep -F 'amber new field_app --type native' src/views/home/index.ecr >/dev/null
-grep -F 'Amber 2 is ready for beta testing.' src/views/home/index.ecr >/dev/null
+grep -F 'Framework beta.2 · Jul 31, 2026 · CLI 2.0.3 · Aug 11, 2026' src/views/home/index.ecr >/dev/null
 grep -F '/assets/brand/crys-mascot.svg' src/views/home/index.ecr >/dev/null
 grep -F 'Crystal</strong> 1.20+ · latest stable recommended' src/views/home/index.ecr >/dev/null
-grep -F 'amber_cli</strong> V2 · standalone' src/views/home/index.ecr >/dev/null
+grep -F 'amber_cli</strong> 2.0.3 · Aug 11' src/views/home/index.ecr >/dev/null
 grep -F 'Linux native UI bindings remain frontier work' src/views/home/index.ecr >/dev/null
 grep -F '/assets/characters/amber-hero-desk-transparent-higgsfield.webp' src/views/home/index.ecr >/dev/null
 grep -F '/assets/characters/amber-hero-desk-desktop-higgsfield.webp' src/views/home/index.ecr >/dev/null
@@ -126,6 +127,8 @@ grep -F 'IntersectionObserver' public/assets/js/amber-site.js >/dev/null
 grep -F 'data-open-docs-ai="claude"' src/views/docs/show.ecr >/dev/null
 grep -F 'data-open-docs-ai="chatgpt"' src/views/docs/show.ecr >/dev/null
 grep -F 'data-open-docs-ai="gemini"' src/views/docs/show.ecr >/dev/null
+grep -F 'Copy + open Gemini' src/views/docs/show.ecr >/dev/null
+grep -F "navigator.clipboard.writeText(prompt)" public/assets/js/amber-site.js >/dev/null
 grep -F 'View Markdown' src/views/docs/show.ecr >/dev/null
 grep -F 'View JSON' src/views/docs/show.ecr >/dev/null
 grep -F 'code.language-crystal' public/assets/js/amber-site.js >/dev/null
@@ -157,6 +160,13 @@ grep -F 'whole HTTP requests per second' src/views/home/amber_way.ecr >/dev/null
 grep -F '21,795 requests/second' docs/v2/guides/performance.md >/dev/null
 grep -F 'millions of lookups per second' docs/v2/guides/performance.md >/dev/null
 grep -F '"median": 21795.0' public/benchmarks/amber-v2-round22-summary.json >/dev/null
+grep -F '5,906.72' src/views/home/performance.ecr >/dev/null
+grep -F 'Source data: website and WebSockets (JSON)' src/views/home/performance.ecr >/dev/null
+grep -F 'Current production boundary' docs/v2/guides/assets/index.md >/dev/null
+grep -F 'Try the direct upgrade first' docs/v2/migration-guide/index.md >/dev/null
+grep -F 'get "/releases"' config/routes.cr >/dev/null
+grep -F 'amber-new-website-character-2026.webp' blog/posts.yml >/dev/null
+grep -F 'class="post-cover"' src/views/blog/show.ecr >/dev/null
 grep -F 'browser-native import map' docs/v2/guides/assets/import-maps.md >/dev/null
 grep -F 'no Node.js dependency, package manager' docs/v2/guides/assets/import-maps.md >/dev/null
 

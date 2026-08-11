@@ -45,10 +45,10 @@
         <a class="docs-action-button" href="<%= machine_path %>.json" target="_blank" rel="noopener"><span class="docs-markdown-icon" aria-hidden="true">{ }</span><span>View JSON</span></a>
         <a class="docs-action-button" href="https://claude.ai/new" target="_blank" rel="noopener" data-open-docs-ai="claude" data-docs-title="<%= page.title %>" data-raw-url="<%= machine_path %>.md"><img src="/assets/brand/claude-icon-rounded.svg" width="18" height="18" alt=""><span>Open in Claude</span></a>
         <a class="docs-action-button" href="https://chatgpt.com/" target="_blank" rel="noopener" data-open-docs-ai="chatgpt" data-docs-title="<%= page.title %>" data-raw-url="<%= machine_path %>.md"><span class="openai-icon" aria-hidden="true"><img src="/assets/brand/openai-symbol-2025.svg" width="18" height="18" alt=""></span><span>Open in ChatGPT</span></a>
-        <a class="docs-action-button" href="https://gemini.google.com/app" target="_blank" rel="noopener" data-open-docs-ai="gemini" data-docs-title="<%= page.title %>" data-raw-url="<%= machine_path %>.md"><span class="gemini-icon" aria-hidden="true">✦</span><span>Open in Gemini</span></a>
+        <a class="docs-action-button" href="https://gemini.google.com/app" target="_blank" rel="noopener" data-open-docs-ai="gemini" data-docs-title="<%= page.title %>" data-raw-url="<%= machine_path %>.md"><span class="gemini-icon" aria-hidden="true">✦</span><span data-ai-link-label>Copy + open Gemini</span></a>
       </div>
     </div>
-    <p class="docs-tools-note">Read this page as HTML, Markdown, or structured JSON—or open the published Markdown with an AI assistant. Copying works in local previews; external assistants need the public site URL.</p>
+    <p class="docs-tools-note">Read this page as HTML, Markdown, or structured JSON—or open the published Markdown with an AI assistant. Gemini receives the prompt through your clipboard because its signed-out page does not reliably prefill URL text; paste when the new tab opens. External assistants need the public site URL.</p>
 
     <aside class="docs-guide-moment" aria-label="Amber guide note">
       <img src="/assets/characters/amber-chibi-hero-mark-v2.webp" width="180" height="180" alt="Chibi Amber giving a peace sign">

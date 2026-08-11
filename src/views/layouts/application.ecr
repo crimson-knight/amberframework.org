@@ -12,12 +12,12 @@
     <meta property="og:title" content="<%= @title %>">
     <meta property="og:description" content="<%= @meta %>">
     <meta property="og:url" content="https://amberframework.org<%= context.request.path %>">
-    <meta property="og:image" content="https://amberframework.org/assets/characters/amber-hero-original-studio.webp">
+    <meta property="og:image" content="https://amberframework.org<%= @image %>">
     <meta name="twitter:card" content="summary_large_image">
     <title><%= @title %></title>
     <link rel="canonical" href="https://amberframework.org<%= context.request.path %>">
-    <link rel="alternate" type="application/rss+xml" title="Amber Framework news" href="https://amberframework.org/blog/feed.xml">
-    <link href="/assets/css/amber-brand.css?v=2.0.0-beta.2-20260811b" rel="stylesheet">
+    <link rel="alternate" type="application/rss+xml" title="Amber Framework blog" href="https://amberframework.org/blog/feed.xml">
+    <link href="/assets/css/amber-brand.css?v=2.0.0-beta.2-20260811d" rel="stylesheet">
     <link rel="apple-touch-icon" href="/favicon.png">
     <link rel="icon" href="/favicon.png">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -27,7 +27,7 @@
     <%= content %>
     <%= render(partial: "layouts/_footer.ecr") %>
     <script type="importmap">
-      {"imports":{"amber/site":"/assets/js/amber-site.js?v=2.0.0-beta.2-20260811b"}}
+      {"imports":{"amber/site":"/assets/js/amber-site.js?v=2.0.0-beta.2-20260811d"}}
     </script>
     <script type="module">import "amber/site";</script>
   </body>

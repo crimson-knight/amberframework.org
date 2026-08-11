@@ -1,15 +1,16 @@
-<% @title = "News and notes from Amber — Amber Framework" %>
+<% @title = "Amber Framework blog" %>
 <% @meta = "Release notes, engineering stories, and practical Crystal guidance from Amber and the framework community." %>
 <script type="application/ld+json"><%= structured_data %></script>
 
 <header class="page-hero blog-page-hero">
   <div class="site-container blog-hero-grid">
     <div>
-      <p class="eyebrow">News, notes, and field reports</p>
+      <p class="eyebrow">Articles, release stories, and field reports</p>
       <h1>Stories from the<br><em>Amber crew.</em></h1>
       <p>Release notes, engineering decisions, and practical guidance from the people building Amber. Start with what changed, when it changed, and why it matters.</p>
       <div class="blog-subscribe-row">
         <a class="button button-primary" href="/blog/feed.xml">Subscribe via RSS</a>
+        <span class="machine-format-label">For tools:</span>
         <a class="format-link" href="/blog.md">Markdown</a>
         <a class="format-link" href="/blog.json">JSON</a>
       </div>
@@ -40,7 +41,7 @@
           <img src="<%= featured["character_image"]? || "/assets/characters/amber-id-original-studio.webp" %>" width="60" height="60" alt="">
           <span><strong><%= featured["author"] %></strong><br>Filed with <%= featured["character"]? || "Amber" %></span>
         </div>
-        <a class="text-link" href="<%= post_path(featured) %>">Read the release story →</a>
+        <a class="text-link" href="<%= post_path(featured) %>">Read the story →</a>
       </div>
     </article>
 

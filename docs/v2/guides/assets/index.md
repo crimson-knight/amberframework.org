@@ -19,6 +19,35 @@ require it. Begin with local modules in the [Import Maps](import-maps/) guide,
 then evaluate this preview only when fingerprinting or generated import maps
 earn the extra dependency.
 
+## Current production boundary
+
+The documented `FrontLoader` path in the current preview fingerprints generated
+JavaScript. It does **not** fingerprint application CSS, fonts, or images, and it
+does not generate resized image variants or WebP/AVIF alternatives. Those files
+remain ordinary paths under `public/`, so changing their contents without
+changing the URL can leave an older copy in a browser or CDN cache.
+
+Do not add an imaginary query string and call it fingerprinting. Until a
+released Asset Pipeline integrates binary assets into one manifest, choose one
+of these explicit application-level approaches:
+
+1. give a changed image or font a new filename and update its references;
+2. have the deployment build produce content-hashed filenames and rewrite the
+   HTML/CSS references as one atomic artifact; or
+3. configure short cache lifetimes for assets whose URL is not versioned.
+
+Responsive delivery also remains application work today. Create real width and
+format variants during the build, then reference files that actually exist with
+`srcset` and `<picture>`. A URL such as `photo.jpg?w=640` does nothing unless a
+configured image service or build step understands it.
+
+The target for a complete first-party implementation is one manifest covering
+JavaScript, CSS, images, and fonts; content hashes for every emitted file;
+rewritten ECR and CSS references; real responsive image variants; and a
+production smoke test that rejects a missing manifest entry. This guide will
+stop carrying the preview warning only after that path ships in a compatible
+release and the Amber web template exercises it.
+
 ## What this guide changes
 
 Complete the steps from the root of an Amber V2 web application. Each example

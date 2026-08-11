@@ -30,7 +30,7 @@ describe DocsScanner do
     it "combines the published V2 pages with canonical source links" do
       bundle = DocsScanner.knowledge_bundle("v2")
 
-      bundle.should contain("# Amber Framework 2.0 Beta documentation")
+      bundle.should contain("# Amber Framework 2.0 Web Beta documentation")
       bundle.should contain("## Web Template")
       bundle.should contain("https://amberframework.org/docs/v2/guides/web-template")
       bundle.should contain("## Build a Pet Tracker")
