@@ -1,92 +1,67 @@
-# Amber V2 preview validation report
+# Amber V2 public-beta validation report
 
-Date: August 3, 2026
+Date: August 10, 2026
 
-Branch: `agent/v2-experience-preview`
+Branch: `agent/v2-public-beta`
 
-Release state: **LOCAL PREVIEW — NOT PUSHED, NOT MERGED, NOT RELEASED, NOT DEPLOYED**
+Release state: **READY TO DEPLOY — OWNER APPROVED, ALL PREDEPLOYMENT GATES PASSED**
 
-This report records current preview evidence. It does not grant release
-approval, replace clean-machine installation proof, or authorize publication.
+This report records the evidence behind the Amber V2 public beta. The final
+deployment identifiers and public-origin checks are recorded in
+`RELEASE_PROOF.md` after production finishes deploying.
 
-## Version facts
+## Release contract
 
-The website, Amber repository, and CLI sources currently support a beta—not an
-unpublished release candidate:
+- Framework: Amber `2.0.0-beta.2`
+- Generator: Amber CLI `2.0.3`
+- Crystal: `>= 1.20.0, < 2.0`
+- Supported beta application type: `web`
+- Preview application type: `native` on macOS, iOS, and Android
+- Frontier native target: Linux UI bindings
 
-- the website and generated application pin Amber `2.0.0-beta.2`;
-- Amber CLI is `2.0.2` and accepts Crystal `>= 1.20.0, < 2.0`;
-- the verified Amber tags include `v2.0.0-beta.1` and `v2.0.0-beta.2`; and
-- no `v2.0.0-rc.3` tag was found in the local release sources.
+The homepage, installation guide, CLI guide, beta-support page, generated web
+starter, and release automation use this same contract. The trusted macOS and
+Linux Homebrew command is:
 
-The homepage therefore says **V2 beta** and **ready for beta testing**. It does
-not advertise RC3 or put an internal owner-approval warning in public copy.
+```sh
+brew install amberframework/amber_cli/amber_cli
+```
 
-## Brand and responsive hero proof
+The signed remote-template channel described in
+`TEMPLATE_DELIVERY_STRATEGY.md` remains **PROPOSED — NOT IMPLEMENTED**. Amber
+CLI 2.0.3 ships the verified starter in the CLI itself, so generation works
+without downloading executable template content from another service.
 
-The active hero uses the Higgsfield-refined transparent Amber desk set recorded
-in `ASSET_PROVENANCE.md`. It preserves the playful expression, blush, inviting
-hand, desk, laptop, mug, notebook, and papers while removing the rectangular
-room background and loose floating crystals. Responsive `<picture>` sources
-provide wide, desktop, and mobile crops; the code-native crystal field shows
-through behind the alpha image.
+## CLI and generated-app proof
 
-The live browser loaded:
+Amber CLI pull request 33 passed all required checks before merge:
 
-- `amber-hero-desk-transparent-higgsfield.webp` at desktop and ultrawide sizes;
-- `amber-hero-desk-mobile-higgsfield.webp` at a true mobile viewport; and
-- cache-revisioned CSS and JavaScript URLs so a previous preview stylesheet
-  cannot silently override new markup.
+- Crystal latest on macOS and Ubuntu;
+- the full integration suite;
+- platform-specific macOS and Ubuntu tests;
+- documentation generation; and
+- release-binary builds for macOS ARM64 and Linux x86_64.
 
-The primary identity now uses the 1254-by-1254 transparent
-`amber-chibi-hero-mark-v2.webp`: full-body, playful original-studio Amber,
-feet shoulder-width, one hand at her hip, and one clear peace sign. It appears
-in the navigation, footer, homepage support summary, Amber's Way, docs guide
-note, and design-system distribution page. The older faceted crystal remains a
-supporting motif rather than the standalone primary mark. `webpinfo` confirmed
-the alpha channel, and every rendered copy loaded at its expected natural size.
+Local verification passed 406 examples, formatting, the beta contract check,
+both CLI binary builds, and a clean generated-web-app smoke test. That smoke
+test installed the generated app's dependencies, ran its specs, exercised its
+generators, built and started it, and fetched its homepage, stylesheet, and
+import map.
 
-At 1280 CSS pixels, the corrected hero measured 760 pixels tall with zero page
-overflow. At a 2560-by-1100 override (2545 CSS pixels after the scrollbar), the
-hero art measured 1121 by 752 pixels and stayed anchored to the lower-right
-edge. Repeated pointer moves left the navigation and Amber callout dimensions
-unchanged and produced zero horizontal overflow. The fixed full-page dot layer,
-hero image mask, and navigation backdrop filter that contributed to the prior
-large composited surfaces are no longer active.
+The public release workflow repeats the clean generated-app smoke test inside
+both release jobs before it creates checksummed archives. Its macOS job also
+rejects retired OpenSSL linkage. Release workflow 31451405352 passed and
+published both archives and their SHA-256 checksum files.
 
-At a true 390-by-844 override (375 CSS pixels after the scrollbar), the browser
-selected the 1250-by-1208 mobile source. The hero art and callout stayed inside
-the 375-pixel page with zero overflow. The mobile menu occupied 347 pixels from
-left 14 to right 361, changed its accessible name between Open and Close, and
-also produced zero overflow.
+The trusted Homebrew formula was updated to 2.0.3. Validation workflow
+31451864810 installed it, generated the branded application, ran specs, built,
+started, and probed the app successfully on both macOS and Linux. A formula
+upgrade and the full generated-app smoke test also passed on a local Apple
+Silicon Mac using `/opt/homebrew/opt/amber_cli/bin/amber`.
 
-## Terminal-to-application proof
-
-The homepage first-run demonstration now has fixed window geometry rather than
-snapping between layouts. At the ultrawide viewport:
-
-- the 1200-pixel stage began with a 622.91-pixel terminal centered at x 1272.5;
-- the collapsed browser began at x 1581.42, immediately beside the terminal's
-  former right edge at x 1583.95;
-- the completed terminal moved to x 689.5 without changing width;
-- the browser completed at x 1328.42 with a 16.02-pixel gap; and
-- both terminal movement and browser growth used the same 760 ms easing window.
-
-The localhost cue displays a pointer, moves it onto the URL, and runs the
-`pointer-ping` ring for 620 ms. Browser interaction confirmed the URL's active
-state and the pseudo-element animation.
-
-The terminal now begins in an explicit `waiting` state. At the desktop proof it
-had zero completed lines while its top edge sat at 392 pixels—just below the
-376-pixel viewport midpoint. At the mobile proof it remained waiting at 430
-pixels against a 352-pixel midpoint, then changed to `running` only after its
-top crossed to 330 pixels. The observer uses a bottom root margin of `-50%`, so
-the animation does not run while the demo is merely peeking into the viewport.
-
-All 12 terminal outputs completed, the generated browser opened without
-changing page scroll position, and the stage produced zero horizontal overflow.
-The browser content now matches the authoritative inline writer on the
-`agent/v2-template-brand` Amber CLI branch, including:
+The released CLI generator is authoritative. The website's small browser proof
+is a presentation of the same generated welcome content and is checked for the
+exact identifying copy:
 
 ```text
 my_app                                      Amber V2 beta
@@ -94,152 +69,122 @@ my_app                                      Amber V2 beta
 Amber V2 · Web application
 Your new idea starts here.
 
-my_app is running. Your first route, view, and locally served asset pipeline
+my_app is running. Your first route, view, and locally served CSS and JavaScript
 are ready to shape.
 
 Server rendered · Crystal powered · Ready to customize
 First edits · Make it yours.
 ```
 
-At the default desktop proof the generated page filled its 430-pixel viewport
-without internal vertical or horizontal overflow. At the responsive proof, the
-313-pixel stage and 295-pixel browser preview stacked cleanly, the starter
-collapsed to one column, and the document and generated page both produced zero
-horizontal overflow.
+## Documentation review
 
-## Application frontier proof
+The V2 documentation now provides a complete first-run path for macOS and
+Linux: install the CLI, verify the installed version, generate the default web
+application, install dependencies, run specs, start the server, and make the
+first route and view changes.
 
-The application-type section begins on the web state. Keyboard focus on the
-native CTA changed `data-active-application` to `native` and brought the native
-scene to opacity 1. The former full-bleed cinematic image is no longer referenced
-by the homepage. Its replacement is a six-part, code-native platform map made
-from orbit lines, macOS/iOS/Android device silhouettes, and the same faceted
-amber crystal geometry used elsewhere in the brand system. Returning focus to
-web restores the supported web treatment.
+The documentation explicitly explains Amber's coding beliefs instead of only
+describing surface features. It includes:
 
-At mobile width, the center observer exposed the web CTA while the web card
-occupied the focus band, then changed to native and exposed the native CTA when
-the native card moved into the band. The native background transitioned with
-that state and neither stacked card caused horizontal overflow.
+- `respond_with` examples for HTML and JSON responses;
+- controller, view, partial, layout, stylesheet, and JavaScript organization;
+- complete ECR rendering examples;
+- local ESM and import-map usage without Node or a front-end framework;
+- an optional Asset Pipeline preview, clearly separated from the supported
+  local-asset path; and
+- a reproducible, caveated one-vCPU benchmark report rather than an unsupported
+  round-number claim.
 
-The copy identifies macOS, iOS, and Android as the current generated native
-targets and keeps Linux native UI bindings explicitly in frontier status. It
-does not present native as release-gated with the web beta.
+V2 explicitly inherits still-correct V1.4.1 pages. Carried pages are labeled,
+retired pages have mapped replacements, relative Markdown links stay inside the
+V2 namespace, and the documentation selector remains contained at mobile
+width. Copy/View Markdown and AI handoff controls are visible on every guide.
 
-## Character responsibility proof
+## Brand and generated-starter proof
 
-Amber, Grant, and Gemma now include a real selectable responsibility translator
-for Ruby on Rails, Django, Phoenix, and Laravel. Selecting a framework changes
-the closest Amber responsibility, explanation, and comparison chips in place.
-Every page states that the comparison is about responsibility, not API
-compatibility.
+The active visual system uses the playful original-studio Amber direction: the
+chibi Amber primary mark, a faceted crystal as the supporting motif, the warm
+amber palette, locally hosted fonts, friendly terminal chrome, and restrained
+crystal-field effects.
 
-Grant maps record keeping to the Active Record pattern and ORM responsibility.
-His page explicitly says he can cache record and query work but does not own
-background jobs, queues, or the worker runtime. Gemma maps attachments, upload
-intake, validation, storage, and delivery. Amber maps the connected routing,
-controller, presentation, interaction, configuration, and application surface.
+Amber CLI 2.0.3 transfers that language into a generated web app using
+locally-served CSS and JavaScript. The generated starter includes the brand
+palette, crystal motif, app-status treatment, responsive layout, semantic HTML,
+an import map, and a small local JavaScript entrypoint. It does not require a
+Node or Webpack runtime.
 
-The 1800-by-1005 warehouse scenes loaded successfully. Grant's homepage crop
-uses a 72% horizontal focal point and keeps his full figure in the 430-pixel
-desktop panel and 345-pixel mobile panel. Gemma's responsibility scene uses a
-15% source focal point, landing her on the left third line rather than clipping
-her at the outer edge. Desktop and 390-by-844 mobile proofs produced zero
-horizontal overflow. Each character page also exposes two bottom crew cards;
-the cards measured 347 pixels wide in the mobile proof.
+The homepage demo does not begin while the terminal merely peeks into view. It
+stays in a `waiting` state until its top edge crosses the viewport midpoint,
+then runs all 10 outputs and opens the generated-app browser. At desktop width
+the terminal keeps one width while moving left and the browser grows from its
+former right edge on the same timing curve.
 
-## Template delivery finding
+The application chooser begins on the supported web state. Its native state
+uses a code-native platform map built from the Amber crystal geometry and
+device silhouettes; the unrelated cinematic hover image is no longer wired to
+the page. Pointer focus, keyboard focus, and centered mobile scrolling all
+select the matching background and call to action.
 
-Amber CLI `2.0.2` writes the web scaffold from inline methods in
-`NewCommand#create_project_structure`; it does not render the separate template
-tree or fetch a remote template manifest. The authoritative writer, its
-generator spec, the fallback template-source example, the website demonstration,
-and the web-template guide are now aligned on the redesigned starter structure.
-The isolated CLI proof ran 142 examples with zero failures or errors.
+## Character and product-boundary proof
 
-The site and CLI work remain on review branches. The design change still needs
-an Amber CLI patch release before the published Homebrew formula can generate
-this exact starter; the documentation and site must not deploy ahead of that
-versioned CLI artifact.
+Amber, Grant, and Gemma include selectable responsibility translations for
+Rails, Django, Phoenix, and Laravel. Every character page says that the mapping
+compares responsibilities, not API compatibility.
 
-The signed remote-template channel in `TEMPLATE_DELIVERY_STRATEGY.md` is
-**PROPOSED — NOT IMPLEMENTED**. It requires immutable versions, compatibility
-ranges, signatures, digests, safe extraction, a verified cache, a bundled
-offline fallback, explicit CLI controls, and clean macOS/Linux proof before it
-can be documented as supported behavior.
+- Amber owns the connected HTTP, routing, controller, presentation,
+  interaction, configuration, and application surface.
+- Grant represents the persistence preview and does not claim to own queues or
+  a background-worker runtime.
+- Gemma represents the attachment and upload preview.
 
-## Documentation inheritance and navigation proof
+Native applications, Grant, Gemma, persistence/authentication integrations,
+and the Asset Pipeline remain explicitly labeled preview or frontier work. They
+are not presented as graduating with the web beta.
 
-V2 explicitly inherits from V1.4.1. Inherited pages are labeled `Carried`,
-while V2-authored pages are labeled `New` or `Updated`. The sidebar uses native
-collapsible sections, opens only the active documentation branch, and does not
-create its own scrolling region.
+## Rendering, accessibility, and privacy proof
 
-The documentation banner is 157 pixels tall at desktop and 146 pixels at the
-mobile content width, with one page title and one page-state badge. The repeated
-version label is removed. Copy as Markdown, View as Markdown, Open in Claude,
-and Open in ChatGPT are visible controls rather than a hidden menu. The Claude
-and OpenAI identity assets loaded locally at their expected natural dimensions.
-At mobile width the four controls form a two-by-two 169-pixel grid with no
-overflow. The adjacent note explains why a local preview generates a local raw
-Markdown URL and why the hosted origin will generate a public URL.
+Browser checks covered the homepage, documentation, launch post, character
+page, Amber's Way, and privacy page at 1280-pixel desktop width and a true
+390-by-844 mobile viewport. The checked pages had no broken images or unexpected
+horizontal overflow. The mobile navigation changed its accessible Open/Close
+name, the V2 documentation selector stayed inside its container, and code
+blocks used one padding owner with terminal-window chrome.
 
-`docs/v2/_deleted.yml` removes obsolete material from V2 navigation.
-`docs/v2/_replacements.yml` maps superseded pages to their current
-destinations. The version timeline names replacements, and direct deprecated
-V2 URLs redirect to them.
+All observed site assets were served from the site origin, including fonts,
+stylesheets, JavaScript, and images. The application loads no analytics, tag
+manager, tracking pixel, marketing form, advertising library, or third-party
+embed. It creates no application cookies or browser storage. The privacy page
+accurately discloses that the hosting/CDN security layer may set a necessary
+edge-security cookie such as Cloudflare's `__cf_bm`; Amber does not read that
+cookie or use it for analytics, ads, or user profiles.
 
-The Markdown preprocessor resolves relative links against the physical source
-page, preserves the V2 URL namespace for inherited pages, handles directory
-index links and anchors, and renders GitBook-style hints and code tabs without
-swallowing content following a code block. Automated tests cover all authored
-V2 Markdown links.
+## Automated site checks
 
-## Automated checks
-
-Passed after the crew, docs, dependency, and primary-mark changes:
+The release candidate passed:
 
 ```text
-env CRYSTAL_CACHE_DIR=/tmp/amber_site_v2_feedback2_cache crystal spec
+crystal spec
 # 40 examples, 0 failures, 0 errors, 0 pending
 
+scripts/check_v2_beta_docs.sh
 scripts/check_v2_site_launch.sh
 scripts/check_v2_preview.sh
 git diff --check
-env CRYSTAL_CACHE_DIR=/tmp/amber_site_v2_build_cache shards build amberframework
+shards build amberframework
 ```
 
-The validation scripts now require the responsive hero files, Higgsfield scene
-files, exact generated welcome content, synchronized terminal/browser motion,
-application focus states, responsibility translators, cache-revisioned assets,
-and the explicitly proposed template-delivery plan.
+The checks enforce the version and installation contract, documentation
+coverage, generated welcome content, responsive brand assets, terminal trigger
+and motion behavior, application focus states, character responsibility
+boundaries, first-party privacy claims, and the explicitly proposed
+remote-template plan.
 
-## Browser and privacy proof
+## Remaining after the public-beta launch
 
-The final local binary was audited at `http://127.0.0.1:3212` at the default
-1280-by-720 viewport and a true 390-by-844 mobile override. The homepage,
-Grant and Gemma character pages, Amber's Way, documentation, and media page
-produced no page-level horizontal overflow. Select interaction changed the
-translation title and comparison chips, all required images reported nonzero
-natural dimensions, and desktop and mobile screenshots confirmed the focal
-positions described above.
-
-Runtime assets remain local. The preview adds no analytics, cookies, external
-fonts, third-party scripts, or third-party documentation images.
-
-## Still required before any release
-
-- **EXECUTION GATE:** Run the documented Amber CLI install, project generation,
-  compile, spec, and serve flow on clean supported macOS and Linux machines.
-  Static documentation and site checks do not prove that release path.
-- **HUMAN DOC REVIEW:** Review every carried V1 page for meaning, not only the
-  known stale-token set, and correct any remaining V2 behavioral drift.
-- **PUBLIC-ORIGIN PROOF:** Verify raw Markdown and both AI deep links from the
-  final hosted origin; localhost is not reachable by hosted assistants.
-- **SEPARATE PREVIEW GATES:** Grant, Gemma, native applications, and other
-  ecosystem components still need their own support and graduation evidence.
-- **OWNER APPROVAL:** Final art, copy, documentation, clean-platform
-  installation proof, release versioning, merge, publication, and deployment
-  still require explicit approval.
-
-No release action has been taken from this branch.
+- **PROPOSED:** Design and security review for the signed remote-template
+  channel before implementation.
+- **PREVIEW:** Separate graduation evidence for native applications, Grant,
+  Gemma, Asset Pipeline, and persistence/authentication integrations.
+- **UNKNOWN:** Amber V2 GA date and final compatibility graduations.
+- **REPEAT AT GA:** Clean macOS/Linux install proof, the full docs review, and
+  public-origin browser QA against the final GA artifacts.

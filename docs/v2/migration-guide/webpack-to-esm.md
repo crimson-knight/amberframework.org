@@ -7,11 +7,22 @@ description: "Replace Webpack bundling with native ESM modules and import maps"
 
 # Migrating from Webpack to ESM
 
-Amber 2.0 replaces Webpack bundling with native browser ESM modules and import maps. This eliminates the need for Node.js, npm, and complex build configurations.
+> **Two distinct paths:** Amber `2.0.0-beta.2` supports browser-native ESM,
+> import maps, and locally served CSS and JavaScript without an additional
+> shard. The Asset Pipeline steps later in this page are an optional ecosystem
+> preview, not part of the beta web-app release gate. Confirm its current
+> compatibility before adding it.
+
+Amber 2.0 removes Webpack from the generated baseline. An application can move
+its reviewed browser-ready CSS and JavaScript under `public/`, map local ES
+modules in the ECR layout, and eliminate Node and npm when no remaining source
+asset requires their build tools. Start with the supported [Import Maps
+guide](../guides/assets/import-maps/) before deciding whether the separate
+Asset Pipeline preview adds value.
 
 ## Why Migrate?
 
-| Aspect | Webpack | Asset Pipeline |
+| Aspect | Webpack | Optional Asset Pipeline preview |
 |--------|---------|----------------|
 | Build time | 10-60+ seconds | None |
 | Configuration | Complex webpack.config.js | Simple Crystal code |
@@ -19,7 +30,10 @@ Amber 2.0 replaces Webpack bundling with native browser ESM modules and import m
 | Debugging | Source maps required | Native browser tools |
 | Hot reload | Requires HMR plugin | Built-in browser support |
 
-## Step-by-Step Migration
+## Optional Asset Pipeline preview path
+
+The remaining steps evaluate `amberframework/asset_pipeline`. They are not
+required for the supported local-module pattern above.
 
 ### 1. Add Asset Pipeline Shard
 

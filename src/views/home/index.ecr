@@ -57,7 +57,7 @@
           <p class="eyebrow">First run, illustrated</p>
           <h2 id="first-run-title">From Homebrew<br>to localhost.</h2>
         </div>
-        <p>The web application is the default. Replay the supported two-step Homebrew install, create the app, and watch the generated page open.</p>
+        <p>The web application is the default. Replay the trusted Homebrew install, create the app, and watch the generated page open.</p>
       </div>
 
       <div class="build-demo reveal" data-terminal-demo>
@@ -71,13 +71,11 @@
             </div>
           </div>
           <div class="terminal-screen" aria-live="polite" data-terminal-screen>
-            <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="brew tap amberframework/amber_cli"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
-            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Tapping amberframework/amber_cli"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-muted" data-terminal-output></span></div>
-            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Tap ready — amber_cli formula available"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-success" data-terminal-output></span></div>
-            <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="brew install amber_cli"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
-            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Installing the current amber_cli V2 release"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-muted" data-terminal-output></span></div>
-            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Compiling with Crystal 1.20+"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-accent" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="brew install amberframework/amber_cli/amber_cli"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Installing amber_cli 2.0.3"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-muted" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Installed /opt/homebrew/bin/amber"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-success" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="amber --version"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Amber CLI v2.0.3"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-success" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="amber new my_app"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-comment"> # web is the default</span><span class="terminal-cursor" aria-hidden="true"></span></div>
             <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Successfully created my_app · Amber 2.0.0-beta.2"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-accent" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="cd my_app && amber watch"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
@@ -101,7 +99,7 @@
                 <section class="starter-hero">
                   <p class="starter-eyebrow">Amber V2 · Web application</p>
                   <h1>Your new idea<br><em>starts here.</em></h1>
-                  <p class="starter-intro"><strong>my_app</strong> is running. Your first route, view, and locally served asset pipeline are ready to shape.</p>
+                  <p class="starter-intro"><strong>my_app</strong> is running. Your first route, view, and locally served CSS and JavaScript are ready to shape.</p>
                   <div class="starter-proof" aria-label="Application status">
                     <span><b>◆</b> Server rendered</span>
                     <span><b>◇</b> Crystal powered</span>

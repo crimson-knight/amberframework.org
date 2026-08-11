@@ -1,11 +1,10 @@
-# Amber V2 experience preview
+# Amber V2 public-beta experience
 
-Status: **PREVIEW — NOT APPROVED FOR RELEASE**
+Status: **APPROVED FOR PUBLIC BETA**
 
-This branch is a proofing environment for the Amber V2 website, brand, and
-documentation experience. It must not be merged into `master`, connected to a
-production deployment, or described publicly as released until the owner has
-reviewed the rendered proof and explicitly approved the release.
+This document records the approved Amber V2 website, brand, and documentation
+direction. Changes to the public experience still require release-gate proof,
+but the direction itself is no longer an unapproved preview.
 
 ## Product story
 
@@ -59,8 +58,8 @@ The installed Amber CLI is the authority for template claims:
   restrained crystal field. It never blocks reading or ignores reduced-motion
   preferences.
 - The application-type background begins with the supported web path and
-  changes to frontier art when native receives pointer, keyboard, or centered
-  mobile focus. Card calls to action follow the same focus state.
+  changes to a code-native platform map when native receives pointer, keyboard,
+  or centered mobile focus. Card calls to action follow the same focus state.
 - Amber's full-body chibi character is the primary identity mark: playful,
   blushing, feet shoulder-width, and giving a welcoming peace sign. The crystal
   remains a supporting motif for fields, accents, and technical diagrams.
@@ -78,7 +77,7 @@ structure.
 
 ## Template delivery boundary
 
-Amber CLI `2.0.2` embeds the generated scaffold, so a template fix currently
+Amber CLI `2.0.3` embeds the generated scaffold, so a template fix currently
 requires a CLI patch release. The beta docs must say this plainly and must not
 promise remote template freshness. The signed remote-channel design in
 `TEMPLATE_DELIVERY_STRATEGY.md` remains proposed until its trust, caching,

@@ -13,18 +13,22 @@ description: "Modern JavaScript asset management with ESM modules and import map
 > change independently. Confirm a compatible official release before adding it
 > to an application.
 
-Amber 2.0 introduces a modern Asset Pipeline that replaces Webpack with native browser ESM modules and import maps. This provides a faster, simpler development experience without complex build tooling.
+The separate Asset Pipeline project explores higher-level management of native
+browser ESM modules and import maps. Amber's supported beta starter does not
+require it; begin with local modules and the [Import Maps](import-maps/) guide,
+then evaluate this preview only when its additional API earns the dependency.
 
 ## Why Asset Pipeline?
 
-In Amber 1.x, Webpack was required for JavaScript bundling. This created issues:
+Amber 1.x's default front-end path relied on Webpack for JavaScript bundling.
+That commonly created issues:
 
 - Slow initial build times
 - Complex configuration
 - Node.js dependency
 - Difficult debugging of bundled code
 
-Amber 2.0 solves this with:
+The V2 browser-native direction—and this optional preview—use:
 
 - Native ESM modules - no bundler required
 - Import maps for dependency management

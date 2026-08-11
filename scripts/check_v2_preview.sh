@@ -10,7 +10,7 @@ test -s design/v2-preview/EXPERIENCE_BRIEF.md
 test -s design/v2-preview/RELEASE_GATES.md
 test -s design/v2-preview/ASSET_PROVENANCE.md
 test -s design/v2-preview/TEMPLATE_DELIVERY_STRATEGY.md
-grep -F 'PREVIEW — NOT APPROVED FOR RELEASE' design/v2-preview/EXPERIENCE_BRIEF.md >/dev/null
+grep -F 'APPROVED FOR PUBLIC BETA' design/v2-preview/EXPERIENCE_BRIEF.md >/dev/null
 grep -F 'Owner explicitly says the branch may merge and deploy.' design/v2-preview/RELEASE_GATES.md >/dev/null
 grep -F 'PROPOSED — NOT IMPLEMENTED' design/v2-preview/TEMPLATE_DELIVERY_STRATEGY.md >/dev/null
 
@@ -40,14 +40,15 @@ done
 
 grep -F '@font-face' public/assets/css/amber-brand.css >/dev/null
 grep -F '/assets/fonts/Manrope-Variable.woff2' public/assets/css/amber-brand.css >/dev/null
-grep -F '/assets/css/amber-brand.css?v=2.0.0-beta.2-20260810b' src/views/layouts/application.ecr >/dev/null
+grep -F '/assets/css/amber-brand.css?v=2.0.0-beta.2-20260810c' src/views/layouts/application.ecr >/dev/null
 grep -F '<script type="importmap">' src/views/layouts/application.ecr >/dev/null
-grep -F '"amber/site":"/assets/js/amber-site.js?v=2.0.0-beta.2-20260810b"' src/views/layouts/application.ecr >/dev/null
+grep -F '"amber/site":"/assets/js/amber-site.js?v=2.0.0-beta.2-20260810c"' src/views/layouts/application.ecr >/dev/null
 grep -F '<script type="module">import "amber/site";</script>' src/views/layouts/application.ecr >/dev/null
 grep -F 'data-no-tracking="true"' src/views/layouts/application.ecr >/dev/null
 grep -F 'We do not track you.' src/views/home/privacy.ecr >/dev/null
 grep -F 'No analytics.' src/views/home/privacy.ecr >/dev/null
-grep -F 'No cookies.' src/views/home/privacy.ecr >/dev/null
+grep -F 'No application cookies.' src/views/home/privacy.ecr >/dev/null
+grep -F "Cloudflare's <code>__cf_bm</code>" src/views/home/privacy.ecr >/dev/null
 grep -F 'get "/privacy"' config/routes.cr >/dev/null
 
 if rg -n -i 'googletagmanager|google-analytics|fonts\.googleapis|fonts\.gstatic|\bgtag\s*\(|\bdataLayer\b' \

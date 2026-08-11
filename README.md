@@ -1,13 +1,11 @@
 # Amber Framework Website
 
-The Amber Framework website, running on Amber `2.0.0-beta.2` and ECR. The
-`agent/v2-experience-preview` branch contains the proposed V2 experience,
-versioned documentation, blog, and brand system without a Node or Webpack
-runtime.
+The Amber Framework website, running on Amber `2.0.0-beta.2` and ECR. The V2
+public-beta experience includes versioned documentation, the project blog, and
+the Amber brand system without a Node or Webpack runtime.
 
-> **Preview — not approved for release.** This branch must not merge or deploy
-> until the owner explicitly approves the visual proof and every item in
-> `design/v2-preview/RELEASE_GATES.md`.
+Amber CLI `2.0.3` is the minimum version for the web starter demonstrated on
+the homepage and in the V2 guides.
 
 ## Local development
 
@@ -37,8 +35,8 @@ scripts/check_v2_preview.sh
 
 The production image compiles the site with Crystal 1.21 and runs the generated
 `bin/amberframework` binary. DigitalOcean App Platform deploys `master` through
-the root `Dockerfile`. Production remains on the restored pre-redesign site
-until the owner explicitly approves this preview.
+the root `Dockerfile`. Release evidence and the final gate status live in
+`design/v2-preview/RELEASE_PROOF.md` and `design/v2-preview/RELEASE_GATES.md`.
 
 ```sh
 docker compose up --build
@@ -50,4 +48,5 @@ docker compose up --build
 2. Create a focused branch.
 3. Run the verification commands above.
 4. Open a pull request with desktop and mobile screenshots for visual changes.
-5. Do not merge or deploy a V2 experience without explicit owner approval.
+5. Keep the CLI, framework pin, generated starter, and public documentation in
+   one verified release contract.

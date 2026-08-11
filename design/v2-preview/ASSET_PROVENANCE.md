@@ -1,6 +1,6 @@
-# Preview asset provenance
+# Asset provenance
 
-Status: **PREVIEW — NOT APPROVED FOR RELEASE**
+Status: **APPROVED FOR PUBLIC BETA**
 
 ## Character references
 
@@ -10,8 +10,8 @@ The owner-provided visual references live outside the repository in:
 
 The owner references establish the canonical studio: playful, low-key character
 acting with compact rounded faces, visible cheek blush, open smiles, simplified
-linework, warm cel shading, and energetic poses. Generated files remain
-preview-only until the owner reviews and approves them.
+linework, warm cel shading, and energetic poses. The owner reviewed and
+approved the active public-beta set after several art-direction rounds.
 
 ## Responsive desk hero (active homepage hero)
 
@@ -43,12 +43,13 @@ wired into the site.
 
 ## Application and responsibility scenes
 
-The native-application frontier uses Higgsfield job
+The retired native-application frontier image came from Higgsfield job
 `7a9e57d6-ddfd-4cb3-9ce2-ff4335500c25`, encoded as
 `amber-frontier-higgsfield.webp`. Its prompt placed Amber, Grant, and Gemma at
-the edge of a warm, expansive, unexplored landscape. The result is used only as
-atmospheric background art under a strong site gradient; it is not a canonical
-portrait because the distant figures soften the established studio details.
+the edge of a warm, expansive, unexplored landscape. It is retained for
+provenance but is not wired into the website: the scene did not fit the brand
+closely enough, so the native hover and focus state uses a six-part code-native
+platform map instead.
 
 Grant's records warehouse is Higgsfield job
 `25fe362e-93ae-4357-8301-4f0e1a0d5d63`, encoded as
@@ -63,8 +64,8 @@ route a large glowing digital-file crate through a violet logistics warehouse,
 expressing uploads, S3-compatible storage, and delivery.
 
 All three scene sources were exported from Higgsfield, visually inspected, and
-encoded as local quality WebP assets. They do not introduce a runtime image
-dependency.
+encoded as local quality WebP assets. Only the Grant and Gemma warehouse scenes
+are active at runtime; the retired frontier image introduces no browser request.
 
 ## Prior inviting hero refinement (retained source)
 
@@ -85,7 +86,7 @@ source material but is no longer wired into the homepage.
 
 ## Original-studio correction
 
-The active preview set was generated with Codex built-in image generation after
+The active public-beta set was generated with Codex built-in image generation after
 the owner identified the first set as too serious and stylistically distant from
 the references. Existing files were retained for side-by-side comparison; the
 correction uses versioned filenames rather than overwriting them.

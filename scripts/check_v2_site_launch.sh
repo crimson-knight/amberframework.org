@@ -12,8 +12,7 @@ test -s docs/v2/guides/web-template/index.md
 
 grep -F 'version: 2.0.0-beta.2' shard.yml
 grep -F 'version: 2.0.0-beta.2' docs/v2/getting-started/installation.md
-grep -F 'brew tap amberframework/amber_cli' src/views/home/index.ecr
-grep -F 'brew install amber_cli' src/views/home/index.ecr
+grep -F 'brew install amberframework/amber_cli/amber_cli' src/views/home/index.ecr
 grep -F 'amber new my_app' src/views/home/index.ecr
 grep -F 'Test V2 beta' src/views/layouts/_nav.ecr
 grep -F "menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');" public/assets/js/amber-site.js

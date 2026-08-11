@@ -40,7 +40,7 @@ own compatible official release instructions.
 ## Versions
 
 - Amber framework: `2.0.0-beta.2`
-- Amber CLI: `2.0.2` or newer
+- Amber CLI: `2.0.3` or newer
 - Crystal: `>= 1.20.0, < 2.0`
 
 Generated applications pin the framework prerelease exactly. Do not replace it

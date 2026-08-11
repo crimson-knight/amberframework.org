@@ -19,7 +19,7 @@ remain retired; assets and the standalone Amber CLI use their V2 guides.
 
 ## Supported beta core
 
-- [Web template](web-template/) — exact output of Amber CLI 2.0.2
+- [Web template](web-template/) — exact output of Amber CLI 2.0.3
 - [Schema API](schema-api/) — typed request parsing and validation
 - [Adapters](adapters/) — framework adapter concepts and extension points
 

@@ -17,8 +17,7 @@ configuration, sessions, static files, tests, and a development watcher without
 requiring a database.
 
 ```bash
-brew tap amberframework/amber_cli
-brew install amber_cli
+brew install amberframework/amber_cli/amber_cli
 amber new my_app
 cd my_app
 crystal spec

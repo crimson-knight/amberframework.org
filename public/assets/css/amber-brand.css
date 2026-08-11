@@ -2627,6 +2627,8 @@ pre {
   background: var(--amber-100);
   color: #8b3308;
   font-size: 0.87em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .code-window,

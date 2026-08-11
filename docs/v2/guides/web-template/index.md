@@ -78,7 +78,7 @@ my_app                                      Amber V2 beta
 Amber V2 · Web application
 Your new idea starts here.
 
-my_app is running. Your first route, view, and locally served asset pipeline
+my_app is running. Your first route, view, and locally served CSS and JavaScript
 are ready to shape.
 
 Server rendered · Crystal powered · Ready to customize
@@ -134,7 +134,7 @@ Before creating a new application with Homebrew, refresh the CLI:
 
 ```bash
 brew update
-brew upgrade amber_cli
+brew upgrade amberframework/amber_cli/amber_cli
 amber --version
 ```
 
