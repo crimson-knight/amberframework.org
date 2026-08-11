@@ -10,16 +10,17 @@ description: "File attachment toolkit for Crystal applications"
 
 > **Preview ecosystem guide:** Gemma is not part of the Amber 2.0.0-beta.2
 > core web-app release gate. Its package version, API, and platform support may
-> change independently. Do not add a personal fork as a default dependency.
+> change independently. Confirm a compatible official release before adding it
+> to an application.
 
-Gemma is a file attachment toolkit for Crystal applications, inspired by [Shrine for Ruby](https://shrinerb.com). It provides a clean API for attaching files to your models with support for multiple storage backends.
+Gemma is a file attachment toolkit for Crystal applications, inspired by [Shrine for Ruby](https://shrinerb.com). It connects model attachments to validation, temporary uploads, permanent storage, and delivery across configurable backends.
 
 ## Why Gemma?
 
 - **Storage Agnostic** - Switch between filesystem and S3 without changing application code
 - **Grant Integration** - First-class support for Grant ORM with `has_one_attached` and `has_many_attached`
 - **Validation Support** - Built-in validators for file size, content type, and dimensions
-- **Plugin System** - Extend functionality with MIME type detection, metadata extraction, and more
+- **Plugin System** - Add MIME type detection and metadata extraction
 - **Two-Stage Uploads** - Cache files temporarily, then promote to permanent storage
 
 ## Installation

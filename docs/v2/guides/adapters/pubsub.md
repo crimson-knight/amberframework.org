@@ -2,151 +2,64 @@
 title: "PubSub Adapters"
 section: "guides/adapters"
 order: 20
-description: "Implementing custom pub/sub messaging adapters for WebSockets"
+description: "Implement and register Amber V2 pub/sub adapters for WebSocket broadcasts"
 ---
 
 # PubSub Adapters
 
-PubSub adapters provide the messaging backend for WebSocket broadcasting and real-time communication. They enable features like chat rooms, live updates, and presence tracking.
+Pub/sub adapters carry WebSocket messages between publishers and subscribers.
+Amber V2 includes `MemoryPubSubAdapter`; applications can register a shared
+broker when broadcasts must cross process or host boundaries.
 
-## PubSub Adapter Interface
+## Complete adapter contract
 
-All pub/sub adapters must implement the abstract `PubSubAdapter` class:
+A custom adapter inherits `Amber::Adapters::PubSubAdapter`:
 
 ```crystal
 abstract class Amber::Adapters::PubSubAdapter
   abstract def publish(topic : String, sender_id : String, message : JSON::Any) : Nil
   abstract def subscribe(topic : String, &block : (String, JSON::Any) -> Nil) : Nil
   abstract def unsubscribe(topic : String) : Nil
+  abstract def unsubscribe_all : Nil
+  abstract def close : Nil
 end
 ```
 
-## Built-in Memory Adapter
+Adapters may also override `healthy?`, `subscriber_count`, and `active_topics`
+when the backend can report those values accurately.
 
-The `MemoryPubSubAdapter` is the default:
+The adapter owns broker subscriptions and resource cleanup. Calling
+`unsubscribe(topic)` must stop delivery for that topic; `unsubscribe_all` and
+`close` must release all remaining subscriptions and connections.
 
-```crystal
-# Automatically used when adapter: "memory"
-class Amber::Adapters::MemoryPubSubAdapter < PubSubAdapter
-  # Fiber-based async message delivery
-  # Perfect for single-server deployments
-end
+## Built-in memory adapter
+
+Select the in-process adapter by name:
+
+```yaml
+pubsub:
+  adapter: "memory"
 ```
 
-## When to Use Custom Adapters
+Use it for development, tests, and intentional single-process deployments. A
+browser connected to one process cannot receive a message published only inside
+another process through the memory adapter.
 
-Memory adapter works great for:
+## Register a shared adapter
 
-- Development environments
-- Single-server deployments
-- Testing
-
-Use custom adapters when:
-
-- Running multiple application servers
-- Need message persistence
-- Requiring exactly-once delivery
-- Scaling horizontally
-
-## Creating a Custom Adapter
-
-### Redis PubSub Adapter Example
+Load and register the implementation before Amber configures WebSocket pub/sub:
 
 ```crystal
-# src/adapters/redis_pubsub_adapter.cr
-require "redis"
-
-class RedisPubSubAdapter < Amber::Adapters::PubSubAdapter
-  @subscriptions = {} of String => Redis::Subscription
-
-  def initialize(@redis : Redis::PooledClient)
-    @pubsub_redis = Redis.new(url: ENV["REDIS_URL"])
-  end
-
-  def publish(topic : String, sender_id : String, message : JSON::Any) : Nil
-    payload = {
-      sender_id: sender_id,
-      message: message,
-      timestamp: Time.utc.to_unix
-    }.to_json
-
-    @redis.publish(channel(topic), payload)
-  end
-
-  def subscribe(topic : String, &block : (String, JSON::Any) -> Nil) : Nil
-    spawn do
-      @pubsub_redis.subscribe(channel(topic)) do |on|
-        on.message do |channel, payload|
-          data = JSON.parse(payload)
-          sender_id = data["sender_id"].as_s
-          message = data["message"]
-          block.call(sender_id, message)
-        end
-      end
-    end
-  end
-
-  def unsubscribe(topic : String) : Nil
-    @pubsub_redis.unsubscribe(channel(topic))
-  end
-
-  private def channel(topic : String)
-    "pubsub:#{topic}"
-  end
-end
-```
-
-### PostgreSQL LISTEN/NOTIFY Adapter
-
-```crystal
-# src/adapters/postgres_pubsub_adapter.cr
-
-class PostgresPubSubAdapter < Amber::Adapters::PubSubAdapter
-  @listeners = {} of String => Fiber
-
-  def initialize(@connection : DB::Database)
-    @notify_conn = DB.open(ENV["DATABASE_URL"])
-  end
-
-  def publish(topic : String, sender_id : String, message : JSON::Any) : Nil
-    payload = {sender_id: sender_id, message: message}.to_json
-    @connection.exec("SELECT pg_notify($1, $2)", topic, payload)
-  end
-
-  def subscribe(topic : String, &block : (String, JSON::Any) -> Nil) : Nil
-    @listeners[topic] = spawn do
-      @notify_conn.using_connection do |conn|
-        conn.exec("LISTEN #{topic}")
-        conn.on_notification do |notification|
-          if notification.channel == topic
-            data = JSON.parse(notification.payload)
-            block.call(data["sender_id"].as_s, data["message"])
-          end
-        end
-      end
-    end
-  end
-
-  def unsubscribe(topic : String) : Nil
-    @notify_conn.exec("UNLISTEN #{topic}")
-    @listeners.delete(topic)
-  end
-end
-```
-
-## Registering Custom Adapters
-
-```crystal
-# config/initializers/adapters.cr
+# config/application.cr
+require "amber"
 require "../src/adapters/redis_pubsub_adapter"
 
 Amber::Adapters::AdapterFactory.register_pubsub_adapter("redis") do
-  redis = Redis::PooledClient.new(url: ENV["REDIS_URL"])
-  RedisPubSubAdapter.new(redis)
+  RedisPubSubAdapter.new(redis_client)
 end
 ```
 
-## Configuration
+Then select the registered name:
 
 ```yaml
 # config/environments/production.yml
@@ -154,99 +67,35 @@ pubsub:
   adapter: "redis"
 ```
 
-## Using PubSub in WebSocket Channels
+Redis is an example of an application-supplied broker, not a built-in Amber V2
+adapter. The adapter must match the chosen Redis shard API, connection model,
+authentication, TLS, and reconnect behavior.
 
-```crystal
-# src/channels/chat_channel.cr
-class ChatChannel < Amber::WebSockets::Channel
-  def subscribed
-    stream_from "chat_room_#{params["room_id"]}"
-  end
+## Message contract
 
-  def receive(message)
-    # Broadcast to all subscribers via adapter
-    broadcast("chat_room_#{params["room_id"]}", message)
-  end
+`publish` receives a topic, sender ID, and `JSON::Any` message. A shared adapter
+must preserve those three values across serialization so each subscriber callback
+receives the original sender ID and message.
 
-  def unsubscribed
-    stop_streaming_from "chat_room_#{params["room_id"]}"
-  end
-end
-```
+Define a collision-safe broker namespace for the application and environment.
+Do not subscribe directly to an untrusted topic name without validating or
+encoding it for the broker.
 
-## Multi-Server Broadcasting
+## Adapter verification
 
-With a Redis or database adapter, broadcasts work across servers:
+- publish and receive representative JSON values without losing types;
+- preserve the sender ID used to identify or filter an originating socket;
+- deliver to multiple subscribers on the same topic;
+- stop delivery after `unsubscribe` and `unsubscribe_all`;
+- close broker connections and listener fibers cleanly;
+- recover or fail visibly after a broker disconnect;
+- use two application processes to prove cross-process delivery;
+- verify topic isolation between environments and applications;
+- load-test the subscription count and message sizes expected in production.
 
-```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   Server 1  │     │    Redis    │     │   Server 2  │
-│  (Users A)  │────▶│   PubSub    │◀────│  (Users B)  │
-└─────────────┘     └─────────────┘     └─────────────┘
-       │                   │                   │
-       ▼                   ▼                   ▼
-   User A1             Broadcast           User B1
-   User A2                                 User B2
-```
+Presence, replay, persistence, ordering, and exactly-once delivery are not
+provided merely by implementing the Amber pub/sub interface. If the application
+requires one of those guarantees, specify and test it as part of the adapter.
 
-When User A1 sends a message:
-
-1. Server 1 publishes to Redis
-2. Redis broadcasts to all subscribers
-3. Server 2 receives and delivers to Users B
-
-## Presence Tracking
-
-Implement presence with your adapter:
-
-```crystal
-class PresenceChannel < Amber::WebSockets::Channel
-  def subscribed
-    track_presence("room_#{params["room_id"]}", current_user.id)
-    broadcast_presence
-  end
-
-  def unsubscribed
-    untrack_presence("room_#{params["room_id"]}", current_user.id)
-    broadcast_presence
-  end
-
-  private def broadcast_presence
-    presence = get_presence("room_#{params["room_id"]}")
-    broadcast("presence_#{params["room_id"]}", {users: presence})
-  end
-end
-```
-
-## Testing
-
-Use mock adapter for tests:
-
-```crystal
-class MockPubSubAdapter < Amber::Adapters::PubSubAdapter
-  property published = [] of {String, String, JSON::Any}
-
-  def publish(topic : String, sender_id : String, message : JSON::Any) : Nil
-    published << {topic, sender_id, message}
-  end
-
-  def subscribe(topic : String, &block : (String, JSON::Any) -> Nil) : Nil
-    # No-op for tests
-  end
-
-  def unsubscribe(topic : String) : Nil
-    # No-op for tests
-  end
-end
-
-# In tests
-it "broadcasts message" do
-  adapter = MockPubSubAdapter.new
-  channel = ChatChannel.new(adapter)
-
-  channel.receive({"text" => "Hello"})
-
-  adapter.published.size.should eq(1)
-  adapter.published.first[2]["text"].should eq("Hello")
-end
-```
+See [Redis to Adapters](../../migration-guide/redis-to-adapters/) for a staged
+cutover and rollback checklist.

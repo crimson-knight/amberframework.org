@@ -4,8 +4,7 @@ require "../services/docs_scanner"
 require "../services/markdown_preprocessor"
 
 class DocsController < ApplicationController
-  # Use standard application layout (same as blog)
-  LAYOUT = "application.slang"
+  LAYOUT = "application.ecr"
 
   # Instance variable type annotations
   @path : String = ""
@@ -31,7 +30,9 @@ class DocsController < ApplicationController
     exists: Bool,
     is_current: Bool,
     change_type: String?,
-    line_diff: Int32?)
+    line_diff: Int32?,
+    replacement_path: String?,
+    replacement_title: String?)
   @version_timeline : Array(TimelineEntry) = [] of TimelineEntry
   @show_version_timeline : Bool = false
 
@@ -89,7 +90,9 @@ class DocsController < ApplicationController
     end
 
     if @page
-      render("show.slang")
+      render("show.ecr")
+    elsif replacement = DocsScanner.replacement_path(@version_id, "#{@path}.md")
+      redirect_to location: "/docs/#{@version_id}/#{replacement}", status: 302
     else
       raise Amber::Exceptions::RouteNotFound.new(request)
     end
@@ -191,14 +194,21 @@ class DocsController < ApplicationController
                       nil
                     end
 
+      replacement_path = entry.available? ? nil : DocsScanner.replacement_path(entry.version_id, history.relative_path)
+      replacement_title = replacement_path.try do |path|
+        DocsScanner.find_page(entry.version_id, path).try(&.title)
+      end
+
       timeline << {
-        version_id:  entry.version_id,
-        label:       DocVersionConfig.find(entry.version_id).try(&.label) || entry.version_name,
-        short_label: entry.version_name,
-        exists:      entry.available?,
-        is_current:  entry.version_id == @version_id,
-        change_type: change_type,
-        line_diff:   entry.line_delta,
+        version_id:        entry.version_id,
+        label:             DocVersionConfig.find(entry.version_id).try(&.label) || entry.version_name,
+        short_label:       entry.version_name,
+        exists:            entry.available?,
+        is_current:        entry.version_id == @version_id,
+        change_type:       change_type,
+        line_diff:         entry.line_delta,
+        replacement_path:  replacement_path,
+        replacement_title: replacement_title,
       }
     end
 
@@ -235,14 +245,21 @@ class DocsController < ApplicationController
 
   # Helper to render markdown with preprocessing
   def render_markdown(content : String) : String
-    processed = MarkdownPreprocessor.process(content)
-    Markd.to_html(processed)
+    source_path = @page.try(&.relative_path).to_s.sub(/\.md$/, "")
+    MarkdownPreprocessor.render(content, version_id: @version_id, page_path: source_path)
   end
 
   # Helper to get URL for a page in a different version
   def version_url(target_version : String, current_path : String) : String
-    # Strip current version from path
-    path_without_version = current_path.sub(/^#{Regex.escape(@version_id)}\//, "")
-    "/docs/#{target_version}/#{path_without_version}".sub(/\/$/, "")
+    path_without_version = current_path.sub(/^#{Regex.escape(@version_id)}\//, "").strip("/")
+
+    if path_without_version.empty?
+      "/docs/#{target_version}"
+    elsif DocsScanner.find_page(target_version, path_without_version)
+      "/docs/#{target_version}/#{path_without_version}"
+    else
+      # A version-specific page should never turn version switching into a 404.
+      "/docs/#{target_version}"
+    end
   end
 end

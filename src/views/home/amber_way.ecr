@@ -1,0 +1,282 @@
+<% @title = "Amber's Way — Amber Framework" %>
+<% @meta = "Amber's values and coding beliefs: explicit response formats, ECR views, predictable application structure, native browser modules, local CSS, and measured performance." %>
+
+<header class="page-hero amber-way-hero">
+  <div class="site-container page-hero-grid">
+    <div>
+      <p class="eyebrow">A framework with a point of view</p>
+      <h1>Learn Amber's Way.</h1>
+      <p>Amber is deliberately opinionated about both the experience of building software and the shape of the code. The values tell us how to work together. The coding beliefs make those values concrete in every application.</p>
+      <nav class="way-jump-nav" aria-label="Amber's coding beliefs">
+        <% coding_beliefs.each do |belief| %>
+          <a href="#<%= belief[:slug] %>"><%= escape_html(belief[:title]) %></a>
+        <% end %>
+      </nav>
+    </div>
+    <img class="guide-amber guide-amber-hero" src="/assets/characters/amber-chibi-hero-mark-v2.webp" width="1254" height="1254" alt="Chibi Amber standing confidently and giving a peace sign">
+  </div>
+</header>
+
+<main>
+  <section class="section" aria-labelledby="shared-values-title">
+    <div class="site-container">
+      <div class="section-heading way-values-heading reveal">
+        <div>
+          <p class="eyebrow">Shared values</p>
+          <h2 id="shared-values-title">How we build together.</h2>
+        </div>
+        <p>Productivity, performance, and happiness describe what Amber should make possible. Humility, respect, and trust describe the community required to sustain it.</p>
+      </div>
+      <div class="principles-grid">
+        <% values.each do |value| %>
+          <article class="principle-card reveal" id="<%= value[:slug] %>">
+            <span><%= value[:number] %></span>
+            <h2><%= escape_html(value[:title]) %></h2>
+            <p><%= escape_html(value[:copy]) %></p>
+          </article>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-dark way-code-intro" id="coding-beliefs" aria-labelledby="coding-beliefs-title">
+    <div class="site-container way-code-intro-grid reveal">
+      <div>
+        <p class="eyebrow">Coding beliefs</p>
+        <h2 id="coding-beliefs-title">The framework should teach the application.</h2>
+      </div>
+      <p>An Amber codebase should reveal its intent without archaeology. A route names the request path, a controller coordinates the work, <code>respond_with</code> declares the available representations, ECR owns HTML, and local browser assets finish the experience.</p>
+    </div>
+  </section>
+
+  <section class="section way-belief-section" id="representations" aria-labelledby="representations-title">
+    <div class="site-container way-belief-grid">
+      <div class="way-belief-copy reveal">
+        <p class="way-belief-number">Belief 01</p>
+        <p class="eyebrow">Controller boundary</p>
+        <h2 id="representations-title">One action.<br>Honest representations.</h2>
+        <p>HTML and JSON are two representations of the same resource, not two excuses to repeat the application logic. Load the data once. Use a Rails-inspired <code>respond_with</code> block to state exactly what the action can return. Amber selects a representation from the request's <code>Accept</code> header or extension and returns <code>406 Not Acceptable</code> when none matches.</p>
+        <div class="way-contract-list" aria-label="Response contract">
+          <span><strong>HTML</strong> renders the ECR view and application layout</span>
+          <span><strong>JSON</strong> serializes the same resource explicitly</span>
+          <span><strong>Tests</strong> exercise each public representation</span>
+        </div>
+        <a class="text-link" href="/amber-way.json">Open this action's JSON representation <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="way-code-stack reveal">
+        <div class="code-window way-code-window">
+          <div class="code-window-toolbar"><span class="code-window-language">src/controllers/articles_controller.cr</span></div>
+          <pre><code class="language-crystal">class ArticlesController &lt; ApplicationController
+  def show
+    article = ArticleCatalog.fetch(params["slug"])
+
+    respond_with do
+      html { render("show.ecr") }
+      json { article.to_json }
+    end
+  end
+end</code></pre>
+        </div>
+        <div class="mini-request-proof" aria-label="Content negotiation examples">
+          <code>GET /articles/amber-way<br>Accept: text/html</code>
+          <span aria-hidden="true">→</span>
+          <strong>ECR + layout</strong>
+          <code>GET /articles/amber-way<br>Accept: application/json</code>
+          <span aria-hidden="true">→</span>
+          <strong>JSON</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tinted way-belief-section" id="project-shape" aria-labelledby="project-shape-title">
+    <div class="site-container">
+      <div class="way-section-heading reveal">
+        <div>
+          <p class="way-belief-number">Belief 02</p>
+          <p class="eyebrow">Application structure</p>
+          <h2 id="project-shape-title">The filesystem is part of the documentation.</h2>
+        </div>
+        <p>Amber CLI generates one predictable home for each responsibility. This is the supported V2 web shape—not a suggestion that every application invents again.</p>
+      </div>
+      <div class="way-filesystem-grid reveal">
+        <div class="code-window way-code-window way-tree-window">
+          <div class="code-window-toolbar"><span class="code-window-language">my_app/</span></div>
+          <pre><code class="language-text">my_app/
+├── config/
+│   ├── application.cr
+│   ├── routes.cr
+│   └── environments/
+├── public/
+│   ├── css/app.css
+│   └── js/app.js
+├── spec/
+│   └── controllers/
+├── src/
+│   ├── my_app.cr
+│   ├── controllers/
+│   │   ├── application_controller.cr
+│   │   └── home_controller.cr
+│   └── views/
+│       ├── home/index.ecr
+│       └── layouts/application.ecr
+└── shard.yml</code></pre>
+        </div>
+        <ol class="way-file-roles">
+          <li><span>01</span><div><strong><code>config/routes.cr</code></strong><p>Maps an HTTP method and path to a controller action through an explicit pipeline.</p></div></li>
+          <li><span>02</span><div><strong><code>src/controllers/</code></strong><p>Loads resources, applies request policy, and declares the available response formats.</p></div></li>
+          <li><span>03</span><div><strong><code>src/views/</code></strong><p>Owns the server-rendered HTML, reusable partials, and the shared document layout.</p></div></li>
+          <li><span>04</span><div><strong><code>public/</code></strong><p>Serves local CSS, JavaScript modules, fonts, and images without a front-end build step.</p></div></li>
+          <li><span>05</span><div><strong><code>spec/</code></strong><p>Verifies the request contract at the same boundary a browser or API client uses.</p></div></li>
+        </ol>
+      </div>
+      <p class="way-inline-note reveal">Jobs, mailers, channels, models, and schemas follow the same rule: focused directories with stable generator destinations. See the <a href="/docs/v2/guides/web-template">complete generated web template</a>.</p>
+    </div>
+  </section>
+
+  <section class="section way-belief-section" id="views" aria-labelledby="views-title">
+    <div class="site-container">
+      <div class="way-section-heading reveal">
+        <div>
+          <p class="way-belief-number">Belief 03</p>
+          <p class="eyebrow">HTML boundary</p>
+          <h2 id="views-title">Views should look like the document they create.</h2>
+        </div>
+        <p>ECR keeps HTML visible, lets Crystal locals cross the rendering boundary, and makes layout composition explicit. Dynamic values are escaped; only framework-rendered template content is inserted as trusted markup.</p>
+      </div>
+      <div class="way-template-grid reveal">
+        <div class="code-window way-code-window">
+          <div class="code-window-toolbar"><span class="code-window-language">src/views/articles/show.ecr</span></div>
+          <pre><code class="language-html">&lt;article class="article-shell"&gt;
+  &lt;p class="eyebrow"&gt;Field note&lt;/p&gt;
+  &lt;h1&gt;&lt;%= escape_html(article[:title]) %&gt;&lt;/h1&gt;
+  &lt;p&gt;&lt;%= escape_html(article[:summary]) %&gt;&lt;/p&gt;
+
+  &lt;%= render(
+    partial: "articles/_meta.ecr"
+  ) %&gt;
+&lt;/article&gt;</code></pre>
+        </div>
+        <div class="code-window way-code-window">
+          <div class="code-window-toolbar"><span class="code-window-language">src/views/layouts/application.ecr</span></div>
+          <pre><code class="language-html">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta name="viewport"
+      content="width=device-width, initial-scale=1"&gt;
+    &lt;link rel="stylesheet" href="/css/app.css"&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;%= content %&gt;
+    &lt;script type="importmap"&gt;
+      {"imports":{"app":"/js/app.js"}}
+    &lt;/script&gt;
+    &lt;script type="module"&gt;import "app";&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+      </div>
+      <div class="way-view-rules reveal">
+        <span><strong>Render</strong><code>render("show.ecr")</code></span>
+        <span><strong>Partial</strong><code>render(partial: "articles/_meta.ecr")</code></span>
+        <span><strong>No layout</strong><code>render("card.ecr", layout: false)</code></span>
+        <span><strong>Escape values</strong><code>escape_html(value)</code></span>
+      </div>
+      <a class="text-link" href="/docs/v2/guides/views">Read the complete ECR view guide <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <section class="section section-dark way-platform-section" id="web-platform" aria-labelledby="web-platform-title">
+    <div class="site-container">
+      <div class="way-section-heading way-section-heading-light reveal">
+        <div>
+          <p class="way-belief-number">Belief 04</p>
+          <p class="eyebrow">Front-end baseline</p>
+          <h2 id="web-platform-title">Use the web platform before adding a toolchain.</h2>
+        </div>
+        <p>A complete front end does not require an external library. Start with semantic HTML from ECR, locally served CSS, standard JavaScript modules, and a browser-native import map. Add dependencies only when the application has earned the extra release and security surface.</p>
+      </div>
+      <div class="way-platform-grid reveal">
+        <article>
+          <span>HTML</span>
+          <h3>ECR renders the first useful screen.</h3>
+          <p>Routes work without JavaScript, metadata stays in the layout, and progressive enhancement begins from a real document.</p>
+        </article>
+        <article>
+          <span>CSS</span>
+          <h3>Tokens and components stay local.</h3>
+          <p>Custom properties, Grid, Flexbox, container-aware responsive rules, and reduced-motion fallbacks cover the common system.</p>
+        </article>
+        <article>
+          <span>ES modules</span>
+          <h3>Import names stay stable.</h3>
+          <p>The import map points a bare name such as <code>app</code> at a local module. No npm install, bundle, or CDN is required.</p>
+        </article>
+      </div>
+      <div class="site-is-proof reveal">
+        <div>
+          <p class="eyebrow">This website is the proof</p>
+          <h3>The page you are reading follows the path it recommends.</h3>
+        </div>
+        <ul>
+          <li>Amber controller and <code>respond_with</code></li>
+          <li>ECR views and partials</li>
+          <li>One local design-system stylesheet</li>
+          <li>One local ES module resolved by an import map</li>
+          <li>No front-end framework, bundler, asset CDN, analytics, or application cookies</li>
+        </ul>
+      </div>
+      <a class="text-link text-link-light" href="/docs/v2/guides/assets/import-maps">Build the native import-map baseline <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <section class="section way-performance-section" id="measured-performance" aria-labelledby="measured-performance-title">
+    <div class="site-container">
+      <div class="way-section-heading reveal">
+        <div>
+          <p class="way-belief-number">Belief 05</p>
+          <p class="eyebrow">Measured performance</p>
+          <h2 id="measured-performance-title">A number without its workload is not a benchmark.</h2>
+        </div>
+        <p>The July 17, 2026 Amber V2 performance lab measured a mixed, 1,000-route application—not a static-response best case. The current JSON path sustained a median <strong>21,795 whole HTTP requests per second</strong> on the smallest one-vCPU target.</p>
+      </div>
+      <div class="benchmark-result-panel reveal">
+        <div class="benchmark-headline">
+          <span>Hosted median</span>
+          <strong><b>21,795</b> req/s</strong>
+          <p>Current Amber JSON params · HTTP/1.1 keep-alive</p>
+        </div>
+        <dl class="benchmark-facts">
+          <div><dt>Target</dt><dd>1 vCPU · 512 MB class</dd></div>
+          <div><dt>Application</dt><dd>1,000 mixed routes</dd></div>
+          <div><dt>Load</dt><dd>16 connections · separate host</dd></div>
+          <div><dt>Protocol</dt><dd>HTTP/1.1 keep-alive</dd></div>
+          <div><dt>Trials</dt><dd>7 rotating repetitions</dd></div>
+          <div><dt>Integrity</dt><dd>0 socket or non-2xx errors</dd></div>
+        </dl>
+      </div>
+      <p class="benchmark-boundary reveal"><strong>What this does not claim:</strong> it is not a static-endpoint estimate, a cross-framework ranking, a production capacity promise, or an SLA for every Amber application. It is a dated result for a documented workload. The full seven-variant matrix delivered 18,728,053 successful responses; application code, hardware, proxies, databases, and traffic shape will change your result.</p>
+      <div class="benchmark-actions reveal">
+        <a class="button button-primary" href="/docs/v2/guides/performance">Read the methodology</a>
+        <a class="button button-secondary" href="/benchmarks/amber-v2-round22-summary.json">Inspect the published data</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tinted opinionated-section" id="clear-responsibilities">
+    <div class="site-container opinionated-panel reveal">
+      <div class="opinionated-intro">
+        <p class="eyebrow">Opinionated by design</p>
+        <h2>Own the path.<br>Shrink the attack surface.</h2>
+        <p>Amber should provide a coherent first-party answer wherever the framework can responsibly do so. Every external dependency adds another project, release process, and delivery chain an application must trust. Bringing proven responsibilities into the framework reduces that exposure and makes the supported path easier to test as one system.</p>
+        <p class="boundary-note">Fewer dependencies reduce supply-chain and disruption risk; they do not eliminate it. First-party code still requires review, maintenance, release discipline, and clear security boundaries.</p>
+      </div>
+      <div class="opinionated-practices">
+        <article><span>01</span><h3>Defaults with a point of view</h3><p>Choose a complete convention for the common path, document it end to end, and make extension a deliberate decision instead of setup homework.</p></article>
+        <article><span>02</span><h3>Dependencies must earn their place</h3><p>Prefer first-party capabilities when Amber can own their quality and compatibility. Add third-party packages when they provide clear value that the framework should not duplicate.</p></article>
+        <article><span>03</span><h3>Responsibilities stay explicit</h3><p>Personify major architectural boundaries as crew members; keep focused products and systems—such as Asset Pipeline—named for the work they perform.</p></article>
+      </div>
+    </div>
+  </section>
+</main>

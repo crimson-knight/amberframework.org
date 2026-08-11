@@ -1,0 +1,20 @@
+<nav class="site-nav" aria-label="Main navigation">
+  <div class="site-container nav-inner">
+    <a class="brand-lockup" href="/" aria-label="Amber Framework home">
+      <img class="brand-character-mark" src="/assets/characters/amber-chibi-hero-mark-v2.webp" width="48" height="48" alt="">
+      <span>Amber Framework</span>
+      <span class="brand-version">V2 beta</span>
+    </a>
+
+    <button class="menu-button" type="button" aria-label="Open navigation" aria-expanded="false" data-menu-button>Menu</button>
+
+    <div class="site-menu" data-site-menu>
+      <a href="/docs/v2"<%= " aria-current=\"page\"" if context.request.path.starts_with?("/docs") %>>Docs</a>
+      <a href="/characters"<%= " aria-current=\"page\"" if context.request.path.starts_with?("/characters") %>>Characters</a>
+      <a href="/blog"<%= " aria-current=\"page\"" if context.request.path.starts_with?("/blog") %>>Blog</a>
+      <a href="/amber-way"<%= " aria-current=\"page\"" if context.request.path == "/amber-way" %>>Amber's Way</a>
+      <a href="https://github.com/amberframework/amber" target="_blank" rel="noopener">GitHub</a>
+      <a class="button button-primary" href="/docs/v2/getting-started/installation">Test V2 beta</a>
+    </div>
+  </div>
+</nav>

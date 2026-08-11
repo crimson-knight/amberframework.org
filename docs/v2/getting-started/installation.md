@@ -2,7 +2,7 @@
 title: "Installation"
 section: "getting-started"
 order: 10
-description: "Install Amber CLI 2.0.2 on supported macOS and Linux systems"
+description: "Install Amber CLI 2.0.3 on supported macOS and Linux systems"
 ---
 
 # Install Amber V2 Beta
@@ -21,7 +21,8 @@ Intel macOS, Linux ARM64, and Windows are not release-gated in this beta.
 
 Install Crystal 1.20 or newer, but earlier than 2.0, using the
 [official Crystal instructions](https://crystal-lang.org/install/). You also
-need Git and `shards`.
+need Git and `shards`. Treat 1.20 as the compatibility floor; for a new Amber
+application, use the latest stable Crystal release that satisfies this range.
 
 ```bash
 crystal --version
@@ -33,7 +34,8 @@ A database is not required for the generated core web app.
 
 ## Homebrew
 
-The tap and formula use an underscore. The installed executable is `amber`:
+The tap and formula use an underscore. Install the official formula with its
+fully qualified name, then verify the `amber` executable:
 
 ```bash
 brew install amberframework/amber_cli/amber_cli
@@ -41,16 +43,18 @@ amber --version
 ```
 
 The fully qualified command follows Homebrew's tap-trust model and trusts only
-the `amber_cli` formula. The installed executable remains `amber`.
+the requested formula. The formula is `amber_cli` and the installed executable
+is `amber`.
 
-Expect Amber CLI `2.0.2` or newer.
+Expect Amber CLI `2.0.3` or newer. Version 2.0.3 includes the branded V2 web
+starter and its browser-native import map.
 
 ## Direct archive
 
 Choose `darwin-arm64` on Apple Silicon macOS or `linux-x86_64` on x86_64 Linux:
 
 ```bash
-version=v2.0.2
+version=v2.0.3
 platform=darwin-arm64
 asset="amber_cli-${platform}.tar.gz"
 
@@ -104,9 +108,9 @@ Do not use the moving `v2-dev` branch in a reproducible beta application.
 
 ```bash
 brew update
-brew upgrade amber_cli
+brew upgrade amberframework/amber_cli/amber_cli
 # or
-brew uninstall amber_cli
+brew uninstall amberframework/amber_cli/amber_cli
 brew untap amberframework/amber_cli
 ```
 

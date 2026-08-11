@@ -16,10 +16,34 @@
 - guides/models/granite/bulk-insertions.md
 - guides/models/granite/associations.md
 
-# Legacy CLI commands that are not part of the V2 CLI
+# Legacy CLI pages that are replaced by the consolidated V2 CLI reference
 - cli/recipes.md
 - cli/routes.md
 - cli/plugins.md
 - cli/encrypt.md
 - cli/exec.md
 - cli/database.md
+
+# V1 deployment recipes depend on obsolete buildpacks, asset compilation, CLI
+# encryption, Redis, or old Crystal releases. V2 uses the reviewed deployment
+# and manual binary guides instead.
+- deployment/digital-ocean.md
+- deployment/heroku.md
+- deployment/dokku.md
+
+# V1 pages whose primary instructions depend on Slang, Webpack, bundled CLI
+# behavior, Granite, or an obsolete project layout. V2 publishes reviewed
+# replacements instead of presenting these as carried-forward instructions.
+- examples/amber-auth.md
+- examples/json-api-full-crud.md
+- cookbook/from-scratch.md
+- guides/create-new-app.md
+- guides/directory-structure.md
+- guides/configuration.md
+- guides/overview.md
+- guides/docker.md
+- guides/controllers/params.md
+- guides/installation.md
+- guides/views/form-builder.md
+- examples/crystal-debug.md
+- cookbook/json-api.md

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="<%= @meta %>">
+    <meta name="keywords" content="Amber Framework, Crystal language, web framework, Amber 2, Amber CLI">
+    <meta name="theme-color" content="#fffaf3">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <title><%= @title %></title>
+    <link rel="canonical" href="https://amberframework.org<%= context.request.path %>">
+    <link href="/assets/css/amber-brand.css?v=2.0.0-beta.2-20260810c" rel="stylesheet">
+    <link rel="apple-touch-icon" href="/favicon.png">
+    <link rel="icon" href="/favicon.png">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  </head>
+  <body data-no-tracking="true">
+    <%= render(partial: "layouts/_nav.ecr") %>
+    <%= content %>
+    <%= render(partial: "layouts/_footer.ecr") %>
+    <script type="importmap">
+      {"imports":{"amber/site":"/assets/js/amber-site.js?v=2.0.0-beta.2-20260810c"}}
+    </script>
+    <script type="module">import "amber/site";</script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+<% @title = "Page not found — Amber Framework" %>
+<header class="page-hero">
+  <div class="site-container">
+    <p class="eyebrow">404 · <%= context.request.method %></p>
+    <h1>That path isn’t in this crystal.</h1>
+    <p>We could not find <code><%= context.request.path %></code>. Try the V2 documentation or return to the homepage.</p>
+    <div class="hero-actions">
+      <a class="button button-primary" href="/docs/v2">Open V2 docs</a>
+      <a class="button button-secondary" href="/">Return home</a>
+    </div>
+  </div>
+</header>

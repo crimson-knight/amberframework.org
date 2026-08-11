@@ -55,9 +55,20 @@ describe DocsScanner do
       deleted = DocsScanner.deleted_paths("v1.4.1")
       deleted.should be_empty
     end
+
+    it "links retired ORM pages to their V2 Grant replacements" do
+      DocsScanner.replacement_path("v2", "guides/models/granite/querying.md").should eq("guides/models/grant/queries")
+      DocsScanner.replacement_path("v2", "guides/models/jennifer/models.md").should eq("guides/models/grant/basics")
+    end
+
+    it "links stale V1 project instructions to reviewed V2 guides" do
+      DocsScanner.replacement_path("v2", "guides/docker.md").should eq("deployment")
+      DocsScanner.find_page("v2", "guides/views").should_not be_nil
+      DocsScanner.replacement_path("v2", "guides/controllers/params.md").should eq("guides/schema-api")
+    end
   end
 
-  describe "deletion inheritance behavior" do
+  describe "V2 publication boundaries" do
     it "includes the published V2 CLI pages" do
       pages = DocsScanner.scan_version("v2")
       cli_pages = pages.select { |p| p.url_path.includes?("cli/") }
@@ -90,12 +101,26 @@ describe DocsScanner do
       jennifer_pages.should be_empty
     end
 
-    it "preserves non-deleted inherited pages in v2" do
-      v2_pages = DocsScanner.scan_version("v2")
-      # V2 should still have inherited pages that weren't deleted
-      # For example, cookbook pages should still exist
-      cookbook_pages = v2_pages.select { |p| p.url_path.includes?("cookbook/") }
-      cookbook_pages.should_not be_empty
+    it "publishes V2-reviewed controller essentials" do
+      v2_pages = DocsScanner.scan_version_only("v2")
+      v2_pages.map(&.url_path).should contain("v2/guides/controllers/request-and-response-objects")
+      v2_pages.map(&.url_path).should contain("v2/guides/controllers/sessions")
+    end
+
+    it "publishes authored and inherited pages while retaining V2 overrides" do
+      published_paths = DocsScanner.scan_version("v2").map(&.relative_path).sort
+      authored_paths = DocsScanner.scan_version_only("v2").map(&.relative_path).sort
+      published_paths.size.should be > authored_paths.size
+      authored_paths.each { |path| published_paths.should contain(path) }
+    end
+
+    it "does not carry known V1-only toolchain instructions into V2" do
+      own_paths = DocsScanner.scan_version_only("v2").map(&.relative_path).to_set
+      stale_pattern = /\b(granite|jennifer|webpack|node\.js|npm|yarn|amber encrypt|amber routes|amber exec|amber database|redis|slang|kilt|heroku|dokku|digitalocean|digital ocean)\b/i
+
+      DocsScanner.scan_version("v2").reject { |page| own_paths.includes?(page.relative_path) }.each do |page|
+        page.content.should_not match(stale_pattern), "#{page.relative_path} contains known V1-only instructions"
+      end
     end
   end
 
@@ -148,6 +173,40 @@ describe DocsScanner do
           "v2/cli/generate",
           "v2/cli/watch",
         ])
+      end
+    end
+
+    it "labels reviewed and inherited controller references distinctly" do
+      pending_items = DocsScanner.build_nav_tree_for_version("v2").dup
+      reviewed_item : NavItem? = nil
+      inherited_item : NavItem? = nil
+
+      until pending_items.empty?
+        item = pending_items.shift
+        if item.path == "v2/guides/controllers/request-and-response-objects"
+          reviewed_item = item
+        elsif item.path == "v2/guides/controllers/cookies"
+          inherited_item = item
+        end
+        pending_items.concat(item.children)
+      end
+
+      reviewed_item.should_not be_nil
+      reviewed_item.try(&.badge).should eq("Updated")
+      reviewed_item.try(&.badge_class).should eq("badge-info")
+      inherited_item.should_not be_nil
+      inherited_item.try(&.badge).should eq("Carried")
+      inherited_item.try(&.badge_class).should eq("badge-inherited")
+    end
+
+    it "every V2 navigation target resolves to an authored page" do
+      pending_items = DocsScanner.build_nav_tree_for_version("v2").dup
+
+      until pending_items.empty?
+        item = pending_items.shift
+        page_path = item.path.sub(/^v2\/?/, "")
+        DocsScanner.find_page("v2", page_path).should_not be_nil, "missing navigation page #{item.path}"
+        pending_items.concat(item.children)
       end
     end
 

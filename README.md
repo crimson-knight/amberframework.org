@@ -1,123 +1,52 @@
 # Amber Framework Website
 
-Official website for Amber web application framework. 
+The Amber Framework website, running on Amber `2.0.0-beta.2` and ECR. The V2
+public-beta experience includes versioned documentation, the project blog, and
+the Amber brand system without a Node or Webpack runtime.
 
-## Installation
+Amber CLI `2.0.3` is the minimum version for the web starter demonstrated on
+the homepage and in the V2 guides.
 
-Create a PG database called `demo` and configure the `config/database.yml`
-to provide the credentials to access the table.
+## Local development
 
-Then:
+Requirements:
+
+- Crystal 1.20 or newer (earlier than 2.0)
+- Shards
 
 ```sh
 shards install
-amber migrate up
+amber watch
 ```
 
-## Usage
+Open <http://localhost:3000>. Static CSS, JavaScript, and brand assets live in
+`public/assets`; no front-end build step is required.
 
-To run the demo:
+## Verification
 
 ```sh
-crystal build src/amberframework.cr
-./amberframework
+crystal spec
+scripts/check_v2_beta_docs.sh
+scripts/check_v2_site_launch.sh
+scripts/check_v2_preview.sh
 ```
 
-## Front-end capabilities
+## Production boundary
 
-Amber framework includes a minimal configuration to generate `main.bundle.js` and `main.bundle.css` using SCSS and JavaScript.
-
-On development use:
+The production image compiles the site with Crystal 1.21 and runs the generated
+`bin/amberframework` binary. DigitalOcean App Platform deploys `master` through
+the root `Dockerfile`. Release evidence and the final gate status live in
+`design/v2-preview/RELEASE_PROOF.md` and `design/v2-preview/RELEASE_GATES.md`.
 
 ```sh
-npm install
-npm run watch
-```
-
-To generate minified bundles for production execute:
-
-```sh
-npm install
-npm run release
-```
-
-## Docker and Docker Compose
-
-This will start an instance of postgres, migrate the database, run the specs,
-and launch the site at http://localhost:3000
-
-```sh
-docker-compose up -d
-```
-
-To view the logs:
-
-```sh
-docker-compose logs -f
-```
-
-Note: The Docker images are compatible with Heroku.  
-
-## SystemD Service
-
-> NOTE: root permission is required by some `systemctl` commands.
-
-### iptables.service
-
-Copy  `iptables.service` to `/etc/systemd/system` and enable it using `systemctl enable iptables.service`
-
-The `iptables` service redirects port `80` to port `8080`. This setting allows to use port 80 without root.
-
-> NOTE: Use `sudo iptables -t nat -D PREROUTING 1` to delete redirect **only** if required
-
-### amberframework.service
-
-Open the file `amberframework.service` and edit these variables:
-
-```
-User=your-user
-WorkingDirectory=/your/project/path/
-ExecStart=/your/project/path/bin/executable
-```
-
-Then copy this file to `/etc/systemd/system` and reboot your machine or use `systemctl daemon-reload` to reload systemd services.
-
-### Service usage
-
-To start `amberframework` service use:
-
-> NOTE: start is done automatically at system boot.
-
-```
-systemctl start amberframework
-```
-
-To stop `amberframework` service use:
-
-```
-systemctl stop amberframework
-```
-
-To see `amberframework` service status use:
-
-```
-systemctl status amberframework
-```
-
-To see `amberframework` service logs use:
-
-```
-journalctl -u amberframework
+docker compose up --build
 ```
 
 ## Contributing
 
-1. Fork it ( https://github.com/amberframework/amberframework.org/fork )
-2. Create your feature branch (git checkout -b my-new-feature)
-3. Commit your changes (git commit -am 'Add some feature')
-4. Push to the branch (git push origin my-new-feature)
-5. Create a new Pull Request
-
-## Contributors
-
-- [amberframework](https://github.com/amberframework) Amber Framework Organization - creator, maintainer
+1. Fork <https://github.com/amberframework/amberframework.org>.
+2. Create a focused branch.
+3. Run the verification commands above.
+4. Open a pull request with desktop and mobile screenshots for visual changes.
+5. Keep the CLI, framework pin, generated starter, and public documentation in
+   one verified release contract.

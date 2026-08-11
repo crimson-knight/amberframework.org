@@ -9,7 +9,8 @@ description: "Validating file uploads for size, type, and dimensions"
 
 > **Preview ecosystem guide:** Gemma is not part of the Amber 2.0.0-beta.2
 > core web-app release gate. Its package version, API, and platform support may
-> change independently. Do not add a personal fork as a default dependency.
+> change independently. Confirm a compatible official release before adding it
+> to an application.
 
 Gemma provides validation helpers for Grant models to ensure uploaded files meet your requirements.
 

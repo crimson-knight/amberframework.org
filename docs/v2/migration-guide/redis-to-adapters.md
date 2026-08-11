@@ -2,477 +2,194 @@
 title: "Redis to Adapters Migration"
 section: "migration-guide"
 order: 30
-description: "Migrate from hard-coded Redis to pluggable session and pub/sub adapters"
+description: "Move Amber 1.x session and pub/sub behavior behind Amber V2 adapter interfaces"
 ---
 
 # Migrating from Redis to Adapters
 
-Amber 2.0 replaces hard-coded Redis dependencies with a pluggable adapter system. You can now choose the best storage backend for your deployment: cookies, Redis, memory, or custom implementations.
+Amber V2 removes Redis as a mandatory framework dependency. The framework ships
+in-memory session and pub/sub adapters; it does **not** ship a first-party Redis
+implementation. Applications that still need Redis must implement and register
+adapters against the Amber interfaces.
 
-## Why the Change?
+This migration changes how Amber reaches the storage or message broker. It does
+not require you to stop using Redis.
 
-| Aspect | Amber 1.x | Amber 2.0 |
-|--------|-----------|-----------|
-| Session Storage | Redis required | Cookie, Redis, Memory, or custom |
-| WebSocket PubSub | Redis required | Memory, Redis, or custom |
-| Dependencies | Always need Redis | Use what fits your needs |
-| Development | Redis must be running | Works out of the box |
-| Deployment | More infrastructure | Deploy anywhere |
+## Choose the target behavior
 
-## Session Migration
+| Requirement | Suitable direction |
+|---|---|
+| Local development and tests | Built-in memory adapters |
+| One application process where losing process-local state is acceptable | Built-in memory adapters after explicit verification |
+| Sessions shared across processes or hosts | Registered external session adapter |
+| WebSocket broadcasts shared across processes or hosts | Registered external pub/sub adapter |
+| Existing Redis-backed production behavior | Custom Redis adapters or another verified shared backend |
 
-### Before (Amber 1.x)
+The memory adapters are process-local. Do not use them as a silent replacement
+for shared Redis state in a horizontally scaled deployment.
 
-```crystal
-# config/application.cr
-Amber::Server.configure do |app|
-  app.session = {
-    :redis => Redis.new(url: ENV["REDIS_URL"]),
-    :key => "session_id",
-    :secret => ENV["SECRET_KEY_BASE"]
-  }
-end
-```
+## Inventory the Amber 1.x contract
 
-### After (Amber 2.0)
+Before changing configuration, record:
 
-#### Option 1: Cookie Store (Recommended for most apps)
+- the session cookie name, signing or encryption behavior, expiration, and
+  rotation rules;
+- the Redis key and channel namespaces;
+- the serialized session and pub/sub payload formats;
+- whether users or broadcasts must survive a process restart;
+- every application process that reads sessions or subscribes to broadcasts;
+- cleanup jobs, Redis ACLs, TLS settings, and monitoring tied to the old keys.
 
-```crystal
-# config/application.cr
-require "amber/session_adapters/cookie_store"
+Keep a deployable copy of the current configuration while the replacement is
+tested.
 
-Amber::Server.configure do |app|
-  app.session = Amber::SessionAdapters::CookieStore.new(
-    secret_key: ENV["SECRET_KEY_BASE"],
-    session_key: "_myapp_session",
-    expire_after: 24.hours
-  )
-end
-```
+## Built-in memory configuration
 
-Benefits:
-- No external dependencies
-- Scales horizontally without shared state
-- Session travels with the request
-
-Limitations:
-- 4KB size limit
-- Data visible to client (encrypted, but visible)
-
-#### Option 2: Redis Store (For existing Redis users)
-
-```crystal
-# config/application.cr
-require "amber/session_adapters/redis_store"
-
-Amber::Server.configure do |app|
-  app.session = Amber::SessionAdapters::RedisStore.new(
-    redis_url: ENV["REDIS_URL"],
-    session_key: "_myapp_session",
-    expire_after: 24.hours
-  )
-end
-```
-
-Use when:
-- You already have Redis infrastructure
-- Sessions need to exceed 4KB
-- You need server-side session invalidation
-
-#### Option 3: Memory Store (Development/Testing)
-
-```crystal
-# config/application.cr
-require "amber/session_adapters/memory_store"
-
-Amber::Server.configure do |app|
-  app.session = Amber::SessionAdapters::MemoryStore.new(
-    session_key: "_myapp_session"
-  )
-end
-```
-
-Note: Memory store doesn't persist across restarts and doesn't scale horizontally.
-
-### Environment-Based Configuration
-
-```crystal
-# config/application.cr
-Amber::Server.configure do |app|
-  app.session = case ENV["AMBER_ENV"]?
-  when "production"
-    if ENV["REDIS_URL"]?
-      Amber::SessionAdapters::RedisStore.new(
-        redis_url: ENV["REDIS_URL"],
-        session_key: "_myapp_session"
-      )
-    else
-      Amber::SessionAdapters::CookieStore.new(
-        secret_key: ENV["SECRET_KEY_BASE"],
-        session_key: "_myapp_session"
-      )
-    end
-  when "test"
-    Amber::SessionAdapters::MemoryStore.new(
-      session_key: "_myapp_session"
-    )
-  else # development
-    Amber::SessionAdapters::CookieStore.new(
-      secret_key: ENV["SECRET_KEY_BASE"]? || "dev_secret_key_at_least_32_chars",
-      session_key: "_myapp_session"
-    )
-  end
-end
-```
-
-## WebSocket PubSub Migration
-
-### Before (Amber 1.x)
-
-```crystal
-# Hard-coded Redis pub/sub
-class ChatSocket < Amber::WebSockets::Channel
-  def on_connect
-    subscribe("chat_room_#{@room_id}")
-  end
-
-  def on_message(action, message)
-    # Uses Redis internally
-    broadcast("chat_room_#{@room_id}", message)
-  end
-end
-```
-
-### After (Amber 2.0)
-
-#### Option 1: Memory Adapter (Single Server)
-
-```crystal
-# config/initializers/pubsub.cr
-require "amber/pubsub_adapters/memory_adapter"
-
-PUBSUB = Amber::PubSubAdapters::MemoryAdapter.new
-```
-
-```crystal
-class ChatSocket < Amber::WebSockets::Channel
-  def on_connect
-    PUBSUB.subscribe("chat_room_#{@room_id}") do |message|
-      send_to_client(message)
-    end
-  end
-
-  def on_message(action, message)
-    PUBSUB.publish("chat_room_#{@room_id}", message)
-  end
-
-  def on_disconnect
-    PUBSUB.unsubscribe("chat_room_#{@room_id}")
-  end
-end
-```
-
-Use when:
-- Single server deployment
-- Development/testing
-- Low message volume
-
-#### Option 2: Redis Adapter (Multi-Server)
-
-```crystal
-# config/initializers/pubsub.cr
-require "amber/pubsub_adapters/redis_adapter"
-
-PUBSUB = Amber::PubSubAdapters::RedisAdapter.new(
-  url: ENV["REDIS_URL"]
-)
-```
-
-```crystal
-class ChatSocket < Amber::WebSockets::Channel
-  def on_connect
-    PUBSUB.subscribe("chat_room_#{@room_id}") do |message|
-      send_to_client(message)
-    end
-  end
-
-  def on_message(action, message)
-    PUBSUB.publish("chat_room_#{@room_id}", message)
-  end
-end
-```
-
-Use when:
-- Multiple app servers
-- High message volume
-- Need message persistence
-
-### Environment-Based PubSub
-
-```crystal
-# config/initializers/pubsub.cr
-PUBSUB = case ENV["AMBER_ENV"]?
-when "production"
-  Amber::PubSubAdapters::RedisAdapter.new(
-    url: ENV["REDIS_URL"]
-  )
-else
-  Amber::PubSubAdapters::MemoryAdapter.new
-end
-```
-
-## Migration Steps
-
-### Step 1: Update shard.yml
+The clean V2 application selects the built-in adapters by name:
 
 ```yaml
-dependencies:
-  amber:
-    github: amberframework/amber
-    version: 2.0.0-beta.2
+# config/environments/development.yml
+session:
+  key: "my_app.session"
+  store: "signed_cookie"
+  adapter: "memory"
+  expires: 3600
 
-  # Redis now optional
-  redis:
-    github: stefanwille/crystal-redis
-    version: ~> 2.8.0
+pubsub:
+  adapter: "memory"
 ```
 
-### Step 2: Update Session Configuration
+Use this path for development, tests, or a deployment whose process-local state
+is an intentional constraint. Restart the application during testing to prove
+that the resulting state loss is acceptable.
 
-1. Remove old Redis session config
-2. Choose and configure new adapter
-3. Test session functionality
+## Keep Redis through a custom session adapter
+
+A shared session backend implements `Amber::Adapters::SessionAdapter`:
 
 ```crystal
-# Remove this:
-app.session = {
-  :redis => Redis.new(...),
-  ...
-}
-
-# Add this:
-app.session = Amber::SessionAdapters::CookieStore.new(...)
+abstract class Amber::Adapters::SessionAdapter
+  abstract def get(session_id : String, key : String) : String?
+  abstract def set(session_id : String, key : String, value : String) : Nil
+  abstract def delete(session_id : String, key : String) : Nil
+  abstract def destroy(session_id : String) : Nil
+  abstract def exists?(session_id : String, key : String) : Bool
+  abstract def keys(session_id : String) : Array(String)
+  abstract def values(session_id : String) : Array(String)
+  abstract def to_hash(session_id : String) : Hash(String, String)
+  abstract def empty?(session_id : String) : Bool
+  abstract def expire(session_id : String, seconds : Int32) : Nil
+  abstract def batch_set(session_id : String, values : Hash(String, String)) : Nil
+  abstract def batch(session_id : String, &block : Amber::Adapters::SessionBatchOperations ->) : Nil
+end
 ```
 
-### Step 3: Update WebSocket Code
+Register the application implementation before Amber builds the session store:
 
-1. Create PubSub adapter instance
-2. Update channels to use adapter
-3. Test real-time features
+```crystal
+# config/application.cr
+require "amber"
+require "../src/adapters/redis_session_adapter"
 
-### Step 4: Remove Redis (if no longer needed)
+Amber::Adapters::AdapterFactory.register_session_adapter("redis") do
+  RedisSessionAdapter.new(redis_client)
+end
+```
+
+Then select the registered name in the environment configuration:
 
 ```yaml
-# shard.yml - remove if not using Redis adapter
-# redis:
-#   github: stefanwille/crystal-redis
+session:
+  key: "my_app.session"
+  store: "signed_cookie"
+  adapter: "redis"
+  expires: 86400
 ```
 
-```bash
-shards update
-```
+The [Session Adapters guide](../../guides/adapters/sessions/) documents the complete
+interface and registration contract. Compile and contract-test the application
+adapter against the exact Redis shard version it uses.
 
-## Custom Adapters
+## Keep cross-process broadcasts through a custom pub/sub adapter
 
-### Custom Session Adapter
+A shared message backend implements `Amber::Adapters::PubSubAdapter`:
 
 ```crystal
-class MySessionAdapter < Amber::SessionAdapters::Base
-  def initialize(@connection : MyDatabase)
-  end
-
-  def load(session_id : String) : Hash(String, String)
-    @connection.get_session(session_id) || {} of String => String
-  end
-
-  def save(session_id : String, data : Hash(String, String)) : Nil
-    @connection.set_session(session_id, data, ttl: 24.hours)
-  end
-
-  def destroy(session_id : String) : Nil
-    @connection.delete_session(session_id)
-  end
-
-  def generate_id : String
-    Random::Secure.hex(32)
-  end
-end
-
-# Use it
-Amber::Server.configure do |app|
-  app.session = MySessionAdapter.new(DB_CONNECTION)
+abstract class Amber::Adapters::PubSubAdapter
+  abstract def publish(topic : String, sender_id : String, message : JSON::Any) : Nil
+  abstract def subscribe(topic : String, &block : (String, JSON::Any) -> Nil) : Nil
+  abstract def unsubscribe(topic : String) : Nil
+  abstract def unsubscribe_all : Nil
+  abstract def close : Nil
 end
 ```
 
-### Custom PubSub Adapter
+Register and select the application implementation:
 
 ```crystal
-class MyPubSubAdapter < Amber::PubSubAdapters::Base
-  def initialize(@broker : MessageBroker)
-  end
+# config/application.cr
+require "amber"
+require "../src/adapters/redis_pubsub_adapter"
 
-  def subscribe(channel : String, &block : String -> Nil) : Nil
-    @broker.subscribe(channel, &block)
-  end
-
-  def unsubscribe(channel : String) : Nil
-    @broker.unsubscribe(channel)
-  end
-
-  def publish(channel : String, message : String) : Nil
-    @broker.publish(channel, message)
-  end
+Amber::Adapters::AdapterFactory.register_pubsub_adapter("redis") do
+  RedisPubSubAdapter.new(redis_client)
 end
 ```
-
-## Session Data Migration
-
-If migrating from Redis sessions to cookies, existing sessions will be lost. Options:
-
-### Option 1: Accept Session Loss
-
-For most apps, users simply log in again. Plan migration during low-traffic period.
-
-### Option 2: Gradual Migration
-
-Support both adapters temporarily:
-
-```crystal
-class HybridSessionAdapter < Amber::SessionAdapters::Base
-  def initialize(@redis : RedisStore, @cookie : CookieStore)
-  end
-
-  def load(session_id : String) : Hash(String, String)
-    # Try cookie first, fall back to Redis
-    data = @cookie.load(session_id)
-    return data unless data.empty?
-
-    # Migrate from Redis to cookie
-    redis_data = @redis.load(session_id)
-    unless redis_data.empty?
-      @cookie.save(session_id, redis_data)
-      @redis.destroy(session_id)  # Clean up Redis
-    end
-    redis_data
-  end
-
-  def save(session_id : String, data : Hash(String, String)) : Nil
-    @cookie.save(session_id, data)
-  end
-
-  def destroy(session_id : String) : Nil
-    @cookie.destroy(session_id)
-    @redis.destroy(session_id)
-  end
-end
-```
-
-### Option 3: Coordinate Session Migration
-
-For critical sessions (admin, long-running workflows):
-
-1. Export important sessions from Redis
-2. Notify affected users
-3. Migrate, requiring re-authentication
-
-## Removing Redis Dependency
-
-Once migrated, you can remove Redis entirely:
-
-### 1. Update shard.yml
 
 ```yaml
-# Remove or comment out
-# redis:
-#   github: stefanwille/crystal-redis
+pubsub:
+  adapter: "redis"
 ```
 
-### 2. Remove Redis Config
+The [PubSub Adapters guide](../../guides/adapters/pubsub/) covers registration and
+multi-process behavior. Test with at least two application processes; a
+single-process browser test cannot prove cross-process delivery.
 
-```bash
-# Remove Redis-related environment variables
-# REDIS_URL, REDIS_HOST, etc.
-```
+## Preserve or retire existing sessions deliberately
 
-### 3. Update Docker/Infrastructure
+Changing a session backend can invalidate every active session. Choose one of
+these policies before deployment:
 
-```dockerfile
-# Remove from docker-compose.yml
-# redis:
-#   image: redis:alpine
-```
+- preserve the existing Redis key namespace and serialization in the new
+  adapter;
+- deploy a temporary dual-read migration that moves a session after a
+  successful old-format read;
+- schedule a coordinated logout and communicate it as an intentional product
+  change.
 
-### 4. Run Tests
+Do not assume that forcing every user to sign in again is harmless. Account
+recovery, long-running work, carts, CSRF state, and administrative sessions may
+make session loss operationally significant.
 
-```bash
-crystal spec
+## Cutover sequence
 
-# Ensure no Redis references remain
-grep -r "Redis" src/
-grep -r "REDIS" src/
-```
+1. Add the adapter implementation and its dependency without removing the old
+   Redis configuration.
+2. Contract-test every adapter method, expiration behavior, malformed payload,
+   connection failure, and reconnect path.
+3. Exercise login, logout, session rotation, and WebSocket broadcasts in a
+   staging deployment that matches the production process count.
+4. Apply the chosen active-session migration policy.
+5. Switch the Amber configuration to the registered adapter name.
+6. Monitor adapter errors, Redis connections, session failures, and broadcast
+   delivery through the rollback window.
 
-## Troubleshooting
+## Removing Redis after the cutover
 
-### Sessions Not Persisting (Cookie Store)
+Remove Redis only after confirming that no application process, job worker,
+cache, rate limiter, session store, or pub/sub subscriber still uses it. Inspect
+the shard dependencies, environment variables, deployment manifests, secrets,
+monitoring, and infrastructure configuration before retiring the service.
 
-Check cookie size - cookies have a 4KB limit:
+Keep the previous configuration and deployment artifact available until the
+replacement has passed its production verification window.
 
-```crystal
-# Log session size
-puts "Session size: #{session.to_json.bytesize} bytes"
+## Verification checklist
 
-# Consider storing only essential data
-session["user_id"] = user.id.to_s  # Good
-session["user"] = user.to_json     # Bad - too large
-```
-
-### WebSocket Messages Not Broadcasting (Multi-Server)
-
-Ensure Redis adapter is used in production:
-
-```crystal
-if ENV["AMBER_ENV"] == "production" && !ENV["REDIS_URL"]?
-  raise "REDIS_URL required for WebSocket pub/sub in production"
-end
-```
-
-### Performance Issues
-
-Compare adapter performance:
-
-```crystal
-# Benchmark session operations
-require "benchmark"
-
-Benchmark.ips do |x|
-  x.report("cookie") { cookie_adapter.load("test") }
-  x.report("redis") { redis_adapter.load("test") }
-  x.report("memory") { memory_adapter.load("test") }
-end
-```
-
-Cookie is typically fastest for small sessions; Redis for large sessions with many servers.
-
-## Security Considerations
-
-### Cookie Store Security
-
-- Always use `SECRET_KEY_BASE` of at least 32 characters
-- Session data is encrypted but may be visible to determined attackers
-- Don't store sensitive data directly in sessions
-
-```crystal
-# Good
-session["user_id"] = user.id.to_s
-
-# Bad - sensitive data
-session["credit_card"] = card_number
-```
-
-### Redis Store Security
-
-- Use `REDIS_URL` with authentication
-- Enable TLS in production: `rediss://...`
-- Consider Redis ACLs for additional security
+- [ ] Session create, read, update, delete, destroy, and expiration behavior pass.
+- [ ] Login, logout, rotation, and invalid-cookie behavior pass.
+- [ ] Restart behavior matches the chosen state policy.
+- [ ] Broadcasts reach subscribers in a second application process.
+- [ ] Redis authentication, TLS, ACLs, timeouts, and reconnect behavior are tested when Redis remains.
+- [ ] The active-session migration or coordinated logout is documented.
+- [ ] The previous configuration can be restored without a code rewrite.

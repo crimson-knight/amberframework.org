@@ -2,236 +2,105 @@
 title: "Session Adapters"
 section: "guides/adapters"
 order: 10
-description: "Implementing custom session storage adapters"
+description: "Implement and register Amber V2 session storage adapters"
 ---
 
 # Session Adapters
 
-Session adapters provide the storage backend for user sessions. Amber 2.0 includes a memory adapter by default, and you can implement custom adapters for any storage backend.
+Session adapters store the key/value data associated with a session ID. Amber
+V2 includes `MemorySessionAdapter`; applications can register another backend
+through `AdapterFactory` when state must survive a restart or be shared across
+processes.
 
-## Session Adapter Interface
+## Complete adapter contract
 
-All session adapters must implement the abstract `SessionAdapter` class:
+A custom adapter inherits `Amber::Adapters::SessionAdapter` and implements every
+abstract operation:
 
 ```crystal
 abstract class Amber::Adapters::SessionAdapter
-  abstract def get(session_id : String) : String?
-  abstract def set(session_id : String, value : String) : Nil
-  abstract def delete(session_id : String) : Nil
+  abstract def get(session_id : String, key : String) : String?
+  abstract def set(session_id : String, key : String, value : String) : Nil
+  abstract def delete(session_id : String, key : String) : Nil
   abstract def destroy(session_id : String) : Nil
-  abstract def exists?(session_id : String) : Bool
+  abstract def exists?(session_id : String, key : String) : Bool
+  abstract def keys(session_id : String) : Array(String)
+  abstract def values(session_id : String) : Array(String)
+  abstract def to_hash(session_id : String) : Hash(String, String)
+  abstract def empty?(session_id : String) : Bool
+  abstract def expire(session_id : String, seconds : Int32) : Nil
+  abstract def batch_set(session_id : String, values : Hash(String, String)) : Nil
+  abstract def batch(session_id : String, &block : Amber::Adapters::SessionBatchOperations ->) : Nil
 end
 ```
 
-## Built-in Memory Adapter
+Adapters may also override `close` to release connections and `healthy?` to
+report backend availability.
 
-The `MemorySessionAdapter` is the default:
+`batch_set` and `batch` should be atomic when the backend supports transactions
+or pipelining. The expiration operation applies to the complete session, not an
+individual key.
 
-```crystal
-# Automatically used when adapter: "memory"
-class Amber::Adapters::MemorySessionAdapter < SessionAdapter
-  # Thread-safe in-memory storage
-  # Automatic expiration cleanup
-end
+## Built-in memory adapter
+
+Select the built-in adapter by name:
+
+```yaml
+session:
+  key: "my_app.session"
+  store: "signed_cookie"
+  adapter: "memory"
+  expires: 3600
 ```
 
-## Creating a Custom Adapter
+Memory state belongs to one application process and disappears when that process
+stops. Use it for development, tests, or a deployment where that lifecycle is an
+explicit product decision.
 
-### Database Session Adapter Example
+## Register an application adapter
+
+Load and register the adapter before Amber builds the configured session store.
+The generated application already requires `config/application.cr`, so it is a
+reliable registration point:
 
 ```crystal
-# src/adapters/database_session_adapter.cr
+# config/application.cr
 require "amber"
-
-class DatabaseSessionAdapter < Amber::Adapters::SessionAdapter
-  def initialize(@connection : DB::Database)
-  end
-
-  def get(session_id : String) : String?
-    result = @connection.query_one?(
-      "SELECT data FROM sessions WHERE id = $1 AND expires_at > NOW()",
-      session_id,
-      as: String
-    )
-    result
-  end
-
-  def set(session_id : String, value : String) : Nil
-    expires_at = Time.utc + session_ttl
-    @connection.exec(
-      "INSERT INTO sessions (id, data, expires_at) VALUES ($1, $2, $3)
-       ON CONFLICT (id) DO UPDATE SET data = $2, expires_at = $3",
-      session_id, value, expires_at
-    )
-  end
-
-  def delete(session_id : String) : Nil
-    @connection.exec("DELETE FROM sessions WHERE id = $1", session_id)
-  end
-
-  def destroy(session_id : String) : Nil
-    delete(session_id)
-  end
-
-  def exists?(session_id : String) : Bool
-    @connection.query_one?(
-      "SELECT 1 FROM sessions WHERE id = $1 AND expires_at > NOW()",
-      session_id,
-      as: Int32
-    ).present?
-  end
-
-  private def session_ttl
-    Amber.settings.session["expires"].as_i.seconds
-  end
-end
-```
-
-### Redis Session Adapter Example
-
-```crystal
-# src/adapters/redis_session_adapter.cr
-require "redis"
-
-class RedisSessionAdapter < Amber::Adapters::SessionAdapter
-  def initialize(@redis : Redis::PooledClient)
-  end
-
-  def get(session_id : String) : String?
-    @redis.get(key(session_id))
-  end
-
-  def set(session_id : String, value : String) : Nil
-    @redis.setex(key(session_id), session_ttl, value)
-  end
-
-  def delete(session_id : String) : Nil
-    @redis.del(key(session_id))
-  end
-
-  def destroy(session_id : String) : Nil
-    delete(session_id)
-  end
-
-  def exists?(session_id : String) : Bool
-    @redis.exists(key(session_id)) > 0
-  end
-
-  private def key(session_id : String)
-    "session:#{session_id}"
-  end
-
-  private def session_ttl
-    Amber.settings.session["expires"].as_i
-  end
-end
-```
-
-## Registering Custom Adapters
-
-Register your adapter with the `AdapterFactory`:
-
-```crystal
-# config/initializers/adapters.cr
-require "../src/adapters/database_session_adapter"
 require "../src/adapters/redis_session_adapter"
 
-# Register database adapter
-Amber::Adapters::AdapterFactory.register_session_adapter("database") do
-  DatabaseSessionAdapter.new(AppDatabase.connection)
-end
-
-# Register Redis adapter
 Amber::Adapters::AdapterFactory.register_session_adapter("redis") do
-  redis = Redis::PooledClient.new(url: ENV["REDIS_URL"])
-  RedisSessionAdapter.new(redis)
+  RedisSessionAdapter.new(redis_client)
 end
 ```
 
-## Configuration
-
-Update your environment configuration:
+Then select the registered name per environment:
 
 ```yaml
 # config/environments/production.yml
 session:
-  key: "myapp.session"
-  adapter: "database"  # Use your registered adapter
+  key: "my_app.session"
+  store: "signed_cookie"
+  adapter: "redis"
   expires: 86400
 ```
 
-## Database Schema
+The generated V2 application does not automatically require every file under
+`config/initializers/`. If you choose that directory, add an explicit require
+before `Amber::Server.start` and prove the load order in a clean build.
 
-For database-backed sessions, create a migrations:
+## Adapter verification
 
-```sql
--- db/migrations/create_sessions.sql
-CREATE TABLE sessions (
-  id VARCHAR(64) PRIMARY KEY,
-  data TEXT NOT NULL,
-  expires_at TIMESTAMP NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+Test the implementation independently from controller behavior:
 
-CREATE INDEX idx_sessions_expires ON sessions(expires_at);
-```
+- create, read, update, and delete more than one key in a session;
+- distinguish deleting one key from destroying the complete session;
+- return consistent results from `keys`, `values`, `to_hash`, and `empty?`;
+- expire a session and verify its keys disappear;
+- prove `batch_set` and `batch` do not expose a partial update;
+- exercise backend timeout, reconnect, and unavailable states;
+- close connections cleanly during shutdown;
+- run concurrent access tests that match the deployment process model.
 
-## Session Cleanup
-
-For database adapters, implement periodic cleanup:
-
-```crystal
-# lib/tasks/cleanup_sessions.cr
-desc "Clean expired sessions"
-task :cleanup_sessions do
-  AppDatabase.connection.exec(
-    "DELETE FROM sessions WHERE expires_at < NOW()"
-  )
-  puts "Expired sessions cleaned up"
-end
-```
-
-Schedule this with cron:
-
-```bash
-# Clean sessions every hour
-0 * * * * cd /app && crystal lib/tasks/cleanup_sessions.cr
-```
-
-## Testing with Adapters
-
-Use memory adapter for fast tests:
-
-```crystal
-# spec/spec_helper.cr
-Amber.settings.session["adapter"] = "memory"
-```
-
-Or mock the adapter:
-
-```crystal
-# spec/support/mock_session_adapter.cr
-class MockSessionAdapter < Amber::Adapters::SessionAdapter
-  property sessions = {} of String => String
-
-  def get(session_id : String) : String?
-    sessions[session_id]?
-  end
-
-  def set(session_id : String, value : String) : Nil
-    sessions[session_id] = value
-  end
-
-  def delete(session_id : String) : Nil
-    sessions.delete(session_id)
-  end
-
-  def destroy(session_id : String) : Nil
-    delete(session_id)
-  end
-
-  def exists?(session_id : String) : Bool
-    sessions.has_key?(session_id)
-  end
-end
-```
+For a Redis migration, also preserve or intentionally replace the previous key
+namespace, serialization, expiration, and active-session policy. See
+[Redis to Adapters](../../migration-guide/redis-to-adapters/).

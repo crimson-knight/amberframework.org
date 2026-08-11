@@ -1,0 +1,38 @@
+<% @title = "News and notes from Amber — Amber Framework" %>
+<% @meta = "Release notes, engineering stories, and practical Crystal guidance from Amber and the framework community." %>
+
+<header class="page-hero blog-page-hero">
+  <div class="site-container blog-hero-grid">
+    <div>
+      <p class="eyebrow">News, notes, and field reports</p>
+      <h1>Stories from the<br><em>Amber crew.</em></h1>
+      <p>Release notes, engineering decisions, and practical guidance—told by the people building Amber and organized by the characters who own each responsibility.</p>
+    </div>
+    <div class="blog-hero-art">
+      <img src="/assets/characters/amber-chibi-original-studio.webp" width="800" height="800" alt="Chibi Amber pointing readers toward the latest stories">
+    </div>
+  </div>
+</header>
+
+<main class="section">
+  <div class="site-container">
+    <div class="post-grid">
+      <% @posts.each_with_index do |post, index| %>
+        <article class="post-card reveal" data-tilt>
+          <a class="post-card-image" href="/<%= post["file"].to_s.sub(/.md$/, "") %>" tabindex="-1" aria-hidden="true">
+            <img src="<%= post["image"] %>" width="960" height="640" alt="">
+          </a>
+          <div class="post-card-body">
+            <div class="post-meta"><%= post["date"] %> · <%= post["category"]? || "Framework" %></div>
+            <h2><a href="/<%= post["file"].to_s.sub(/.md$/, "") %>"><%= post["title"] %></a></h2>
+            <p><%= post["summary"]? || "An update from the Amber Framework community." %></p>
+            <div class="post-author">
+              <img src="<%= post["character_image"]? || "/assets/characters/amber-id-original-studio.webp" %>" width="60" height="60" alt="">
+              <span><strong><%= post["author"] %></strong><br>Filed with <%= post["character"]? || "Amber" %></span>
+            </div>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  </div>
+</main>

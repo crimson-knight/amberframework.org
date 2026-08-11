@@ -8,7 +8,7 @@ description: "Standalone Amber V2 CLI installation and command reference"
 
 # Amber CLI
 
-Amber CLI `2.0.2` is the standalone project generator, development watcher,
+Amber CLI `2.0.3` is the standalone project generator, development watcher,
 generator suite, database tool, and diagnostics LSP for Amber V2.
 
 ```bash
@@ -16,7 +16,8 @@ brew install amberframework/amber_cli/amber_cli
 amber --version
 ```
 
-The formula is `amber_cli`; the executable is `amber`.
+The fully qualified command follows Homebrew's tap-trust model. The formula is
+`amber_cli`; the executable is `amber`.
 
 ## Supported quick start
 
