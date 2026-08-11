@@ -1,7 +1,7 @@
 ---
 title: "Migration Guide"
-section: "migration-guide"
-order: 100
+section: ""
+order: 80
 is_section: true
 description: "Upgrading from Amber 1.x to Amber 2.0"
 ---

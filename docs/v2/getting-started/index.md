@@ -45,7 +45,8 @@ my_app/
 ├── config/
 │   ├── application.cr
 │   ├── routes.cr
-│   └── environments/
+│   ├── environments/
+│   └── initializers/
 ├── public/css/app.css
 ├── public/js/app.js
 ├── spec/controllers/home_controller_spec.cr
@@ -56,6 +57,9 @@ my_app/
         ├── home/index.ecr
         └── layouts/application.ecr
 ```
+
+For the complete file-by-file contract, including the intentionally empty
+extension directories, read the [V2 web template guide](../guides/web-template/).
 
 `.amber.yml` records CLI metadata. `config/environments/*.yml` uses nested V2
 sections such as `server`, `database`, `session`, and `logging`. Environment

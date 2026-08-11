@@ -1,0 +1,17 @@
+<% if version = @version %>
+  <div class="version-selector">
+    <label>Documentation version</label>
+    <div class="version-select-wrap">
+      <select aria-label="Documentation version" data-version-select>
+        <% @all_versions.each do |v| %>
+          <option value="<%= version_url(v.id, @path) %>"<%= " selected" if v.id == @version_id %>><%= v.label %></option>
+        <% end %>
+      </select>
+    </div>
+    <% if version.preview? %>
+      <p class="version-notice">Preview documentation for Amber <%= version.amber_versions %>. APIs may change before stable.</p>
+    <% elsif version.deprecated? %>
+      <p class="version-notice">This is an older documentation set. <a href="/docs/latest">View the current stable guide.</a></p>
+    <% end %>
+  </div>
+<% end %>
