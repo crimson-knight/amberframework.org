@@ -12,6 +12,15 @@ description: "Defining models, columns, and data types in Grant ORM"
 > change independently. Confirm a compatible official release before adding it
 > to an application.
 
+## Where the examples go
+
+Model classes, columns, defaults, converters, and serialization declarations
+belong under `src/models/`, one primary model per file. Register connections in
+a direct file under `config/`, such as `config/database.cr`, so the V2 entry
+point loads it through `require "../config/*"`. Usage expressions run from the
+controller, job, service, or spec that owns the operation. Blocks on this page
+use those destinations unless a closer comment identifies another role.
+
 Models in Grant represent database tables and provide an object-oriented interface for data interaction.
 
 ## Basic Model Definition

@@ -9,11 +9,16 @@ description: "Connect Amber V2 client sockets to generated WebSocket channels"
 
 A client socket represents one WebSocket connection and maps topic patterns to
 channel classes. Amber CLI V2 generates channels, while the socket boundary is
-currently hand-authored:
+currently hand-authored.
+
+**Run from: the application root.**
 
 ```bash
 amber generate channel ChatRoom --topics=chat_room
 ```
+
+**File: `src/sockets/chat_socket.cr` — create this socket struct, then ensure
+the application requires `src/sockets/**` before routes compile.**
 
 ```crystal
 struct ChatSocket < Amber::WebSockets::ClientSocket
@@ -26,7 +31,8 @@ struct ChatSocket < Amber::WebSockets::ClientSocket
 end
 ```
 
-Register the handshake route in `config/routes.cr`:
+**File: `config/routes.cr` — add the handshake route inside the existing
+`routes :web` block.**
 
 ```crystal
 Amber::Server.configure do
@@ -40,7 +46,8 @@ Return `false` from `on_connect` to reject the connection. Override
 `on_disconnect`, `on_reconnect`, or `on_error` when the application needs
 connection lifecycle behavior.
 
-Broadcast to every subscriber of a topic from a controller or service:
+**File: the controller or service that owns the event, under `src/controllers/`
+or `src/services/` — broadcast after the application operation succeeds.**
 
 ```crystal
 ChatSocket.broadcast(

@@ -10,9 +10,23 @@ description: "Type-safe request handling with compile-time validation in Amber 2
 
 The Schema API is the headline feature of Amber 2.0. It provides compile-time validated request parameters with automatic type coercion, replacing the traditional params hash with a type-safe, validated approach.
 
+## Where the examples go
+
+- Schema definitions and their validated success/error types belong under
+  `src/schemas/`, grouped by resource or request flow.
+- Validation calls belong inside the controller action under `src/controllers/`
+  that receives the matching request.
+- Register the route for that action in `config/routes.cr`.
+
+Blocks on this page use those destinations unless a closer label says
+otherwise.
+
 ## Why Schema API?
 
 Traditional web frameworks handle request parameters as loosely-typed hashes:
+
+**File: a controller action under `src/controllers/` — this is the legacy
+pattern to replace, not recommended V2 code.**
 
 ```crystal
 # Old way - runtime errors, no type safety
@@ -22,7 +36,7 @@ def create
 end
 ```
 
-With Schema API, you define your expectations upfront:
+**File: `src/schemas/create_user_schema.cr` — define the request contract here.**
 
 ```crystal
 # New way - compile-time safety, automatic validation
@@ -46,6 +60,8 @@ end
 
 ### 1. Define a Schema
 
+**File: `src/schemas/create_post_schema.cr` — create this schema class.**
+
 ```crystal
 class CreatePostSchema < Amber::Schema::Definition
   content_type "application/json"
@@ -60,6 +76,9 @@ end
 ```
 
 ### 2. Define Success/Error Types
+
+**File: `src/schemas/create_post_schema.cr` — keep these result types beside the
+schema, or split them under `src/schemas/posts/` when the resource grows.**
 
 ```crystal
 class PostRequest < Amber::Schema::ValidatedRequest
@@ -77,6 +96,9 @@ end
 ```
 
 ### 3. Use in Controller
+
+**File: `src/controllers/posts_controller.cr` — add this `create` action inside
+`PostsController`, then register `POST /posts` in `config/routes.cr`.**
 
 ```crystal
 class PostsController < ApplicationController

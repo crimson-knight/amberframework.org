@@ -18,6 +18,19 @@ interface for database operations. It is being evaluated as part of the wider
 V2 ecosystem, but the core beta web template does not install it or select a
 default ORM.
 
+## Where the examples go
+
+- Model declarations, columns, associations, validations, and callbacks belong
+  in one class file under `src/models/`, such as `src/models/user.cr`.
+- CRUD and query snippets run from the controller, job, service, or spec that
+  owns the operation; they are expressions, not complete source files.
+- Register database connections in a direct file under `config/`, such as
+  `config/database.cr`, because the V2 entry point requires `config/*`.
+- Run every command from the application root, beside `shard.yml`.
+
+Blocks on this page use those destinations unless a closer label says
+otherwise.
+
 ## Why Grant?
 
 Grant aims for feature parity with Rails 8+ ActiveRecord while leveraging Crystal's compile-time type safety:
@@ -43,6 +56,8 @@ Grant aims for feature parity with Rails 8+ ActiveRecord while leveraging Crysta
 ## Quick Start
 
 ### Define a Model
+
+**File: `src/models/user.cr` — create this model class.**
 
 ```crystal
 class User < Grant::Base
@@ -71,6 +86,8 @@ end
 
 ### Basic Operations
 
+**File: the controller, job, service, or spec that owns the user operation.**
+
 ```crystal
 # Create
 user = User.create!(email: "alice@example.com", name: "Alice")
@@ -87,6 +104,9 @@ user.destroy!
 ```
 
 ### Associations
+
+**Files: declare relationships in the matching files under `src/models/`;
+execute the usage examples from an application operation or spec.**
 
 ```crystal
 # Define relationships
@@ -110,6 +130,8 @@ posts = Post.includes(:user, :comments).where(published: true)
 
 ### Validations
 
+**File: `src/models/product.cr` — keep these validations inside `Product`.**
+
 ```crystal
 class Product < Grant::Base
   column price : Float64
@@ -128,6 +150,9 @@ end
 ```
 
 ### Callbacks
+
+**File: `src/models/order.cr` — keep these callbacks and private methods inside
+`Order`.**
 
 ```crystal
 class Order < Grant::Base
@@ -153,6 +178,9 @@ Grant supports multiple databases:
 - **PostgreSQL** (recommended): Full feature support including arrays, JSONB, UUID
 - **MySQL**: JSON columns, full-text search
 - **SQLite**: Great for development and testing
+
+**File: `config/database.cr` — create this direct config file so the generated
+V2 entry point loads it through `require "../config/*"`.**
 
 ```crystal
 # config/database.cr

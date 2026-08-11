@@ -7,6 +7,14 @@ description: "Content type handling for JSON, XML, forms, CSV, Protocol Buffers,
 
 # Parsers
 
+## Where the examples go
+
+Parser and field declarations belong inside schema classes under
+`src/schemas/`. Blocks labeled as example requests are HTTP request bodies, not
+source files. Content negotiation belongs in the receiving controller under
+`src/controllers/`, and the endpoint belongs in `config/routes.cr`. Multipart
+file handling must also follow the application's upload-validation boundary.
+
 Select a parser through the schema's content type. Amber provides explicit
 parsers for the formats listed below.
 

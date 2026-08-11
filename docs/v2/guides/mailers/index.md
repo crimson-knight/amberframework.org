@@ -10,7 +10,9 @@ description: "Generate and deliver email with Amber V2's first-party mailer API"
 
 Amber V2 includes `Amber::Mailer::Base`, MIME generation, attachments, an
 in-memory delivery adapter, and SMTP delivery. Generate an ECR-backed mailer
-with the standalone CLI:
+with the standalone CLI.
+
+**Run from: the application root.**
 
 ```bash
 amber generate mailer Digest --actions=weekly
@@ -18,7 +20,9 @@ amber generate mailer Digest --actions=weekly
 
 The generator writes `src/mailers/digest_mailer.cr`, an ECR template under
 `src/views/digest_mailer/`, and a mailer spec. The generated class implements
-the required HTML and text bodies:
+the required HTML and text bodies.
+
+**File: `src/mailers/digest_mailer.cr` — edit the generated class in place.**
 
 ```crystal
 class DigestMailer < Amber::Mailer::Base
@@ -35,7 +39,8 @@ class DigestMailer < Amber::Mailer::Base
 end
 ```
 
-Escape user-provided values in HTML mail templates:
+**File: `src/views/digest_mailer/weekly.ecr` — edit the generated HTML body and
+escape user-provided values.**
 
 ```crystal
 <h1>Hello, <%= HTML.escape(@user_name) %>!</h1>
@@ -44,7 +49,10 @@ Escape user-provided values in HTML mail templates:
 ## Delivery configuration
 
 The memory adapter is the default and is appropriate for tests. Configure SMTP
-at application startup before delivering production mail:
+at application startup before delivering production mail.
+
+**File: `config/application.cr` — append this configuration after
+`require "amber"`.**
 
 ```crystal
 Amber::Mailer::Configuration.configure do |config|
@@ -62,6 +70,10 @@ end
 Do not commit SMTP credentials.
 
 ## Build and deliver
+
+**File: the controller action or job that owns delivery, for example
+`src/jobs/digest_delivery_job.cr` — build the message before calling
+`.deliver`.**
 
 ```crystal
 result = DigestMailer.new("Alice", "alice@example.com")

@@ -12,14 +12,19 @@ A controller action turns an HTTP request into a response. Amber creates the
 controller selected by the router, runs its filters, calls the action, and
 finalizes the response through the active pipeline.
 
-Generate a controller with the standalone V2 CLI:
+**Run from: the application root.**
 
 ```bash
 amber generate controller Posts index show
 ```
 
 The generator writes Crystal controller code and ECR views, but it deliberately
-does not guess routes. Add the routes your application actually exposes:
+does not guess routes. For the command above it creates
+`src/controllers/posts_controller.cr`, `src/views/posts/index.ecr`, and
+`src/views/posts/show.ecr`.
+
+**File: `config/routes.cr` — add these routes inside the existing
+`Amber::Server.configure` block.**
 
 ```crystal
 Amber::Server.configure do
@@ -32,7 +37,8 @@ end
 
 ## Actions and views
 
-Controllers inherit from the generated `ApplicationController`:
+**File: `src/controllers/posts_controller.cr` — replace the generated action
+bodies with the application behavior. Keep the class inside this file.**
 
 ```crystal
 class PostsController < ApplicationController

@@ -12,6 +12,15 @@ description: "Validating file uploads for size, type, and dimensions"
 > change independently. Confirm a compatible official release before adding it
 > to an application.
 
+## Where the examples go
+
+Attachment validation declarations, conditions, and custom validator methods
+belong in the matching Grant model under `src/models/`. Analyzer and plugin
+configuration belongs in `config/application.cr`. Error rendering belongs in
+the matching ECR file under `src/views/`. Virus scanning and expensive file
+inspection belong in a dedicated job or service after inexpensive limits have
+run.
+
 Gemma provides validation helpers for Grant models to ensure uploaded files meet your requirements.
 
 ## Setup

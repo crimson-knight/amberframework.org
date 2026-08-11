@@ -9,7 +9,10 @@ description: "Stop Amber V2 pipelines and return early from controller actions"
 
 `halt!` sets the current context body, plain-text content type, and status code.
 It is most useful in a before filter, where setting context content prevents the
-controller action from running:
+controller action from running.
+
+**File: `src/controllers/admin_controller.cr` — place the filter and action
+inside `AdminController`.**
 
 ```crystal
 class AdminController < ApplicationController
@@ -27,7 +30,10 @@ end
 
 `halt!` marks the request context; it does not raise an exception that escapes
 ordinary Crystal control flow. Inside an action, return an explicit response
-when later expressions must not run:
+when later expressions must not run.
+
+**File: the controller that owns `show`, for example
+`src/controllers/admin_controller.cr` — replace that action body.**
 
 ```crystal
 def show
@@ -44,7 +50,10 @@ end
 ```
 
 Amber's redirect helper sets the `Location` header and uses the same context
-response mechanism:
+response mechanism.
+
+**File: a controller action under `src/controllers/` — return this expression
+at the point where request processing should redirect.**
 
 ```crystal
 redirect_to location: "/login", status: 302

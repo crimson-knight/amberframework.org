@@ -21,6 +21,9 @@ convention is deliberately small:
 Use `respond_with` when one resource has more than one representation. The
 action loads the resource once and makes each public format explicit:
 
+**File: `src/controllers/articles_controller.cr` — add this action inside
+`ArticlesController`.**
+
 ```crystal
 class ArticlesController < ApplicationController
   def show
@@ -42,11 +45,14 @@ Acceptable`.
 
 Keep representation selection in the controller. Do not duplicate resource
 loading in separate HTML and JSON actions unless the application behavior is
-actually different.
+actually different. Register the matching route in `config/routes.cr`; see
+[Routes](../routing/routes/) for the complete route boundary.
 
 ## Generated view structure
 
 A clean web application starts with:
+
+**Generated files:**
 
 ```text
 src/views/
@@ -56,6 +62,8 @@ src/views/
 
 As the application grows, group templates by controller and name reusable
 partials with a leading underscore:
+
+**Reference structure:**
 
 ```text
 src/views/
@@ -67,7 +75,8 @@ src/views/
     └── application.ecr
 ```
 
-The application controller selects the default layout:
+**File: `src/controllers/application_controller.cr` — keep this constant inside
+the generated base controller.**
 
 ```crystal
 class ApplicationController < Amber::Controller::Base
@@ -79,7 +88,10 @@ end
 
 Local variables in the controller action are available to the rendered ECR.
 ECR does not automatically escape interpolation, so escape values that can
-contain user or external data:
+contain user or external data.
+
+**File: `src/views/articles/show.ecr` — create this template for the controller's
+`render("show.ecr")` branch.**
 
 ```ecr
 <article class="article-shell">
@@ -92,7 +104,11 @@ contain user or external data:
 ```
 
 The layout receives the completed action template as `content`. That value is
-framework-rendered HTML, so it is intentionally inserted without escaping:
+framework-rendered HTML, so it is intentionally inserted without escaping.
+
+**File: `src/views/layouts/application.ecr` — this is a complete minimal layout;
+merge the asset tags into an existing branded layout instead of discarding its
+navigation and metadata.**
 
 ```ecr
 <!doctype html>
@@ -112,7 +128,11 @@ framework-rendered HTML, so it is intentionally inserted without escaping:
 </html>
 ```
 
-The common rendering forms are:
+The common rendering forms belong inside controller actions.
+
+**File: a controller under `src/controllers/`, such as
+`src/controllers/articles_controller.cr` — choose the form that matches the
+view file you created.**
 
 ```crystal
 render("show.ecr")

@@ -3,7 +3,7 @@ title: "Asset Pipeline"
 section: "guides"
 order: 30
 is_section: true
-description: "Modern JavaScript asset management with ESM modules and import maps"
+description: "Evaluate the preview Asset Pipeline with an explicit Amber V2 file-by-file setup"
 ---
 
 # Asset Pipeline
@@ -15,86 +15,118 @@ description: "Modern JavaScript asset management with ESM modules and import map
 
 The separate Asset Pipeline project explores higher-level management of native
 browser ESM modules and import maps. Amber's supported beta starter does not
-require it; begin with local modules and the [Import Maps](import-maps/) guide,
-then evaluate this preview only when its additional API earns the dependency.
+require it. Begin with local modules in the [Import Maps](import-maps/) guide,
+then evaluate this preview only when fingerprinting or generated import maps
+earn the extra dependency.
 
-## Why Asset Pipeline?
+## What this guide changes
 
-Amber 1.x's default front-end path relied on Webpack for JavaScript bundling.
-That commonly created issues:
+Complete the steps from the root of an Amber V2 web application. Each example
+names its destination and whether to create, edit, or run it. The completed
+example adds these files and edits:
 
-- Slow initial build times
-- Complex configuration
-- Node.js dependency
-- Difficult debugging of bundled code
+**Files changed by this guide:**
 
-The V2 browser-native direction—and this optional preview—use:
+```text
+my_app/
+├── shard.yml                                      # edit
+├── config/application.cr                          # edit
+├── src/javascript/hello_controller.js             # create
+├── src/views/home/index.ecr                       # edit
+└── src/views/layouts/application.ecr              # edit
+```
 
-- Native ESM modules - no bundler required
-- Import maps for dependency management
-- Stimulus integration out of the box
-- Automatic cache clearing
-- CDN support for libraries
+`public/javascript/` is generated output. Do not hand-edit files there.
 
-## Quick Start
+## 1. Add the dependency
 
-### 1. Add the Shard
+**File: `shard.yml` — add this entry under the existing `dependencies:` key.**
 
 ```yaml
-# shard.yml
 dependencies:
+  amber:
+    github: amberframework/amber
+    version: 2.0.0-beta.2
   asset_pipeline:
     github: amberframework/asset_pipeline
     version: ~> 0.36.0
 ```
 
-### 2. Configure FrontLoader
+Keep any other dependencies already present. YAML must contain only one
+top-level `dependencies:` key.
+
+**Run from: the application root, beside `shard.yml`.**
+
+```bash
+shards install
+```
+
+This creates or updates `shard.lock`. If dependency resolution fails, stop
+here: the preview Asset Pipeline release is not compatible with the versions
+selected by the application.
+
+## 2. Configure the loader
+
+**File: `config/application.cr` — keep the existing `require "amber"`, then
+append this complete block.**
 
 ```crystal
-# config/initializers/assets.cr
 require "asset_pipeline"
 
 FRONT_LOADER = AssetPipeline::FrontLoader.new(
   js_source_path: Path["src/javascript"],
   js_output_path: Path["public/javascript"]
 ) do |import_maps|
-  # Create application import map
-  import_map = AssetPipeline::ImportMap.new("application", Path["/javascript"])
-
-  # Add Stimulus
-  import_map.add_import(
-    "@hotwired/stimulus",
-    "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js",
-    preload: true
+  import_map = AssetPipeline::ImportMap.new(
+    "application",
+    Path["/javascript"]
   )
 
-  # Add controllers
+  import_map.add_import(
+    "@hotwired/stimulus",
+    "https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/+esm",
+    preload: true
+  )
   import_map.add_import("HelloController", "hello_controller.js")
 
   import_maps << import_map
 end
 ```
 
-### 3. Add to Layout
+The released V2 web template loads `config/application.cr` directly. Its empty
+`config/initializers/` directory is reserved for future generator output and is
+not the documented loading boundary for this beta. Source JavaScript lives in
+`src/javascript/`; Asset Pipeline writes browser-facing files to
+`public/javascript/` when the layout renders the map.
+
+## 3. Edit the application layout
+
+**File: `src/views/layouts/application.ecr` — add the import-map call inside
+`<head>`, after the stylesheet link.**
 
 ```ecr
-<!doctype html>
-<html>
-  <head>
-    <title>My Amber App</title>
-    <%= FRONT_LOADER.render_import_map_tag %>
-  </head>
-  <body>
-    <%= content %>
-    <%= FRONT_LOADER.render_stimulus_initialization_script %>
-  </body>
-</html>
+<link rel="stylesheet" href="/css/app.css">
+<%= FRONT_LOADER.render_import_map_tag %>
 ```
 
-### 4. Create a Controller
+**File: `src/views/layouts/application.ecr` — add the initialization call just
+before the closing `</body>` tag.**
+
+```ecr
+<%= content %>
+<%= FRONT_LOADER.render_stimulus_initialization_script %>
+</body>
+```
+
+Remove the starter's hand-authored `<script type="importmap">` and
+`<script type="module">import "app";</script>` tags if they are still present.
+A document must not contain competing import maps for the same module graph.
+
+## 4. Create a Stimulus controller
+
+**File: `src/javascript/hello_controller.js` — create this complete file.**
 
 ```javascript
-// src/javascript/hello_controller.js
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
@@ -106,93 +138,58 @@ export default class extends Controller {
 }
 ```
 
-### 5. Use in HTML
+The import-map key ends in `Controller`, so the generated initialization script
+registers it as `hello`.
 
-```html
-<div data-controller="hello">
-  <button data-action="click->hello#greet">Greet</button>
-  <span data-hello-target="output"></span>
-</div>
+## 5. Use the controller in a view
+
+**File: `src/views/home/index.ecr` — add this element inside the page's existing
+main content. Do not replace the application layout.**
+
+```ecr
+<section data-controller="hello">
+  <button type="button" data-action="click->hello#greet">Greet</button>
+  <span data-hello-target="output" aria-live="polite"></span>
+</section>
 ```
 
-## Features
+## 6. Verify the complete path
 
-### ESM Modules
+**Run from: the application root.**
 
-Write modern JavaScript without transpilation:
-
-```javascript
-// Native ES modules
-import { format } from "date-fns"
-import MyService from "./services/my_service.js"
-
-export default class MyController {
-  connect() {
-    console.log(format(new Date(), "yyyy-MM-dd"))
-  }
-}
+```bash
+crystal spec
+amber watch
 ```
 
-### Import Maps
+Open `http://127.0.0.1:3000/`, click **Greet**, and confirm that “Hello from
+Stimulus!” appears next to the button. In the browser's network panel, confirm
+that the Stimulus module and a fingerprinted file under `/javascript/` both
+load successfully.
 
-Manage dependencies without npm:
+If the page reports that `FRONT_LOADER` is undefined, confirm that the file is
+`config/application.cr` and that its configuration appears after
+`require "amber"`. If the controller does not connect, confirm that the import
+name is exactly `HelloController` and that only one import map is rendered on
+the page.
 
-```crystal
-import_map.add_import("lodash", "https://cdn.jsdelivr.net/npm/lodash@4.17.21/+esm")
-import_map.add_import("chart.js", "https://cdn.jsdelivr.net/npm/chart.js@4.4.0/+esm", preload: true)
-```
+## What Asset Pipeline adds
 
-### Stimulus Integration
+- native ESM modules without a JavaScript bundler;
+- generated import maps and module-preload links;
+- fingerprinted browser-facing JavaScript files;
+- Stimulus controller imports and registration;
+- cache clearing when source files change.
 
-Automatic controller detection and registration:
+It does not decide the structure of your ECR views or CSS. Keep application
+markup in `src/views/`, styling in `public/css/`, and behavior in
+`src/javascript/`.
 
-```crystal
-# Controllers ending in "Controller" are auto-registered
-import_map.add_import("DropdownController", "dropdown_controller.js")
-import_map.add_import("ModalController", "modal_controller.js")
+## Next steps
 
-# Generates:
-# - import statements
-# - Application.start()
-# - controller registrations
-FRONT_LOADER.render_stimulus_initialization_script
-```
-
-### Automatic Cache Clearing
-
-Cache is automatically cleared when files change:
-
-```crystal
-# Enabled by default
-front_loader = AssetPipeline::FrontLoader.new(
-  js_source_path: Path["src/javascript"],
-  js_output_path: Path["public/javascript"]
-)
-
-# To disable (for debugging)
-front_loader = AssetPipeline::FrontLoader.new(
-  js_source_path: Path["src/javascript"],
-  js_output_path: Path["public/javascript"],
-  clear_cache_upon_change: false
-)
-```
-
-## Benefits Over Webpack
-
-| Feature | Webpack | Asset Pipeline |
-|---------|---------|----------------|
-| Build time | Slow | None |
-| Configuration | Complex | Minimal |
-| Debugging | Source maps needed | Native browser tools |
-| Dependencies | npm/node_modules | CDN or local |
-| Hot reload | Requires HMR setup | Browser handles it |
-
-## Next Steps
-
-- [Import Maps](import-maps/) - Managing JavaScript dependencies
-- [Stimulus Integration](stimulus/) - Building interactive UIs
-- [Configuration](configuration/) - Advanced configuration options
-
-## Migration from Webpack
-
-If you used Webpack in Amber 1.x, see the [Migration Guide](../../migration-guide/webpack-to-esm/) for step-by-step migration instructions.
+- [Import Maps](import-maps/) — the supported dependency-free V2 baseline
+- [Stimulus Integration](stimulus/) — add more controllers without losing the
+  file boundary
+- [Configuration](configuration/) — change paths and cache behavior safely
+- [Webpack migration](../../migration-guide/webpack-to-esm/) — move an Amber
+  1.x application in reviewable stages

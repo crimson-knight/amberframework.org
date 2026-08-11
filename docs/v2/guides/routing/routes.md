@@ -8,7 +8,10 @@ description: "Define Amber V2 paths, resources, namespaces, and constraints"
 # Routes
 
 Define routes inside `Amber::Server.configure` and attach each group to a named
-pipeline:
+pipeline.
+
+**File: `config/routes.cr` — add these declarations inside the generated
+`Amber::Server.configure` block. Keep the existing `:static` routes.**
 
 ```crystal
 Amber::Server.configure do
@@ -31,6 +34,9 @@ macros.
 `resources` creates conventional routes for `index`, `new`, `create`, `show`,
 `edit`, `update`, and `destroy`:
 
+**File: `config/routes.cr` — use these entries inside an existing
+`Amber::Server.configure` block, as an alternative to listing every route.**
+
 ```crystal
 routes :web do
   resources "/posts", PostsController
@@ -45,7 +51,10 @@ fail during compilation.
 ## Scopes and namespaces
 
 A scope on `routes` prefixes the complete group. Nested `namespace` blocks add
-another path segment:
+another path segment.
+
+**File: `config/routes.cr` — add this route group inside
+`Amber::Server.configure`.**
 
 ```crystal
 routes :api, "/api" do
@@ -58,7 +67,10 @@ end
 ## Segment constraints
 
 Constrain a dynamic segment with a regular expression when a route must reject
-non-matching values:
+non-matching values.
+
+**File: `config/routes.cr` — add the constrained route inside the existing
+`:web` route group.**
 
 ```crystal
 routes :web do

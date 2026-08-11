@@ -12,6 +12,15 @@ description: "Attaching single and multiple files to Grant models"
 > change independently. Confirm a compatible official release before adding it
 > to an application.
 
+## Where the examples go
+
+Attachment declarations, lifecycle callbacks, and uploader selection belong in
+the matching Grant model under `src/models/`. Upload assignment and direct
+upload handling belong in the receiving controller under `src/controllers/`.
+Form and display markup belongs in the matching ECR files under `src/views/`.
+Reusable uploader classes belong under `src/uploaders/`; direct storage work
+belongs in a job or service with focused specs.
+
 Gemma's `Attachable` module adds single- and multiple-file attachment declarations
 to Grant models.
 

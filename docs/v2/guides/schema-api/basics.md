@@ -7,6 +7,15 @@ description: "Schema definition, field types, and options in Amber 2.0"
 
 # Schema Basics
 
+## Where the examples go
+
+Schema classes, fields, nested schemas, inheritance, coercion, transformations,
+and validated success/error types belong under `src/schemas/`, grouped by
+resource or request flow. Most blocks on this page are fragments to place
+inside one of those schema classes, not complete files. Controller validation
+calls belong under `src/controllers/`, and their routes belong in
+`config/routes.cr`.
+
 A schema declares an input contract: accepted content type, typed fields,
 defaults, validation rules, and the value or error type produced after parsing.
 

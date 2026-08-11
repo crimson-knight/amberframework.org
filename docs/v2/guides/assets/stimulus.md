@@ -2,232 +2,223 @@
 title: "Stimulus Integration"
 section: "guides/assets"
 order: 20
-description: "Building interactive UIs with Stimulus and the Asset Pipeline"
+description: "Add a Stimulus controller through Asset Pipeline with explicit Amber V2 file boundaries"
 ---
 
-# Stimulus Integration
+# Stimulus integration
 
 > **Preview ecosystem guide:** Asset Pipeline is not part of the Amber 2.0.0-beta.2
 > core web-app release gate. Its package version, API, and platform support may
 > change independently. Confirm a compatible official release before adding it
 > to an application.
 
-The Asset Pipeline provides first-class support for Stimulus, the modest JavaScript framework from Hotwire. It automatically detects controllers, handles imports, and registers them with the Stimulus application.
+This page extends the working example in the [Asset Pipeline guide](../). It
+assumes that `config/application.cr` already defines `FRONT_LOADER` and that
+`src/views/layouts/application.ecr` renders both Asset Pipeline tags.
 
-## Basic Setup
+Stimulus keeps behavior next to the feature it controls while Amber keeps HTML
+in ECR. The three boundaries are:
 
-### Configure Stimulus
+**Reference file map:**
 
-```crystal
-front_loader = AssetPipeline::FrontLoader.new(
-  js_source_path: Path["src/javascript"],
-  js_output_path: Path["public/javascript"]
-) do |import_maps|
-  import_map = AssetPipeline::ImportMap.new("application", Path["/javascript"])
-
-  # Add Stimulus framework
-  import_map.add_import(
-    "@hotwired/stimulus",
-    "https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/+esm",
-    preload: true
-  )
-
-  # Add controllers
-  import_map.add_import("HelloController", "hello_controller.js")
-  import_map.add_import("DropdownController", "dropdown_controller.js")
-
-  import_maps << import_map
-end
+```text
+config/application.cr                         # maps and registers controllers
+src/javascript/controllers/                  # controller behavior
+src/views/                                    # data-controller markup
 ```
 
-### Render in Layout
+## How registration works
 
-```ecr
-<!doctype html>
-<html>
-  <head>
-    <title>My App</title>
-    <%= FRONT_LOADER.render_import_map_tag %>
-  </head>
-  <body>
-    <%= content %>
-    <%= FRONT_LOADER.render_stimulus_initialization_script %>
-  </body>
-</html>
-```
+Asset Pipeline treats an import-map key ending in `Controller` as a Stimulus
+controller. It converts the class-style key to the identifier used in HTML.
 
-## Automatic Controller Detection
-
-Controllers ending with "Controller" are automatically detected and registered:
-
-```crystal
-# These are detected as Stimulus controllers
-import_map.add_import("HelloController", "hello_controller.js")
-import_map.add_import("DropdownController", "dropdown_controller.js")
-import_map.add_import("UserProfileController", "user_profile_controller.js")
-
-# This is NOT detected (no "Controller" suffix)
-import_map.add_import("utils", "utils.js")
-```
-
-### Name Conversion
-
-PascalCase controller names are converted to kebab-case for registration:
-
-| Import Name | Registered As | HTML Data Attribute |
-|-------------|---------------|---------------------|
+| Import-map key | Registered identifier | View attribute |
+|---|---|---|
 | `HelloController` | `hello` | `data-controller="hello"` |
 | `DropdownController` | `dropdown` | `data-controller="dropdown"` |
 | `UserProfileController` | `user-profile` | `data-controller="user-profile"` |
 
-## Writing Controllers
+The JavaScript filename alone does not trigger registration. The key in
+`config/application.cr` must end in `Controller`.
 
-### Basic Controller
+## Add a dropdown controller
+
+### 1. Map the source file
+
+**File: `config/application.cr` — add this call inside the existing
+`do |import_maps|` block, before `import_maps << import_map`.**
+
+```crystal
+import_map.add_import(
+  "DropdownController",
+  "controllers/dropdown_controller.js"
+)
+```
+
+Do not create a second `FRONT_LOADER`. This line extends the `import_map`
+created by the loader you already configured.
+
+### 2. Create the controller
+
+**File: `src/javascript/controllers/dropdown_controller.js` — create this
+complete file.**
 
 ```javascript
-// src/javascript/hello_controller.js
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["name", "output"]
+  static targets = ["button", "panel"]
 
-  greet() {
-    const name = this.nameTarget.value || "World"
-    this.outputTarget.textContent = `Hello, ${name}!`
+  connect() {
+    this.close()
+  }
+
+  toggle() {
+    const open = this.buttonTarget.getAttribute("aria-expanded") !== "true"
+    this.buttonTarget.setAttribute("aria-expanded", String(open))
+    this.panelTarget.hidden = !open
+  }
+
+  close() {
+    this.buttonTarget.setAttribute("aria-expanded", "false")
+    this.panelTarget.hidden = true
   }
 }
 ```
 
-### Using in HTML
+### 3. Add the HTML boundary
 
-```html
-<div data-controller="hello">
-  <input data-hello-target="name" type="text" placeholder="Your name">
-  <button data-action="click->hello#greet">Greet</button>
-  <span data-hello-target="output"></span>
-</div>
+**File: `src/views/home/index.ecr` — add this section inside the existing page
+content. The application layout remains in `src/views/layouts/application.ecr`.**
+
+```ecr
+<section data-controller="dropdown">
+  <button
+    type="button"
+    data-dropdown-target="button"
+    data-action="click->dropdown#toggle"
+    aria-controls="framework-details"
+  >
+    Framework details
+  </button>
+
+  <div id="framework-details" data-dropdown-target="panel">
+    Amber renders the document; Stimulus adds this interaction.
+  </div>
+</section>
 ```
 
-### Controller with Values
+The identifier in `data-controller`, every `data-action`, and every target
+prefix must all be `dropdown`. A mismatch is the most common reason the module
+loads but does not connect.
+
+## Pass values from ECR to JavaScript
+
+Use Stimulus values for server-rendered configuration rather than generating
+JavaScript source inside ECR.
+
+### 1. Register the controller
+
+**File: `config/application.cr` — add this call next to the other controller
+imports inside the existing loader block.**
+
+```crystal
+import_map.add_import(
+  "CountdownController",
+  "controllers/countdown_controller.js"
+)
+```
+
+### 2. Create the controller
+
+**File: `src/javascript/controllers/countdown_controller.js` — create this
+complete file.**
 
 ```javascript
-// src/javascript/countdown_controller.js
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+  static targets = ["display"]
   static values = {
     seconds: { type: Number, default: 60 }
   }
-  static targets = ["display"]
 
   connect() {
-    this.start()
-  }
-
-  start() {
     this.remaining = this.secondsValue
-    this.timer = setInterval(() => this.tick(), 1000)
+    this.displayTarget.textContent = String(this.remaining)
+    this.timer = window.setInterval(() => this.tick(), 1000)
   }
 
   tick() {
-    this.remaining--
-    this.displayTarget.textContent = this.remaining
+    this.remaining -= 1
+    this.displayTarget.textContent = String(this.remaining)
+
     if (this.remaining <= 0) {
-      clearInterval(this.timer)
+      window.clearInterval(this.timer)
       this.dispatch("finished")
     }
   }
 
   disconnect() {
-    clearInterval(this.timer)
+    window.clearInterval(this.timer)
   }
 }
 ```
 
-```html
-<div data-controller="countdown" data-countdown-seconds-value="30">
-  Time remaining: <span data-countdown-target="display">30</span>
-</div>
+### 3. Supply the value from a view
+
+**File: the ECR view that owns the countdown, for example
+`src/views/events/show.ecr` — add this element where the timer should render.**
+
+```ecr
+<p
+  data-controller="countdown"
+  data-countdown-seconds-value="30"
+>
+  Time remaining:
+  <span data-countdown-target="display" aria-live="polite">30</span>
+</p>
 ```
 
-## Custom Initialization
+In a real application, escape any user-controlled value before placing it in
+an HTML attribute. Keep the controller generic; the ECR view owns the value for
+this page.
 
-Add custom JavaScript alongside Stimulus initialization:
+## Add a third-party module deliberately
+
+Remote modules add availability, privacy, integrity, and release-policy risks.
+If a dependency earns its place, pin its version in the same import map as the
+controller that uses it.
+
+**File: `config/application.cr` — add both imports inside the existing loader
+block. Replace the URL only after reviewing and pinning the chosen artifact.**
 
 ```crystal
-custom_js = <<-JS
-  // Global utilities
-  window.formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(amount);
-  };
-
-  // App initialization
-  document.addEventListener('DOMContentLoaded', () => {
-    console.log('Application ready');
-  });
-
-  // Custom event handlers
-  document.addEventListener('stimulus:ready', () => {
-    console.log('All controllers registered');
-  });
-JS
-
-front_loader.render_stimulus_initialization_script(custom_js)
+import_map.add_import(
+  "chart.js",
+  "https://cdn.jsdelivr.net/npm/chart.js@4.4.0/+esm"
+)
+import_map.add_import(
+  "ChartController",
+  "controllers/chart_controller.js"
+)
 ```
 
-## Multiple Applications
-
-Create separate Stimulus applications for different areas:
-
-```crystal
-front_loader = AssetPipeline::FrontLoader.new do |import_maps|
-  # Main application
-  main_map = AssetPipeline::ImportMap.new("main")
-  main_map.add_import("@hotwired/stimulus", "https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/+esm", preload: true)
-  main_map.add_import("UserController", "user_controller.js")
-  import_maps << main_map
-
-  # Admin application
-  admin_map = AssetPipeline::ImportMap.new("admin")
-  admin_map.add_import("@hotwired/stimulus", "https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/+esm", preload: true)
-  admin_map.add_import("AdminController", "admin_controller.js")
-  admin_map.add_import("ChartController", "chart_controller.js")
-  import_maps << admin_map
-end
-
-# Render for different pages
-main_html = front_loader.render_stimulus_initialization_script("", "main", "mainApp")
-admin_html = front_loader.render_stimulus_initialization_script("", "admin", "adminApp")
-```
-
-## Combining with Libraries
-
-### Chart.js Integration
-
-```crystal
-import_map.add_import("@hotwired/stimulus", "https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/+esm", preload: true)
-import_map.add_import("chart.js", "https://cdn.jsdelivr.net/npm/chart.js@4.4.0/+esm")
-import_map.add_import("ChartController", "chart_controller.js")
-```
+**File: `src/javascript/controllers/chart_controller.js` — import the exact
+name mapped above.**
 
 ```javascript
-// src/javascript/chart_controller.js
 import { Controller } from "@hotwired/stimulus"
 import Chart from "chart.js/auto"
 
 export default class extends Controller {
-  static values = {
-    type: { type: String, default: "line" },
-    data: Object
-  }
-
   connect() {
     this.chart = new Chart(this.element, {
-      type: this.typeValue,
-      data: this.dataValue
+      type: "bar",
+      data: {
+        labels: ["HTML", "JSON"],
+        datasets: [{ label: "Responses", data: [8, 5] }]
+      }
     })
   }
 
@@ -237,145 +228,33 @@ export default class extends Controller {
 }
 ```
 
-### Debouncing with Lodash
+**File: the ECR view that owns the chart, for example
+`src/views/reports/show.ecr` — add the canvas inside the page content.**
 
-```crystal
-import_map.add_import("lodash", "https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/+esm")
-import_map.add_import("SearchController", "search_controller.js")
+```ecr
+<canvas data-controller="chart" aria-label="Response formats"></canvas>
 ```
 
-```javascript
-// src/javascript/search_controller.js
-import { Controller } from "@hotwired/stimulus"
-import { debounce } from "lodash"
+For the supported no-third-party baseline, keep modules local under
+`public/js/` and follow [Import Maps](import-maps/) instead.
 
-export default class extends Controller {
-  static targets = ["input", "results"]
+## Verify a controller end to end
 
-  initialize() {
-    this.search = debounce(this.search, 300).bind(this)
-  }
+**Run from: the application root.**
 
-  search() {
-    const query = this.inputTarget.value
-    fetch(`/search?q=${encodeURIComponent(query)}`)
-      .then(response => response.json())
-      .then(data => this.displayResults(data))
-  }
-
-  displayResults(data) {
-    this.resultsTarget.innerHTML = data.map(item =>
-      `<li>${item.name}</li>`
-    ).join('')
-  }
-}
+```bash
+crystal spec
+amber watch
 ```
 
-## Generated Output
+Open the page containing the controller and verify, in order:
 
-The Asset Pipeline generates clean, optimized output:
+1. the import map contains the controller's class-style key;
+2. the mapped JavaScript URL returns `200 OK`;
+3. the HTML uses the converted identifier;
+4. the interaction works without a browser console error;
+5. navigation away from the page does not leave timers or listeners running.
 
-```html
-<script type="importmap">
-{
-  "imports": {
-    "@hotwired/stimulus": "https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/+esm",
-    "HelloController": "/javascript/hello_controller.js",
-    "DropdownController": "/javascript/dropdown_controller.js"
-  }
-}
-</script>
-<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/+esm">
-
-<script type="module">
-import { Application } from "@hotwired/stimulus";
-
-import HelloController from "HelloController";
-import DropdownController from "DropdownController";
-
-const application = Application.start();
-
-// Custom initialization code here
-
-application.register("hello", HelloController);
-application.register("dropdown", DropdownController);
-</script>
-```
-
-## Duplicate Removal
-
-If you have existing Stimulus code, the Asset Pipeline automatically removes duplicates:
-
-```crystal
-# Your existing code with manual imports
-existing_js = <<-JS
-  import { Application } from "@hotwired/stimulus";
-  import HelloController from "HelloController";
-
-  const application = Application.start();
-  application.register("hello", HelloController);
-
-  // This custom code is kept
-  console.log('App ready');
-JS
-
-# Asset Pipeline removes duplicate imports/registrations
-result = front_loader.render_stimulus_initialization_script(existing_js)
-```
-
-## Best Practices
-
-### 1. One Controller Per Feature
-
-```javascript
-// Good: Single responsibility
-// dropdown_controller.js - handles dropdowns
-// modal_controller.js - handles modals
-
-// Avoid: God controller
-// application_controller.js - handles everything
-```
-
-### 2. Use Targets Over querySelector
-
-```javascript
-// Good: Stimulus targets
-static targets = ["input", "output"]
-
-this.inputTarget.value
-this.outputTarget.textContent = "Hello"
-
-// Avoid: Manual DOM queries
-document.querySelector('.input').value
-```
-
-### 3. Use Values for Configuration
-
-```javascript
-// Good: Configurable via HTML
-static values = {
-  url: String,
-  delay: { type: Number, default: 300 }
-}
-
-// HTML: data-fetch-url-value="/api/data"
-
-// Avoid: Hardcoded values
-const url = "/api/data"
-```
-
-### 4. Dispatch Events for Communication
-
-```javascript
-// Controller A
-this.dispatch("selected", { detail: { item: this.item } })
-
-// Controller B
-static targets = ["container"]
-itemSelected(event) {
-  console.log(event.detail.item)
-}
-
-// HTML
-// data-action="controller-a:selected->controller-b#itemSelected"
-```
+When debugging, trace the same path the browser follows:
+`config/application.cr` → the file under `src/javascript/` → the generated URL
+under `/javascript/` → the `data-controller` element in the ECR view.

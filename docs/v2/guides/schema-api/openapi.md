@@ -7,6 +7,19 @@ description: "Automatic OpenAPI specification generation from schemas"
 
 # OpenAPI Generation
 
+## Where the examples go
+
+- OpenAPI metadata belongs beside each schema under `src/schemas/`.
+- Application-wide OpenAPI configuration belongs in `config/application.cr`,
+  which the released V2 template loads directly.
+- Endpoint declarations belong in `config/routes.cr`; response code belongs in
+  the named controller under `src/controllers/`.
+- Generated specifications belong under `public/` only when the application
+  intentionally serves them as static files.
+
+Blocks on this page use those destinations unless a closer label says
+otherwise.
+
 The Schema API can automatically generate OpenAPI (Swagger) specifications from your schema definitions.
 
 ## Basic OpenAPI Metadata
@@ -72,8 +85,11 @@ field :password, String,
 
 Generate the OpenAPI specification:
 
+**File: `config/application.cr` — append this setup after `require "amber"`, or
+call the generation portion from a dedicated build task if production has a
+read-only filesystem.**
+
 ```crystal
-# config/initializers/openapi.cr
 OpenAPI.configure do |config|
   config.title = "My API"
   config.version = "2.0.0"

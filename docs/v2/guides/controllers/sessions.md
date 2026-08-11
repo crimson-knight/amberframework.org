@@ -8,7 +8,10 @@ description: "Use Amber V2 sessions and flash messages safely"
 # Sessions
 
 Amber exposes `session` and `flash` directly inside a controller. Amber CLI's
-V2 web template enables the session and flash pipes in this order:
+V2 web template enables the session and flash pipes in this order.
+
+**File: `config/routes.cr` — keep this order inside the generated `pipeline
+:web` block.**
 
 ```crystal
 pipeline :web do
@@ -25,7 +28,12 @@ session after the request.
 
 ## Generated configuration
 
-The web template writes the following section to each environment YAML file:
+The web template writes the following section to each environment YAML file.
+
+**Files: `config/environments/development.yml`,
+`config/environments/test.yml`, and `config/environments/production.yml` — edit
+the existing `session:` section in each environment rather than adding a
+duplicate key.**
 
 ```yaml
 session:
@@ -48,6 +56,9 @@ to protect cookies. Do not commit a production secret to the YAML file.
 ## Read, write, and delete values
 
 Session keys accept strings or symbols. Values are stored as strings.
+
+**File: `src/controllers/logins_controller.cr` — place these actions inside
+`LoginsController`, then register their routes in `config/routes.cr`.**
 
 ```crystal
 class LoginsController < ApplicationController
@@ -72,7 +83,8 @@ class LoginsController < ApplicationController
 end
 ```
 
-Use `session[:key]?` when absence is expected:
+**File: the controller action that needs the authenticated identity — use the
+optional lookup where absence is expected.**
 
 ```crystal
 if user_id = session[:current_user_id]?
@@ -90,18 +102,28 @@ Flash values are intended for the next request. Reading a value marks it for
 removal; `keep` carries it forward, while `now` makes a value available only in
 the current request.
 
+**File: the controller action that sets the message.**
+
 ```crystal
 flash[:error] = "Please correct the highlighted fields."
 flash.keep(:error)
 flash.now(:notice, "The preview was not saved.")
 ```
 
-Render flash values from an ECR view:
+**File: `src/views/layouts/_flash.ecr` — create this reusable partial, then
+render it from `src/views/layouts/application.ecr`.**
 
-```crystal
+```ecr
 <% flash.each do |name, message| %>
   <div class="flash flash-<%= name %>"><%= message %></div>
 <% end %>
+```
+
+**File: `src/views/layouts/application.ecr` — add this call where global
+messages should appear.**
+
+```ecr
+<%= render(partial: "layouts/_flash.ecr") %>
 ```
 
 The V1 guide's inline Redis configuration is not a V2 configuration contract.

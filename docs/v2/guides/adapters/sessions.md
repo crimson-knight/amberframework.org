@@ -15,7 +15,11 @@ processes.
 ## Complete adapter contract
 
 A custom adapter inherits `Amber::Adapters::SessionAdapter` and implements every
-abstract operation:
+abstract operation.
+
+**Reference API: implemented by a class under `src/adapters/`, for example
+`src/adapters/redis_session_adapter.cr`. Do not copy the abstract class into the
+application.**
 
 ```crystal
 abstract class Amber::Adapters::SessionAdapter
@@ -43,7 +47,8 @@ individual key.
 
 ## Built-in memory adapter
 
-Select the built-in adapter by name:
+**File: the applicable file under `config/environments/`, such as
+`config/environments/development.yml` — edit its existing `session:` section.**
 
 ```yaml
 session:
@@ -61,7 +66,10 @@ explicit product decision.
 
 Load and register the adapter before Amber builds the configured session store.
 The generated application already requires `config/application.cr`, so it is a
-reliable registration point:
+reliable registration point.
+
+**File: `config/application.cr` — keep `require "amber"`, require the adapter
+class, then register it before routes are loaded.**
 
 ```crystal
 # config/application.cr
@@ -73,7 +81,8 @@ Amber::Adapters::AdapterFactory.register_session_adapter("redis") do
 end
 ```
 
-Then select the registered name per environment:
+**File: `config/environments/production.yml` — edit the existing `session:`
+section after the adapter is registered.**
 
 ```yaml
 # config/environments/production.yml

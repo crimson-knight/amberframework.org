@@ -16,6 +16,9 @@ when you need a header, method, resource, or status directly.
 
 `request` is Crystal's `HTTP::Request` with Amber routing extensions.
 
+**File: `src/controllers/diagnostics_controller.cr` — place this action inside
+`DiagnosticsController`, then register it in `config/routes.cr`.**
+
 ```crystal
 class DiagnosticsController < ApplicationController
   def show
@@ -52,6 +55,9 @@ input than manually reading the stream in each action.
 `response` is Crystal's `HTTP::Server::Response`. Its most useful direct
 properties are `status_code`, `headers`, and `content_type`.
 
+**File: `src/controllers/health_controller.cr` — place this action inside
+`HealthController`, then register it in `config/routes.cr`.**
+
 ```crystal
 class HealthController < ApplicationController
   def show
@@ -65,7 +71,8 @@ class HealthController < ApplicationController
 end
 ```
 
-For content negotiation, prefer `respond_with`:
+**File: a controller action under `src/controllers/` — use `respond_with` when
+that action offers these representations.**
 
 ```crystal
 respond_with do
@@ -75,13 +82,15 @@ respond_with do
 end
 ```
 
-Use `halt!` when the pipeline must stop with a plain response:
+**File: a controller filter or action under `src/controllers/` — use `halt!`
+when the pipeline must stop with a plain response.**
 
 ```crystal
 halt!(403, "forbidden") unless authorized?
 ```
 
-Use the redirect helper rather than setting a `Location` header by hand:
+**File: a controller action under `src/controllers/` — use the redirect helper
+rather than setting a `Location` header by hand.**
 
 ```crystal
 redirect_to location: "/login", status: 302

@@ -14,12 +14,21 @@ description: "Configure FileSystem, S3, and Memory storage for file uploads"
 
 Gemma supports multiple storage backends for flexibility across different environments. All storages implement the same interface, allowing you to switch backends without changing application code.
 
+## Where the examples go
+
+Storage construction and Gemma-wide configuration belong in
+`config/application.cr`, which the released V2 template loads directly. Direct
+upload, URL, and metadata operations belong in the controller, job, service, or
+spec that owns the file operation. Test-only memory storage belongs in
+`spec/spec_helper.cr`. Directory trees on this page describe runtime output,
+not source files to create by hand.
+
 ## Configuration
 
-Configure storages during application initialization:
+**File: `config/application.cr` — append this setup after `require "amber"`.
+Keep one `Gemma.configure` block and extend it as storage needs grow.**
 
 ```crystal
-# config/initializers/gemma.cr
 require "gemma"
 
 Gemma.configure do |config|
@@ -222,8 +231,10 @@ end
 
 Configure different storages per environment:
 
+**File: `config/application.cr` — replace the earlier `Gemma.configure` block
+with this environment-aware version; do not define both.**
+
 ```crystal
-# config/initializers/gemma.cr
 require "gemma"
 
 Gemma.configure do |config|

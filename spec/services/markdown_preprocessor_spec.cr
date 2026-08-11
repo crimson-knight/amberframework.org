@@ -143,4 +143,82 @@ describe MarkdownPreprocessor do
       end
     end
   end
+
+  describe "V2 guide clarity" do
+    it "gives every audited example a file, command location, or output role" do
+      audited_guides = [
+        "docs/v2/guides/adapters/index.md",
+        "docs/v2/guides/adapters/pubsub.md",
+        "docs/v2/guides/adapters/sessions.md",
+        "docs/v2/guides/assets/configuration.md",
+        "docs/v2/guides/assets/import-maps.md",
+        "docs/v2/guides/assets/index.md",
+        "docs/v2/guides/assets/stimulus.md",
+        "docs/v2/guides/controllers/halt.md",
+        "docs/v2/guides/controllers/index.md",
+        "docs/v2/guides/controllers/request-and-response-objects.md",
+        "docs/v2/guides/controllers/respond-with.md",
+        "docs/v2/guides/controllers/sessions.md",
+        "docs/v2/guides/mailers/index.md",
+        "docs/v2/guides/native-preview/index.md",
+        "docs/v2/guides/routing/pipelines.md",
+        "docs/v2/guides/routing/routes.md",
+        "docs/v2/guides/views/index.md",
+        "docs/v2/guides/web-template/index.md",
+        "docs/v2/guides/websockets/sockets.md",
+      ]
+      placement_marker = /\*\*(File|Files|Run from|Reference|Generated output|Generated files|Expected browser output)/
+
+      audited_guides.each do |path|
+        lines = File.read_lines(path)
+        inside_fence = false
+
+        lines.each_with_index do |line, index|
+          next unless line.starts_with?("```")
+
+          unless inside_fence
+            context_start = {index - 8, 0}.max
+            context = lines[context_start...index].join("\n")
+
+            context.should match(placement_marker),
+              "#{path}:#{index + 1} needs an explicit file, run location, reference, or output label"
+          end
+
+          inside_fence = !inside_fence
+        end
+
+        inside_fence.should be_false, "#{path} contains an unclosed code fence"
+      end
+    end
+
+    it "gives every code-bearing guide a local label or a page-level file map" do
+      placement_marker = /\*\*(File|Files|Run from|Reference|Generated output|Generated files|Expected browser output)/
+
+      Dir.glob("docs/v2/guides/**/*.md").each do |path|
+        lines = File.read_lines(path)
+        inside_fence = false
+        unlabeled_fences = 0
+
+        lines.each_with_index do |line, index|
+          next unless line.starts_with?("```")
+
+          unless inside_fence
+            context_start = {index - 8, 0}.max
+            context = lines[context_start...index].join("\n")
+            unlabeled_fences += 1 unless context.matches?(placement_marker)
+          end
+
+          inside_fence = !inside_fence
+        end
+
+        next if unlabeled_fences == 0
+
+        content = lines.join("\n")
+        content.should contain("## Where the examples go"),
+          "#{path} has #{unlabeled_fences} examples without local placement labels and needs a page-level file map"
+        content.should match(/`(?:config|public|shard\.yml|spec|src)[^`]*`/),
+          "#{path} has a placement section but does not name an application path"
+      end
+    end
+  end
 end

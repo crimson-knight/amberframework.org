@@ -12,6 +12,15 @@ description: "Data validation and error handling in Grant ORM"
 > change independently. Confirm a compatible official release before adding it
 > to an application.
 
+## Where the examples go
+
+Validation declarations, custom validator methods, conditions, and validation
+callbacks belong inside the matching Grant model under `src/models/`. Examples
+that call validation methods or inspect errors run from the controller,
+service, form object, or spec that owns the operation. Database constraints
+belong in the migration system selected by the application. Blocks on this page
+use those destinations unless a closer comment identifies a different role.
+
 Grant runs model validations before persistence and records failures on the
 model's error collection.
 
