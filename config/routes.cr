@@ -38,7 +38,7 @@ Amber::Server.configure do |app|
 
     # Amber normalizes the built-in JSON extension before matching, so each
     # base action inspects the original request path. Markdown is registered
-    # explicitly because beta.2 does not yet include it as a responder type.
+    # explicitly because beta.3 does not yet include it as a responder type.
     get "/", HomeController, :index
     get "/index", HomeController, :index
     get "/media", HomeController, :media

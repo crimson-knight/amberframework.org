@@ -1,10 +1,10 @@
 # Amber Framework Website
 
-The Amber Framework website, running on Amber `2.0.0-beta.2` and ECR. The V2
+The Amber Framework website, running on Amber `2.0.0-beta.3` and ECR. The V2
 public-beta experience includes versioned documentation, the project blog, and
 the Amber brand system without a Node or Webpack runtime.
 
-Amber CLI `2.0.3` is the minimum version for the web starter demonstrated on
+Amber CLI `2.0.4` is the minimum version for the database-backed web starter demonstrated on
 the homepage and in the V2 guides.
 
 ## Local development

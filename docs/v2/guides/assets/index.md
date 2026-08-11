@@ -8,7 +8,7 @@ description: "Evaluate the preview Asset Pipeline with an explicit Amber V2 file
 
 # Asset Pipeline
 
-> **Preview ecosystem guide:** Asset Pipeline is not part of the Amber 2.0.0-beta.2
+> **Preview ecosystem guide:** Asset Pipeline is not part of the Amber 2.0.0-beta.3
 > core web-app release gate. Its package version, API, and platform support may
 > change independently. Confirm a compatible official release before adding it
 > to an application.
@@ -75,7 +75,7 @@ my_app/
 dependencies:
   amber:
     github: amberframework/amber
-    version: 2.0.0-beta.2
+    version: 2.0.0-beta.3
   asset_pipeline:
     github: amberframework/asset_pipeline
     version: ~> 0.36.0

@@ -7,10 +7,9 @@ description: "Data validation and error handling in Grant ORM"
 
 # Validations
 
-> **Preview ecosystem guide:** Grant is not part of the Amber 2.0.0-beta.2
-> core web-app release gate. Its package version, API, and platform support may
-> change independently. Confirm a compatible official release before adding it
-> to an application.
+> **Supported web path:** Amber CLI `2.0.4` includes Grant in every generated
+> web application and pins the reviewed V2 commit. Preserve that pin while
+> following this beta.
 
 ## Where the examples go
 

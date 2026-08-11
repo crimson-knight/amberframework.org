@@ -7,7 +7,7 @@ description: "Add a Stimulus controller through Asset Pipeline with explicit Amb
 
 # Stimulus integration
 
-> **Preview ecosystem guide:** Asset Pipeline is not part of the Amber 2.0.0-beta.2
+> **Preview ecosystem guide:** Asset Pipeline is not part of the Amber 2.0.0-beta.3
 > core web-app release gate. Its package version, API, and platform support may
 > change independently. Confirm a compatible official release before adding it
 > to an application.

@@ -18,10 +18,10 @@ The standalone Amber CLI is independent from this runtime upgrade. Install or
 update it when you want V2 generators; an existing application can change its
 framework shard without being regenerated.
 
-> Amber `2.0.0-beta.2` release-gates the framework core and ECR web template.
-> Grant, Gemma, Asset Pipeline, persistence/auth generators, and native output
-> are separate preview surfaces, not prerequisites for adopting the framework
-> beta.
+> Amber `2.0.0-beta.3` release-gates the framework core and the new ECR web
+> template with Grant, Micrate, and SQLite. Existing applications do not have
+> to replace a working ORM to adopt the framework beta. Gemma, Asset Pipeline,
+> generated auth/API resources, and native output remain separate previews.
 
 ## Try the direct upgrade first
 
@@ -31,7 +31,7 @@ framework shard without being regenerated.
 dependencies:
   amber:
     github: amberframework/amber
-    version: 2.0.0-beta.2
+    version: 2.0.0-beta.3
 ```
 
 Keep the rest of the application's dependencies unchanged for this first pass.
@@ -74,7 +74,7 @@ rebuilt.
 |---|---|---|
 | Views | ECR, Slang, or Kilt | ECR for new and generated V2 views |
 | JavaScript and CSS | Commonly Webpack-managed | Static files work without a bundler; Asset Pipeline is a separate preview |
-| Persistence | Commonly Granite or Jennifer | No ORM or database driver is bundled; choose and verify persistence separately |
+| Persistence | Commonly Granite or Jennifer | Existing apps may keep their working ORM; new CLI apps use Grant and a selected driver |
 | Sessions | Redis-oriented configuration | Built-in memory adapter or an explicitly registered external adapter |
 | WebSocket pub/sub | Redis-oriented configuration | Built-in in-process adapter or an explicitly registered external adapter |
 | Request validation | Controller-specific parsing | Optional typed Schema API |
@@ -127,19 +127,20 @@ Use the [Redis-to-adapters guide](redis-to-adapters/) to inventory the existing
 behavior, then verify expiration, logout, session rotation, broadcasts, and
 multi-process delivery before switching production traffic.
 
-## 4. Keep persistence as a separate decision
+## 4. Keep an existing persistence migration separate
 
-The V2 web template does not install an ORM or database driver. An existing
-Granite or Jennifer application may keep its current persistence layer while the
-framework core is evaluated, but compatibility depends on that application's
-Crystal version, shard versions, and usage. Amber does not make a blanket
-compatibility promise for those combinations.
+Amber CLI `2.0.4` installs Grant and SQLite in a newly generated web
+application. That default does not require an existing Granite or Jennifer
+application to change ORM during the framework upgrade. Keep its current
+persistence layer for the first pass, then verify compatibility against the
+application's Crystal version, shard versions, and real queries.
 
-Grant is the V2 ecosystem direction for new persistence work, but its migration
-material remains preview. Do not mix two ORMs in a production migration unless
-the ownership of connections, transactions, migrations, and models is explicit.
-Review the [model-layer boundary](../guides/models/) before using the
-[Granite-to-Grant preview guide](granite-to-grant/).
+If you choose to move to Grant, treat that as a second migration with its own
+branch, database backup, restore proof, schema diff, representative reads and
+writes, and rollback plan. Do not mix two ORMs unless ownership of connections,
+transactions, migrations, and models is explicit. Review the
+[model-layer boundary](../guides/models/) and
+[Granite-to-Grant guide](granite-to-grant/) first.
 
 ## 5. Preserve working assets before replacing tooling
 

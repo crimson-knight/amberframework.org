@@ -42,9 +42,17 @@ export AMBER_SERVER_SECRET_KEY_BASE="replace-with-a-long-random-secret"
 ./bin/my_app
 ```
 
-Set `AMBER_DATABASE_URL` only after adding and configuring a database adapter.
-The default V2 web template intentionally contains no ORM or database driver.
-Never commit the production secret or inject it into a container image.
+Set `DATABASE_URL` to the production database selected by the application. The
+default V2 web template includes Grant and SQLite; PostgreSQL and MySQL apps
+include their selected driver instead. Never commit the production secret or
+database credentials or inject them into a container image.
+
+Run migrations as an explicit release step before starting code that requires
+the new schema:
+
+```bash
+AMBER_ENV=production DATABASE_URL="..." amber database migrate
+```
 
 ## Platform checklist
 
@@ -54,8 +62,7 @@ Never commit the production secret or inject it into a container image.
 - Preserve termination signals so the process can shut down cleanly.
 - Capture standard output and standard error with the platform log service.
 - Restart failed processes with the platform supervisor.
-- Add database migrations and backups only after choosing a V2-compatible
-  persistence stack.
+- Back up and prove restore before applying production migrations.
 
 Continue with [Manual binary deployment](manual-deploy/) for a concrete Linux
 service example.

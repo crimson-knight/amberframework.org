@@ -7,7 +7,7 @@ description: "Configure Asset Pipeline paths and cache behavior in an Amber V2 a
 
 # Asset Pipeline configuration
 
-> **Preview ecosystem guide:** Asset Pipeline is not part of the Amber 2.0.0-beta.2
+> **Preview ecosystem guide:** Asset Pipeline is not part of the Amber 2.0.0-beta.3
 > core web-app release gate. Its package version, API, and platform support may
 > change independently. Confirm a compatible official release before adding it
 > to an application.

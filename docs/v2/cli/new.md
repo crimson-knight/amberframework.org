@@ -16,7 +16,7 @@ amber new NAME [options]
 | Option | Default | Meaning |
 |---|---|---|
 | `--type web|native` | `web` | Web is supported; native is preview |
-| `-d`, `--database pg|mysql|sqlite` | `pg` | Records metadata and suggested URLs |
+| `-d`, `--database pg|mysql|sqlite` | `sqlite` | Selects the driver, connection, and environment URLs |
 | `-t`, `--template ecr` | `ecr` | Amber V2 supports ECR only |
 | `--no-deps` | off | Skip automatic `shards install` |
 | `-y`, `--assume-yes` | off | Disable interactive prompts |
@@ -40,16 +40,21 @@ is the recommended first run; the explicit form is useful in automation.
 
 The generated web app contains:
 
-- `amberframework/amber` pinned to `2.0.0-beta.2`
+- `amberframework/amber` pinned to `2.0.0-beta.3`
+- Grant pinned to the reviewed V2 commit
+- SQLite by default, or the selected PostgreSQL/MySQL driver
+- `config/database.cr` and typed per-environment database URLs
+- Micrate-powered database commands in the compiled CLI
 - Crystal `>= 1.20.0, < 2.0`
 - ECR layout and homepage
 - typed development, test, and production YAML
 - web, API, and static pipelines plus routes
 - homepage request spec and `bin/` build directory
-- no ORM, database driver, attachment shard, or personal fork
+- no attachment shard, personal Amber fork, moving framework branch, or
+  unselected database driver
 
-The database option does not install persistence. It preserves intent for later
-tooling while keeping the first build independent of a database.
+The database option installs a complete persistence choice. SQLite is the
+zero-server first run; PostgreSQL and MySQL require their matching server.
 
 ## After generation
 
@@ -59,6 +64,8 @@ cd my_app
 shards install
 crystal spec
 crystal build src/my_app.cr -o bin/my_app
+amber generate scaffold Pet name:string:required species:string:required adopted:bool
+amber database migrate
 amber watch
 ```
 

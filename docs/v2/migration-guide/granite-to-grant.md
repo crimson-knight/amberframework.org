@@ -2,53 +2,74 @@
 title: "Granite to Grant Migration"
 section: "migration-guide"
 order: 20
-description: "Migrate from Granite ORM to Grant ORM"
+description: "Move an existing Granite model layer to the Grant version pinned by Amber CLI 2.0.4"
 ---
 
 # Migrating from Granite to Grant
 
-> **Preview migration path:** Grant is not included in the Amber
-> `2.0.0-beta.2` core web template. Confirm a compatible official Grant release
-> and its current API before beginning this migration; do not substitute a
-> personal fork as an application default.
+Grant is the default model layer in new Amber CLI `2.0.4` web applications.
+That does not make an ORM replacement part of the Amber 1-to-2 framework
+upgrade. First prove that the existing application can run on Amber
+`2.0.0-beta.3` with its current persistence stack. Start this guide only when
+moving to Grant is an explicit second decision.
 
-This guide is retained as evaluation material for teams considering a future
-Granite-to-Grant migration.
+## Establish the safety boundary
 
-## Why Grant?
+Before editing a model:
 
-| Feature | Granite | Grant |
-|---------|---------|-------|
-| Associations | Limited (has_many only) | Full (belongs_to, has_many, has_one, polymorphic) |
-| Validations | Granite validation API | Built-in and custom Grant validators |
-| Callbacks | Before/after save | Full lifecycle (create, update, destroy) |
-| Query Interface | Basic where/find | Chainable scopes, joins, includes |
-| Transactions | Manual | Built-in with savepoints |
-| Encryption | None | Attribute encryption |
-| Secure Tokens | None | has_secure_token, signed_id |
+1. Record the current Crystal, Amber, Granite, driver, and database versions.
+2. Run the complete test suite and compile the application binary.
+3. Back up the database and restore that backup into a disposable environment.
+4. Capture representative reads, writes, validations, associations,
+   transactions, callbacks, and error behavior.
+5. Choose one low-risk model boundary for the first migration.
 
-## Coexistence Strategy
+Do not run two migration systems against the same schema without one explicit
+owner. Amber CLI uses Micrate SQL under `db/migrations/`; keep the application's
+existing migration history and decide where new versions will be recorded
+before applying anything.
 
-Grant and Granite can coexist during migration:
+## Pin Grant and one driver
+
+**File: `shard.yml` — add the same reviewed Grant source used by a generated
+Amber CLI `2.0.4` application plus the application's database driver.**
 
 ```yaml
-# shard.yml
 dependencies:
-  granite:
-    github: amberframework/granite
-    version: ~> 0.6.0
   grant:
-    github: amberframework/grant
-    version: ~> 0.3.0
+    github: crimson-knight/grant
+    commit: 2665a978b43ac608c68cde9243821f8f8f053372
+  pg:
+    github: will/crystal-pg
+    version: 0.30.0
 ```
 
-Migrate models incrementally, starting with new features.
+The example uses PostgreSQL. Use the SQLite or MySQL dependency from a freshly
+generated `2.0.4` app when that is the database being migrated. Do not add all
+three drivers.
 
-## Basic Model Migration
+## Register the Grant connection
 
-### Column Definitions
+**File: `config/database.cr` — register a connection loaded by the app's
+existing `require "../config/*"` entry point.**
 
-**Granite:**
+```crystal
+require "grant"
+require "grant/adapter/pg"
+
+Grant::Connections << Grant::Adapter::Pg.new(
+  name: "primary",
+  url: ENV["DATABASE_URL"]? || Amber.settings.database_url
+)
+```
+
+Use `Grant::Adapter::Sqlite` with `require "grant/adapter/sqlite"` or
+`Grant::Adapter::Mysql` with `require "grant/adapter/mysql"` for those drivers.
+
+## Translate one model without changing its table
+
+**Existing Granite file: `src/models/user.cr`.**
+
 ```crystal
 class User < Granite::Base
   connection pg
@@ -63,493 +84,107 @@ class User < Granite::Base
 end
 ```
 
-**Grant:**
+**Grant replacement: `src/models/user.cr`.**
+
 ```crystal
 class User < Grant::Base
+  connection primary
+  table users
+
   column id : Int64, primary: true
   column email : String
   column name : String?
   column admin : Bool = false
 
-  timestamps  # Automatically handles created_at and updated_at
+  timestamps
 end
 ```
 
-### Key Differences
+Keep `connection primary` and `table users` explicit during a migration. This
+matches the supported generator and prevents an inference change from silently
+pointing at another connection or table. `timestamps` maps the conventional
+`created_at` and `updated_at` columns; verify their exact database types before
+removing the previous declarations.
 
-1. **No `connection` declaration** - Grant uses a global connection pool
-2. **No `table` declaration** - Inferred from class name (configurable)
-3. **`timestamps` macro** - Replaces manual timestamp columns
-4. **Nullable by default** - Use `Type?` for nullable columns
+## Preserve schema before changing behavior
 
-## Connection Configuration
+An ORM migration does not inherently require a database schema migration. If
+the existing table already matches the Grant columns, first make the new model
+read and write the existing schema. Add Micrate SQL only for an intentional
+schema change.
 
-**Granite:**
-```crystal
-Granite::Connections << Granite::Adapter::Pg.new(
-  name: "pg",
-  url: ENV["DATABASE_URL"]
-)
-```
+Write a focused spec against the restored disposable database:
 
-**Grant:**
-```crystal
-Grant::Connections.add(
-  "primary",
-  ENV["DATABASE_URL"]
-)
-
-# Or configure via environment
-# Grant auto-detects DATABASE_URL
-```
-
-## Associations Migration
-
-### has_many
-
-**Granite:**
-```crystal
-class User < Granite::Base
-  has_many :posts
-
-  # Manual setup often required
-  def posts
-    Post.all("WHERE user_id = ?", id)
-  end
-end
-```
-
-**Grant:**
-```crystal
-class User < Grant::Base
-  has_many :posts  # Just works!
-
-  # Additional options available
-  has_many :published_posts, Post, -> { where(published: true) }
-  has_many :comments, through: :posts
-end
-```
-
-### belongs_to
-
-**Granite:** (manual)
-```crystal
-class Post < Granite::Base
-  column user_id : Int64?
-
-  def user
-    User.find(user_id) if user_id
-  end
-end
-```
-
-**Grant:**
-```crystal
-class Post < Grant::Base
-  column user_id : Int64
-
-  belongs_to :user
-end
-
-post = Post.find!(1)
-post.user  # => User instance, lazy loaded
-```
-
-### has_one
-
-**Granite:** (manual)
-```crystal
-class User < Granite::Base
-  def profile
-    Profile.first("WHERE user_id = ?", id)
-  end
-end
-```
-
-**Grant:**
-```crystal
-class User < Grant::Base
-  has_one :profile
-end
-
-user.profile  # => Profile or nil
-```
-
-### Polymorphic Associations
-
-**Granite:** Not supported
-
-**Grant:**
-```crystal
-class Comment < Grant::Base
-  column commentable_id : Int64
-  column commentable_type : String
-
-  belongs_to :commentable, polymorphic: true
-end
-
-class Post < Grant::Base
-  has_many :comments, as: :commentable
-end
-
-class Photo < Grant::Base
-  has_many :comments, as: :commentable
-end
-```
-
-## Validations Migration
-
-### Basic Validations
-
-**Granite:**
-```crystal
-class User < Granite::Base
-  validate :email, "can't be blank" do |user|
-    !user.email.nil? && !user.email.not_nil!.empty?
-  end
-end
-```
-
-**Grant:**
-```crystal
-class User < Grant::Base
-  validates :email, presence: true
-  validates :email, format: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
-  validates :email, uniqueness: true
-end
-```
-
-### Available Validators
-
-| Granite | Grant |
-|---------|-------|
-| Manual blocks | `presence`, `absence`, `format`, `length`, `inclusion`, `exclusion`, `uniqueness`, `numericality`, `confirmation` |
-
-### Custom Validations
-
-**Granite:**
-```crystal
-class User < Granite::Base
-  validate :custom_email_check do |user|
-    # validation logic
-  end
-end
-```
-
-**Grant:**
-```crystal
-class User < Grant::Base
-  validate :custom_email_check
-
-  private def custom_email_check
-    if email && !email.ends_with?("@company.com")
-      errors.add(:email, "must be a company email")
-    end
-  end
-end
-```
-
-## Callbacks Migration
-
-**Granite:**
-```crystal
-class Post < Granite::Base
-  before_save :set_slug
-
-  def set_slug
-    self.slug ||= title.downcase.gsub(" ", "-")
-  end
-end
-```
-
-**Grant:**
-```crystal
-class Post < Grant::Base
-  before_save :set_slug
-  before_create :set_published_at
-  after_create :notify_subscribers
-  after_destroy :cleanup_assets
-
-  private def set_slug
-    self.slug ||= title.downcase.gsub(" ", "-")
-  end
-end
-```
-
-### Available Callbacks
-
-| Lifecycle | Granite | Grant |
-|-----------|---------|-------|
-| Create | before_save, after_save | before_create, after_create, around_create |
-| Update | before_save, after_save | before_update, after_update, around_update |
-| Save | before_save, after_save | before_save, after_save, around_save |
-| Destroy | before_destroy, after_destroy | before_destroy, after_destroy, around_destroy |
-| Validation | - | before_validation, after_validation |
-
-## Query Interface Migration
-
-### Finding Records
-
-**Granite:**
-```crystal
-User.find(1)           # May return nil
-User.find!(1)          # Raises on not found
-User.first             # First record
-User.all               # All records
-```
-
-**Grant:**
-```crystal
-User.find(1)           # Returns User?
-User.find!(1)          # Raises RecordNotFound
-User.first             # First record
-User.last              # Last record
-User.all               # ActiveRecord::Relation
-```
-
-### Where Clauses
-
-**Granite:**
-```crystal
-User.all("WHERE email = ? AND active = ?", ["user@example.com", true])
-```
-
-**Grant:**
-```crystal
-User.where(email: "user@example.com", active: true)
-User.where("email = ? AND active = ?", "user@example.com", true)
-User.where(email: "user@example.com").where(active: true)  # Chainable
-```
-
-### Ordering and Limiting
-
-**Granite:**
-```crystal
-User.all("ORDER BY created_at DESC LIMIT 10")
-```
-
-**Grant:**
-```crystal
-User.order(created_at: :desc).limit(10)
-User.order(:name).first(5)
-User.recent.limit(10)  # Using scope
-```
-
-### Scopes
-
-**Granite:** Not supported natively
-
-**Grant:**
-```crystal
-class Post < Grant::Base
-  scope :published, -> { where(published: true) }
-  scope :recent, -> { order(created_at: :desc) }
-  scope :by_author, ->(user : User) { where(user_id: user.id) }
-end
-
-Post.published.recent.limit(10)
-Post.by_author(current_user).published
-```
-
-## CRUD Operations
-
-### Create
-
-**Granite:**
 ```crystal
 user = User.new
-user.email = "user@example.com"
-user.save
+user.email = "migration@example.com"
+user.admin = false
+user.save.should be_true
 
-# Or
-User.create!(email: "user@example.com")
+persisted = User.find(user.id)
+persisted.should_not be_nil
+persisted.not_nil!.email.should eq("migration@example.com")
 ```
 
-**Grant:**
+Then prove update and destroy, required and nullable values, unique constraints,
+timestamps, and the error paths used by the application.
+
+## Translate application operations deliberately
+
+Do not perform a global search-and-replace. Convert one behavior at a time and
+keep a spec beside it.
+
 ```crystal
-user = User.new(email: "user@example.com")
+# Collection
+users = User.all.to_a
+
+# Primary-key lookup
+user = User.find(params[:id])
+
+# Typed assignment and persistence
+user = User.new
+user.email = schema.email.not_nil!
+user.name = schema.name
 user.save
 
-# Or
-User.create!(email: "user@example.com")
-
-# Build without save
-user = User.build(email: "user@example.com")
-```
-
-### Update
-
-**Granite:**
-```crystal
-user.email = "new@example.com"
-user.save
-```
-
-**Grant:**
-```crystal
-user.email = "new@example.com"
-user.save
-
-# Or
-user.update!(email: "new@example.com")
-
-# Update multiple
-User.where(role: "guest").update_all(role: "member")
-```
-
-### Destroy
-
-**Granite:**
-```crystal
+# Delete
 user.destroy
 ```
 
-**Grant:**
-```crystal
-user.destroy
-user.destroy!  # Raises on failure
+For filtering, associations, validations, callbacks, transactions, and
+security APIs, follow the matching [Grant guides](../guides/models/grant/) and
+verify the behavior against the pinned commit. Do not assume a similarly named
+Granite method has identical return types, callback order, transaction scope,
+or error semantics.
 
-# Destroy multiple
-User.where(inactive: true).destroy_all
-```
+## Decide whether the ORMs may coexist
 
-## Transactions
+Coexistence can be useful for a staged migration, but it is not automatic.
+Before running Granite and Grant together, prove:
 
-**Granite:** (manual)
-```crystal
-Granite::Connections["pg"].transaction do |tx|
-  user.save
-  profile.save
-end
-```
+- their connection pools do not compete for lifecycle ownership;
+- only one migration system advances the schema;
+- a transaction does not falsely imply atomicity across different pools;
+- callbacks and validations are not executed twice;
+- two classes writing one table agree on types, defaults, timestamps, and
+  optimistic-locking behavior;
+- application code names which ORM owns each model.
 
-**Grant:**
-```crystal
-Grant::Base.transaction do
-  user.save!
-  profile.save!
-  # Automatically rolls back on exception
-end
+If those conditions are not testable, migrate in a maintenance window or a
+separate deployment rather than carrying two active writers.
 
-# Nested transactions with savepoints
-Grant::Base.transaction do
-  user.save!
+## Completion gates
 
-  Grant::Base.transaction(requires_new: true) do
-    # Savepoint - can fail without rolling back outer transaction
-    risky_operation.save!
-  rescue
-    # Inner transaction rolled back, outer continues
-  end
-end
-```
+For every migrated model, keep evidence for:
 
-## Error Handling
+- schema compatibility and reversible migration SQL when schema changed;
+- representative create, read, update, and destroy operations;
+- nullable and required fields on new records;
+- validations and database constraints;
+- associations and query counts;
+- callback order and external side effects;
+- transaction rollback behavior;
+- production-shaped performance for critical queries.
 
-**Granite:**
-```crystal
-unless user.save
-  user.errors.each do |error|
-    puts error
-  end
-end
-```
-
-**Grant:**
-```crystal
-unless user.save
-  user.errors.full_messages.each do |message|
-    puts message
-  end
-
-  # Access specific field errors
-  user.errors[:email].each do |error|
-    puts "Email #{error}"
-  end
-end
-
-# Or use bang methods
-begin
-  user.save!
-rescue Grant::RecordInvalid => e
-  puts e.record.errors.full_messages
-end
-```
-
-## Migration Checklist
-
-### Per Model
-
-- [ ] Update class inheritance (`Granite::Base` → `Grant::Base`)
-- [ ] Remove `connection` and `table` declarations
-- [ ] Replace manual timestamp columns with `timestamps`
-- [ ] Convert associations to Grant syntax
-- [ ] Migrate validations to declarative style
-- [ ] Update callbacks to new lifecycle hooks
-- [ ] Convert raw SQL queries to chainable interface
-- [ ] Add scopes for common queries
-- [ ] Update error handling code
-- [ ] Run tests
-
-### Application-Wide
-
-- [ ] Update connection configuration
-- [ ] Review transaction usage
-- [ ] Update specs to use Grant factories/fixtures
-- [ ] Run full test suite
-- [ ] Performance test critical queries
-
-## Running Both ORMs
-
-During migration, you may need models to interact:
-
-```crystal
-# Grant model referencing Granite model
-class Comment < Grant::Base
-  column post_id : Int64
-
-  def post
-    # Manually fetch Granite model
-    Post.find(post_id)
-  end
-end
-
-# Or create a thin Grant wrapper
-class PostGrant < Grant::Base
-  self.table_name = "posts"
-
-  column id : Int64, primary: true
-  column title : String
-  # ... mirror Granite columns
-end
-```
-
-## Troubleshooting
-
-### "undefined method" errors
-
-Grant uses different method names. Common changes:
-- `all("WHERE ...")` → `where(...)`
-- `first("WHERE ...")` → `find_by(...)`
-- Manual association methods → `has_many`/`belongs_to`
-
-### Validation errors
-
-Grant validations are more strict:
-```crystal
-# May need to handle nil differently
-validates :email, presence: true  # Fails on nil
-validates :name, presence: true, allow_nil: true  # Passes on nil
-```
-
-### Association loading
-
-Grant associations are lazy-loaded by default:
-```crystal
-# N+1 query issue
-users.each { |u| puts u.posts.size }
-
-# Use eager loading
-users = User.includes(:posts)
-users.each { |u| puts u.posts.size }  # No N+1
-```
+Only remove Granite after no application file, job, task, or maintenance script
+requires it and a restored production backup passes the Grant-backed suite.

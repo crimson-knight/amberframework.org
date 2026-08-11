@@ -1,7 +1,29 @@
 {
   "schema_version": 1,
-  "synced_at": "2026-08-11T18:29:27Z",
+  "synced_at": "2026-08-11T21:05:05Z",
   "releases": [
+    {
+      "project": "Amber CLI",
+      "repository": "amberframework/amber_cli",
+      "tag_name": "v2.0.4",
+      "name": "Amber CLI 2.0.4",
+      "published_at": "2026-08-11T21:04:38Z",
+      "published_on": "August 11, 2026",
+      "prerelease": false,
+      "url": "https://github.com/amberframework/amber_cli/releases/tag/v2.0.4",
+      "body": "# Amber CLI 2.0.4\n\nAmber CLI 2.0.4 makes persistence part of the supported Amber V2 web-app path.\nA new application includes Grant ORM, SQLite, typed database settings, and\nMicrate-powered database commands by default.\n\n## Start a database-backed app\n\n```bash\namber new pet_tracker --type web\ncd pet_tracker\namber generate scaffold Pet name:string:required species:string:required adopted:bool\namber database migrate\namber watch\n```\n\nOpen <http://127.0.0.1:3000/pets/new>. The generated resource includes a Grant\nmodel, request schema, HTML CRUD controller, ECR views, specs, resource route,\nand reversible SQL migration. SQLite keeps the first run self-contained; pass\n`-d pg` or `-d mysql` to `amber new` for a server database.\n\n## What changed\n\n- Added Grant and the selected database driver to every generated web app.\n- Made SQLite the default database and connected development, test, and\n  production settings through `config/database.cr`.\n- Embedded Micrate in `amber database` for migrations, status, rollback, redo,\n  reset, and seeding.\n- Promoted model, scaffold, and migration generation to the supported beta path.\n- Corrected scaffold forms, optional fields, resource routes, and form-body\n  handling so generated create and update requests persist successfully.\n- Added a release smoke test that generates a Pet resource, migrates both test\n  and development databases, runs its specs, boots the app, creates a Pet, and\n  updates it through the generated HTML forms.\n- Added a native Linux ARM64 release artifact and a Windows x86-64 generated-app\n  compile gate.\n\nAmber V2 native applications, generated authentication, and generated APIs\nremain preview surfaces in this release.\n"
+    },
+    {
+      "project": "Amber Framework",
+      "repository": "amberframework/amber",
+      "tag_name": "v2.0.0-beta.3",
+      "name": "Amber 2.0.0-beta.3",
+      "published_at": "2026-08-11T20:47:04Z",
+      "published_on": "August 11, 2026",
+      "prerelease": true,
+      "url": "https://github.com/amberframework/amber/releases/tag/v2.0.0-beta.3",
+      "body": "# Amber 2.0.0-beta.3\n\nAmber 2.0.0-beta.3 is the framework release for the database-backed web\napplication that Amber CLI 2.0.4 generates by default. The supported path now\nincludes Grant models, SQLite, Micrate migrations, and complete HTML resource\nscaffolds instead of stopping at a database-free homepage.\n\n## What changed\n\n- Schema controllers parse browser form bodies, including bodies already read\n  by routing or CSRF protection.\n- Background-job workers can steal queued work without corrupting request\n  activity accounting.\n- ECR view paths are normalized on Windows.\n- The HTML/JSON `respond_with` behavior is documented with executable examples.\n\n## Install and exercise persistence\n\nInstall Amber CLI 2.0.4, then generate and migrate a real resource:\n\n```bash\nbrew install amberframework/amber_cli/amber_cli\namber new pet_tracker --type web\ncd pet_tracker\nshards install\namber generate scaffold Pet name:string:required species:string:required adopted:bool\namber database migrate\ncrystal spec\namber watch\n```\n\nOpen <http://localhost:3000/pets>. The generated model lives at\n`src/models/pet.cr`, its SQL migration is under `db/migrations/`, and its ECR\nform partial is `src/views/pet/_form.ecr`.\n\nApple Silicon macOS and x86_64 Linux have CLI release archives. Linux ARM64 and\nWindows x86_64 generated web applications are compile-gated in CI; their CLI\nbinaries are built from source for this beta.\n\nSee the [beta installation guide](https://github.com/amberframework/amber/blob/v2.0.0-beta.3/docs/beta-installation.md)\nand [V1 to V2 migration guide](https://github.com/amberframework/amber/blob/v2.0.0-beta.3/docs/migration-guide.md).\n\nPlease report framework issues at\n<https://github.com/amberframework/amber/issues> and CLI/template/install issues\nat <https://github.com/amberframework/amber_cli/issues>.\n"
+    },
     {
       "project": "Amber CLI",
       "repository": "amberframework/amber_cli",
@@ -122,17 +144,6 @@
       "prerelease": false,
       "url": "https://github.com/amberframework/amber/releases/tag/v1.3.1",
       "body": "## What's Changed\r\n* Updated docker file to use latest crystal image and updated straggling Amber version by @crimson-knight in https://github.com/amberframework/amber/pull/1298\r\n* Changed node version check to look for v14 only by @crimson-knight in https://github.com/amberframework/amber/pull/1301\r\n\r\n\r\n**Full Changelog**: https://github.com/amberframework/amber/compare/v1.3.0...v1.3.1"
-    },
-    {
-      "project": "Amber Framework",
-      "repository": "amberframework/amber",
-      "tag_name": "v1.3.0",
-      "name": "v1.3.0",
-      "published_at": "2022-10-26T11:48:33Z",
-      "published_on": "October 26, 2022",
-      "prerelease": false,
-      "url": "https://github.com/amberframework/amber/releases/tag/v1.3.0",
-      "body": "## What's Changed\r\n* Feature/update readme contribution steps by @crimson-knight in https://github.com/amberframework/amber/pull/1283\r\n* Remove crystalshards.xyz link on template view by @bananatron in https://github.com/amberframework/amber/pull/1293\r\n* fix to cli scaffold controller spec deprecated garnetspec module by @rrevi in https://github.com/amberframework/amber/pull/1296\r\n* Updated the remaining two templates that used the old GarnetSpec parent class by @crimson-knight in https://github.com/amberframework/amber/pull/1297\r\n* Quality of life improvements by @crimson-knight in https://github.com/amberframework/amber/pull/1292\r\n* Updated docker file to use `latest` crystal image\r\n\r\n## New Contributors\r\n* @bananatron made their first contribution in https://github.com/amberframework/amber/pull/1293\r\n* @rrevi made their first contribution in https://github.com/amberframework/amber/pull/1296\r\n\r\n**Full Changelog**: https://github.com/amberframework/amber/compare/v1.2.2...v1.3.0"
     }
   ]
 }
