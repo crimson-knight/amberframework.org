@@ -11,6 +11,8 @@ files=(
   docs/v2/cli/generate.md
   docs/v2/cli/watch.md
   docs/v2/guides/web-template/index.md
+  docs/v2/guides/pet-tracker/index.md
+  docs/v2/guides/ai-assistants/index.md
   docs/v2/guides/native-preview/index.md
   blog/2026/07/31/amber-2-beta-2.md
   blog/2026/08/10/amber-v2-public-beta.md
@@ -38,6 +40,14 @@ if rg -n 'brew tap amberframework/amber_cli|brew (install|upgrade|uninstall) amb
   echo "V2 beta onboarding docs must use the fully qualified trusted formula" >&2
   exit 1
 fi
+
+if rg -n '^```ruby$' docs; then
+  echo "Documentation code fences must identify Crystal examples as Crystal" >&2
+  exit 1
+fi
+
+grep -F 'Build a Pet Tracker' docs/v2/guides/pet-tracker/index.md
+grep -F 'Download the Amber V2 documentation knowledge bundle' docs/v2/guides/ai-assistants/index.md
 
 if grep -Eq '^- cli/(index|new|generate|watch)\.md$' docs/v2/_deleted.yml; then
   echo "Published V2 CLI guides must not be listed as deleted" >&2

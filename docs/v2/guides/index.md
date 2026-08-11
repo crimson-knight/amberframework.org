@@ -3,15 +3,15 @@ title: "Guides"
 section: ""
 order: 40
 is_section: true
-description: "Amber V2 guides, reviewed replacements, and clearly marked carried-forward references"
+description: "Amber V2 guides, reviewed replacements, and stable framework references"
 ---
 
 # Guides
 
-V2 carries forward framework concepts that still apply—controllers, requests,
-responses, sessions, routing, cookies, testing, and other stable APIs. A
-carried-forward page is labeled in the interface so you can distinguish it from
-a guide reviewed or replaced specifically for V2.
+V2 keeps framework concepts that still apply—controllers, requests, responses,
+sessions, routing, cookies, testing, and other stable APIs. An unchanged page
+has no badge. **New** and **Updated** badges identify material written or
+revised for V2.
 
 Pages built around removed components are excluded rather than inherited.
 Granite and Jennifer point to Grant replacements; legacy bundled-CLI commands
@@ -34,6 +34,7 @@ directory labeled as generated output.
 
 ## Supported beta core
 
+- [Build a Pet Tracker](pet-tracker/) — the canonical first app, from routes to HTML, JSON, CSS, and browser-native JavaScript
 - [Web template](web-template/) — exact output of Amber CLI 2.0.3
 - [Schema API](schema-api/) — typed request parsing and validation
 - [Adapters](adapters/) — framework adapter concepts and extension points
@@ -49,8 +50,17 @@ Preview pages describe work that can be evaluated, but they are not part of the
 clean web-template compile guarantee. Start with the supported web template and
 add preview projects deliberately.
 
+## Use the docs with an assistant
+
+[AI assistants](ai-assistants/) explains how to give ChatGPT, Claude, or Gemini
+the current V2 source set. It also provides a single Markdown knowledge bundle
+and a tested Custom GPT instruction contract. The assistant should cite these
+pages, preserve exact file locations, and name beta boundaries rather than
+silently filling gaps from older Amber versions.
+
 ## Maintaining a V1 application
 
 Amber 1.4.1 documentation remains available from the version selector. Choose
-that version when maintaining an existing V1 application. The V2 navigation
-uses explicit badges and replacement links where the path changed.
+that version when maintaining an existing V1 application. V2 uses badges only
+where a page is new or materially updated and uses replacement links where the
+path changed.

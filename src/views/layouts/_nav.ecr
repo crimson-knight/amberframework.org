@@ -10,6 +10,7 @@
 
     <div class="site-menu" data-site-menu>
       <a href="/docs/v2"<%= " aria-current=\"page\"" if context.request.path.starts_with?("/docs") %>>Docs</a>
+      <a href="/showcase"<%= " aria-current=\"page\"" if context.request.path == "/showcase" %>>Showcase</a>
       <a href="/characters"<%= " aria-current=\"page\"" if context.request.path.starts_with?("/characters") %>>Characters</a>
       <a href="/blog"<%= " aria-current=\"page\"" if context.request.path.starts_with?("/blog") %>>Blog</a>
       <a href="/amber-way"<%= " aria-current=\"page\"" if context.request.path == "/amber-way" %>>Amber's Way</a>

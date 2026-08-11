@@ -111,7 +111,7 @@ First you need a `config/`folder with an `application.cr` file, also see [config
 
 {% code-tabs %}
 {% code-tabs-item title="config/application.cr" %}
-```ruby
+```crystal
 require "amber"
 
 require "../src/controllers/**"
@@ -123,7 +123,7 @@ Secondly a `routes.cr` file with pipelines and routes blocks, also see: [routing
 
 {% code-tabs %}
 {% code-tabs-item title="config/routes.cr" %}
-```ruby
+```crystal
 Amber::Server.configure do |app|
   pipeline :web do
     # plug PipeName.new
@@ -141,7 +141,7 @@ Then a basic setup \(without views nor models\) requires an `application_control
 
 {% code-tabs %}
 {% code-tabs-item title="src/controllers/application\_controller.cr" %}
-```ruby
+```crystal
 class ApplicationController < Amber::Controller::Base
 end
 ```
@@ -152,7 +152,7 @@ Finally you need to call `Amber::Server` and all your project in your main `myap
 
 {% code-tabs %}
 {% code-tabs-item title="src/myapp.cr" %}
-```ruby
+```crystal
 require "../config/*"
 
 Amber::Server.start

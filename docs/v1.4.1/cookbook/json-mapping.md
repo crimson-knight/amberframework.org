@@ -16,7 +16,7 @@ JSON requests are automatically parsed into the `params` macro when the `accept`
 
 You can use this in combination with the [`respond_with`](../guides/controllers/respond-with.md) helper. Here you don't need to setup `content_type`, however, the requested path requires a `.json` extension, by example `/json_mapping.json`
 
-```ruby
+```crystal
 class SomeController < ApplicationController
   def json_mapping
     return "empty body" if params["some_json_key_from_your_request"]

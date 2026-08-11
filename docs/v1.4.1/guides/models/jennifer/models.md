@@ -23,7 +23,7 @@ Jennifer ORM uses a variety of macros to programatically define your model's ass
 | `:setter` | if setter should be created \(default - `true`\) |
 
 Let's look at an example
-```ruby
+```crystal
 class Contact < Jennifer::Model::Base
   mapping(
     id: {type: Int32, primary: true},
@@ -81,7 +81,7 @@ The model is automatically associated with a table by its underscored and plural
 ### Relations
 Jennifer provides 4 types of relations out of the box: `has_many`, `belongs_to`, `has_and_belongs_to_many`, and `has_one`. While they sound similar they generate slightly different methods and behaviour.
 
-```ruby
+```crystal
 class Contact < Jennifer::Model::Base
   mapping(
     id: {type: Int32, primary: true},
@@ -123,7 +123,7 @@ All relation macros provide the following methods:
 
 This allows for dynamically adding/removing objects to relations and automatically sets a foreign id:
 
-```ruby
+```crystal
 contact = Contact.all.find!
 contact.add_addresses({:main => true, :street => "some street", :details => nil})
 
@@ -137,7 +137,7 @@ contact.remove_addresses(address)
 
 Single table inheritance can be used in this way:
 
-```ruby
+```crystal
 class Profile < Jennifer::Model::Base
   mapping(
     id: {type: Int32, primary: true},
@@ -171,7 +171,7 @@ The subclass extends the superclass definition with new fields and uses string f
 ### Scopes (aka. Prepared queries)
 Scopes Jennifer's way of creating reusable prepared query statements. The `scope` macro allows you to define a Crystal block containing the desired prepared query statement, and creates a class method on the model to execute. The block is executed in the query context and provides a chainability with various Jennifer queries such as join, where, having, _etc_.
 
-```ruby
+```crystal
 class Contact < Jennifer::Base::Model
 	 scope :query_name { where { c("some_field") > 10 } }
 	 scope :query_with_arguments { |a, b| where { (c("f1") == a) && (c("f2").in(b) } }
@@ -180,7 +180,7 @@ end
 
 Scopes are helpful as they can be chained together to create complex queries which are readable and cognitively ergonomic. 
 
-```ruby
+```crystal
 ModelName.all.where { _some_field > 1 }
          .query_with_arguments("done", [1,2])
          .order(f1: :asc).no_argument_query
@@ -216,7 +216,7 @@ They accept method names.
 ### Destroy
 To destroy an object, use `.delete` \(called without callback\) or `.destroy`. To destroy several objects by their ids, use the class method:
 
-```ruby
+```crystal
 ids = [1, 20, 18]
 Contact.destroy(ids)
 Address.delete(1)
@@ -237,14 +237,14 @@ Jennifer allows you to build lazy evaluated queries with a chainable syntax. How
 ### Find
 An object can be retrieved by id using `find` \(returns `T?`\) and `find!` \(returns `T` or raise `RecordNotFound` exception\) methods.
 
-```ruby
+```crystal
 Contact.find!(1)
 ```
 
 ### Where
 `all` retrieves everything \(only at the beginning; creates empty request\).
 
-```ruby
+```crystal
 Contact.all
 ```
 
@@ -254,7 +254,7 @@ To specify a field, use `c` method which accepts a string as the field name. As 
 
 Below are a few examples:
 
-```ruby
+```crystal
 Contact.where { c("id") == 1 }
 Contact.where { _id == 1 }
 Contact.all.join(Address) { Contact._id == _contact_id }
@@ -263,7 +263,7 @@ Contact.all.relation(:addresses).where { __addresses { _id > 1 } }
 
 You can also use `primary` to mention primary field:
 
-```ruby
+```crystal
 Passport.where { primary.like("%123%") }
 ```
 
@@ -303,7 +303,7 @@ And Postgres specific:
 
 Jennifer supports literal SQL query statements via the `.sql` method:
 
-```ruby
+```crystal
 # it behaves like regular criteria
 Contact.all.where { sql("age > ?",  [15]) & (_name == "Stephan") }
 ```
@@ -318,7 +318,7 @@ The query will be inserted "as is". Usage of `.sql` allows the use of nested pla
 
 At the end - several examples:
 
-```ruby
+```crystal
 Contact.where { (_id > 40) & _name.regexp("^[a-d]") }
 
 Address.where { _contact_id.is(nil) }
@@ -327,7 +327,7 @@ Address.where { _contact_id.is(nil) }
 ### Select
 Raw SQL for `SELECT` clause can be passed into `.select` method. This has the highest priority in forming this query part.
 
-```ruby
+```crystal
 Contact.all.select("COUNT(id) as count, contacts.name").group("name")
        .having { sql("COUNT(id)") > 1 }.pluck(:name)
 ```
@@ -339,7 +339,7 @@ Also you can provide a sub-query to specify the FROM clause.
 Be careful when using sub-queries with source fields during result retrieving and mapping to objects. 
 {% endhint %}
 
-```ruby
+```crystal
 Contact.all.from("select * from contacts where id > 2")
 Contacts.all.from(Contact.where { _id > 2 })
 ```
@@ -349,14 +349,14 @@ For now they both are the same - creates delete query with given conditions. `de
 
 It can be only at the end of chain.
 
-```ruby
+```crystal
 Address.where { _main.not }.delete
 ```
 
 ### Joins
 To join another table you can use `join` method passing model class or table name \(`String`\) and join type \(default is `:inner`\).
 
-```ruby
+```crystal
 field = "contact_id"
 table = "passports"
 Contact.all.join(Address) { Contact._id == _contact_id }.join(table) { c(field) == _id }
@@ -366,7 +366,7 @@ Query, built inside of block, will be passed to `ON` section of `JOIN`. Current 
 
 Also there are two shortcuts for left and right joins:
 
-```ruby
+```crystal
 Contact.all.left_join(Address) { _contacts__id == _contact_id }
 Contact.all.right_join("addresses") { _contacts__id == c("contact_id") }
 ```
@@ -376,14 +376,14 @@ Contact.all.right_join("addresses") { _contacts__id == c("contact_id") }
 ### Relation
 To join a model relation such as `has_many`, `belongs_to` and `has_one` you can pass it's name and join type as:
 
-```ruby
+```crystal
 Contact.all.relation("addresses").relation(:passport, type: :left)
 ```
 
 ### Includes
 To preload a relation use `includes` and pass relation name:
 
-```ruby
+```crystal
 Contact.all.includes("addresses")
 ```
 
@@ -391,13 +391,13 @@ If there are several includes with same table - Jennifer will auto alias tables.
 
 ### Group
 
-```ruby
+```crystal
 Contact.all.group("name", "id").pluck(:name, :id)
 ```
 
 `.group` allows to add columns for `GROUP BY` section. If passing arguments are tuple of strings or just one string - all columns will be parsed as current table columns. If there is a need to group on joined table or using fields from several tables use next:
 
-```ruby
+```crystal
 Contact.all.relation("addresses").group(addresses: ["street"], contacts: ["name"])
        .pluck("addresses.street", "contacts.name")
 ```
@@ -405,7 +405,7 @@ Contact.all.relation("addresses").group(addresses: ["street"], contacts: ["name"
 Here keys should be _table names_.
 
 ### Having
-```ruby
+```crystal
 Contact.all.group("name").having { _age > 15 }
 ```
 
@@ -413,7 +413,7 @@ Contact.all.group("name").having { _age > 15 }
 
 ### Exists
 
-```ruby
+```crystal
 Contact.where { _age > 42 }.exists? # returns true or false
 ```
 
@@ -421,7 +421,7 @@ Contact.where { _age > 42 }.exists? # returns true or false
 
 ### Distinct
 
-```ruby
+```crystal
 Contant.all.distinct("age") # returns array of ages (Array(DB::Any | Int16 | Int8))
 ```
 
@@ -433,58 +433,58 @@ There are 2 types of aggregation functions: ones which are working without a GRO
 
 ### Max
 
-```ruby
+```crystal
 Contact.all.max(:name, String)
 ```
 
 ### Min
 
-```ruby
+```crystal
 Contact.all.min(:age, Int32)
 ```
 
 ### Avg
 
-```ruby
+```crystal
 Contact.all.avg(:age, Float64) # mysql specific
 Contact.all.avg(:age, PG::Numeric) # Postgres specific
 ```
 
 ### Sum
 
-```ruby
+```crystal
 Contact.all.sum(:age, Float64) # mysql specific
 Contact.all.sum(:age, Int64) # postgre specific
 ```
 
 ### Count
 
-```ruby
+```crystal
 Contact.all.count
 ```
 
 ### Group Max
 
-```ruby
+```crystal
 Contact.all.group(:gender).group_max(:age, Int32)
 ```
 
 ### Group Min
 
-```ruby
+```crystal
 Contact.all.group(:gender).group_min(:age, Int32)
 ```
 
 ### Group Avg
 
-```ruby
+```crystal
 Contact.all.avg(:age, Float64) # mysql specific
 Contact.all.avg(:age, PG::Numeric) # Postgres specific
 ```
 
 ### Group Sum
 
-```ruby
+```crystal
 Contact.all.group(:gender).group_sum(:age, Float64) # mysql specific
 Contact.all.group(:gender).group_sum(:age, Int64) # postgre specific
 ```
@@ -493,7 +493,7 @@ Contact.all.group(:gender).group_sum(:age, Int64) # postgre specific
 
 For now you can only specify `limit` and `offset`:
 
-```ruby
+```crystal
 Contact.all.limit(10).offset(10)
 ```
 
@@ -501,7 +501,7 @@ Contact.all.limit(10).offset(10)
 
 You can specifies orders to sort:
 
-```ruby
+```crystal
 Contact.all.order(name: :asc, id: "desc")
 ```
 
@@ -511,7 +511,7 @@ It accepts hash as well.
 
 You can provide a hash or a named tuple with new field values:
 
-```ruby
+```crystal
 Contact.all.update(age: 1, name: "Wonder")
 ```
 
@@ -523,20 +523,20 @@ As mentioned previously, Jennifer provides lazy query evaluation, this means it 
 
 To extract only some fields rather than entire objects, use `pluck`:
 
-```ruby
+```crystal
 Contact.all.pluck(:id, "name")
 ```
 
 It returns an array of values if only one field was given, and an array of arrays if more. It accepts raw sql arguments, so be carefuo when using this when joining tables with same field names. This allows to retrieving custom data from specified select clauses.
 
-```ruby
+```crystal
 Contact.all.select("COUNT(id) as count, contacts.name").group("name")
        .having { sql("COUNT(id)") > 1 }.pluck(:count)
 ```
 
 To load relations using same query joins needed tables \(yep you should specify join on condition by yourself again\) and specifies all needed relations in `with` \(relation name not table\).
 
-```ruby
+```crystal
 Contact.all.left_join(Address) { _contacts__id == _contact_id }.with(:addresses)
 ```
 
@@ -544,7 +544,7 @@ Contact.all.left_join(Address) { _contacts__id == _contact_id }.with(:addresses)
 
 Transaction mechanism provides block-like syntax:
 
-```ruby
+```crystal
 Jennifer::Adapter.adapter.transaction do |tx|
   Contact.create({:name => "Chose", :age => 20})
 end
@@ -558,7 +558,7 @@ A transaction will lock the connection for the current fiber, avoiding getting a
 
 To truncate an entire table use:
 
-```ruby
+```crystal
 Jennifer::Adapter.adapter.truncate("contacts")
 # or
 Jennifer::Adapter.adapter.truncate(Contact)
@@ -573,7 +573,7 @@ This functionality could be useful to clear the db between test cases.
 ## Testing
 The quickest way to rollback any changes made to the database after a test case is using transaction. You can ensure smooth testing by adding the following to your `spec_helper.cr`:
 
-```ruby
+```crystal
 Spec.before_each do
   Jennifer::Adapter.adapter.begin_transaction
 end

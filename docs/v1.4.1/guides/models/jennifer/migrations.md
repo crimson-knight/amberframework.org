@@ -16,7 +16,7 @@ To generate a migration run `crystal src/sam.cr generate:migration your_migratio
 The generator will create template file for you with a consistent name pattern **timestamp\_migration\_name.cr**. 
 The empty file looks like this:
 
-```ruby
+```crystal
 class YourCamelcasedMigrationName20170119011451314 < Jennifer::Migration::Base
   def up
   end
@@ -30,7 +30,7 @@ The `up` method is where your database changes go, whereas, `down` is used for r
 
 Example for creating table:
 
-```ruby
+```crystal
 create_table(:addresses) do |t|
   t.reference :contact # creates field contact_id with Int type and allows null values
   t.string :street, {:size => 20, :sql_type => "char"} # creates string field with CHAR(20) db type
@@ -71,7 +71,7 @@ Also there is`#field`method which allows to directly define sql type \(very suit
 
 To drop table just write
 
-```ruby
+```crystal
 drop_table(:addresses) # drops if exists
 ```
 
@@ -93,7 +93,7 @@ Also next support methods are available:
 
 Also plain SQL could be executed as well:
 
-```ruby
+```crystal
 execute("ALTER TABLE addresses CHANGE street st VARCHAR(20)")
 ```
 
@@ -109,7 +109,7 @@ Jennifer::Migration::Runner.migrate
 
 Now enums are supported as well but it has different implementation for adapters. For mysql is enough just write down all values:
 
-```ruby
+```crystal
 create_table(:contacts) do |t|
   t.enum(:gender, values: ["male", "female"])
 end
@@ -117,7 +117,7 @@ end
 
 Postgres provide much more flexible and complex behavior. Using it you need to create it firstly:
 
-```ruby
+```crystal
 create_enum(:gender_enum, ["male", "female"])
 create_table(:contacts) do |t|
   t.string :name, {:size => 30}

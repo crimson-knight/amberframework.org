@@ -14,7 +14,7 @@ First you need an amber project generated with [Amber CLI](../guides/create-new-
 
 {% code-tabs %}
 {% code-tabs-item title="config/application.cr" %}
-```ruby
+```crystal
 Amber::Server.configure do
   pipeline :api do
     plug Pipe::CORS.new

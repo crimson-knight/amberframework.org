@@ -18,17 +18,26 @@ describe MarkdownPreprocessor do
       html = %(<pre><code class="language-bash">amber new my_app\n</code></pre>)
 
       enhanced = MarkdownPreprocessor.enhance_html(html)
-      enhanced.should contain(%(class="code-window"))
-      enhanced.should contain(%(class="code-window-language">terminal</span>))
+      enhanced.should contain(%(class="code-window code-window-terminal"))
+      enhanced.should contain(%(class="code-window-language">Terminal</span>))
       enhanced.should contain("amber new my_app")
     end
 
-    it "labels untyped samples as code" do
+    it "renders untyped Crystal as an editor instead of a terminal" do
       html = %(<pre><code>Amber::Server.start\n</code></pre>)
 
       enhanced = MarkdownPreprocessor.enhance_html(html)
-      enhanced.should contain(%(class="code-window-language">code</span>))
-      enhanced.should contain(%(class="language-code"))
+      enhanced.should contain(%(class="code-window code-window-editor"))
+      enhanced.should contain(%(class="code-window-language">Crystal</span>))
+      enhanced.should contain(%(class="language-crystal"))
+    end
+
+    it "renders configuration and file trees with editor labels" do
+      yaml = %(<pre><code class="language-yaml">server:\n  port: 3000\n</code></pre>)
+      tree = %(<pre><code class="language-text">my_app/\n└── shard.yml\n</code></pre>)
+
+      MarkdownPreprocessor.enhance_html(yaml).should contain(%(class="code-window-language">YAML</span>))
+      MarkdownPreprocessor.enhance_html(tree).should contain(%(class="code-window-language">File tree</span>))
     end
 
     it "renders every beta-support table inside the safety wrapper" do
@@ -101,7 +110,8 @@ describe MarkdownPreprocessor do
         page_path: "cookbook/file-download"
       )
 
-      html.should contain(%(class="code-window-language">ruby</span>))
+      html.should contain(%(class="code-window-language">Crystal</span>))
+      html.should contain(%(class="language-crystal"))
       html.should contain("Amber::Server.configure")
       html.should contain(%(href="/docs/v2/guides/routing/pipelines"))
       html.should_not contain("```")
@@ -123,6 +133,7 @@ describe MarkdownPreprocessor do
 
         html.scan(/href="\/docs\/v2\/([^"#?]+)/).each do |match|
           target = match[1].strip("/")
+          next if target == "knowledge.md"
           DocsScanner.find_page("v2", target).should_not be_nil,
             "#{source_path} links to missing V2 page #{target}"
         end

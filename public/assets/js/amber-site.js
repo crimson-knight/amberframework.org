@@ -91,7 +91,13 @@
 
     const rawUrl = new URL(rawPath, window.location.origin).toString();
     const prompt = `Read the Amber Framework documentation page “${title}” at ${rawUrl}. Help me understand or apply it, and cite the relevant section when answering.`;
-    const baseUrl = provider === 'claude' ? 'https://claude.ai/new' : 'https://chatgpt.com/';
+    const baseUrls = {
+      claude: 'https://claude.ai/new',
+      chatgpt: 'https://chatgpt.com/',
+      gemini: 'https://gemini.google.com/app'
+    };
+    const baseUrl = baseUrls[provider];
+    if (!baseUrl) return;
     const destination = new URL(baseUrl);
     destination.searchParams.set('q', prompt);
     link.setAttribute('href', destination.toString());
@@ -146,6 +152,92 @@
     if (code.hasAttribute('data-highlighted')) return;
     code.innerHTML = highlightCrystal(code.textContent || '');
     code.setAttribute('data-highlighted', 'crystal');
+  });
+
+  const highlightTokens = (source, tokenPattern, classify) => {
+    let highlighted = '';
+    let cursor = 0;
+
+    for (const match of source.matchAll(tokenPattern)) {
+      const token = match[0];
+      const index = match.index;
+      highlighted += escapeCode(source.slice(cursor, index));
+      const kind = classify(token, index, source);
+      highlighted += kind
+        ? `<span class="token token-${kind}">${escapeCode(token)}</span>`
+        : escapeCode(token);
+      cursor = index + token.length;
+    }
+
+    return highlighted + escapeCode(source.slice(cursor));
+  };
+
+  const highlightYamlScalar = (source) => highlightTokens(
+    source,
+    /#[^\n]*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b(?:true|false|null|yes|no|on|off)\b|\b\d+(?:\.\d+)?\b/g,
+    (token) => {
+      if (token.startsWith('#')) return 'comment';
+      if (token.startsWith('"') || token.startsWith("'")) return 'string';
+      if (/^\d/.test(token)) return 'number';
+      return 'keyword';
+    }
+  );
+
+  const highlightYaml = (source) => source.split('\n').map((line) => {
+    const key = line.match(/^(\s*(?:-\s+)?)([A-Za-z_][\w.-]*)(\s*:)(.*)$/);
+    if (!key) return highlightYamlScalar(line);
+    return `${escapeCode(key[1])}<span class="token token-constant">${escapeCode(key[2])}</span><span class="token token-operator">${escapeCode(key[3])}</span>${highlightYamlScalar(key[4])}`;
+  }).join('\n');
+
+  const webKeywords = new Set([
+    'const', 'let', 'var', 'function', 'return', 'class', 'extends', 'export',
+    'default', 'import', 'from', 'new', 'if', 'else', 'for', 'while', 'async',
+    'await', 'true', 'false', 'null', 'undefined', 'this', 'static'
+  ]);
+
+  const highlightWebCode = (source) => highlightTokens(
+    source,
+    /\/\*[\s\S]*?\*\/|\/\/[^\n]*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`|\b\d+(?:\.\d+)?\b|=>|===|!==|==|!=|<=|>=|&&|\|\||\b[A-Za-z_$][\w$]*\b/g,
+    (token, index, fullSource) => {
+      if (token.startsWith('//') || token.startsWith('/*')) return 'comment';
+      if (/^["'`]/.test(token)) return 'string';
+      if (/^\d/.test(token)) return 'number';
+      if (webKeywords.has(token)) return 'keyword';
+      if (/^(=>|===|!==|==|!=|<=|>=|&&|\|\|)$/.test(token)) return 'operator';
+      if (/^\s*\(/.test(fullSource.slice(index + token.length))) return 'function';
+      return '';
+    }
+  );
+
+  const highlightMarkup = (source) => highlightTokens(
+    source,
+    /<!--[\s\S]*?-->|<%=?|%>|<\/?[A-Za-z][^>]*>|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g,
+    (token) => {
+      if (token.startsWith('<!--')) return 'comment';
+      if (token === '<%' || token === '<%=' || token === '%>') return 'operator';
+      if (token.startsWith('<')) return 'constant';
+      return 'string';
+    }
+  );
+
+  const highlighters = new Map([
+    ['yaml', highlightYaml],
+    ['json', highlightWebCode],
+    ['javascript', highlightWebCode],
+    ['css', highlightWebCode],
+    ['html', highlightMarkup],
+    ['ecr', highlightMarkup]
+  ]);
+
+  document.querySelectorAll('.code-window-editor code').forEach((code) => {
+    if (code.hasAttribute('data-highlighted')) return;
+    const language = [...code.classList]
+      .find((name) => name.startsWith('language-'))
+      ?.replace('language-', '');
+    const highlighter = highlighters.get(language);
+    if (!highlighter) return;
+    code.innerHTML = highlighter(code.textContent || '');
+    code.setAttribute('data-highlighted', language);
   });
 
   const terminalDemo = document.querySelector('[data-terminal-demo]');

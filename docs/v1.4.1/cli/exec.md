@@ -105,7 +105,7 @@ The file then opens in edit mode. The changes you make will **not** modify the o
 
 ### Example
 
-```ruby
+```crystal
 # ./cool_stuff.cr
 statement = "cool stuff happened"
 emoticon = "^_^"

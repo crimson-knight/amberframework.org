@@ -28,7 +28,8 @@ module MarkdownPreprocessor
 
   # Add presentation wrappers after Markdown has been rendered. The wrapper
   # keeps table semantics intact while providing an overflow region, and gives
-  # every code sample the same local terminal-window component.
+  # code samples a local editor or terminal component based on what the sample
+  # actually represents.
   def enhance_html(html : String) : String
     result = wrap_tables(html)
     wrap_code_windows(result)
@@ -42,12 +43,71 @@ module MarkdownPreprocessor
 
   private def wrap_code_windows(html : String) : String
     html.gsub(/<pre><code(?: class="language-([^"]+)")?>(.*?)<\/code><\/pre>/m) do
-      language = $~[1]? || "code"
-      label = {"bash", "console", "shell", "sh", "zsh"}.includes?(language) ? "terminal" : language
       code = $2
+      source_language = $~[1]?
+      language = normalize_code_language(source_language, code)
+      terminal = {"bash", "console", "shell", "sh", "zsh", "powershell", "pwsh"}.includes?(language)
+      kind = terminal ? "terminal" : "editor"
+      label = code_label(language, terminal)
 
-      %(<div class="code-window"><div class="code-window-toolbar"><span class="code-window-language">#{label}</span></div><pre><code class="language-#{language}">#{code}</code></pre></div>)
+      %(<div class="code-window code-window-#{kind}" data-code-kind="#{kind}"><div class="code-window-toolbar"><span class="code-window-language">#{label}</span></div><pre><code class="language-#{language}">#{code}</code></pre></div>)
     end
+  end
+
+  private def normalize_code_language(language : String?, code : String) : String
+    normalized = language.to_s.downcase
+
+    case normalized
+    when "ruby", "cr"
+      "crystal"
+    when "yml"
+      "yaml"
+    when "js"
+      "javascript"
+    when "html+ecr"
+      "ecr"
+    when "text", "plaintext", "txt"
+      file_tree?(code) ? "tree" : "output"
+    when ""
+      infer_untyped_language(code)
+    else
+      normalized
+    end
+  end
+
+  private def infer_untyped_language(code : String) : String
+    return "tree" if file_tree?(code)
+    return "crystal" if code.includes?("Amber::") || code.matches?(/\b(class|module|def|require)\s+[A-Za-z]/)
+    return "yaml" if code.lines.reject(&.strip.empty?).all? { |line| line.matches?(/^\s*[A-Za-z_][\w.-]*:\s*[^:]*/) }
+    return "ecr" if code.includes?("&lt;%")
+    return "html" if code.lstrip.starts_with?("&lt;")
+
+    "example"
+  end
+
+  private def file_tree?(code : String) : Bool
+    code.includes?("├──") || code.includes?("└──") || code.includes?("│")
+  end
+
+  private def code_label(language : String, terminal : Bool) : String
+    return "Terminal" if terminal
+
+    {
+      "crystal"    => "Crystal",
+      "yaml"       => "YAML",
+      "json"       => "JSON",
+      "ecr"        => "ECR template",
+      "html"       => "HTML",
+      "css"        => "CSS",
+      "javascript" => "JavaScript",
+      "markdown"   => "Markdown",
+      "md"         => "Markdown",
+      "sql"        => "SQL",
+      "toml"       => "TOML",
+      "tree"       => "File tree",
+      "output"     => "Output",
+      "example"    => "Example",
+    }[language]? || language.capitalize
   end
 
   # Convert {% hint style="info" %}content{% endhint %} to styled divs

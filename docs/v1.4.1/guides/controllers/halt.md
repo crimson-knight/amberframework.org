@@ -10,7 +10,7 @@ Sometimes we don't want a request to continue executing; maybe an error has occu
 
 When you want a request to cease and return a particular message rather then rendering a page, you use Amber `halt!` to stop the request from continue execution.
 
-```ruby
+```crystal
 class UserController < ApplicationController
   def index
     halt!(403, "Forbidden") if params[:user_id].nil?
@@ -29,7 +29,7 @@ Unlike other frameworks Amber `redirect_to` stops the current execution of the r
 
 For example, in other frameworks you will have to do something similar to:
 
-```ruby
+```crystal
 class UserController < ApplicationController
   def index
     if some_condition

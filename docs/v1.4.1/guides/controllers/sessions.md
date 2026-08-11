@@ -16,7 +16,7 @@ Sessions typically carry minimal data, such as a user\_id and flash message, fit
 
 To configure the session:
 
-```ruby
+```crystal
 #  Cookie Store
 Amber.settings.session = {
   :key     => "name.session",
@@ -40,7 +40,7 @@ Amber.settings.session = {
 
 Also, include the Session into the Pipeline:
 
-```ruby
+```crystal
 # Keep in mind the order of the Pipes. Session hash needs to be populated before 
 # trying to access the session flash scope, the flash depends on the session. 
 pipeline :web do
@@ -53,7 +53,7 @@ end
 
 To access the session:
 
-```ruby
+```crystal
 class ApplicationController < Amber::Controller::Base
   # Finds the User with the ID stored in the session with the key
   # :current_user_id This is a common way to handle user login in
@@ -68,7 +68,7 @@ end
 
 To store something in the session, just assign it to the key like a hash:
 
-```ruby
+```crystal
 class LoginsController < ApplicationController
   # "Create" a login, aka "log the user in"
   def create
@@ -84,7 +84,7 @@ end
 
 To remove something from the session, use `session.delete(key)`:
 
-```ruby
+```crystal
 class LoginsController < ApplicationController
   # "Delete" a login, aka "log the user out"
   def destroy
@@ -104,7 +104,7 @@ To access the flash, you treat it like a hash, much like accessing the session i
 
 Let's take logging out as an example. The controller can send a message that will be shown to the user on their next request:
 
-```ruby
+```crystal
 class LoginsController < ApplicationController
   def destroy
     session[:current_user_id] = nil
@@ -132,7 +132,7 @@ Rendering the flash message:
 
 If you want a flash value to be carried over to another request, use the keep method:
 
-```ruby
+```crystal
 class MainController < ApplicationController
   # Let's say this action corresponds to root_url, but you want
   # all requests here to be redirected to UsersController#index.
@@ -154,7 +154,7 @@ end
 
 By default, adding values to the flash will make them available to the next request, but sometimes you may want to access those values in the same request. For example, if the create action fails to save a resource and you render the new template directly, that's not going to result in a new request, but you may still want to display a message using the flash. To do this, you can use flash.now in the same way you use the normal flash.
 
-```ruby
+```crystal
 class ClientsController < ApplicationController
   def create
     client = Client.new(params[:client])
@@ -180,7 +180,7 @@ Then, insert the `csrf_tag` helper in your forms.
 
 To use CSRF with Ajax, simply call the `csrf_tag` helper inside your controller and return it as part of a JSON object:
 
-```ruby
+```crystal
 def my_action
     {csrf: csrf_tag}.to_json
 end

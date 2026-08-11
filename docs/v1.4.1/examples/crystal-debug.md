@@ -96,7 +96,7 @@ Fully debugging Crystal applications is not supported yet. You can use some of t
 
 Instead of putting breakpoints using commands inside GDB or LLDB you can try to set a breakpoint using `debugger` keyword.
 
-```ruby
+```crystal
 i = 0
 while i < 3
   i += 1
@@ -110,7 +110,7 @@ Currently, Crystal lacks support for debugging inside of blocks. If you put a br
 
 As a workaround, use `pp` to pretty print objects inside of blocks.
 
-```ruby
+```crystal
 3.times do |i|
   pp i
 end
@@ -123,7 +123,7 @@ end
 
 Sometimes crystal will optimize argument data, so the debugger will show `<optimized output>` instead of the arguments. To avoid this behavior use the `@[NoInline]` attribute before your function implementation.
 
-```ruby
+```crystal
 @[NoInline]
 def foo(bar)
   debugger
@@ -136,7 +136,7 @@ To print string objects in the debugger:
 
 First, setup the debugger with the `debugger` statement:
 
-```ruby
+```crystal
 foo = "Hello World!"
 debugger
 ```
@@ -158,7 +158,7 @@ To print array items in the debugger:
 
 First, setup the debugger with the `debugger` statement:
 
-```ruby
+```crystal
 foo = ["item 0", "item 1", "item 2"]
 debugger
 ```
@@ -176,7 +176,7 @@ Change the buffer index for each item you want to print.
 
 For printing `@foo` var in this code:
 
-```ruby
+```crystal
 class Bar
   @foo = 0
   def baz
@@ -193,7 +193,7 @@ You can use `self.foo` in the debugger terminal or VSCode GUI.
 
 Some objects do not show at all. You can unhide them using the `.to_s` method and a temporary debugging variable, like this:
 
-```ruby
+```crystal
 def bar(hello)
   "#{hello} World!"
 end

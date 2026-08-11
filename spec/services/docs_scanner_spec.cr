@@ -26,6 +26,18 @@ describe DocsScanner do
     end
   end
 
+  describe ".knowledge_bundle" do
+    it "combines the published V2 pages with canonical source links" do
+      bundle = DocsScanner.knowledge_bundle("v2")
+
+      bundle.should contain("# Amber Framework 2.0 Beta documentation")
+      bundle.should contain("## Web Template")
+      bundle.should contain("https://amberframework.org/docs/v2/guides/web-template")
+      bundle.should contain("## Build a Pet Tracker")
+      bundle.should contain("Prefer V2-authored pages")
+    end
+  end
+
   describe ".deleted_paths" do
     it "returns deleted paths for v2" do
       deleted = DocsScanner.deleted_paths("v2")
@@ -176,7 +188,7 @@ describe DocsScanner do
       end
     end
 
-    it "labels reviewed and inherited controller references distinctly" do
+    it "labels reviewed pages and leaves unchanged inherited pages unbadged" do
       pending_items = DocsScanner.build_nav_tree_for_version("v2").dup
       reviewed_item : NavItem? = nil
       inherited_item : NavItem? = nil
@@ -195,8 +207,8 @@ describe DocsScanner do
       reviewed_item.try(&.badge).should eq("Updated")
       reviewed_item.try(&.badge_class).should eq("badge-info")
       inherited_item.should_not be_nil
-      inherited_item.try(&.badge).should eq("Carried")
-      inherited_item.try(&.badge_class).should eq("badge-inherited")
+      inherited_item.try(&.badge).should be_nil
+      inherited_item.try(&.badge_class).should be_nil
     end
 
     it "every V2 navigation target resolves to an authored page" do

@@ -14,7 +14,7 @@ First you need an amber project generated with [Amber CLI](../guides/create-new-
 
 {% code-tabs %}
 {% code-tabs-item title="src/controllers/some\_controller.cr" %}
-```ruby
+```crystal
 class SomeController < ApplicationController
   def set_cookie
     cookies[:example] = {
@@ -33,7 +33,7 @@ Then in your routes file:
 
 {% code-tabs %}
 {% code-tabs-item title="config/routes.cr" %}
-```ruby
+```crystal
 Amber::Server.configure do |app|
   pipeline :web do
     # pipelines...

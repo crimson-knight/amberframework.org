@@ -127,3 +127,32 @@ application does not read it or use it for analytics, ads, or profiles.
   background-worker character.
 
 These items are deliberately outside the supported web public-beta contract.
+
+## August 11 documentation and platform addendum
+
+- Linux ARM64 passed a real GitHub-hosted ARM64 generated-app job. The next CLI
+  release matrix also built, smoke-tested, archived, checksummed, and uploaded
+  the `linux-arm64` artifact in a manual dry run. CLI 2.0.3 still requires the
+  documented source installation on ARM64.
+- Windows x86_64 exposed a controller-relative ECR path defect in the released
+  beta.2 framework. The fix merged through
+  [amberframework/amber#1402](https://github.com/amberframework/amber/pull/1402),
+  and the candidate dependency passed generation, dependency installation,
+  request specs, and native application compilation on `windows-latest`.
+  Windows remains outside the beta release gate, and beta.2 is not described as
+  Windows-compatible.
+- [amberframework/amber_cli#34](https://github.com/amberframework/amber_cli/pull/34)
+  merged the Linux ARM64 release target and the ongoing Linux ARM64/Windows
+  generated-application CI contract.
+- The documentation now distinguishes terminal commands from editor content,
+  removes unchanged-content badges, normalizes Crystal code labels, adds a
+  Gemini handoff, publishes an AI knowledge bundle, and supplies a complete Pet
+  Tracker first-app guide with an exact file or working directory for every
+  example.
+- The website now includes inspectable Showcase and Sponsors & Contributors
+  pages. The published benchmark remains linked to its workload and limitations.
+- Current local verification: 44 examples, 0 failures; all three V2 audit
+  scripts and JavaScript syntax validation passed. Browser QA covered YAML
+  editor highlighting, inherited-guide badge behavior, the single-line New
+  badge, all three assistant handoffs, Pet Tracker labels, and the two new
+  public pages.
