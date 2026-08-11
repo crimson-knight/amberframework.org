@@ -19,6 +19,8 @@ grep -F '2.0.0-beta.3' docs/v2/getting-started/installation.md
 grep -F 'brew install amberframework/amber_cli/amber_cli' src/views/home/index.ecr
 grep -F 'Installed amber and amber-lsp' src/views/home/index.ecr
 grep -F 'amber new my_app' src/views/home/index.ecr
+grep -F 'the web app starts with Grant, SQLite, ECR' src/views/home/index.ecr
+grep -F 'Request-aware work stealing is available in beta.3 and remains disabled by default.' src/controllers/home_controller.cr
 grep -F 'Test V2 beta' src/views/layouts/_nav.ecr
 grep -F "menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');" public/assets/js/amber-site.js
 grep -F 'data-version-select' src/views/docs/_version_selector.ecr
@@ -74,6 +76,12 @@ fi
 if rg -n 'owner proofing|Owner approval|PROPOSED — NOT APPROVED|generic centered welcome|Amber advertisement' \
   src/views docs/v2; then
   echo "Amber V2 public copy still contains internal proofing or placeholder language" >&2
+  exit 1
+fi
+
+if rg -n 'without choosing an ORM|remains disabled on beta\.2 until its corrected counter is tagged' \
+  src/views src/controllers docs/v2; then
+  echo "Amber V2 public copy still contradicts the beta.3 persistence or job contract" >&2
   exit 1
 fi
 

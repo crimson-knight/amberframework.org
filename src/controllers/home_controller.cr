@@ -67,7 +67,7 @@ class HomeController < ApplicationController
     {
       slug:    "background-work",
       title:   "Move slow work off the request",
-      summary: "Named queues, worker fibers, retries, and delayed jobs keep long tasks explicit and let completed work broadcast back to the page. Request-aware work stealing remains disabled on beta.2 until its corrected counter is tagged.",
+      summary: "Named queues, worker fibers, retries, and delayed jobs keep long tasks explicit and let completed work broadcast back to the page. Request-aware work stealing is available in beta.3 and remains disabled by default.",
     },
     {
       slug:    "measured-performance",
