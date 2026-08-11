@@ -13,6 +13,7 @@ test -s docs/v2/guides/web-template/index.md
 grep -F 'version: 2.0.0-beta.2' shard.yml
 grep -F 'version: 2.0.0-beta.2' docs/v2/getting-started/installation.md
 grep -F 'brew install amberframework/amber_cli/amber_cli' src/views/home/index.ecr
+grep -F 'Installed amber and amber-lsp' src/views/home/index.ecr
 grep -F 'amber new my_app' src/views/home/index.ecr
 grep -F 'Test V2 beta' src/views/layouts/_nav.ecr
 grep -F "menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');" public/assets/js/amber-site.js
@@ -47,6 +48,11 @@ fi
 if rg -n 'owner proofing|Owner approval|PROPOSED — NOT APPROVED|generic centered welcome|Amber advertisement' \
   src/views docs/v2; then
   echo "Amber V2 public copy still contains internal proofing or placeholder language" >&2
+  exit 1
+fi
+
+if rg -n '/opt/homebrew/bin/amber' src/views docs/v2; then
+  echo "Cross-platform public copy must not claim a macOS-only install path" >&2
   exit 1
 fi
 
