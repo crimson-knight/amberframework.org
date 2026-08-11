@@ -298,13 +298,13 @@ socket.addEventListener("message", ({data}) =&gt; {
         <p class="way-belief-number">Belief 06</p>
         <p class="eyebrow">Background work</p>
         <h2 id="background-work-title">Finish the request.<br>Keep doing the work.</h2>
-        <p>Jobs make slow responsibilities visible: enqueue the task, choose a queue, retry failures with backoff, and let a completed job broadcast its result. Queue order is priority order. Request-aware work stealing is the intended idle-server path once its corrected counter ships in a framework tag.</p>
+        <p>Jobs make slow responsibilities visible: enqueue the task, choose a queue, retry failures with backoff, and let a completed job broadcast its result. Queue order is priority order. In beta.3, request-aware work stealing can let an idle web process contribute without dequeuing new work while HTTP requests are active.</p>
         <div class="way-contract-list" aria-label="Background job boundaries">
           <span><strong>Fast request</strong> validates input and enqueues work</span>
           <span><strong>Worker fiber</strong> performs the slow responsibility</span>
           <span><strong>Channel event</strong> updates subscribed pages when work finishes</span>
         </div>
-        <p class="boundary-note">The built-in memory queue is for development and single-process applications: it is process-local, unbounded, and lost on restart. Keep work stealing disabled on Amber 2.0.0-beta.2; that tag does not update its request-activity counter. Durable, multi-instance production work requires an application-supplied queue adapter and capacity limits appropriate to that backend.</p>
+        <p class="boundary-note">The built-in memory queue is for development and single-process applications: it is process-local, unbounded, and lost on restart. Work stealing is a conservative request counter, not CPU or memory telemetry. Durable, multi-instance production work requires an application-supplied queue adapter and capacity limits appropriate to that backend.</p>
         <a class="text-link" href="/docs/v2/guides/background-jobs">Read the jobs and capacity guide <span aria-hidden="true">→</span></a>
       </div>
       <div class="way-code-stack reveal">
@@ -339,7 +339,7 @@ Amber::Jobs.register(BuildReportJob)</code></pre>
   adapter: "memory"
   workers: 2
   auto_start: true
-  work_stealing: false # required for Amber 2.0.0-beta.2
+  work_stealing: false # opt in only after measuring request latency
   polling_interval_seconds: 1.0</code></pre>
         </div>
       </div>

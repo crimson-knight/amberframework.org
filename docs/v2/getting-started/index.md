@@ -9,7 +9,8 @@ description: "Create, test, build, and run the supported Amber V2 beta web app"
 # Build Your First Amber V2 Web App
 
 Complete [Installation](installation/) first. This walkthrough stays inside the
-release-gated core: no ORM, database, Node.js, or preview generator is required.
+release-gated web path: Grant, Micrate, and SQLite are included; no database
+server, Node.js process, or preview generator is required.
 
 ## Create the project
 
@@ -21,8 +22,9 @@ cd my_app
 Dependencies install automatically. If you used `--no-deps`, run `shards
 install` now.
 
-The generated project uses ECR, typed environment YAML, and static routes. Its
-`shard.yml` pins Amber `2.0.0-beta.2` from `amberframework/amber`.
+The generated project uses ECR, typed environment YAML, Grant, SQLite, and
+static routes. Its `shard.yml` pins Amber `2.0.0-beta.3` from
+`amberframework/amber` and the reviewed Grant V2 commit.
 
 ## Prove the clean scaffold works
 
@@ -44,6 +46,7 @@ my_app/
 ├── shard.yml
 ├── config/
 │   ├── application.cr
+│   ├── database.cr
 │   ├── routes.cr
 │   ├── environments/
 │   └── initializers/
@@ -101,9 +104,24 @@ amber generate schema Post title:string:required body:text
 The Schema API is built into Amber core. See [Schema API](../guides/schema-api/)
 for validation and controller integration.
 
+## Add a persisted resource
+
+Generate the Grant model, request schema, controller, ECR views, request and
+model specs, Micrate migration, and resource route together:
+
+```bash
+amber generate scaffold Pet name:string:required species:string:required adopted:bool
+amber database migrate
+AMBER_ENV=test amber database migrate
+crystal spec
+```
+
+Open <http://127.0.0.1:3000/pets/new>. The complete file map and create/update
+journey are in [Build a Pet Tracker](../guides/pet-tracker/).
+
 ## Know the beta boundary
 
-Model, scaffold, API-resource, and auth generators currently emit
-persistence-backed output. Native generation has a separate platform matrix.
-They are preview surfaces, not part of this clean web-app guarantee. Read
-[Beta support](../beta-support/) before using them.
+Model, scaffold, and migration generators are part of the supported web path.
+Generated API resources and authentication remain preview, and native
+generation has a separate platform matrix. Read [Beta support](../beta-support/)
+before using those surfaces.

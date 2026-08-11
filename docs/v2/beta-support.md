@@ -1,87 +1,101 @@
 ---
 title: "Beta Support"
 section: ""
-order: 15
-description: "Supported platforms and feature boundaries for Amber 2.0.0-beta.2"
+order: 20
+description: "Supported platforms and feature boundaries for Amber 2.0.0-beta.3"
 ---
 
 # Amber V2 Beta Support
 
-**Status checked August 11, 2026.** Amber Framework `2.0.0-beta.2` was
-published July 31, 2026. Amber CLI `2.0.3` was published August 11, 2026.
-Amber `1.5.0`, published August 1, 2026, remains the current stable framework
-line.
+**Status checked August 11, 2026.** Amber Framework `2.0.0-beta.3` and Amber
+CLI `2.0.4` are the coordinated database-backed web beta. Amber `1.5.0`
+remains the stable framework line.
 
-“Beta” describes the V2 framework tag while applications test it in public. It
-does not mean every Amber feature is equally unfinished, and it does not mean a
-V1 application must be rewritten. The routes, controllers, ECR views,
-configuration, schemas, WebSockets, jobs, and clean web template below are the
-coherent web core being release-gated. Persistence, attachments, native output,
-and Asset Pipeline keep their own preview status.
+“Beta” describes the V2 framework release, not an expectation that ordinary
+web applications will be repeatedly rewritten. The supported path includes
+routing, controllers, ECR, typed configuration, request schemas, Grant ORM,
+Micrate migrations, SQLite, WebSockets, jobs, mailer, local CSS, and
+browser-native modules. Generated authentication, generated API resources,
+Gemma attachments, Asset Pipeline, and native applications keep separate
+preview boundaries.
 
-Platform support has three separate signals:
+## What each platform signal means
 
-- **Web compile** means CI built the Amber CLI, generated a clean web app,
-  installed its dependencies, ran its specs, and compiled the application on
-  that operating system and CPU.
+- **Web compile** means CI built Amber CLI, generated the database-backed web
+  app, installed dependencies, generated the Pet scaffold, applied its test
+  migration, ran specs, and compiled the application.
 - **Install artifact** means the current CLI release publishes a ready-to-use
-  archive or package for that target.
-- **Release-gated** means the complete installation, generation, dependency,
-  spec, build, launch, homepage, and static-asset sequence must pass on that
-  platform before the beta is published.
+  archive or Homebrew package for that target.
+- **Release-gated** means the supported installation, generation, dependency,
+  migration, spec, build, launch, HTML form, create, update, and static-asset
+  sequence must pass before release.
 
 One signal does not silently imply the others.
 
 ## Platform matrix
 
-| Platform | Clean web compile | CLI 2.0.3 install artifact | Beta release gate |
+| Platform | Database-backed web compile | CLI 2.0.4 install artifact | Beta release gate |
 |---|---|---|---|
 | Apple Silicon macOS | Verified | Homebrew and `darwin-arm64` archive | Yes |
-| x86_64 Linux | Verified | Homebrew or `linux-x86_64` archive | Yes |
-| Linux ARM64 | Verified on GitHub-hosted ARM64 Linux | Source build; the next-release workflow now builds and smoke-tests `linux-arm64` | No |
+| x86-64 Linux | Verified | Homebrew or `linux-x86_64` archive | Yes |
+| ARM64 Linux | Verified on GitHub-hosted ARM64 Linux | `linux-arm64` archive | Yes |
+| Windows x86-64 | Verified in GitHub Actions | None | No |
 | Intel macOS | Not currently verified | None | No |
-| Windows x86_64 | Verified with the candidate render-path fix; released beta.2 still fails on controller-relative ECR path handling | None | No |
 
-The [platform compile pull request](https://github.com/amberframework/amber_cli/pull/34)
-is the evidence stream for Linux ARM64 and Windows. The Windows run found a
-real framework defect instead of being treated as a green support claim. With
-the [render-path fix](https://github.com/amberframework/amber/pull/1402), the
-same job now generates the app, installs dependencies, passes its request spec,
-and compiles the Windows executable.
-
-Linux ARM64 is supported for the clean web application's source-build path and
-compile contract. It is not yet release-gated, and CLI 2.0.3 does not contain a
-Linux ARM64 archive. Windows is deliberately not a release gate for this beta.
-Its candidate result proves the repair, not compatibility in the released
-beta.2 dependency; describe Windows as supported only after the framework fix
-ships and that released dependency passes the same job.
+The [Amber CLI persistence pull request](https://github.com/amberframework/amber_cli/pull/36)
+is the platform evidence stream. Windows installs the SQLite native library,
+builds the CLI, generates the same Grant application, applies the test
+migration, runs its specs, and compiles the executable. It remains outside the
+release gate only because CLI `2.0.4` does not publish a Windows archive.
 
 ## Application and generator matrix
 
 | Command or surface | Status |
 |---|---|
-| `amber new APP --type web` | Supported |
-| ECR views, homepage, static files, specs, build, launch | Release-gated |
-| controller, schema, job, mailer, channel generators | Supported core output |
-| migration generator | Supported output; applying SQL needs database tooling |
-| model, scaffold, API-resource, auth generators | Preview; persistence-backed |
+| `amber new APP --type web` | Supported; ECR, Grant, and SQLite default |
+| homepage, local CSS, import map, specs, build, launch | Release-gated |
+| `amber generate model` | Supported; Grant model, spec, and migration |
+| `amber generate scaffold` | Supported; model, schema, HTML CRUD, ECR views, specs, route, migration |
+| `amber generate migration` | Supported; Micrate Up/Down SQL |
+| `amber database` | Supported; create, drop, migrate, status, version, rollback, redo, seed |
+| controller, schema, job, mailer, channel generators | Supported |
+| `amber generate api` and `amber generate auth` | Preview |
 | `amber new APP --type native` | Preview |
-| Grant, Gemma, and Asset Pipeline guides | Preview ecosystem material |
+| Grant guides | Supported default web model layer |
+| Gemma and Asset Pipeline guides | Preview ecosystem material |
 
-“Preview” means the code can be evaluated, but it is not included in the clean
-beta web application's compile guarantee. Add preview packages only from their
-own compatible official release instructions.
+“Preview” means code can be evaluated, but it is not part of the web release
+gate and may require additional design or production review. Preview does not
+mean that the entire framework or a generated web application is unstable.
+
+## Persistence contract
+
+A generated web application contains:
+
+- Grant pinned to the reviewed V2 commit;
+- exactly one selected driver: SQLite, PostgreSQL, or MySQL;
+- `config/database.cr` registering the `primary` connection;
+- separate development, test, and production database URLs;
+- Micrate inside the compiled CLI rather than as a second app command;
+- model and scaffold generators that write reversible SQL under
+  `db/migrations/`.
+
+The release smoke test uses SQLite and exercises a real create and update
+through the generated ECR forms. This proves the default integration, not every
+query, database feature, or production topology. PostgreSQL and MySQL users
+must test against the server versions they deploy.
 
 ## Versions
 
-- Amber V2 framework beta: `2.0.0-beta.2` — published July 31, 2026
-- Amber CLI: `2.0.3` or newer — current release published August 11, 2026
+- Amber V2 framework beta: `2.0.0-beta.3` — published August 11, 2026
+- Amber CLI: `2.0.4` — published August 11, 2026
+- Grant: reviewed commit pinned by Amber CLI `2.0.4`
+- Micrate: `0.16.0-beta.1`, embedded and pinned by Amber CLI `2.0.4`
 - Amber stable framework: `1.5.0` — published August 1, 2026
-- Amber legacy framework: `1.4.1` — published August 2, 2023
 - Crystal: `>= 1.20.0, < 2.0`
 
 Generated applications pin the framework prerelease exactly. Do not replace it
-with `v2-dev`, `master`, or a personal fork when following the supported path.
-See the human-readable [release notes](/releases) for the synchronized GitHub
-record and the [V1-to-V2 migration guide](migration-guide/) for the smallest
-safe upgrade attempt.
+with `v2-dev`, `master`, or a personal Amber fork when following the supported
+path. See the human-readable [release notes](/releases), the
+[Pet Tracker](guides/pet-tracker/) acceptance journey, and the
+[V1-to-V2 migration guide](migration-guide/) for the smallest safe upgrade.

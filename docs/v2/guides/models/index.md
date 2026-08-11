@@ -8,15 +8,25 @@ description: "Model-layer choices and release boundaries for Amber V2 applicatio
 
 # Models in Amber V2
 
-Amber `2.0.0-beta.2` does not install an ORM or database driver in the supported
-web template. This keeps the first project build independent of a database and
-lets an application choose its persistence layer explicitly.
+Amber CLI `2.0.4` installs Grant and the selected database driver in the
+supported web template. SQLite is the zero-setup default; PostgreSQL and MySQL
+are selected with `amber new APP -d pg` or `-d mysql`.
 
-[Grant](grant/) is documented as an ecosystem preview. Its release lifecycle
-is separate from the Amber framework beta, so confirm a compatible official
-Grant release before adding it to an application.
+[Grant](grant/) is the supported V2 model layer. The generated `shard.yml` pins
+the reviewed Grant commit, `config/database.cr` registers the `primary`
+connection, and `amber database` applies [Micrate migrations](grant/migrations/)
+under `db/migrations/`.
+
+Generate the first complete model and resource from the application root:
+
+**Run from: the application root beside `shard.yml`.**
+
+```bash
+amber generate scaffold Pet name:string:required species:string:required adopted:bool
+amber database migrate
+```
 
 If you are migrating an Amber 1 application, keep the 1.4.1 documentation open
 for the existing Granite or Jennifer code and use the
-[Granite-to-Grant preview guide](../../migration-guide/granite-to-grant/) only
-after reviewing its compatibility notice.
+[Granite-to-Grant guide](../../migration-guide/granite-to-grant/) only after
+reviewing its compatibility notice and proving a database restore.

@@ -112,14 +112,8 @@ same logical job again.
 
 ## What request-aware work stealing means
 
-**Beta.2 release boundary:** keep `work_stealing: false` in applications pinned
-to Amber `2.0.0-beta.2`. That tag exposes the setting and starts an idle-only
-worker, but its request pipeline does not update the activity counter. As a
-result, the worker can treat a busy server as idle. The correction is validated
-on the V2 development branch but is not a beta.2 capability until it appears in
-a later framework tag.
-
-The corrected design starts one additional idle-only worker. Amber's outer
+**Beta.3 behavior:** work stealing remains off by default. When enabled, Amber
+starts one additional idle-only worker. Amber's outer
 request pipeline increments a live counter for each ordinary HTTP request and
 decrements it in an `ensure` block. The idle-only worker dequeues a job only
 when that counter is zero. Upgraded WebSocket connections are excluded so one

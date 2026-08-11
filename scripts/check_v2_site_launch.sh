@@ -14,8 +14,8 @@ test -s docs/v2/guides/ai-assistants/index.md
 test -s src/views/home/showcase.ecr
 test -s src/views/home/sponsors.ecr
 
-grep -F 'version: 2.0.0-beta.2' shard.yml
-grep -F 'version: 2.0.0-beta.2' docs/v2/getting-started/installation.md
+grep -F 'version: 2.0.0-beta.3' shard.yml
+grep -F '2.0.0-beta.3' docs/v2/getting-started/installation.md
 grep -F 'brew install amberframework/amber_cli/amber_cli' src/views/home/index.ecr
 grep -F 'Installed amber and amber-lsp' src/views/home/index.ecr
 grep -F 'amber new my_app' src/views/home/index.ecr
@@ -28,7 +28,7 @@ grep -F 'Run `amber routes` from the project root' docs/v2/guides/routing/routes
 grep -F 'The V1 guide' docs/v2/guides/controllers/sessions.md
 grep -F 'HTTP::Server::Response' docs/v2/guides/controllers/request-and-response-objects.md
 grep -F 'guides/controllers/params.md: guides/schema-api' docs/v2/_replacements.yml
-grep -F 'Web is the default.' docs/v2/guides/web-template/index.md
+grep -F 'Web, ECR, and SQLite are the defaults' docs/v2/guides/web-template/index.md
 grep -F 'respond_with' docs/v2/guides/views/index.md
 grep -F 'type="importmap"' docs/v2/guides/assets/import-maps.md
 grep -F '21,795 requests/second' docs/v2/guides/performance.md

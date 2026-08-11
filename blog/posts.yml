@@ -1,3 +1,14 @@
+title: "Amber V2 Can Remember Things Now"
+file: blog/2026/08/11/amber-v2-persistence-by-default.md
+image: /assets/characters/grant-records-warehouse-higgsfield.webp
+date: Aug 11, 2026
+author: Seth Tucker
+profile: https://github.com/crimson-knight
+category: Release
+character: Grant
+character_image: /assets/characters/grant-id-original-studio.webp
+summary: Amber 2.0.0-beta.3 and Amber CLI 2.0.4 make Grant, Micrate migrations, and SQLite part of the tested default web application.
+---
 title: "Meet Amber: The Framework Has a Face"
 file: blog/2026/08/11/meet-amber-and-the-new-website.md
 image: /assets/blog/amber-new-website-character-2026.webp

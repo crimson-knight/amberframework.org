@@ -172,7 +172,7 @@ for the supported baseline. If a third-party package earns its place, pin and
 self-host the reviewed artifact when practical.
 
 The preview Asset Pipeline ecosystem can generate import maps for larger asset
-graphs, but it is not required by the Amber 2.0.0-beta.2 web-app contract. Its
+graphs, but it is not required by the Amber 2.0.0-beta.3 web-app contract. Its
 package version, API, and platform support may change independently.
 
 See [Views](../views/) for the complete controller, ECR, and layout boundary.

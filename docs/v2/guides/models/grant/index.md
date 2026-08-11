@@ -3,20 +3,18 @@ title: "Grant ORM"
 section: "guides/models"
 order: 10
 is_section: true
-description: "Preview ActiveRecord-style ORM material for Amber V2 evaluators"
+description: "The ActiveRecord-style ORM included in Amber V2 web applications"
 ---
 
 # Grant ORM
 
-> **Preview ecosystem guide:** Grant is not part of the Amber 2.0.0-beta.2
-> core web-app release gate. Its package version, API, and platform support may
-> change independently. Confirm a compatible official release before adding it
-> to an application.
+> **Supported web path:** Amber CLI `2.0.4` includes Grant in every generated
+> web application and pins the reviewed V2 commit. The Grant project keeps its
+> own release lifecycle, so preserve the generated pin when following this beta.
 
 Grant is an ActiveRecord-style ORM for Crystal that provides a familiar
-interface for database operations. It is being evaluated as part of the wider
-V2 ecosystem, but the core beta web template does not install it or select a
-default ORM.
+interface for database operations. It is the default model layer for the Amber
+V2 web template, with SQLite as the zero-setup database.
 
 ## Where the examples go
 

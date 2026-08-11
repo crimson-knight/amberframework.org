@@ -35,7 +35,9 @@ directory labeled as generated output.
 ## Supported beta core
 
 - [Build a Pet Tracker](pet-tracker/) — the canonical first app, from routes to HTML, JSON, CSS, and browser-native JavaScript
-- [Web template](web-template/) — exact output of Amber CLI 2.0.3
+- [Web template](web-template/) — exact output of Amber CLI 2.0.4
+- [Grant](models/grant/) — the default relational model layer
+- [Migrations](models/grant/migrations/) — authored Micrate SQL and safe release workflow
 - [Schema API](schema-api/) — typed request parsing and validation
 - [WebSockets and live pages](websockets/) — server-rendered documents with channel-driven ES module updates
 - [Background jobs](background-jobs/) — queues, retries, delayed work, work stealing, and capacity boundaries
@@ -45,7 +47,6 @@ directory labeled as generated output.
 
 - [Asset Pipeline](assets/) — separate native-ESM project
 - [Native application template](native-preview/) — macOS, iOS, and Android preview
-- [Grant](models/grant/) — separate ORM project
 - [Gemma](uploads/) — separate attachment project
 
 Preview pages describe work that can be evaluated, but they are not part of the

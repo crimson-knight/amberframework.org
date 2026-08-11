@@ -7,7 +7,7 @@ description: "Replace Webpack bundling with native ESM modules and import maps"
 
 # Migrating from Webpack to ESM
 
-> **Two distinct paths:** Amber `2.0.0-beta.2` supports browser-native ESM,
+> **Two distinct paths:** Amber `2.0.0-beta.3` supports browser-native ESM,
 > import maps, and locally served CSS and JavaScript without an additional
 > shard. The Asset Pipeline steps later in this page are an optional ecosystem
 > preview, not part of the beta web-app release gate. Confirm its current

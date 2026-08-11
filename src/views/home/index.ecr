@@ -4,7 +4,7 @@
 <div class="release-strip preview-strip">
   <div class="site-container">
     <span class="release-pill">V2 web beta</span>
-    <span>Framework beta.2 · Jul 31, 2026 · CLI 2.0.3 · Aug 11, 2026</span>
+    <span>Framework beta.3 · Aug 11, 2026 · CLI 2.0.4 · Aug 11, 2026</span>
     <a href="/releases">What shipped →</a>
   </div>
 </div>
@@ -23,15 +23,15 @@
     <div class="hero-copy reveal">
       <p class="eyebrow">Amber 2 · A Crystal web framework</p>
       <h1>Build the business.<br><em>Not the boilerplate.</em></h1>
-      <p class="hero-lead">Amber gives one developer a verified path from installation to a running Crystal web application—with routes, controllers, ECR views, typed configuration, request schemas, and local assets working together.</p>
+      <p class="hero-lead">Amber gives one developer a verified path from installation to a running Crystal web application—with routes, controllers, ECR views, typed configuration, Grant models, Micrate migrations, and local assets working together.</p>
       <div class="hero-actions">
         <a class="button button-primary" href="/docs/v2/getting-started/installation">Start the web path</a>
         <a class="button button-secondary" href="#application-types">Compare application types</a>
       </div>
       <div class="hero-proof-row" aria-label="Preview support summary">
         <span><img src="/assets/brand/crys-mascot.svg" width="26" height="23" alt=""><span><strong>Crystal</strong> 1.20+ · latest stable recommended</span></span>
-        <span><img src="/assets/characters/amber-chibi-hero-mark-v2.webp" width="26" height="26" alt=""><span><strong>Amber</strong> 2.0.0-beta.2 · Jul 31</span></span>
-        <span><span class="hero-proof-symbol" aria-hidden="true">⌘</span><span><strong>amber_cli</strong> 2.0.3 · Aug 11</span></span>
+        <span><img src="/assets/characters/amber-chibi-hero-mark-v2.webp" width="26" height="26" alt=""><span><strong>Amber</strong> 2.0.0-beta.3 · Aug 11</span></span>
+        <span><span class="hero-proof-symbol" aria-hidden="true">⌘</span><span><strong>amber_cli</strong> 2.0.4 · Aug 11</span></span>
       </div>
     </div>
     <div class="hero-art hero-art-amber reveal" aria-label="Amber, the framework lead, building an application">
@@ -81,13 +81,15 @@
           </div>
           <div class="terminal-screen" aria-live="polite" data-terminal-screen>
             <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="brew install amberframework/amber_cli/amber_cli"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
-            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Installing amber_cli 2.0.3"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-muted" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Installing amber_cli 2.0.4"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-muted" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Installed amber and amber-lsp"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-success" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="amber --version"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
-            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Amber CLI v2.0.3"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-success" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Amber CLI v2.0.4"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-success" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="amber new my_app"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-comment"> # web is the default</span><span class="terminal-cursor" aria-hidden="true"></span></div>
-            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Successfully created my_app · Amber 2.0.0-beta.2"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-accent" data-terminal-output></span></div>
-            <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="cd my_app && amber watch"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Created my_app · Amber beta.3 · Grant · SQLite"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-accent" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="cd my_app && amber generate scaffold Pet name:string:required species:string:required"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Created Pet model · schema · controller · ECR views · migration · route"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-muted" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="amber database migrate && amber watch"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
             <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Resolving dependencies · compiling my_app"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-muted" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-ready" data-terminal-line data-terminal-mode="ready" data-terminal-text="Listening at"><span class="terminal-state terminal-state-ready" data-terminal-state>◆</span> <span class="terminal-success" data-terminal-output></span> <button class="terminal-url" type="button" data-terminal-url aria-label="Open the generated application preview">http://localhost:3000</button><span class="demo-pointer" aria-hidden="true"><span></span></span></div>
           </div>
@@ -250,14 +252,14 @@
           <span class="grant-file-stamp">AF-014 · Records</span>
         </div>
         <div class="grant-spotlight-copy">
-          <p class="eyebrow">Ecosystem preview · persistence</p>
+          <p class="eyebrow">Supported web path · persistence</p>
           <h2>Grant keeps the records straight.</h2>
-          <p>When an application needs a relational data layer, Grant is the V2 ecosystem path for models, migrations, relations, validations, callbacks, and queries. The core web template does not install an ORM by default, so the preview stays an intentional choice.</p>
-          <div class="grant-capabilities" aria-label="Grant preview capabilities">
+          <p>Grant is the default V2 relational layer for models, relations, validations, callbacks, and queries. Amber CLI pairs it with SQLite and Micrate out of the box, then verifies a real generated create-and-update path before release.</p>
+          <div class="grant-capabilities" aria-label="Grant capabilities">
             <span>Typed models</span><span>Auditable migrations</span><span>Readable queries</span>
           </div>
           <div class="grant-actions">
-            <a class="button button-primary" href="/docs/v2/guides/models/grant">Evaluate the Grant preview</a>
+            <a class="button button-primary" href="/docs/v2/guides/models/grant">Build with Grant</a>
             <a class="button button-secondary" href="/characters/grant">Meet Grant</a>
           </div>
         </div>
@@ -282,7 +284,7 @@
         </a>
         <a class="personnel-card personnel-grant reveal" href="/characters/grant" data-tilt>
           <div class="personnel-photo"><img src="/assets/characters/grant-id-original-studio.webp" width="800" height="800" alt="Portrait of Grant"></div>
-          <div class="personnel-file"><span class="file-label">AF-014 · Records</span><h3>Grant</h3><p>Keeps models, relations, migrations, and queries organized.</p><span class="status-badge">Ecosystem preview</span><span class="file-link">Open file · Read docs →</span></div>
+          <div class="personnel-file"><span class="file-label">AF-014 · Records</span><h3>Grant</h3><p>Keeps models, relations, migrations, and queries organized.</p><span class="status-badge">Web default</span><span class="file-link">Open file · Read docs →</span></div>
         </a>
         <a class="personnel-card personnel-gemma reveal" href="/characters/gemma" data-tilt>
           <div class="personnel-photo"><img src="/assets/characters/gemma-id-original-studio.webp" width="800" height="800" alt="Portrait of Gemma"></div>

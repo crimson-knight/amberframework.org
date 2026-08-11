@@ -3,23 +3,25 @@ title: "Amber 2.0 Beta"
 section: ""
 order: 10
 is_section: true
-description: "Install, verify, and evaluate Amber 2.0.0-beta.2"
+description: "Install, verify, and evaluate Amber 2.0.0-beta.3"
 ---
 
 # Amber 2.0 Beta
 
-Amber `2.0.0-beta.2` is available for evaluation. This is a prerelease: expect
+Amber `2.0.0-beta.3` is available for evaluation. This is a prerelease: expect
 breaking changes and do not treat it as a production-support promise.
 
 The release-gated first-run path is a server-rendered ECR web application
 created by the standalone Amber CLI. It includes routing, controllers, typed
-configuration, sessions, static files, tests, and a development watcher without
-requiring a database.
+configuration, sessions, Grant ORM, Micrate migrations, SQLite, static files,
+tests, and a development watcher without requiring a database server.
 
 ```bash
 brew install amberframework/amber_cli/amber_cli
 amber new my_app
 cd my_app
+amber generate scaffold Pet name:string:required species:string:required adopted:bool
+amber database migrate
 crystal spec
 amber watch
 ```
@@ -41,24 +43,27 @@ and its release boundary.
 - memory-backed jobs, sessions, and WebSocket pub/sub
 - mailer APIs
 - typed YAML configuration with environment-variable overrides
+- Grant ORM with SQLite by default and PostgreSQL/MySQL options
+- Micrate-powered migrations and database maintenance commands
+- database-backed model and HTML CRUD scaffold generators
 - standalone CLI and diagnostics LSP
 
 ## What is preview
 
-Persistence/authentication resource generators, Grant integration, Gemma file
-attachments, the separate asset pipeline, and native-app generation have useful
-code and documentation, but they are not part of the beta web-app release gate.
-They may require unpublished or moving dependencies. Preview pages are labeled
-so new users do not mistake them for the zero-setup path.
+Generated authentication and API resources, Gemma file attachments, the
+separate Asset Pipeline, and native-app generation have useful code and
+documentation, but they are not part of the beta web-app release gate. Preview
+pages are labeled so new users do not mistake them for the supported path.
 
 See [Beta support](beta-support/) for the exact platform and generator matrix.
 
 ## Migrating
 
-Amber V2 removes Kilt and Slang, stops bundling database drivers, adopts typed
-configuration, and extracts the CLI from the framework repository. Existing
-apps should follow the [migration guide](migration-guide/) and pin the beta
-instead of a moving development branch.
+Amber V2 removes Kilt and Slang, adopts typed configuration, and extracts the
+CLI from the framework repository. The new CLI template selects its driver and
+Grant explicitly; the framework shard itself remains independent of an ORM.
+Existing apps should follow the [migration guide](migration-guide/) and pin the
+beta instead of a moving development branch.
 
 ## Help
 

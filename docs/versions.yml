@@ -24,7 +24,7 @@ versions:
   - id: v2
     name: "2.0"
     label: "2.0 Web Beta"
-    amber_versions: "2.0.0-beta.2"
+    amber_versions: "2.0.0-beta.3"
     status: preview
     inherits_from: v1.4.1
     release_date: "2026-07-31"

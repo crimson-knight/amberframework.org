@@ -116,8 +116,8 @@ class HomeController < ApplicationController
     framework_releases = ReleaseCatalog.for_project(snapshot, "Amber Framework")
     cli_releases = ReleaseCatalog.for_project(snapshot, "Amber CLI")
     stable_release = ReleaseCatalog.find(snapshot, "amberframework/amber", "v1.5.0")
-    beta_release = ReleaseCatalog.find(snapshot, "amberframework/amber", "v2.0.0-beta.2")
-    cli_release = ReleaseCatalog.find(snapshot, "amberframework/amber_cli", "v2.0.3")
+    beta_release = ReleaseCatalog.find(snapshot, "amberframework/amber", "v2.0.0-beta.3")
+    cli_release = ReleaseCatalog.find(snapshot, "amberframework/amber_cli", "v2.0.4")
     render("releases.ecr")
   end
 

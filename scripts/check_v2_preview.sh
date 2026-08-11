@@ -41,9 +41,9 @@ done
 
 grep -F '@font-face' public/assets/css/amber-brand.css >/dev/null
 grep -F '/assets/fonts/Manrope-Variable.woff2' public/assets/css/amber-brand.css >/dev/null
-grep -F '/assets/css/amber-brand.css?v=2.0.0-beta.2-20260811d' src/views/layouts/application.ecr >/dev/null
+grep -F '/assets/css/amber-brand.css?v=2.0.0-beta.3-20260811a' src/views/layouts/application.ecr >/dev/null
 grep -F '<script type="importmap">' src/views/layouts/application.ecr >/dev/null
-grep -F '"amber/site":"/assets/js/amber-site.js?v=2.0.0-beta.2-20260811d"' src/views/layouts/application.ecr >/dev/null
+grep -F '"amber/site":"/assets/js/amber-site.js?v=2.0.0-beta.3-20260811a"' src/views/layouts/application.ecr >/dev/null
 grep -F '<script type="module">import "amber/site";</script>' src/views/layouts/application.ecr >/dev/null
 grep -F 'data-no-tracking="true"' src/views/layouts/application.ecr >/dev/null
 grep -F 'We do not track you.' src/views/home/privacy.ecr >/dev/null
@@ -78,10 +78,10 @@ fi
 grep -F 'amber new my_app' src/views/home/index.ecr >/dev/null
 grep -F 'web is the default' src/views/home/index.ecr >/dev/null
 grep -F 'amber new field_app --type native' src/views/home/index.ecr >/dev/null
-grep -F 'Framework beta.2 · Jul 31, 2026 · CLI 2.0.3 · Aug 11, 2026' src/views/home/index.ecr >/dev/null
+grep -F 'Framework beta.3 · Aug 11, 2026 · CLI 2.0.4 · Aug 11, 2026' src/views/home/index.ecr >/dev/null
 grep -F '/assets/brand/crys-mascot.svg' src/views/home/index.ecr >/dev/null
 grep -F 'Crystal</strong> 1.20+ · latest stable recommended' src/views/home/index.ecr >/dev/null
-grep -F 'amber_cli</strong> 2.0.3 · Aug 11' src/views/home/index.ecr >/dev/null
+grep -F 'amber_cli</strong> 2.0.4 · Aug 11' src/views/home/index.ecr >/dev/null
 grep -F 'Linux native UI bindings remain frontier work' src/views/home/index.ecr >/dev/null
 grep -F '/assets/characters/amber-hero-desk-transparent-higgsfield.webp' src/views/home/index.ecr >/dev/null
 grep -F '/assets/characters/amber-hero-desk-desktop-higgsfield.webp' src/views/home/index.ecr >/dev/null
@@ -94,7 +94,7 @@ grep -F 'Your new idea' src/views/home/index.ecr >/dev/null
 grep -F 'Ready to customize' src/views/home/index.ecr >/dev/null
 grep -F 'amber generate controller Posts' src/views/home/index.ecr >/dev/null
 grep -F 'Grant keeps the records straight.' src/views/home/index.ecr >/dev/null
-grep -F 'The core web template does not install an ORM by default' src/views/home/index.ecr >/dev/null
+grep -F 'Grant is the default V2 relational layer' src/views/home/index.ecr >/dev/null
 grep -F '/docs/v2/guides/models/grant' src/views/home/index.ecr >/dev/null
 grep -F '/assets/characters/amber-id-original-studio.webp' src/views/home/characters.ecr >/dev/null
 grep -F '/assets/characters/grant-id-original-studio.webp' src/views/home/characters.ecr >/dev/null
@@ -138,8 +138,8 @@ grep -F 'class="nav-group' src/views/docs/_sidebar.ecr >/dev/null
 grep -F 'replacement-link' src/views/docs/_version_timeline.ecr >/dev/null
 grep -F 'version_id: @version_id, page_path: source_path' src/controllers/docs_controller.cr >/dev/null
 grep -F 'The CLI embeds its web scaffold in the executable.' docs/v2/guides/web-template/index.md >/dev/null
-grep -F 'a template correction requires an Amber CLI' docs/v2/guides/web-template/index.md >/dev/null
-grep -F 'Your new idea' docs/v2/guides/web-template/index.md >/dev/null
+grep -F 'updating the CLI changes future projects' docs/v2/guides/web-template/index.md >/dev/null
+grep -F 'Grant ORM, Micrate migrations, and SQLite' docs/v2/guides/web-template/index.md >/dev/null
 grep -F 'This is a responsibility comparison, not a promise of API compatibility.' src/views/home/character.ecr >/dev/null
 grep -F 'data-responsibility-select' src/views/home/character.ecr >/dev/null
 grep -F 'data-translation-profile' src/views/home/character.ecr >/dev/null

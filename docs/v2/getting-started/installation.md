@@ -2,34 +2,47 @@
 title: "Installation"
 section: "getting-started"
 order: 10
-description: "Install Amber CLI 2.0.3 on supported macOS, x86_64 Linux, and Linux ARM64 systems"
+description: "Install Amber CLI 2.0.4 on supported macOS, x86-64 Linux, and ARM64 Linux systems"
 ---
 
 # Install Amber V2 Beta
 
-The supported onboarding path uses the standalone Amber CLI. The framework
-itself remains a shard dependency generated into each application.
+The supported onboarding path uses the standalone Amber CLI. The framework is
+an exact shard dependency generated into each application.
 
 ## Supported systems
 
-- Apple Silicon macOS — release-gated; Homebrew and direct archive
-- x86_64 Linux — release-gated; Homebrew and direct archive
-- Linux ARM64 — clean web app compile-verified; source install for CLI 2.0.3
+- Apple Silicon macOS — release-gated; Homebrew and `darwin-arm64` archive
+- x86-64 Linux — release-gated; Homebrew and `linux-x86_64` archive
+- ARM64 Linux — release-gated; `linux-arm64` archive
+- Windows x86-64 — generated database-backed app compile-verified in CI; no CLI
+  release archive yet
 
-Linux ARM64 is supported for the clean web source-build path, but it is not a
-beta release gate and CLI 2.0.3 does not publish an ARM64 archive. The release
-workflow now builds and smoke-tests that archive for the next CLI version.
-Intel macOS and Windows are not release-gated. Amber 2.0.0-beta.2 currently has
-a Windows ECR path defect; the candidate fix passes the Windows compile job but
-has not shipped. Follow [Beta Support](../beta-support/) rather than treating a
-successful Crystal installation as application compatibility.
+Intel macOS is not currently verified. Windows is not a release gate until it
+has a supported installation artifact, but its CI job installs SQLite, builds
+the CLI, generates the web app, applies its development and test migrations,
+runs the generated specs, and compiles the application. Follow [Beta Support](../beta-support/)
+rather than treating a successful Crystal installation as the complete support
+claim.
 
 ## Prerequisites
 
 Install Crystal 1.20 or newer, but earlier than 2.0, using the
 [official Crystal instructions](https://crystal-lang.org/install/). You also
-need Git and `shards`. Treat 1.20 as the compatibility floor; for a new Amber
-application, use the latest stable Crystal release that satisfies this range.
+need Git, `shards`, and SQLite development headers because the default web app
+compiles the SQLite driver.
+
+For a new application, use the latest stable Crystal release that satisfies
+that range.
+
+On Debian or Ubuntu Linux:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y libsqlite3-dev
+```
+
+Then verify the toolchain:
 
 ```bash
 crystal --version
@@ -37,9 +50,10 @@ shards --version
 git --version
 ```
 
-A database is not required for the generated core web app.
+SQLite needs no running database server. Choose PostgreSQL or MySQL only when
+the application needs one of those servers.
 
-## Homebrew
+## Homebrew on macOS or Linux
 
 The tap and formula use an underscore. Install the official formula with its
 fully qualified name, then verify the `amber` executable:
@@ -49,19 +63,15 @@ brew install amberframework/amber_cli/amber_cli
 amber --version
 ```
 
-The fully qualified command follows Homebrew's tap-trust model and trusts only
-the requested formula. The formula is `amber_cli` and the installed executable
-is `amber`.
-
-Expect Amber CLI `2.0.3` or newer. Version 2.0.3 includes the branded V2 web
-starter and its browser-native import map.
+The formula is `amber_cli`; the installed executable is `amber`. Expect Amber
+CLI `2.0.4` or newer.
 
 ## Direct archive
 
-Choose `darwin-arm64` on Apple Silicon macOS or `linux-x86_64` on x86_64 Linux:
+Choose `darwin-arm64`, `linux-x86_64`, or `linux-arm64` for the current host.
 
 ```bash
-version=v2.0.3
+version=v2.0.4
 platform=darwin-arm64
 asset="amber_cli-${platform}.tar.gz"
 
@@ -73,70 +83,55 @@ install -m 0755 amber amber-lsp /usr/local/bin/
 amber --version
 ```
 
-On Linux, use `sha256sum -c`. Prefix only the `install` command with `sudo` if
-needed.
+On Linux, set `platform` to the matching value and use `sha256sum -c`. Prefix
+only the `install` command with `sudo` when `/usr/local/bin` is not writable.
+Never run a differently named architecture archive through emulation and call
+that native support.
 
-## Linux ARM64 source install
+## Verify a database-backed application
 
-CLI 2.0.3 has no `linux-arm64` release archive. Until the next CLI release,
-build the tagged CLI source on the ARM64 machine instead of downloading the
-x86_64 archive.
-
-**Run from: a directory where the temporary `amber_cli/` checkout can be
-created.**
-
-```bash
-sudo apt-get update
-sudo apt-get install -y libsqlite3-dev
-git clone --branch v2.0.3 --depth 1 https://github.com/amberframework/amber_cli.git
-cd amber_cli
-shards install --production
-crystal build src/amber_cli.cr -o amber --release
-crystal build src/amber_lsp.cr -o amber-lsp --release
-sudo install -m 0755 amber amber-lsp /usr/local/bin/
-amber --version
-```
-
-This produces native ARM64 executables because Crystal builds for the current
-host. The platform CI uses a GitHub-hosted ARM64 Linux machine to generate,
-spec, and compile the clean web app. Source installation is a narrower promise
-than the release-gated x86_64 archive path: report the distribution, Crystal
-version, and `uname -m` with any issue.
-
-## Verify the installation
+**Run from: a parent directory where `amber_beta_smoke/` can be created.**
 
 ```bash
 amber new amber_beta_smoke --type web
 cd amber_beta_smoke
+amber generate scaffold Pet name:string:required species:string:required adopted:bool
+amber database migrate
+AMBER_ENV=test amber database migrate
 crystal spec
 crystal build src/amber_beta_smoke.cr -o bin/amber_beta_smoke
 amber watch
 ```
 
-In another terminal:
+Open <http://127.0.0.1:3000/>, then create a record at
+<http://127.0.0.1:3000/pets/new>. The generated `shard.yml` pins Amber
+`2.0.0-beta.3`, includes Grant and only the selected database driver, and does
+not use a personal Amber fork or a moving framework branch.
+
+From another terminal:
 
 ```bash
 curl --fail http://127.0.0.1:3000/
 curl --fail http://127.0.0.1:3000/css/app.css
+curl --fail http://127.0.0.1:3000/pets/new
 ```
-
-Both requests must succeed. The generated `shard.yml` pins
-`amberframework/amber` at `2.0.0-beta.2`; it must not reference a personal fork.
 
 ## Manual framework dependency
 
-For an existing Crystal app:
+For an existing Crystal application that only needs the runtime upgrade:
 
 ```yaml
 dependencies:
   amber:
     github: amberframework/amber
-    version: 2.0.0-beta.2
+    version: 2.0.0-beta.3
 
 crystal: ">= 1.20.0, < 2.0"
 ```
 
-Do not use the moving `v2-dev` branch in a reproducible beta application.
+Do not replace an existing application's working persistence stack merely to
+upgrade the framework. Read the [V1-to-V2 migration guide](../migration-guide/)
+and keep the first upgrade bounded.
 
 ## Update or remove
 
@@ -159,8 +154,9 @@ amber --version
 
 Remove or rename an old Amber V1 executable, or put Homebrew earlier in `PATH`.
 On macOS, the beta binary must not require `openssl@1.1`; include
-`otool -L "$(command -v amber)"` in an issue.
+`otool -L "$(command -v amber)"` in an install issue.
 
-If there is no archive for another architecture, the platform is not
-release-gated. Linux ARM64 is the documented source-build exception because its
-generated web compile job is part of CI.
+For generated-app failures, include the operating system and architecture,
+`crystal --version`, `amber --version`, the exact command, and complete output.
+Framework behavior belongs in the Amber issue tracker; CLI, generator,
+migration-command, and install behavior belongs in Amber CLI.
