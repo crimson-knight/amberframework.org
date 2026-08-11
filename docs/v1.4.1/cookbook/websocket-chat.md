@@ -14,7 +14,7 @@ First you need an amber project generated with [Amber CLI](../guides/create-new-
 
 {% code-tabs %}
 {% code-tabs-item title="src/channels/chat\_room\_channel.cr" %}
-```ruby
+```crystal
 class ChatRoomChannel < Amber::Websockets::Channel
   def handle_message(client_socket, msg)
     rebroadcast!(msg)
@@ -28,7 +28,7 @@ Then setup your socket file:
 
 {% code-tabs %}
 {% code-tabs-item title="src/sockets/chat\_socket.cr" %}
-```ruby
+```crystal
 struct ChatSocket < Amber::WebSockets::ClientSocket
   channel "chat_room:*", ChatRoomChannel
 
@@ -46,7 +46,7 @@ Then add the `websocket` verb in your routes file:
 
 {% code-tabs %}
 {% code-tabs-item title="config/routes.cr" %}
-```ruby
+```crystal
 Amber::Server.configure do |app|
   pipeline :web do
     # pipelines...

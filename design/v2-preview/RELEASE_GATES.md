@@ -40,7 +40,8 @@ A green automated check does not authorize a production merge or deployment.
 ## Rendering and interaction
 
 - [x] Markdown tables keep table semantics and have an overflow wrapper.
-- [x] Code blocks have one padding owner and terminal-window chrome.
+- [x] Code blocks have one padding owner and use terminal chrome only for
+      commands; files and output use labeled editor components.
 - [x] Documentation version controls remain inside their containers.
 - [x] Keyboard, focus, menu, reduced-motion, and contrast checks pass.
 - [x] Desktop and mobile pages have no unexpected horizontal overflow.
@@ -52,12 +53,14 @@ A green automated check does not authorize a production merge or deployment.
       pointer movement at an ultrawide viewport.
 - [x] Application-type backgrounds and calls to action work with pointer,
       keyboard focus, and centered mobile scroll state.
-- [x] Carried-forward V1 pages are labeled and keep internal links in V2.
+- [x] Unchanged inherited V1 pages keep internal links in V2 and intentionally
+      have no badge; only new or updated material is labeled.
 - [x] Every retired V2 page has a working replacement or explicit unavailable
       state; mapped legacy URLs redirect to the replacement.
 - [x] V2 deployment guidance is reproduced from a clean production build and
       runtime configuration check.
-- [x] Copy/View Markdown and both AI handoff links are checked in release QA.
+- [x] Copy/View Markdown plus Claude, ChatGPT, and Gemini handoff links are
+      checked in release QA.
 - [x] Crystal-field and card effects remain decorative and pointer-safe.
 
 ## Proof artifact

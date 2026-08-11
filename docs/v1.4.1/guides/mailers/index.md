@@ -13,7 +13,7 @@ Mailers are implemented using the [Quartz-Mailer](https://github.com/amberframew
 
 The mailer has the ability to set the `from`, `to`, `cc`, `bcc`, and `subject` as well as both `text` and `html` body formats. You may use the `render` helper to create the body of the email.
 
-```ruby
+```crystal
 class WelcomeMailer < Quartz::Composer
   def sender
     address email: "info@amberframework.org", name: "Amber"
@@ -32,6 +32,6 @@ end
 
 ## Deliver an Email
 
-```ruby
+```crystal
 WelcomeMailer.new(name, email).deliver
 ```

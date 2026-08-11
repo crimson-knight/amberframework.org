@@ -8,7 +8,7 @@ order: 30
 
 Amber can be run from a single file for minimal configuration setups if the user prefers this for smaller applications.
 
-```ruby
+```crystal
 require "amber"
 
 class HelloController < Amber::Controller::Base

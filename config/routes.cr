@@ -19,6 +19,8 @@ Amber::Server.configure do |app|
     get "/media", HomeController, :media
     get "/characters", HomeController, :characters
     get "/characters/:id", HomeController, :character
+    get "/showcase", HomeController, :showcase
+    get "/sponsors", HomeController, :sponsors
     get "/amber-way", HomeController, :amber_way
     get "/amber-way.json", HomeController, :amber_way
     get "/privacy", HomeController, :privacy
@@ -27,6 +29,7 @@ Amber::Server.configure do |app|
 
     # Documentation routes (served locally, versioned)
     get "/docs", DocsController, :index
+    get "/docs/v2/knowledge.md", DocsController, :knowledge
     get "/docs/raw/*path", DocsController, :raw
     get "/docs/*path", DocsController, :show
 

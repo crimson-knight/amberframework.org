@@ -16,7 +16,7 @@ First create a `src/controllers/hello_controller.cr` file and add this:
 
 {% code-tabs %}
 {% code-tabs-item title="src/controllers/hello\_controller.cr" %}
-```ruby
+```crystal
 class HelloController < ApplicationController
   def hello
     "Hello Amber!"
@@ -28,7 +28,7 @@ end
 
 Then add a new route in your `config/routes.cr` file:
 
-```ruby
+```crystal
 Amber::Server.configure do |app|
   pipeline :web do
     # pipelines...

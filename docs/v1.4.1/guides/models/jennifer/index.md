@@ -101,7 +101,7 @@ The `config/database.yml` describes the various databases Jennifer will use in y
 ### Add A Jennifer Initializer to Configuration
 With your `config/database.yml` in place, we need to inform Amber about Jennifer and tell the framework how we would like to configure the ORM. To begin, you will need to create a `config/jennifer.cr` file in your project's `config` directory. Below is a basic setup for Jennifer and you are also encourage to [see an example Amber Jennifer App] for more inspiration.
 
-```ruby
+```crystal
 require "amber"
 require "colorize"
 
@@ -126,7 +126,7 @@ As mentioned previously, Jennifer uses Sam for running tasks pertinent to ORM op
 
 Create a new `sam.cr` file inside your project's `src` directory. 
 
-```ruby
+```crystal
 # src/sam.cr
 require "jennifer"
 require "jennifer/adapter/postgres"
@@ -144,7 +144,7 @@ This file operationalizes `sam` to begin running tasks. You can run `crystal sam
 ### Including Jennifer in Server Bootstrap 
 The final step in configuration is to include Jennifer in your `src/{project}.cr` file. This should be done before you load your application configurations (or at least models). 
 
-```ruby
+```crystal
 require "jennifer"
 require "jennifer/adapter/postgres"
 

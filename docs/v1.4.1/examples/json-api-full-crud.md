@@ -16,7 +16,7 @@ This will generate a database migration and a `Post` model file in `models/post.
 
 {% code-tabs %}
 {% code-tabs-item title="src/models/post.cr" %}
-```ruby
+```crystal
 class Post < Granite::Base
   connection pg
   table posts
@@ -33,7 +33,7 @@ Then in your controller:
 
 {% code-tabs %}
 {% code-tabs-item title="src/controllers/post_controller.cr" %}
-```ruby
+```crystal
 class PostController < ApplicationController
   def index
     posts = Post.all
@@ -120,7 +120,7 @@ And your routes file:
 
 {% code-tabs %}
 {% code-tabs-item title="config/routes.cr" %}
-```ruby
+```crystal
 Amber::Server.configure do |app|
   pipeline :api do
     # pipelines...

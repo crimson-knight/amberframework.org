@@ -27,7 +27,7 @@ At runtime the framework will use the `AMBER_ENV` environment value to load the 
 
 To get the current Amber environment you can use the `Amber.env` method. 
 
-```ruby
+```crystal
 Amber.env
 # returns => :production
 ```
@@ -52,7 +52,7 @@ To add a new initializer simply create a file and save it under `config/initiali
 
 For example, to initialize a `Quartz` mailer:
 
-```ruby
+```crystal
 # config/initializers/mailer.cr
 
 require "quartz_mailer"
@@ -73,7 +73,7 @@ end
 
 The main entry point for an Amber application is `config/application.cr`. This application file allows you to overwrite settings using dynamic values. It also allows you to use environment variables available to the application process to configure your application.
 
-```ruby
+```crystal
 # config/application.cr 
 
 Amber::Server.configure do |app|
@@ -100,7 +100,7 @@ secrets:
 
 In your application, you can access settings from your environment YAML files using the `Amber.settings.secrets` Hash
 
-```ruby
+```crystal
 Amber.settings.secrets["custom"] # =>  "secret value here"
 ```
 

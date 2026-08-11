@@ -14,7 +14,7 @@ A route connects a HTTP request to a function inside a controller. When your Amb
 
 Routes are configured in the `{project_name}/config/routes.cr` file.
 
-```ruby
+```crystal
 Amber::Server.configure do |app|
   routes :static do
     # Each route is defined as follow
@@ -30,14 +30,14 @@ The **routes** macro accepts a **pipeline** name and a **scope**. In addition to
 
 For example, let's say you are creating a static website and you want the URL to be displayed as `http://www.mycoolsite.com/page`. To do this, you would setup your routes as follows:
 
-```ruby
+```crystal
 # routes(pipeline, scope)
 routes :web, "/page"
 ```
 
 If you wanted to created a namespace for nesting your URL routes, you can use the scope parameter to do so.
 
-```ruby
+```crystal
 routes :web, '/v1' do
   get "/about", StaticController, :about
 end
@@ -51,7 +51,7 @@ Mapping the above route
 
 Your controller action will need to return a string or render a view. If no string or view is rendered your routes configuration will raise an error during compilation.
 
-```ruby
+```crystal
 class StaticController < ApplicationController
 	 def about
 		 "About my cool page!"
@@ -75,7 +75,7 @@ In order to use resourceful routing for a particular controller, your controller
 
 Let’s add a resource to the `config/routes.cr`
 
-```ruby
+```crystal
 routes :web do
   resources "/posts", PostsController
 end
@@ -111,7 +111,7 @@ But for the admin console paths could be prefixed with /admin.
 
 We accomplish this with a scoped route that sets a path option to /admin like this one. For now, let’s not nest this scope inside of any other scopes (like the scope "/", HelloWeb provides in a new app).
 
-```ruby
+```crystal
 # Not Scoped
 routes :web do
   resources "/posts", PostsController
@@ -129,7 +129,7 @@ Sometimes you want to use `resources` as a shortcut for defining routes, and wit
 
 This will define the following routes:
 
-```ruby
+```crystal
 resources "/user", UserController, only: [:index, :show]
 resources "/user", UserController, except: [:index, :show]
 ```

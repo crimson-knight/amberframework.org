@@ -40,9 +40,9 @@ done
 
 grep -F '@font-face' public/assets/css/amber-brand.css >/dev/null
 grep -F '/assets/fonts/Manrope-Variable.woff2' public/assets/css/amber-brand.css >/dev/null
-grep -F '/assets/css/amber-brand.css?v=2.0.0-beta.2-20260810c' src/views/layouts/application.ecr >/dev/null
+grep -F '/assets/css/amber-brand.css?v=2.0.0-beta.2-20260811a' src/views/layouts/application.ecr >/dev/null
 grep -F '<script type="importmap">' src/views/layouts/application.ecr >/dev/null
-grep -F '"amber/site":"/assets/js/amber-site.js?v=2.0.0-beta.2-20260810c"' src/views/layouts/application.ecr >/dev/null
+grep -F '"amber/site":"/assets/js/amber-site.js?v=2.0.0-beta.2-20260811a"' src/views/layouts/application.ecr >/dev/null
 grep -F '<script type="module">import "amber/site";</script>' src/views/layouts/application.ecr >/dev/null
 grep -F 'data-no-tracking="true"' src/views/layouts/application.ecr >/dev/null
 grep -F 'We do not track you.' src/views/home/privacy.ecr >/dev/null
@@ -103,7 +103,7 @@ grep -F '/assets/brand/claude-icon-rounded.svg' src/views/docs/show.ecr >/dev/nu
 grep -F '/assets/brand/openai-symbol-2025.svg' src/views/docs/show.ecr >/dev/null
 
 grep -F 'class="table-scroll"' src/services/markdown_preprocessor.cr >/dev/null
-grep -F 'class="code-window"' src/services/markdown_preprocessor.cr >/dev/null
+grep -F 'class="code-window code-window-' src/services/markdown_preprocessor.cr >/dev/null
 grep -F '.docs-content table {' public/assets/css/amber-brand.css >/dev/null
 grep -F 'display: table;' public/assets/css/amber-brand.css >/dev/null
 grep -F '.docs-content pre code,' public/assets/css/amber-brand.css >/dev/null
@@ -125,6 +125,7 @@ grep -F 'prefers-reduced-motion' public/assets/css/amber-brand.css >/dev/null
 grep -F 'IntersectionObserver' public/assets/js/amber-site.js >/dev/null
 grep -F 'data-open-docs-ai="claude"' src/views/docs/show.ecr >/dev/null
 grep -F 'data-open-docs-ai="chatgpt"' src/views/docs/show.ecr >/dev/null
+grep -F 'data-open-docs-ai="gemini"' src/views/docs/show.ecr >/dev/null
 grep -F 'View as Markdown' src/views/docs/show.ecr >/dev/null
 grep -F 'code.language-crystal' public/assets/js/amber-site.js >/dev/null
 grep -F '.token-keyword' public/assets/css/amber-brand.css >/dev/null

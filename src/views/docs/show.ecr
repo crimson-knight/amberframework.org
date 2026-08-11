@@ -10,7 +10,7 @@
       <h1><%= page.title %></h1>
     </div>
     <div class="docs-page-banner-meta">
-      <% if @is_inherited %><span class="badge badge-inherited">Carried forward</span><% elsif badge = @page_badge %><span class="badge <%= @page_badge_class %>"><%= badge %></span><% end %>
+      <% if badge = @page_badge %><span class="badge <%= @page_badge_class %>"><%= badge %></span><% end %>
     </div>
   </div>
 </header>
@@ -43,6 +43,7 @@
         <a class="docs-action-button" href="/docs/raw/<%= @version_id %>/<%= @path %>" target="_blank" rel="noopener"><span class="docs-markdown-icon" aria-hidden="true">M↗</span><span>View as Markdown</span></a>
         <a class="docs-action-button" href="https://claude.ai/new" target="_blank" rel="noopener" data-open-docs-ai="claude" data-docs-title="<%= page.title %>" data-raw-url="/docs/raw/<%= @version_id %>/<%= @path %>"><img src="/assets/brand/claude-icon-rounded.svg" width="18" height="18" alt=""><span>Open in Claude</span></a>
         <a class="docs-action-button" href="https://chatgpt.com/" target="_blank" rel="noopener" data-open-docs-ai="chatgpt" data-docs-title="<%= page.title %>" data-raw-url="/docs/raw/<%= @version_id %>/<%= @path %>"><span class="openai-icon" aria-hidden="true"><img src="/assets/brand/openai-symbol-2025.svg" width="18" height="18" alt=""></span><span>Open in ChatGPT</span></a>
+        <a class="docs-action-button" href="https://gemini.google.com/app" target="_blank" rel="noopener" data-open-docs-ai="gemini" data-docs-title="<%= page.title %>" data-raw-url="/docs/raw/<%= @version_id %>/<%= @path %>"><span class="gemini-icon" aria-hidden="true">✦</span><span>Open in Gemini</span></a>
       </div>
     </div>
     <p class="docs-tools-note">Copy this page as Markdown, view its source, or open the published Markdown with an AI assistant. Copying works in local previews; external assistants need the public site URL.</p>
@@ -51,11 +52,11 @@
       <img src="/assets/characters/amber-chibi-hero-mark-v2.webp" width="180" height="180" alt="Chibi Amber giving a peace sign">
       <div>
         <% if @is_inherited %>
-          <strong>Carried forward from Amber 1.4.1</strong>
-          <p>This framework concept still applies in V2, but this page has not received a V2-specific rewrite. Follow V2 installation, CLI, templates, assets, and persistence guides whenever they differ.</p>
+          <strong>Stable framework reference</strong>
+          <p>This page has no change badge because its framework concept remains unchanged. Follow V2 installation, CLI, templates, assets, and persistence guides whenever they differ.</p>
         <% else %>
           <strong>Amber's guide note</strong>
-          <p>This guide is written for Amber V2. The version timeline marks older material as carried forward, replaced, or unavailable.</p>
+          <p>This guide is written for Amber V2. The version timeline marks older material as available, replaced, or unavailable.</p>
         <% end %>
       </div>
     </aside>

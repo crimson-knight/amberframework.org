@@ -78,6 +78,14 @@ class HomeController < ApplicationController
     render("characters.ecr")
   end
 
+  def showcase
+    render("showcase.ecr")
+  end
+
+  def sponsors
+    render("sponsors.ecr")
+  end
+
   def character
     unless {"amber", "grant", "gemma"}.includes?(params["id"])
       raise Amber::Exceptions::RouteNotFound.new(request)

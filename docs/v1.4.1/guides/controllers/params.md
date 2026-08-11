@@ -20,33 +20,33 @@ The params object parses the data from the request, this includes:
 
 Regular String parameters can be accessed using the following methods. Please note
 
-```ruby
+```crystal
 params[:key] # requires that the param exists already
 params[:key]? # does not require that the param exists
 ```
 
 To set a param use the following syntax
 
-```ruby
+```crystal
 params[:key] = "My String"
 ```
 
 Please note that while params accepts a Symbol key to be passed, it will be converted to a String automatically. For example the following two statements are equivalent.
 
-```ruby
+```crystal
 params[:key] # => "My String"
 params["key"] # => "My String"
 ```
 
 The params object will only contain entries that have been successfully validated using the Validation API. If you do not use the Validation API this will return an empty Hash.
 
-```ruby
+```crystal
 params.to_h
 ```
 
 To access the entire raw / non-validated params hash:
 
-```ruby
+```crystal
 params.to_unsafe_h
 ```
 
@@ -62,7 +62,7 @@ If you need to get an array of params from the query:
 
 To retrieve all possible values for a key:
 
-```ruby
+```crystal
 params.fetch_all("brand[]") # => { "brand[]" => ["brand1", "brand2", "brand3"] }
 ```
 > The value of params["brand[]"] will now be ["brand1", "brand2", "brand3"]. Note that parameter values are always strings; Amber makes no attempt to guess or cast the type.
@@ -97,7 +97,7 @@ Amber attempts to alleviate the issues that come with invalid parameters and pro
 
 ### Example Usage
 
-```ruby
+```crystal
 class UsersController < ApplicationController
   def create
     user = User.new(user_params.validate!)
@@ -126,7 +126,7 @@ end
 - Use `#required(field)` to define required fields.
 - Use `#optional(field)` to define optional fields.
 
-```ruby
+```crystal
 params.validation do
   required(:email) { |p| p.url? }
   optional(:age)
@@ -135,13 +135,13 @@ end
 
 `#validate!` Input must be valid otherwise raises an error. If valid, returns a hash of validated params otherwise raises `Validator::ValidationFailed` which contains the failed validaton error messages.
 
-```ruby
+```crystal
 user = User.new params.validate!
 ```
 
 `#valid?` Returns true if all params are valid or false otherwise. 
 
-```ruby
+```crystal
 unless params.valid?
   response.puts {errors: params.errors}.to_json
   response.status_code 400
@@ -150,7 +150,7 @@ end
 
 `#errors` Returns an array of errors for the invalid inputs. This array of errors is populated after running `#validate!` or `#valid?`.
 
-```ruby
+```crystal
 params.errors
 ```
 
@@ -186,7 +186,7 @@ Amber has extended the Crystal String and Number classes with additional methods
 
 With Amber parameter validation, it's easy to keep your code organized:
 
-```ruby
+```crystal
 class UsersController < ApplicationController
   include UserParams
 

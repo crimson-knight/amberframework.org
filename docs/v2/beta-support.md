@@ -7,19 +7,42 @@ description: "Supported platforms and feature boundaries for Amber 2.0.0-beta.2"
 
 # Amber V2 Beta Support
 
-“Release-gated” means the documented installation, generation, dependency,
-spec, build, launch, homepage, and static-asset checks are repeated on that
-platform before the beta is published.
+Platform support has three separate signals:
+
+- **Web compile** means CI built the Amber CLI, generated a clean web app,
+  installed its dependencies, ran its specs, and compiled the application on
+  that operating system and CPU.
+- **Install artifact** means the current CLI release publishes a ready-to-use
+  archive or package for that target.
+- **Release-gated** means the complete installation, generation, dependency,
+  spec, build, launch, homepage, and static-asset sequence must pass on that
+  platform before the beta is published.
+
+One signal does not silently imply the others.
 
 ## Platform matrix
 
-| Surface | Status |
-|---|---|
-| Apple Silicon macOS | Supported and release-gated |
-| x86_64 Linux | Supported and release-gated |
-| Homebrew via `amberframework/amber_cli` | Supported |
-| Direct CLI release archives | Supported |
-| Intel macOS, Linux ARM64, Windows | Not release-gated |
+| Platform | Clean web compile | CLI 2.0.3 install artifact | Beta release gate |
+|---|---|---|---|
+| Apple Silicon macOS | Verified | Homebrew and `darwin-arm64` archive | Yes |
+| x86_64 Linux | Verified | Homebrew or `linux-x86_64` archive | Yes |
+| Linux ARM64 | Verified on GitHub-hosted ARM64 Linux | Source build; the next-release workflow now builds and smoke-tests `linux-arm64` | No |
+| Intel macOS | Not currently verified | None | No |
+| Windows x86_64 | Verified with the candidate render-path fix; released beta.2 still fails on controller-relative ECR path handling | None | No |
+
+The [platform compile pull request](https://github.com/amberframework/amber_cli/pull/34)
+is the evidence stream for Linux ARM64 and Windows. The Windows run found a
+real framework defect instead of being treated as a green support claim. With
+the [render-path fix](https://github.com/amberframework/amber/pull/1402), the
+same job now generates the app, installs dependencies, passes its request spec,
+and compiles the Windows executable.
+
+Linux ARM64 is supported for the clean web application's source-build path and
+compile contract. It is not yet release-gated, and CLI 2.0.3 does not contain a
+Linux ARM64 archive. Windows is deliberately not a release gate for this beta.
+Its candidate result proves the repair, not compatibility in the released
+beta.2 dependency; describe Windows as supported only after the framework fix
+ships and that released dependency passes the same job.
 
 ## Application and generator matrix
 

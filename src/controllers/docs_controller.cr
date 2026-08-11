@@ -144,6 +144,15 @@ class DocsController < ApplicationController
     end
   end
 
+  # A single text-forward upload for documentation assistants. Page-level raw
+  # Markdown remains available through /docs/raw/:version/*path.
+  def knowledge
+    version_id = "v2"
+    response.content_type = "text/markdown; charset=utf-8"
+    response.headers["Content-Disposition"] = %(attachment; filename="amber-v2-docs.md")
+    DocsScanner.knowledge_bundle(version_id)
+  end
+
   private def calculate_page_badge
     return unless page = @page
     return unless version = @version

@@ -9,6 +9,10 @@ test -s public/assets/characters/amber-chibi-hero-mark-v2.webp
 test -s public/assets/css/amber-brand.css
 test -s public/assets/js/amber-site.js
 test -s docs/v2/guides/web-template/index.md
+test -s docs/v2/guides/pet-tracker/index.md
+test -s docs/v2/guides/ai-assistants/index.md
+test -s src/views/home/showcase.ecr
+test -s src/views/home/sponsors.ecr
 
 grep -F 'version: 2.0.0-beta.2' shard.yml
 grep -F 'version: 2.0.0-beta.2' docs/v2/getting-started/installation.md
@@ -19,7 +23,7 @@ grep -F 'Test V2 beta' src/views/layouts/_nav.ecr
 grep -F "menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');" public/assets/js/amber-site.js
 grep -F 'data-version-select' src/views/docs/_version_selector.ecr
 grep -F 'inherits_from: v1.4.1' docs/versions.yml
-grep -F 'V2 carries forward framework concepts that still apply' docs/v2/guides/index.md
+grep -F 'V2 keeps framework concepts that still apply' docs/v2/guides/index.md
 grep -F 'Run `amber routes` from the project root' docs/v2/guides/routing/routes.md
 grep -F 'The V1 guide' docs/v2/guides/controllers/sessions.md
 grep -F 'HTTP::Server::Response' docs/v2/guides/controllers/request-and-response-objects.md
@@ -33,6 +37,16 @@ grep -F 'PROPOSED — NOT IMPLEMENTED' design/v2-preview/TEMPLATE_DELIVERY_STRAT
 grep -F '.code-window' public/assets/css/amber-brand.css
 grep -F '.table-scroll' public/assets/css/amber-brand.css
 grep -F 'padding: 1.15rem 1.25rem;' public/assets/css/amber-brand.css
+grep -F 'data-open-docs-ai="gemini"' src/views/docs/show.ecr
+grep -F 'get "/docs/v2/knowledge.md"' config/routes.cr
+grep -F 'get "/showcase"' config/routes.cr
+grep -F 'get "/sponsors"' config/routes.cr
+grep -F 'white-space: nowrap;' public/assets/css/amber-brand.css
+
+if rg -n 'Carried forward' src/views docs/v2; then
+  echo "Unchanged documentation should be represented by the absence of a change badge" >&2
+  exit 1
+fi
 
 if find src/views -type f -name '*.slang' | grep -q .; then
   echo "Amber V2 site must use ECR views only" >&2

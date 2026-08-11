@@ -105,7 +105,7 @@ In order for the buildpack to work properly your application has to:
 
 Ensure these settings are in your `settings.cr` file.
 
-```ruby
+```crystal
 Amber::Server.configure do |settings|
   settings.host = "0.0.0.0"
   settings.port = ENV["PORT"].to_i if ENV["PORT"]?

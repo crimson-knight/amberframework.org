@@ -30,7 +30,7 @@ Model–view–controller \(MVC\) is a software architectural pattern for implem
 
 The Controller is responsible for directing application logic. It does this by acting as the coordinator between the other two components. The Controller receives an input from the users via the View, then processes the user's data with the help of Model and passes the results back to the View.
 
-```ruby
+```crystal
 class UsersController < ApplicationController
   def index
     @users = Users.all
@@ -43,7 +43,7 @@ end
 
 Views are the component involved with the application's User Interface. Views are generally populated with model data and have extensions such as HTML, SLANG, ECR.
 
-```ruby
+```crystal
 # Slang - /views/users/index.slang
 
 doctype html
@@ -69,7 +69,7 @@ In the case of a social network, the Model layer would take care of tasks such a
 
 For example:
 
-```ruby
+```crystal
 class User
   getter name : String
   getter email : String

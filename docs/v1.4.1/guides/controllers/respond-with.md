@@ -27,7 +27,7 @@ js:   "application/javascript"
 
 ## Usage
 
-```ruby
+```crystal
 class PetController < ApplicationController
   def index
     pets = Pet.all

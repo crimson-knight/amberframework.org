@@ -44,7 +44,7 @@ In order for the buildpack to work properly you should have a `shard.yml` file,a
 In Amber versions less than or equal to 0.3.7 add the following code to your `config/application.cr` file
 {% endhint %}
 
-```ruby
+```crystal
 Amber::Server.configure do |settings|
   settings.host = "0.0.0.0"
   settings.port = ENV["PORT"].to_i if ENV["PORT"]?

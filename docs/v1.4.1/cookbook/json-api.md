@@ -38,7 +38,7 @@ This is a fully scaffolded JSON API.
 
 If you don't need full CRUD, you can also create a custom JSON API.
 
-```ruby
+```crystal
 class SomeController < ApplicationController
   def json_api
     # You can easily access the context
@@ -55,7 +55,7 @@ Then in your routes file:
 
 {% code-tabs %}
 {% code-tabs-item title="config/routes.cr" %}
-```ruby
+```crystal
 Amber::Server.configure do |app|
   pipeline :api do
     # pipelines...
@@ -72,7 +72,7 @@ end
 
 Alternatively you can use [`respond_with`](../guides/controllers/respond-with.md) helper. Here you don't need to setup `content_type`, however the requested path requires a `.json` extension, by example `/json_api.json`
 
-```ruby
+```crystal
 class SomeController < ApplicationController
   def json_api
     data = {name: "Amber", age: 1}

@@ -23,7 +23,7 @@ This will install the chrome driver on the system path `/usr/local/bin/chromedri
 
 If you're running in a different OS such as Linux you can specify the chromedriver path as such
 
-```ruby
+```crystal
 module GarnetSpec
   DRIVER = :chrome
   PATH = "/usr/local/bin/chromedriver"
@@ -34,7 +34,7 @@ System tests allows test user interactions with your application, running tests 
 
 For creating Amber system tests, you use the spec/system directory in your application. Here's how a system test looks like:
 
-```ruby
+```crystal
 class SomeFeature < GarnetSpec::System::Test
   scenario "user visits amber framework and sees getting started button" do
     visit "http://www.amberframework.org"

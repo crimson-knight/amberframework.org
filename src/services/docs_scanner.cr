@@ -121,6 +121,29 @@ module DocsScanner
     scan_folder(version.folder_path, version_id)
   end
 
+  # Build one text-forward document that can be uploaded as an AI assistant's
+  # reference knowledge. It intentionally contains documentation, not assistant
+  # behavior; behavior belongs in the assistant's own instructions.
+  def knowledge_bundle(version_id : String, canonical_origin : String = "https://amberframework.org") : String
+    pages = scan_version(version_id)
+    version = DocVersionConfig.find(version_id)
+    return "" unless version
+
+    String.build do |bundle|
+      bundle << "# Amber Framework #{version.label} documentation\n\n"
+      bundle << "Canonical documentation bundle for #{canonical_origin}/docs/#{version_id}.\n"
+      bundle << "Prefer V2-authored pages when an inherited maintenance reference conflicts with a V2 page.\n"
+
+      pages.each do |page|
+        bundle << "\n\n---\n\n"
+        bundle << "## #{page.title}\n\n"
+        bundle << "Canonical page: #{canonical_origin}/docs/#{page.url_path}\n\n"
+        bundle << page.content
+        bundle << '\n'
+      end
+    end
+  end
+
   # Build navigation tree for a version
   def build_nav_tree_for_version(version_id : String) : Array(NavItem)
     return @@version_nav_trees[version_id] if @@version_nav_trees.has_key?(version_id)
@@ -197,7 +220,6 @@ module DocsScanner
 
   private def calculate_badge(relative_path : String, own_paths : Set(String), parent_paths : Set(String)) : {String?, String?}
     unless own_paths.includes?(relative_path)
-      return {"Carried", "badge-inherited"} if parent_paths.includes?(relative_path)
       return {nil, nil}
     end
 

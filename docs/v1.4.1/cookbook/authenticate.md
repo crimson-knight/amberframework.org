@@ -14,7 +14,7 @@ First you need an amber project generated with [Amber CLI](../guides/create-new-
 
 {% code-tabs %}
 {% code-tabs-item title="src/pipes/authenticate.cr" %}
-```ruby
+```crystal
 class Authenticate < Amber::Pipe::Base
   PUBLIC_PATHS = ["/"]
 
@@ -48,7 +48,7 @@ Then in your routes file:
 
 {% code-tabs %}
 {% code-tabs-item title="config/routes.cr" %}
-```ruby
+```crystal
 Amber::Server.configure do |app|
   pipeline :web do
     # other pipes...

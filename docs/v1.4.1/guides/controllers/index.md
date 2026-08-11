@@ -19,7 +19,7 @@ For most conventional [RESTful](http://en.wikipedia.org/wiki/Representational_st
 
 When defining your routes you specify the controller that the route will match to
 
-```ruby
+```crystal
 get "/", ApiController, :index
 ```
 
@@ -31,7 +31,7 @@ A controller is a Crystal class which inherits from `ApplicationController`and h
 
 Controllers are defined as such:
 
-```ruby
+```crystal
 class ApiController < ApplicationController
   def index
     client = Client.new
@@ -46,7 +46,7 @@ As an example, if a user goes to `api/index` in your application to add a new cl
 
 Any local variable declared in the controller method will be available in the rendered view.  For example:
 
-```ruby
+```crystal
 class OrdersController < ApplicationController
   def index
     unfilled_orders = Order.where(fulfilled: false).select
@@ -57,7 +57,7 @@ end
 
 Then in your view you can do:
 
-```ruby
+```crystal
 unfilled_orders.each do |order|
 <tr>
   <td> <%= order.order_number %> </td>
