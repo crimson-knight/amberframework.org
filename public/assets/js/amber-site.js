@@ -103,6 +103,18 @@
     link.setAttribute('href', destination.toString());
   });
 
+  document.querySelectorAll('[data-relative-date]').forEach((label) => {
+    const source = label.getAttribute('data-relative-date');
+    if (!source) return;
+    const published = new Date(`${source}T00:00:00Z`);
+    const days = Math.max(0, Math.floor((Date.now() - published.getTime()) / 86400000));
+    if (days === 0) label.textContent = 'today';
+    else if (days === 1) label.textContent = '1 day ago';
+    else if (days < 45) label.textContent = `${days} days ago`;
+    else if (days < 730) label.textContent = `${Math.max(1, Math.round(days / 30))} months ago`;
+    else label.textContent = `${Math.floor(days / 365)} years ago`;
+  });
+
   const crystalKeywords = new Set([
     'abstract', 'alias', 'annotation', 'as', 'as?', 'begin', 'break', 'case',
     'class', 'def', 'do', 'else', 'elsif', 'end', 'ensure', 'enum', 'extend',
@@ -220,16 +232,40 @@
     }
   );
 
+  const shellKeywords = new Set([
+    'cd', 'curl', 'echo', 'env', 'export', 'for', 'in', 'do', 'done', 'if',
+    'then', 'else', 'fi', 'case', 'esac', 'while', 'function', 'source'
+  ]);
+
+  const highlightShell = (source) => highlightTokens(
+    source,
+    /#[^\n]*|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|--?[A-Za-z][\w-]*|\$\{?[A-Za-z_][A-Za-z0-9_]*\}?|\b[A-Za-z_][A-Za-z0-9_]*\b/g,
+    (token) => {
+      if (token.startsWith('#')) return 'comment';
+      if (/^["']/.test(token)) return 'string';
+      if (token.startsWith('-')) return 'symbol';
+      if (token.startsWith('$')) return 'variable';
+      if (shellKeywords.has(token)) return 'keyword';
+      return '';
+    }
+  );
+
   const highlighters = new Map([
     ['yaml', highlightYaml],
     ['json', highlightWebCode],
     ['javascript', highlightWebCode],
     ['css', highlightWebCode],
     ['html', highlightMarkup],
-    ['ecr', highlightMarkup]
+    ['ecr', highlightMarkup],
+    ['bash', highlightShell],
+    ['shell', highlightShell],
+    ['sh', highlightShell],
+    ['zsh', highlightShell],
+    ['powershell', highlightShell],
+    ['pwsh', highlightShell]
   ]);
 
-  document.querySelectorAll('.code-window-editor code').forEach((code) => {
+  document.querySelectorAll('.code-window code').forEach((code) => {
     if (code.hasAttribute('data-highlighted')) return;
     const language = [...code.classList]
       .find((name) => name.startsWith('language-'))
@@ -399,6 +435,57 @@
       choices.forEach((choice) => centeredChoiceObserver.observe(choice));
     }
   });
+
+  const liveProof = document.querySelector('[data-live-proof]');
+  if (liveProof && 'WebSocket' in window) {
+    const label = liveProof.querySelector('[data-live-proof-label]');
+    let retryTimer = 0;
+    let liveSocket;
+
+    const setLiveState = (state, message) => {
+      liveProof.dataset.state = state;
+      if (label) label.textContent = message;
+    };
+
+    const connectLiveProof = () => {
+      window.clearTimeout(retryTimer);
+      const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+      liveSocket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+
+      liveSocket.addEventListener('open', () => {
+        setLiveState('joining', 'Connected. Joining the live Amber channel…');
+        liveSocket.send(JSON.stringify({event: 'join', topic: 'site:proof', payload: {}}));
+        liveSocket.send(JSON.stringify({event: 'message', topic: 'site:proof', subject: 'site:probe', payload: {}}));
+      });
+
+      liveSocket.addEventListener('message', ({data}) => {
+        try {
+          const message = JSON.parse(data);
+          if (message.topic !== 'site:proof') return;
+          const connections = message.payload?.connections;
+          const suffix = connections ? ` · ${connections} connected now` : '';
+          setLiveState('live', `Live through Amber WebSockets${suffix}`);
+        } catch (_error) {
+          // Ignore unrelated non-JSON frames; the proof waits for a channel event.
+        }
+      });
+
+      liveSocket.addEventListener('close', () => {
+        setLiveState('reconnecting', 'Live channel paused. Reconnecting…');
+        retryTimer = window.setTimeout(connectLiveProof, 2500);
+      });
+
+      liveSocket.addEventListener('error', () => {
+        setLiveState('reconnecting', 'Live channel unavailable. Retrying…');
+      });
+    };
+
+    connectLiveProof();
+    window.addEventListener('pagehide', () => {
+      window.clearTimeout(retryTimer);
+      liveSocket?.close();
+    }, {once: true});
+  }
 
   if (!reducedMotion && 'IntersectionObserver' in window) {
     document.body.classList.add('motion-ready');

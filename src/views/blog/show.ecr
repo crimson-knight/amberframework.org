@@ -1,10 +1,11 @@
 <% @title = "#{post["title"]} — Amber Framework" %>
 <% @meta = "#{post["title"]} — an Amber Framework release and community update." %>
+<script type="application/ld+json"><%= structured_data %></script>
 
 <header class="page-hero post-page-hero">
   <div class="site-container page-hero-grid">
     <div>
-      <p class="eyebrow"><%= post["date"] %> · <%= post["author"] %></p>
+      <p class="eyebrow"><%= post["category"]? || "Framework" %> · <time datetime="<%= post_iso_date(post) %>"><%= post["date"] %></time> · <span data-relative-date="<%= post_iso_date(post) %>"></span></p>
       <h1><%= post["title"] %></h1>
       <p><%= post["summary"]? || "An Amber Framework release and community update." %></p>
     </div>
@@ -14,6 +15,13 @@
 
 <main class="section">
   <article class="content-narrow post-article">
+    <nav class="post-utility" aria-label="Story formats">
+      <a href="/blog">← All stories</a>
+      <span>Read as</span>
+      <a href="<%= post_path(post) %>.md">Markdown</a>
+      <a href="<%= post_path(post) %>.json">JSON</a>
+      <a href="/blog/feed.xml">RSS</a>
+    </nav>
     <%= MarkdownPreprocessor.render(File.read(filepath), preprocess: false) %>
   </article>
 </main>

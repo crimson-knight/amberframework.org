@@ -33,7 +33,7 @@ summary: Supply-chain compliance and AI-assisted tooling for Crystal packages, r
 ---
 title: Amber 2.0 Road Map
 file: blog/2023/04/24/amber-2.0-roadmap.md
-image: /assets/characters/amber-id-original-studio.webp
+image: /assets/img/amber-2.0-blog-header.jpg
 date: Apr 24, 2023
 author: Seth Tucker
 profile: https://github.com/crimson-knight
@@ -66,7 +66,7 @@ summary: The releases, contributors, and lessons that shaped Amber during 2017.
 ---
 title: Amber 0.3.0 has been released including enhancements and bug fixes
 file: blog/2017/10/18/amber-0.3.0-has-been-released-including-enhancements-and-bug-fixes.md
-image: /assets/characters/grant-id-original-studio.webp
+image: /assets/img/amber-logo-t-bg.png
 date: Oct 18, 2017
 author: Massimiliano Bertinetti
 profile: https://github.com/codelessfuture
@@ -77,7 +77,7 @@ summary: Enhancements and fixes included in the Amber 0.3.0 release.
 ---
 title: Amber 0.2.7 has been released including enhancements and bug fixes
 file: blog/2017/10/11/amber-0.2.7-has-been-released-including-enhancements-and-bug-fixes.md
-image: /assets/characters/gemma-id-original-studio.webp
+image: /assets/img/amber.png
 date: Oct 11, 2017
 author: Faustino Aguilar
 profile: https://github.com/faustinoaq
@@ -88,7 +88,7 @@ summary: The Amber 0.2.7 maintenance release and its collection of improvements.
 ---
 title: New website for Amber Framework
 file: blog/2017/10/07/new-website-for-amber-framework.md
-image: /assets/characters/amber-chibi-original-studio.webp
+image: /assets/img/header.jpg
 date: Oct 07, 2017
 author: Faustino Aguilar
 profile: https://github.com/faustinoaq

@@ -60,6 +60,16 @@ class HomeController < ApplicationController
       summary: "Local CSS, browser-native modules, and an import map provide a complete front end without requiring npm, a bundler, a UI framework, or a CDN.",
     },
     {
+      slug:    "live-updates",
+      title:   "Make live updates a framework path",
+      summary: "Amber channels connect server events to small ES modules, so pages can react in place without adopting a second front-end application architecture.",
+    },
+    {
+      slug:    "background-work",
+      title:   "Move slow work off the request",
+      summary: "Named queues, worker fibers, retries, and delayed jobs keep long tasks explicit and let completed work broadcast back to the page. Request-aware work stealing remains disabled on beta.2 until its corrected counter is tagged.",
+    },
+    {
       slug:    "measured-performance",
       title:   "Performance claims carry their workload",
       summary: "Amber publishes the hardware, request mix, repetitions, errors, and limits beside a result so a benchmark remains evidence instead of mythology.",
@@ -67,27 +77,43 @@ class HomeController < ApplicationController
   ]
 
   def index
+    return machine_page("index", "/", markdown: false) if request.path.ends_with?(".json")
+    return machine_page("index", "/", markdown: true) if request.path.ends_with?(".md")
+    return redirect_to(location: "/", status: 301) if request.path == "/index"
+
     render("index.ecr")
   end
 
   def media
+    return machine_page("media", "/media", markdown: false) if request.path.ends_with?(".json")
+    return machine_page("media", "/media", markdown: true) if request.path.ends_with?(".md")
     render("media.ecr")
   end
 
   def characters
+    return machine_page("characters", "/characters", markdown: false) if request.path.ends_with?(".json")
+    return machine_page("characters", "/characters", markdown: true) if request.path.ends_with?(".md")
     render("characters.ecr")
   end
 
   def showcase
+    return machine_page("showcase", "/showcase", markdown: false) if request.path.ends_with?(".json")
+    return machine_page("showcase", "/showcase", markdown: true) if request.path.ends_with?(".md")
     render("showcase.ecr")
   end
 
   def sponsors
+    return machine_page("sponsors", "/sponsors", markdown: false) if request.path.ends_with?(".json")
+    return machine_page("sponsors", "/sponsors", markdown: true) if request.path.ends_with?(".md")
     render("sponsors.ecr")
   end
 
   def character
-    unless {"amber", "grant", "gemma"}.includes?(params["id"])
+    slug = request.path.split('/').last.sub(/\.(?:md|json)$/, "")
+    return machine_page(slug, "/characters/#{slug}", markdown: false) if request.path.ends_with?(".json")
+    return machine_page(slug, "/characters/#{slug}", markdown: true) if request.path.ends_with?(".md")
+
+    unless {"amber", "grant", "gemma"}.includes?(slug)
       raise Amber::Exceptions::RouteNotFound.new(request)
     end
 
@@ -95,6 +121,8 @@ class HomeController < ApplicationController
   end
 
   def amber_way
+    return machine_page("amber-way", "/amber-way", markdown: true) if request.path.ends_with?(".md")
+
     values = AMBER_WAY_VALUES
     coding_beliefs = AMBER_WAY_CODING_BELIEFS
     benchmark = {
@@ -109,11 +137,21 @@ class HomeController < ApplicationController
       non_2xx_responses:           0,
       evidence:                    "/benchmarks/amber-v2-round22-summary.json",
     }
+    site_benchmark = {
+      measured_at:                                  "2026-08-11",
+      full_homepage_median_requests_per_second:     5_906.72,
+      websocket_connections:                        1_000,
+      websocket_connection_errors:                  0,
+      json_with_sockets_median_requests_per_second: 8_057.74,
+      evidence:                                     "/benchmarks/amber-v2-site-websocket-2026-08-11.json",
+      boundary:                                     "Idle joined clients; sequential shared-vCPU stages were noisy and are not a causal scaling curve.",
+    }
     page = {
       title:          "Amber's Way",
       values:         values,
       coding_beliefs: coding_beliefs,
       benchmark:      benchmark,
+      site_benchmark: site_benchmark,
     }
 
     context.response.headers["Vary"] = "Accept"
@@ -124,7 +162,31 @@ class HomeController < ApplicationController
   end
 
   def privacy
+    return machine_page("privacy", "/privacy", markdown: false) if request.path.ends_with?(".json")
+    return machine_page("privacy", "/privacy", markdown: true) if request.path.ends_with?(".md")
     render("privacy.ecr")
+  end
+
+  def page_markdown
+    slug = request.path.lstrip('/').sub(/\.md$/, "")
+    canonical_path = slug == "index" ? "/" : "/#{slug}"
+    machine_page(slug, canonical_path, markdown: true)
+  end
+
+  def page_json
+    slug = request.path.lstrip('/').sub(/\.json$/, "")
+    canonical_path = slug == "index" ? "/" : "/#{slug}"
+    machine_page(slug, canonical_path, markdown: false)
+  end
+
+  def character_markdown
+    slug = request.path.split('/').last.sub(/\.md$/, "")
+    machine_page(slug, "/characters/#{slug}", markdown: true)
+  end
+
+  def character_json
+    slug = request.path.split('/').last.sub(/\.json$/, "")
+    machine_page(slug, "/characters/#{slug}", markdown: false)
   end
 
   def guides
@@ -159,5 +221,14 @@ class HomeController < ApplicationController
 
   def granite
     redirect_to location: "/docs/v1.4.1/guides/models/granite", status: 301
+  end
+
+  private def machine_page(slug : String, canonical_path : String, *, markdown : Bool)
+    content = markdown ? SiteContent.markdown(slug, canonical_path) : SiteContent.json(slug, canonical_path)
+    raise Amber::Exceptions::RouteNotFound.new(request) unless content
+
+    response.content_type = markdown ? "text/markdown; charset=utf-8" : "application/json; charset=utf-8"
+    response.headers["Vary"] = "Accept"
+    content
   end
 end

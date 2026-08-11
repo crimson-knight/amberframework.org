@@ -43,7 +43,9 @@ class DocsController < ApplicationController
 
   # Handle /docs/*path - could be version index or versioned page
   def show
-    full_path = params["path"].as(String)
+    requested_markdown = request.path.ends_with?(".md")
+    requested_json = request.path.ends_with?(".json")
+    full_path = params["path"].as(String).sub(/\.(?:md|json)$/, "")
     path_parts = full_path.split("/", 2)
 
     # Check if first part is a version or "latest"
@@ -90,7 +92,13 @@ class DocsController < ApplicationController
     end
 
     if @page
-      render("show.ecr")
+      if requested_markdown
+        documentation_markdown
+      elsif requested_json
+        documentation_json
+      else
+        render("show.ecr")
+      end
     elsif replacement = DocsScanner.replacement_path(@version_id, "#{@path}.md")
       redirect_to location: "/docs/#{@version_id}/#{replacement}", status: 302
     else
@@ -151,6 +159,32 @@ class DocsController < ApplicationController
     response.content_type = "text/markdown; charset=utf-8"
     response.headers["Content-Disposition"] = %(attachment; filename="amber-v2-docs.md")
     DocsScanner.knowledge_bundle(version_id)
+  end
+
+  private def documentation_markdown : String
+    page = @page.not_nil!
+    response.content_type = "text/markdown; charset=utf-8"
+    response.headers["Content-Disposition"] = "inline"
+    response.headers["Vary"] = "Accept"
+    page.content
+  end
+
+  private def documentation_json : String
+    page = @page.not_nil!
+    canonical_path = @path.empty? ? "/docs/#{@version_id}" : "/docs/#{@version_id}/#{@path}"
+    response.content_type = "application/json; charset=utf-8"
+    response.headers["Vary"] = "Accept"
+    {
+      title:            page.title,
+      description:      page.description,
+      section:          page.section,
+      version:          @version_id,
+      path:             @path,
+      canonical_url:    "https://amberframework.org#{canonical_path}",
+      markdown_url:     "https://amberframework.org#{canonical_path}.md",
+      inherited:        @is_inherited,
+      content_markdown: page.content,
+    }.to_json
   end
 
   private def calculate_page_badge
