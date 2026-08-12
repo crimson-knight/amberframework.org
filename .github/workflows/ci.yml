@@ -67,6 +67,8 @@ jobs:
           curl --fail --silent --show-error http://127.0.0.1:3212/ >/tmp/homepage.html
           grep -F '/assets/css/amber-brand-' /tmp/homepage.html
           grep -F 'integrity="sha256-' /tmp/homepage.html
+          curl --fail --silent --show-error http://127.0.0.1:3212/docs/v2/knowledge.md >/tmp/amber-v2-docs.md
+          grep -F '# Amber Framework 2.0 Web Beta documentation' /tmp/amber-v2-docs.md
 
   container:
     name: Build the deployment image

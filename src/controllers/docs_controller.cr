@@ -43,6 +43,11 @@ class DocsController < ApplicationController
 
   # Handle /docs/*path - could be version index or versioned page
   def show
+    # Amber's wildcard route receives dotted paths after the router has removed
+    # the extension from `params["path"]`. Keep the public knowledge-bundle URL
+    # working even when the literal dotted route is normalized into this action.
+    return knowledge if request.path == "/docs/v2/knowledge.md"
+
     requested_markdown = request.path.ends_with?(".md")
     requested_json = request.path.ends_with?(".json")
     full_path = params["path"].as(String).sub(/\.(?:md|json)$/, "")
