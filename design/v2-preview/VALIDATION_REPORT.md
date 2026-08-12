@@ -1,10 +1,13 @@
-# Amber V2 public-beta validation report
+# Amber V2 beta.2 / CLI 2.0.3 validation report (historical)
 
 Date: August 10, 2026
 
 Production branch: `master` via website pull request 7
 
 Release state: **PUBLIC BETA LIVE — PRODUCTION VERIFIED**
+
+This report records the August 10 launch contract. Current beta.4 validation is
+tracked separately in `RELEASE_PROOF_BETA4.md`.
 
 This report records the evidence behind the Amber V2 public beta. The final
 deployment identifiers and public-origin checks are recorded in

@@ -8,7 +8,7 @@ module SiteContent
       title:       "Amber Framework",
       description: "A productive, type-safe web framework for Crystal with server-rendered ECR, local browser assets, WebSockets, jobs, and an explicit application structure.",
       sections:    [
-        "## Start with the supported web path\nInstall Amber CLI 2.0.4, run `amber new my_app`, generate a Pet scaffold, apply its migration, run `crystal spec`, and start `amber watch`.",
+        "## Start with the supported web path\nInstall Amber CLI 2.0.5, run `amber new my_app`, generate a Pet scaffold, apply its migration, run `crystal spec`, and start `amber watch`.",
         "## A complete first-party baseline\nRoutes, controllers, ECR views, typed configuration, schemas, Grant models, Micrate migrations, SQLite, local CSS, browser-native ES modules, WebSockets, and background jobs fit one inspectable application shape.",
         "## Measured performance\nOn July 17, 2026, the current JSON path sustained a 21,795 req/s hosted median on a DigitalOcean Basic one-vCPU, 512 MB-class target across a mixed 1,000-route workload.",
         "## The website under load\nOn August 11, 2026, this release candidate's complete homepage sustained a 5,907 req/s median on the smallest target. It held 1,000 joined WebSocket clients with zero connection errors while the rendered JSON path sustained an 8,058 req/s median in that stage. The published evidence records the noisy sequential-stage boundary.",
@@ -51,8 +51,8 @@ module SiteContent
       title:       "Amber releases",
       description: "Dated Amber Framework and Amber CLI releases synchronized from GitHub, with the V2 web beta boundary explained in plain language.",
       sections:    [
-        "## Current choices\nAmber Framework 1.5.0 is the stable maintenance line, Amber Framework 2.0.0-beta.3 is the current V2 web-framework beta, and Amber CLI 2.0.4 is the current standalone application generator.",
-        "## What beta means\nThe V2 tag is a prerelease while its web path is tested in public. The release-gated path includes Grant, Micrate, and SQLite; files, generated auth/API resources, native output, and Asset Pipeline keep separate preview labels.",
+        "## Current choices\nAmber Framework 1.5.0 is the stable maintenance line, Amber Framework 2.0.0-beta.4 is the current V2 web-framework beta, and Amber CLI 2.0.5 is the current standalone application generator.",
+        "## What beta means\nThe V2 tag is a prerelease while its web path is tested in public. The release-gated path includes Grant, Micrate, SQLite, and fingerprinted authored assets; attachments, generated auth/API resources, and native output keep separate preview labels.",
         "## Source of truth\nGitHub Releases remains the source of truth. The human page is refreshed from the Amber Framework and Amber CLI repositories every six hours and links every entry back to its original release.",
       ],
     },
@@ -89,7 +89,7 @@ module SiteContent
     "grant" => {
       title:       "Grant — records",
       description: "Grant personifies relational models, migrations, associations, validation, and queries.",
-      sections:    ["## Release boundary\nGrant is the default relational model layer in Amber CLI 2.0.4 web applications and remains an independently versioned project."],
+      sections:    ["## Release boundary\nGrant is the default relational model layer in Amber CLI 2.0.5 web applications and remains an independently versioned project."],
     },
     "gemma" => {
       title:       "Gemma — files",

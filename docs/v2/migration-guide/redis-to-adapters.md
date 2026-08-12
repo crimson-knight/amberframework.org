@@ -15,6 +15,16 @@ adapters against the Amber interfaces.
 This migration changes how Amber reaches the storage or message broker. It does
 not require you to stop using Redis.
 
+## Where the examples go
+
+- built-in adapter names go in `config/environments/development.yml`,
+  `test.yml`, or the environment being changed;
+- application adapter classes go under `src/adapters/`, for example
+  `src/adapters/redis_session_adapter.cr`;
+- adapter registration belongs in `config/application.cr` before Amber builds
+  its session or pub/sub services; and
+- commands and specs run from the application root beside `shard.yml`.
+
 ## Choose the target behavior
 
 | Requirement | Suitable direction |

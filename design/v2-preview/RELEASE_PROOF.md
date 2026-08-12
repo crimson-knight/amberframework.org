@@ -1,8 +1,11 @@
-# Amber V2 public-beta release proof
+# Amber V2 beta.2 / CLI 2.0.3 release proof (historical)
 
 Date: August 10, 2026 (America/New_York)
 
 Status: **PUBLIC BETA LIVE — PRODUCTION VERIFIED**
+
+This is an immutable record of the August 10 launch. It is not evidence for
+the beta.4/CLI 2.0.5 release; see `RELEASE_PROOF_BETA4.md` for the current gate.
 
 ## Owner approval
 

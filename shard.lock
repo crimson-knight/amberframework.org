@@ -2,7 +2,11 @@ version: 2.0
 shards:
   amber:
     git: https://github.com/amberframework/amber.git
-    version: 2.0.0-beta.3
+    version: 2.0.0-beta.4
+
+  asset_pipeline:
+    git: https://github.com/amberframework/asset_pipeline.git
+    version: 0.37.0
 
   markd:
     git: https://github.com/icyleaf/markd.git

@@ -8,18 +8,33 @@ description: "File attachment toolkit for Crystal applications"
 
 # File Uploads with Gemma
 
-> **Preview ecosystem guide:** Gemma is not part of the Amber 2.0.0-beta.3
+> **Preview ecosystem guide:** Gemma is not part of the Amber 2.0.0-beta.4
 > core web-app release gate. Its package version, API, and platform support may
 > change independently. Confirm a compatible official release before adding it
 > to an application.
 
 Gemma is a file attachment toolkit for Crystal applications, inspired by [Shrine for Ruby](https://shrinerb.com). It connects model attachments to validation, temporary uploads, permanent storage, and delivery across configurable backends.
 
+## Authored assets and uploads are different lifecycles
+
+Use [Asset Pipeline](../assets/) for files that ship with an application release:
+CSS, JavaScript, logos, interface images, fonts, icons, and other reviewed static
+files. Those files can be content-addressed, included in a release manifest, and
+cached immutably because the deployment owns their bytes.
+
+Use Gemma for files received while the application is running. An upload is
+untrusted input and may be private, replaced, or deleted. Do not copy uploads
+into the Asset Pipeline source tree, add them to its manifest, or assume its
+immutable cache policy applies. Validate the file, store it outside the
+application release artifact, and choose an authenticated controller response,
+a presigned object-storage URL, or an explicitly configured public-upload route
+for delivery.
+
 ## Where the examples go
 
 - Add dependencies in `shard.yml` and run commands from the application root.
-- Configure Gemma in `config/application.cr`, which the released V2 template
-  loads directly.
+- Configure Gemma in `config/uploads.cr`. The generated application entry point
+  loads top-level `config/*` files before application source.
 - Attachment declarations belong in Grant models under `src/models/`.
 - Upload handling belongs in the receiving controller under `src/controllers/`;
   form and display markup belongs in the matching ECR file under `src/views/`.
@@ -52,9 +67,9 @@ Run `shards install` from the application root.
 
 ### 1. Configure Storage
 
-**File: `config/application.cr` — append this setup after `require "amber"`.
-Do not put it in the generated empty `config/initializers/` directory unless
-you also add and verify an explicit require.**
+**File: `config/uploads.cr` — create this complete storage configuration. Do not
+put it in the generated empty `config/initializers/` directory unless you also
+add and verify an explicit require.**
 
 ```crystal
 require "gemma"
@@ -70,6 +85,18 @@ Gemma.configure do |config|
   config.storages["store"] = Gemma::Storage::FileSystem.new("uploads")
 end
 ```
+
+**File: the application entry point, for example `src/my_app.cr` — retain
+`require "../config/*"` before controllers and models.** A migrated app with a
+narrower require list must explicitly require `../config/uploads`; creating the
+file alone does not load it.
+
+This example stores files under project-root `uploads/`. Amber's generated
+static route serves `public/`; it does **not** make project-root `uploads/`
+public. Keep private uploads there and deliver them through an authorized
+application endpoint or object storage. If the product deliberately uses public
+local uploads, configure a dedicated persistent directory and route, and test
+the returned Gemma URL before rendering it in a view.
 
 ### 2. Add Attachment to Model
 
@@ -122,6 +149,10 @@ end
   <img src="<%= user.avatar_url %>" alt="Avatar">
 <% end %>
 ```
+
+This view assumes `avatar_url` resolves through the delivery path selected
+above. Request that URL directly during verification; a URL-shaped value alone
+does not prove that Amber can serve the stored file.
 
 ## How It Works
 

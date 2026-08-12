@@ -74,7 +74,7 @@ websocket "/ws", UserSocket
 
 ## 4. Join from a local ES module
 
-**File: `public/js/live-status.js` — create this browser module.**
+**File: `app/assets/javascript/live-status.js` — create this browser module.**
 
 ```javascript
 const protocol = location.protocol === "https:" ? "wss" : "ws";
@@ -102,9 +102,13 @@ socket.addEventListener("message", ({data}) => {
 import map and import it after the map.**
 
 ```ecr
-<script type="importmap">
-  {"imports":{"app":"/js/app.js","live-status":"/js/live-status.js"}}
-</script>
+<%= javascript_importmap_tag(
+  {
+    "app" => "javascript/app.js",
+    "live-status" => "javascript/live-status.js"
+  },
+  preload: ["javascript/app.js", "javascript/live-status.js"]
+) %>
 <script type="module">
   import "app";
   import "live-status";

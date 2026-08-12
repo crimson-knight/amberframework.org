@@ -67,9 +67,11 @@ Pet scaffold, migrates development and test, runs the generated specs, builds
 and boots the application, submits the create form, reads the stored Pet,
 submits the edit form, and verifies the updated value.
 
-That journey runs on Apple Silicon macOS, x86-64 Linux, and ARM64 Linux.
-Windows x86-64 compiles and tests the same generated database-backed app in CI;
-it remains outside the release gate until it has a supported CLI archive.
+That full journey runs on Apple Silicon macOS, x86-64 Linux, and ARM64 Linux.
+Windows x86-64 generates, migrates, tests, compiles, boots, and exercises the
+same database-backed web app in CI. Windows remains outside the beta release
+gate because CLI 2.0.5 does not publish a standalone Windows archive; the
+documented source build is the current installation path.
 
 Start with [Build a Pet Tracker](/docs/v2/guides/pet-tracker/), inspect the
 [web-template contract](/docs/v2/guides/web-template/), and use the

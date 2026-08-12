@@ -78,9 +78,36 @@ describe DocsScanner do
       DocsScanner.find_page("v2", "guides/views").should_not be_nil
       DocsScanner.replacement_path("v2", "guides/controllers/params.md").should eq("guides/schema-api")
     end
+
+    it "links retired file and WebSocket recipes to reviewed V2 guides" do
+      DocsScanner.replacement_path("v2", "cookbook/file-download.md").should eq("guides/routing/pipelines")
+      DocsScanner.replacement_path("v2", "cookbook/file-upload.md").should eq("guides/uploads")
+      DocsScanner.replacement_path("v2", "cookbook/websocket-chat.md").should eq("guides/websockets")
+      DocsScanner.replacement_path("v2", "guides/websockets/javascript-client.md").should eq("guides/websockets")
+    end
   end
 
   describe "V2 publication boundaries" do
+    it "gives every authored code guide an explicit placement contract" do
+      Dir.glob("docs/v2/**/*.md").each do |path|
+        content = File.read(path)
+        next unless content.matches?(/^```\S+/m)
+
+        content.should match(/Where the examples go|\*\*File:|\*\*Files:|\*\*Run from:/),
+          "#{path} contains code without a file or command location contract"
+      end
+    end
+
+    it "keeps authored V2 asset examples on the manifest-backed paths" do
+      Dir.glob("docs/v2/**/*.md").each do |path|
+        content = File.read(path)
+        content.should_not match(%r{(?:public/(?:css|js)/|href="/(?:css|js)/)}),
+          "#{path} contains a retired raw asset source path"
+        content.should_not match(/^```(?:ruby|rb|cr|yml)\s*$/m),
+          "#{path} uses an ambiguous or incorrect code language label"
+      end
+    end
+
     it "includes the published V2 CLI pages" do
       pages = DocsScanner.scan_version("v2")
       cli_pages = pages.select { |p| p.url_path.includes?("cli/") }
@@ -133,6 +160,37 @@ describe DocsScanner do
       DocsScanner.scan_version("v2").reject { |page| own_paths.includes?(page.relative_path) }.each do |page|
         page.content.should_not match(stale_pattern), "#{page.relative_path} contains known V1-only instructions"
       end
+    end
+
+    it "scans the complete resolved V2 corpus for retired asset and client APIs" do
+      stale_patterns = {
+        /amber\.min\.js/i                          => "the retired bundled Amber JavaScript client",
+        %r{lib/amber/assets/js}i                   => "the retired framework asset directory",
+        %r{/public/amber(?:\.min)?\.js}i           => "the retired public Amber client URL",
+        %r{config/initializers/assets\.cr}i        => "the unloaded V1 asset initializer path",
+        /AssetPipeline::FrontLoader/               => "the request-time FrontLoader API",
+        /\bFRONT_LOADER\b/                         => "the request-time FrontLoader constant",
+        /clear_cache_upon_change/                  => "the obsolete runtime cache switch",
+        /render_stimulus_initialization_script/    => "the obsolete generated Stimulus bootstrap",
+        %r{public/javascript/}                     => "the obsolete runtime-generated JavaScript directory",
+        /AMBER_DATABASE_URL/                       => "the legacy database environment variable in V2 guidance",
+        %r{(?:app\.css|app\.js)\?v=}              => "a manually versioned starter asset",
+        /served directly\s*-\s*no build step/i     => "the obsolete no-build production claim",
+      }
+
+      DocsScanner.scan_version("v2").each do |page|
+        stale_patterns.each do |pattern, description|
+          page.content.should_not match(pattern), "#{page.relative_path} contains #{description}"
+        end
+      end
+    end
+
+    it "does not publish the retired V1 file or bundled-client pages under V2" do
+      paths = DocsScanner.scan_version("v2").map(&.relative_path)
+      paths.should_not contain("cookbook/file-download.md")
+      paths.should_not contain("cookbook/file-upload.md")
+      paths.should_not contain("cookbook/websocket-chat.md")
+      paths.should_not contain("guides/websockets/javascript-client.md")
     end
   end
 

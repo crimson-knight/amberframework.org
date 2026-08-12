@@ -2,191 +2,179 @@
 title: "Import Maps"
 section: "guides/assets"
 order: 10
-description: "Use browser-native import maps and local JavaScript modules without a bundler"
+description: "Map browser-native JavaScript modules through Amber's fingerprinted asset manifest"
 ---
 
 # Import Maps
 
-Import maps let the browser resolve a stable module name such as `app` to a
-JavaScript file served from your Amber application. The supported V2 baseline
-uses the browser feature directly: no Node.js dependency, package manager,
-bundler, UI framework, CDN, or Asset Pipeline integration is required.
+Import maps let a browser resolve a stable module name such as `app` to a
+JavaScript module. They do not require Node.js, npm, or a bundler. Asset
+Pipeline adds a production cache boundary by mapping logical source names to
+content-fingerprinted public URLs.
 
-## Start with one local module
+> **Supported web path:** Amber CLI `2.0.5` generates one manifest-aware import
+> map for browser-ready local modules. External modules remain an application
+> choice with their own availability, privacy, and review boundary.
 
-**File: `public/js/app.js` — replace the generated starter module or create this
-file if the application predates the V2 web template.**
+## Where the examples go
 
-```javascript
-// public/js/app.js
-const menuButton = document.querySelector("[data-menu-button]");
-const menu = document.querySelector("[data-menu]");
-
-menuButton?.addEventListener("click", () => {
-  const open = menuButton.getAttribute("aria-expanded") !== "true";
-  menuButton.setAttribute("aria-expanded", String(open));
-  menu?.toggleAttribute("data-open", open);
-});
-```
-
-**File: `src/views/layouts/application.ecr` — place this block immediately
-before `</body>`. Replace the existing starter import-map block; do not add a
-second import map.**
-
-```ecr
-<script type="importmap">
-  {
-    "imports": {
-      "app": "/js/app.js"
-    }
-  }
-</script>
-<script type="module">import "app";</script>
-```
-
-The import map must appear before the module that uses it. Module scripts are
-deferred by the browser, so the document is parsed before `app.js` executes.
-
-## Split behavior by responsibility
-
-Add local modules when the front end becomes large enough to benefit from
-separate files.
-
-**Reference structure — create these files under the application-owned
-`public/js/` directory:**
+**Reference file map:**
 
 ```text
-public/js/
-├── app.js
-├── controllers/
-│   ├── menu.js
-│   └── dialog.js
-└── lib/
-    └── format-date.js
+my_app/
+├── app/assets/javascript/
+│   ├── app.js
+│   ├── controllers/menu.js
+│   └── lib/format-date.js
+├── public/assets/manifest.json                    # generated
+└── src/views/layouts/application.ecr
 ```
 
-**File: `src/views/layouts/application.ecr` — replace the earlier import-map
-block with this expanded map.**
+Complete the [Asset Pipeline setup](../) first. The examples below extend its
+existing compiler and Amber manifest configuration.
 
-```ecr
-<script type="importmap">
-  {
-    "imports": {
-      "app": "/js/app.js",
-      "controllers/": "/js/controllers/",
-      "lib/": "/js/lib/"
-    }
-  }
-</script>
-<script type="module">import "app";</script>
-```
+## Create the local modules
 
-**File: `public/js/app.js` — replace its contents with the application entry
-point that composes the two controllers.**
+**File: `app/assets/javascript/controllers/menu.js` — create this complete
+module.**
 
 ```javascript
-// public/js/app.js
-import {connectMenu} from "controllers/menu.js";
-import {connectDialogs} from "controllers/dialog.js";
+export function connectMenu() {
+  const button = document.querySelector("[data-menu-button]")
+  const menu = document.querySelector("[data-menu]")
 
-connectMenu();
-connectDialogs();
+  button?.addEventListener("click", () => {
+    const open = button.getAttribute("aria-expanded") !== "true"
+    button.setAttribute("aria-expanded", String(open))
+    menu?.toggleAttribute("data-open", open)
+  })
+}
 ```
 
-The trailing slash in `"controllers/"` maps every matching module prefix to
-the local directory. This keeps imports readable if asset locations change
-later.
+**File: `app/assets/javascript/lib/format-date.js` — create this complete
+module.**
 
-## Styling stays local too
-
-An import map solves JavaScript module names; it does not replace CSS. Keep the
-front-end baseline together and visible.
-
-**Reference structure:**
-
-```text
-public/
-├── css/app.css
-└── js/
-    ├── app.js
-    └── controllers/menu.js
+```javascript
+export function formatDate(value) {
+  return new Intl.DateTimeFormat(document.documentElement.lang).format(value)
+}
 ```
 
-**File: `src/views/layouts/application.ecr` — keep this stylesheet link inside
-`<head>`.**
+**File: `app/assets/javascript/app.js` — create the application entry point.**
+
+```javascript
+import { connectMenu } from "menu-controller"
+import { formatDate } from "format-date"
+
+connectMenu()
+
+for (const element of document.querySelectorAll("[data-date]")) {
+  element.textContent = formatDate(new Date(element.dataset.date))
+}
+```
+
+The entry point imports stable names, not generated digest filenames. The ECR
+layout owns their mapping.
+
+## Render one manifest-aware import map
+
+**File: `src/views/layouts/application.ecr` — place the import map in `<head>`,
+before any module script. Extend the generated import-map helper call; do not
+add a second map.**
 
 ```ecr
-<link rel="stylesheet" href="/css/app.css">
+<%= javascript_importmap_tag(
+  {
+    "app" => "javascript/app.js",
+    "menu-controller" => "javascript/controllers/menu.js",
+    "format-date" => "javascript/lib/format-date.js"
+  },
+  preload: [
+    "javascript/app.js",
+    "javascript/controllers/menu.js"
+  ]
+) %>
 ```
 
-**File: `public/css/app.css` — use this as a starting layer, then extend it with
-the application's components.**
-
-```css
-:root {
-  --paper: #fffaf3;
-  --ink: #241a15;
-  --accent: #e96918;
-}
-
-.page-shell {
-  display: grid;
-  width: min(100% - 2rem, 72rem);
-  margin-inline: auto;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-```
-
-This is a complete front-end path: ECR supplies semantic HTML, local CSS owns
-the visual system, and local modules add behavior progressively.
-
-## Cache versions deliberately
-
-Static files can use a query version when you need an explicit cache boundary.
-
-**File: `src/views/layouts/application.ecr` — update the existing asset URLs;
-do not duplicate the stylesheet or import map.**
+**File: `src/views/layouts/application.ecr` — place the module entry point just
+before `</body>`.**
 
 ```ecr
-<link rel="stylesheet" href="/css/app.css?v=2026-08-10">
-<script type="importmap">
-  {"imports":{"app":"/js/app.js?v=2026-08-10"}}
-</script>
+<%= content %>
+<script type="module">import "app";</script>
+</body>
 ```
 
-Change the version when the file changes. Keep every mapped URL local if the
-application must work offline or maintain a no-third-party-runtime policy.
+The helper resolves each application-owned logical path through
+`public/assets/manifest.json` and emits fingerprinted URLs. Its `preload` values
+are logical asset paths, not import-map keys and not generated filenames.
 
-## Adding a dependency is a product decision
+## Add an external module deliberately
 
-Import maps can point at remote packages, but they do not make an external
-dependency free. A remote module adds availability, integrity, privacy,
-compatibility, and release-policy questions. Prefer local application modules
-for the supported baseline. If a third-party package earns its place, pin and
-self-host the reviewed artifact when practical.
+External modules add availability, privacy, integrity, compatibility, and
+release-policy concerns. Prefer reviewed local modules. If a remote module earns
+its place, pin an exact artifact and put the external URL directly in the same
+map; external URLs pass through without a manifest lookup.
 
-The preview Asset Pipeline ecosystem can generate import maps for larger asset
-graphs, but it is not required by the Amber 2.0.0-beta.3 web-app contract. Its
-package version, API, and platform support may change independently.
+**File: `src/views/layouts/application.ecr` — extend the existing map; do not
+render another one.**
 
-See [Views](../views/) for the complete controller, ECR, and layout boundary.
+```ecr
+<%= javascript_importmap_tag(
+  {
+    "app" => "javascript/app.js",
+    "chart.js" => "https://cdn.example.invalid/chart.js@REVIEWED_VERSION/+esm"
+  },
+  preload: ["javascript/app.js"]
+) %>
+```
 
-## Verify the file-to-browser path
+The example domain and version marker are intentionally nonfunctional. Replace
+them only after reviewing a real provider, exact version, browser format,
+license, privacy impact, and outage behavior. Self-host the reviewed module
+under `app/assets/javascript/vendor/` when the application must work without a
+third-party runtime dependency.
+
+## CSS is part of the same release
+
+An import map solves JavaScript names; it does not load styles. Keep CSS in the
+same authored tree and resolve it through the same manifest.
+
+**File: `src/views/layouts/application.ecr` — place this helper in `<head>`.**
+
+```ecr
+<%= stylesheet_link_tag("stylesheets/app.css") %>
+```
+
+The compiler rewrites local `url(...)` references inside that stylesheet, so
+images and fonts receive the same content-addressed release boundary. Do not
+append hand-maintained `?v=` values to CSS, JavaScript, images, or fonts. A byte
+change creates a new fingerprinted path automatically.
+
+## Build and verify
 
 **Run from: the application root.**
 
 ```bash
+amber assets build
+amber assets check
 crystal spec
 amber watch
 ```
 
-Open a rendered page, use **View Source**, and confirm that it contains one
-import map before the module import. Then request `/js/app.js` directly and
-confirm that Amber returns the file from `public/js/app.js`. If a nested import
-fails, compare its map prefix with the matching directory under `public/js/`.
+Use **View Source** and the browser network panel to confirm:
+
+1. exactly one import map appears before the module entry point;
+2. every local mapped value is a fingerprinted `/assets/` URL;
+3. every preloaded module is used and returns JavaScript;
+4. no source file imports a generated digest filename;
+5. there are no module-resolution or CSP errors; and
+6. rebuilding after a module edit changes its mapped URL.
+
+If a strict manifest lookup fails, compare the logical value in
+`src/views/layouts/application.ecr` with the relative source path below
+`app/assets/`, then rebuild. Do not “fix” a missing entry by pasting a raw public
+path into the import map.
+
+Continue with [Stimulus integration](stimulus/) for an optional controller
+organization pattern.

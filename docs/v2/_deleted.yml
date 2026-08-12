@@ -47,3 +47,11 @@
 - guides/views/form-builder.md
 - examples/crystal-debug.md
 - cookbook/json-api.md
+
+# These inherited recipes depend on V1-only static, upload, or browser-client
+# behavior. V2 points readers to the reviewed routing, Gemma, and native
+# WebSocket guides instead of publishing the obsolete examples under /docs/v2.
+- cookbook/file-download.md
+- cookbook/file-upload.md
+- cookbook/websocket-chat.md
+- guides/websockets/javascript-client.md

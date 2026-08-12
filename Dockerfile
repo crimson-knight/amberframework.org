@@ -6,6 +6,8 @@ COPY shard.yml shard.lock ./
 RUN shards install --production
 
 COPY . .
+RUN crystal run scripts/build_assets.cr
+RUN crystal run scripts/build_assets.cr -- --check
 RUN shards build amberframework --release --no-debug
 
 FROM crystallang/crystal:1.21.0 AS production

@@ -8,7 +8,7 @@ description: "The ActiveRecord-style ORM included in Amber V2 web applications"
 
 # Grant ORM
 
-> **Supported web path:** Amber CLI `2.0.4` includes Grant in every generated
+> **Supported web path:** Amber CLI `2.0.5` includes Grant in every generated
 > web application and pins the reviewed V2 commit. The Grant project keeps its
 > own release lifecycle, so preserve the generated pin when following this beta.
 

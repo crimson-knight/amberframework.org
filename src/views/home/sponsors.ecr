@@ -8,7 +8,7 @@
       <h1>Backed by people<br>who keep showing up.</h1>
       <p>Amber exists because maintainers, contributors, sponsors, and users invest in the unglamorous work too: tests, releases, documentation, review, and long-term stewardship.</p>
     </div>
-    <img class="guide-amber" src="/assets/characters/amber-chibi-hero-mark-v2.webp" width="520" height="520" alt="Amber giving a welcoming peace sign">
+    <%= image_tag("characters/amber-chibi-hero-mark-v2.webp", class: "guide-amber", width: "520", height: "520", alt: "Amber giving a welcoming peace sign") %>
   </div>
 </header>
 
@@ -21,7 +21,7 @@
       </div>
 
       <article class="sponsor-feature reveal">
-        <div class="sponsor-crystal" aria-hidden="true"><img src="/assets/brand/amber-crystal.svg" width="88" height="118" alt=""></div>
+        <div class="sponsor-crystal" aria-hidden="true"><%= image_tag("brand/amber-crystal.svg", width: "88", height: "118", alt: "") %></div>
         <div>
           <span class="file-label">Primary project sponsor</span>
           <h2>Software should be clear enough to trust.</h2>

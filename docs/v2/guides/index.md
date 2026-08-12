@@ -35,7 +35,8 @@ directory labeled as generated output.
 ## Supported beta core
 
 - [Build a Pet Tracker](pet-tracker/) — the canonical first app, from routes to HTML, JSON, CSS, and browser-native JavaScript
-- [Web template](web-template/) — exact output of Amber CLI 2.0.4
+- [Web template](web-template/) — exact output of Amber CLI 2.0.5
+- [Asset Pipeline](assets/) — CSS, JavaScript, images, fonts, SRI, and immutable caching
 - [Grant](models/grant/) — the default relational model layer
 - [Migrations](models/grant/migrations/) — authored Micrate SQL and safe release workflow
 - [Schema API](schema-api/) — typed request parsing and validation
@@ -45,13 +46,12 @@ directory labeled as generated output.
 
 ## Preview ecosystem material
 
-- [Asset Pipeline](assets/) — separate native-ESM project
 - [Native application template](native-preview/) — macOS, iOS, and Android preview
 - [Gemma](uploads/) — separate attachment project
 
 Preview pages describe work that can be evaluated, but they are not part of the
-clean web-template compile guarantee. Start with the supported web template and
-add preview projects deliberately.
+clean web-template compile guarantee. The Asset Pipeline is part of that
+guarantee; add native and attachment projects deliberately.
 
 ## Use the docs with an assistant
 

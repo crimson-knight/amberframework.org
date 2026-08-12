@@ -1,7 +1,29 @@
 {
   "schema_version": 1,
-  "synced_at": "2026-08-11T21:21:34Z",
+  "synced_at": "2026-08-12T04:36:17Z",
   "releases": [
+    {
+      "project": "Amber CLI",
+      "repository": "amberframework/amber_cli",
+      "tag_name": "v2.0.5",
+      "name": "Amber CLI 2.0.5",
+      "published_at": "2026-08-12T04:36:05Z",
+      "published_on": "August 12, 2026",
+      "prerelease": false,
+      "url": "https://github.com/amberframework/amber_cli/releases/tag/v2.0.5",
+      "body": "# Amber CLI 2.0.5\n\nAmber CLI 2.0.5 makes production-safe static assets part of the same supported\nAmber V2 web-app path as Grant, Micrate, and SQLite. A fresh application starts\nwith editable CSS, JavaScript, SVG, and font locations; a deterministic asset\nmanifest; manifest-aware ECR helpers; and browser-correct production headers.\n\n## Start a complete web app\n\n```bash\namber new pet_tracker --type web\ncd pet_tracker\nshards install\namber assets check\namber generate scaffold Pet name:string:required species:string:required adopted:bool\namber database migrate\ncrystal spec\namber watch\n```\n\nOpen <http://127.0.0.1:3000/> and <http://127.0.0.1:3000/pets>. The homepage\nuses the same Amber design language as the framework site and references\nfingerprinted files from `public/assets/manifest.json`.\n\n## What changed\n\n- Added `amber assets build` for deterministic fingerprinting and\n  `amber assets check` for strict release verification.\n- Moved authored browser files to `app/assets/`; generated files under\n  `public/assets/` are ignored and may be rebuilt at any time.\n- Rewrites local CSS URLs and JavaScript module references to their\n  fingerprinted image, font, stylesheet, and module targets.\n- Generates manifest-aware stylesheet, import-map, preload, image, and favicon\n  tags, including Subresource Integrity metadata where browsers support it.\n- Rebuilds assets before application compilation in `amber watch`, including\n  file additions, changes, and deletions.\n- Boots generated applications in Unix and Windows CI and requests the real\n  HTML, CSS, JavaScript, SVG, and compressed-asset paths instead of treating a\n  successful compile as sufficient evidence.\n- Publishes CLI archives for Apple Silicon macOS, x86_64 Linux, and ARM64 Linux;\n  Windows x86_64 remains a source-build path with a release-gated app smoke.\n- Replaces the native preview generator's old personal and feature branches\n  with the canonical Amber beta, released Asset Pipeline, and exact reviewed\n  dependency revisions. Its documented `make setup` now fails visibly when\n  dependencies cannot install instead of hiding the error.\n\nGrant, SQLite, Micrate migrations, and generated HTML resource CRUD remain the\ndefault persistence contract from CLI 2.0.4. Native applications,\nauthentication generators, and generated APIs remain preview surfaces.\n"
+    },
+    {
+      "project": "Amber Framework",
+      "repository": "amberframework/amber",
+      "tag_name": "v2.0.0-beta.4",
+      "name": "Amber 2.0.0-beta.4",
+      "published_at": "2026-08-12T04:23:00Z",
+      "published_on": "August 12, 2026",
+      "prerelease": true,
+      "url": "https://github.com/amberframework/amber/releases/tag/v2.0.0-beta.4",
+      "body": "Amber 2.0.0-beta.4 connects the V2 web runtime to the deterministic asset compiler and closes the fresh-application path across macOS, Linux, Linux ARM64, and Windows CI.\n\nThe `beta` label applies to the Amber 2.0 release train. The supported surface is the ECR web application created by Amber CLI 2.0.5; native applications and authentication generators remain explicitly marked preview features.\n\n### What ships\n\n- Manifest-backed `asset_path`, stylesheet, JavaScript/import-map, image, and favicon helpers with Subresource Integrity metadata.\n- Production manifest caching and development reload behavior.\n- Immutable cache headers plus correct media type and content-length metadata for fingerprinted assets.\n- Precompressed gzip negotiation, byte ranges, conditional requests, `HEAD`, and safe non-fingerprinted fallback behavior.\n- `AMBER_DATABASE_URL` configuration with `DATABASE_URL` fallback for generated Grant applications.\n- Windows-safe server startup: Amber no longer invokes Crystal's unimplemented Windows signal-trap API.\n- Updated installation, migration, asset-helper, configuration, and release-contract documentation with exact file locations.\n\n### Supported fresh web-app contract\n\nThe release-gated path covers generation, dependency installation, asset compilation and verification, Grant/SQLite/Micrate migrations, resource scaffolds, specs, production compilation, server startup, the generated homepage, and live database CRUD.\n\n- macOS Apple Silicon: supported and release-gated.\n- Linux x86_64: supported and release-gated.\n- Linux ARM64: supported and release-gated.\n- Windows x86_64: the generated application path is release-gated in CI; build the CLI from source because a standalone Windows archive is not published yet.\n\n### Validation\n\n- 2,350 framework examples passed with no failures.\n- GitHub Actions passed on Linux and macOS; CircleCI passed.\n- The Windows generated-app gate compiles and runs this exact framework revision through Amber CLI CI.\n\nUse Amber CLI 2.0.5 to create a new web application. See `docs/beta-installation.md` and `docs/migration-guide.md` in the repository for the reproducible install and upgrade procedures.\n\nFull change: #1407\n"
+    },
     {
       "project": "Amber CLI",
       "repository": "amberframework/amber_cli",
@@ -91,17 +113,6 @@
       "body": "## What's Changed\n* Add native scaffolding and Homebrew release path by @crimson-knight in https://github.com/amberframework/amber_cli/pull/20\n* Harden exec/encrypt editor invocation, fix Crystal 1.20 deprecations by @crimson-knight in https://github.com/amberframework/amber_cli/pull/22\n\n\n**Full Changelog**: https://github.com/amberframework/amber_cli/compare/v2.0.0...v2.0.1"
     },
     {
-      "project": "Amber CLI",
-      "repository": "amberframework/amber_cli",
-      "tag_name": "v2.0.0",
-      "name": "Amber CLI v2.0.0",
-      "published_at": "2026-04-18T14:01:42Z",
-      "published_on": "April 18, 2026",
-      "prerelease": false,
-      "url": "https://github.com/amberframework/amber_cli/releases/tag/v2.0.0",
-      "body": "Initial Amber CLI 2.0.0 release artifacts for Homebrew installation and scaffold validation."
-    },
-    {
       "project": "Amber Framework",
       "repository": "amberframework/amber",
       "tag_name": "v1.4.1",
@@ -133,17 +144,6 @@
       "prerelease": false,
       "url": "https://github.com/amberframework/amber/releases/tag/v1.3.2",
       "body": "## What's Changed\r\n* Improve new app creation experience by @crimson-knight in https://github.com/amberframework/amber/pull/1302\r\n* Compile binary with `--release` for the Amber CLI tool when installing with Homebrew or `make`\r\n\r\n\r\n**Full Changelog**: https://github.com/amberframework/amber/compare/v1.3.1...v1.3.2"
-    },
-    {
-      "project": "Amber Framework",
-      "repository": "amberframework/amber",
-      "tag_name": "v1.3.1",
-      "name": "v1.3.1 - Fix Node 14 deps for new apps",
-      "published_at": "2022-11-08T14:20:24Z",
-      "published_on": "November 8, 2022",
-      "prerelease": false,
-      "url": "https://github.com/amberframework/amber/releases/tag/v1.3.1",
-      "body": "## What's Changed\r\n* Updated docker file to use latest crystal image and updated straggling Amber version by @crimson-knight in https://github.com/amberframework/amber/pull/1298\r\n* Changed node version check to look for v14 only by @crimson-knight in https://github.com/amberframework/amber/pull/1301\r\n\r\n\r\n**Full Changelog**: https://github.com/amberframework/amber/compare/v1.3.0...v1.3.1"
     }
   ]
 }

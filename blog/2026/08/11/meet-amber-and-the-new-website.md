@@ -48,9 +48,11 @@ out the few boundaries that need more care.
 
 Amber V2 is an invitation to test a clearer web path, not a declaration that
 every idea is finished. The web framework core is the thing being
-release-gated. Persistence, files, native applications, and richer asset
-processing can move at their own pace without making a generated ECR
-application feel provisional.
+release-gated. The supported generated application now includes Grant
+persistence and manifest-backed CSS, JavaScript, images, and fonts. Gemma file
+attachments, generated authentication, and native applications keep separate
+preview boundaries without making an ordinary ECR application feel
+provisional.
 
 So: meet Amber. Then install the CLI, build something useful, and tell the real
 maintainers where the path still gets in your way.

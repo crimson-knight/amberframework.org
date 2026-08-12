@@ -7,26 +7,31 @@ description: "Configure FileSystem, S3, and Memory storage for file uploads"
 
 # Storage Backends
 
-> **Preview ecosystem guide:** Gemma is not part of the Amber 2.0.0-beta.3
+> **Preview ecosystem guide:** Gemma is not part of the Amber 2.0.0-beta.4
 > core web-app release gate. Its package version, API, and platform support may
 > change independently. Confirm a compatible official release before adding it
 > to an application.
 
 Gemma supports multiple storage backends for flexibility across different environments. All storages implement the same interface, allowing you to switch backends without changing application code.
 
+These are runtime uploads, not application assets. Logos, stylesheets,
+JavaScript, fonts, and other release-owned files belong in [Asset
+Pipeline](../assets/) and its build manifest. Never run user-controlled uploads
+through an asset build or cache them under an immutable authored-asset URL.
+
 ## Where the examples go
 
 Storage construction and Gemma-wide configuration belong in
-`config/application.cr`, which the released V2 template loads directly. Direct
-upload, URL, and metadata operations belong in the controller, job, service, or
-spec that owns the file operation. Test-only memory storage belongs in
-`spec/spec_helper.cr`. Directory trees on this page describe runtime output,
-not source files to create by hand.
+`config/uploads.cr`. The generated application entry point loads top-level
+`config/*` files before application source. Direct upload, URL, and metadata
+operations belong in the controller, job, service, or spec that owns the file
+operation. Test-only memory storage belongs in `spec/spec_helper.cr`. Directory
+trees on this page describe runtime output, not source files to create by hand.
 
 ## Configuration
 
-**File: `config/application.cr` — append this setup after `require "amber"`.
-Keep one `Gemma.configure` block and extend it as storage needs grow.**
+**File: `config/uploads.cr` — create this setup. Keep one `Gemma.configure`
+block and extend it as storage needs grow.**
 
 ```crystal
 require "gemma"
@@ -43,9 +48,16 @@ Gemma.configure do |config|
 end
 ```
 
+**File: the application entry point, for example `src/my_app.cr` — retain
+`require "../config/*"` before controllers and models.** If a migrated app does
+not use that generated wildcard, explicitly require `../config/uploads`.
+
 ## FileSystem Storage
 
-Store files on the local filesystem. Best for development and simple deployments.
+Store files on the local filesystem for development or a deliberately
+single-host deployment with a persistent mounted disk, backups, and an explicit
+delivery route. A container's writable layer and a release directory replaced
+during deployment are not durable upload storage.
 
 ### Basic Configuration
 
@@ -79,6 +91,12 @@ Gemma::Storage::FileSystem.new(
 
 ### URL Generation
 
+The filesystem directory and the browser URL are separate configuration
+decisions. Project-root `uploads/` is private by default because Amber's
+generated static route serves only `public/`. The following public-directory
+example is appropriate only for uploads that are intentionally public and have
+already passed validation:
+
 ```crystal
 storage = Gemma::Storage::FileSystem.new("public/uploads", prefix: "files")
 
@@ -91,15 +109,23 @@ storage.url("abc123.jpg", host: "https://cdn.example.com")
 # => "https://cdn.example.com/files/abc123.jpg"
 ```
 
+Request the returned URL in a deployment smoke test. If it does not correspond
+to the configured Amber route, use an authenticated download action or the
+storage backend's own URL instead of guessing a prefix.
+
 ### Directory Structure
 
 ```
-uploads/
-├── cache/           # Temporary files (prefix: "cache")
+uploads/                  # private, persistent runtime storage
+├── cache/                # temporary files (prefix: "cache")
 │   └── abc123.jpg
-└── files/           # Permanent files (prefix: "files")
+└── store/                # permanent files (prefix: "store")
     └── def456.pdf
 ```
+
+Do not place the temporary cache under `public/`. If permanent uploads are
+public, use an unpredictable immutable key or an authorization layer; never
+trust the original filename as a safe path.
 
 ## S3 Storage
 
@@ -132,10 +158,16 @@ storage = Gemma::Storage::S3.new(
   public: false,                # Set public ACL on upload
   upload_options: {             # Default upload options
     "x-amz-acl" => "private",
-    "Cache-Control" => "max-age=31536000"
+    "Cache-Control" => "private, no-store"
   }
 )
 ```
+
+For a genuinely public object whose key changes with its contents, a long
+`public, max-age=31536000, immutable` policy can be appropriate. Mutable object
+keys need short revalidation. Private and presigned objects need a policy
+appropriate to their access controls; do not copy the authored-asset cache
+policy blindly.
 
 ### Options
 
@@ -231,7 +263,7 @@ end
 
 Configure different storages per environment:
 
-**File: `config/application.cr` — replace the earlier `Gemma.configure` block
+**File: `config/uploads.cr` — replace the earlier `Gemma.configure` block
 with this environment-aware version; do not define both.**
 
 ```crystal
@@ -375,22 +407,21 @@ Gemma::Storage::FileSystem.new(
 )
 ```
 
-### 4. Configure CDN for Production
+### 4. Configure delivery for production
 
-Serve files through a CDN:
+Prefer a URL produced by the configured storage backend. It can preserve
+signatures, expiry, host, and key encoding. Do not form a CDN URL by concatenating
+an arbitrary hostname with a path returned for a different origin.
 
 ```crystal
-# In production, prefix URLs with CDN
-def avatar_cdn_url
-  return nil unless avatar
-
-  if ENV["AMBER_ENV"] == "production"
-    "https://cdn.example.com#{avatar_url}"
-  else
-    avatar_url
-  end
-end
+# The configured backend owns URL generation.
+avatar_url = user.avatar.try(&.url)
 ```
+
+For public objects behind a CDN, configure the storage/CDN origin and public
+host together, then test one upload, one fetch, one replacement, and one delete.
+For private objects, use authenticated application delivery or time-limited
+presigned URLs.
 
 ### 5. Clean Up Cache Periodically
 

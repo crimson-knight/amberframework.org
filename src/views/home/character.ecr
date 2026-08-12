@@ -4,13 +4,13 @@
   <% character_number = "AF-014" %>
   <% character_role = "Records and persistence" %>
   <% character_class = "grant" %>
-  <% character_image = "/assets/characters/grant-id-original-studio.webp" %>
+  <% character_image = "characters/grant-id-original-studio.webp" %>
   <% character_docs = "/docs/v2/guides/models/grant" %>
   <% character_summary = "Grant is the data specialist—the warehouse manager who knows where every record belongs and how it got there." %>
   <% character_personality = "Calm, exact, and quietly confident. Grant prefers a clear schema, an auditable migration, and a query whose intent can be read without a scavenger hunt." %>
   <% character_responsibilities = ["Models and relations", "Migrations and schema evolution", "Queries and transactions", "Record and query caching"] %>
   <% character_line = "If the business needs to remember it, Grant gives it a reliable place to live." %>
-  <% character_scene = "/assets/characters/grant-records-warehouse-higgsfield.webp" %>
+  <% character_scene = "characters/grant-records-warehouse-higgsfield.webp" %>
   <% character_scene_width = 1800 %>
   <% character_scene_height = 1005 %>
   <% character_scene_alt = "Grant retrieving an application record from a large archive warehouse" %>
@@ -25,13 +25,13 @@
   <% character_number = "AF-027" %>
   <% character_role = "Files and fulfillment" %>
   <% character_class = "gemma" %>
-  <% character_image = "/assets/characters/gemma-id-original-studio.webp" %>
+  <% character_image = "characters/gemma-id-original-studio.webp" %>
   <% character_docs = "/docs/v2/guides/uploads" %>
   <% character_summary = "Gemma owns the things that have to move, land safely, and remain findable: uploads, attachments, S3-compatible storage, and delivery." %>
   <% character_personality = "Fast, resourceful, and unflappable when the payload is large. Gemma likes explicit limits, verified formats, and storage adapters that can change without rewriting the app." %>
   <% character_responsibilities = ["File attachments", "Storage adapters", "Validation and limits", "Streaming and delivery"] %>
   <% character_line = "From upload to delivery, Gemma keeps every file accounted for." %>
-  <% character_scene = "/assets/characters/gemma-file-logistics-higgsfield.webp" %>
+  <% character_scene = "characters/gemma-file-logistics-higgsfield.webp" %>
   <% character_scene_width = 1800 %>
   <% character_scene_height = 1005 %>
   <% character_scene_alt = "Gemma routing a large digital file crate through a logistics warehouse" %>
@@ -46,13 +46,13 @@
   <% character_number = "AF-001" %>
   <% character_role = "Framework lead and front office" %>
   <% character_class = "amber" %>
-  <% character_image = "/assets/characters/amber-id-original-studio.webp" %>
+  <% character_image = "characters/amber-id-original-studio.webp" %>
   <% character_docs = "/docs/v2" %>
   <% character_summary = "Amber owns the web application's connected surface: routing, controllers, ECR views, typed configuration, local asset delivery, and the conventions that hold them together." %>
   <% character_personality = "Warm, energetic, decisively helpful, and a little opinionated about clear conventions. Amber wants the first path to work completely before asking a developer to assemble options." %>
   <% character_responsibilities = ["Routing and controllers", "ECR views and presentation", "Interaction and asset delivery", "Application structure and configuration"] %>
   <% character_line = "Tell Amber how a request should move through the app; she gives it an explicit route, pipeline, controller, and view." %>
-  <% character_scene = "/assets/characters/amber-hero-desk-transparent-higgsfield.webp" %>
+  <% character_scene = "characters/amber-hero-desk-transparent-higgsfield.webp" %>
   <% character_scene_width = 1800 %>
   <% character_scene_height = 1208 %>
   <% character_scene_alt = "Amber smiling at her desk and inviting the developer into the application" %>
@@ -65,9 +65,9 @@
 <% end %>
 
 <% crew_profiles = [
-  {id: "amber", name: "Amber", role: "Framework lead", image: "/assets/characters/amber-id-original-studio.webp"},
-  {id: "grant", name: "Grant", role: "Records and persistence", image: "/assets/characters/grant-id-original-studio.webp"},
-  {id: "gemma", name: "Gemma", role: "Files and fulfillment", image: "/assets/characters/gemma-id-original-studio.webp"}
+  {id: "amber", name: "Amber", role: "Framework lead", image: "characters/amber-id-original-studio.webp"},
+  {id: "grant", name: "Grant", role: "Records and persistence", image: "characters/grant-id-original-studio.webp"},
+  {id: "gemma", name: "Gemma", role: "Files and fulfillment", image: "characters/gemma-id-original-studio.webp"}
 ] %>
 
 <% @title = "#{character_name} — Amber Framework character" %>
@@ -88,7 +88,7 @@
       </div>
       <div class="character-portrait-frame">
         <span class="id-corner top-left"></span><span class="id-corner top-right"></span>
-        <img src="<%= character_image %>" width="1024" height="1024" alt="Portrait of <%= character_name %>">
+        <img src="<%= asset_path(character_image) %>" width="1024" height="1024" alt="Portrait of <%= character_name %>">
         <div class="portrait-stamp"><strong><%= character_number %></strong><span>OPEN SOURCE CREW</span></div>
       </div>
     </div>
@@ -118,7 +118,7 @@
   <section class="section role-analogy-section">
     <div class="site-container role-analogy-panel role-analogy-<%= character_class %> reveal">
       <div class="role-analogy-scene">
-        <img src="<%= character_scene %>" width="<%= character_scene_width %>" height="<%= character_scene_height %>" alt="<%= character_scene_alt %>">
+        <img src="<%= asset_path(character_scene) %>" width="<%= character_scene_width %>" height="<%= character_scene_height %>" alt="<%= character_scene_alt %>">
       </div>
       <div class="role-analogy-copy">
         <p class="file-label">Responsibility translator</p>
@@ -162,7 +162,7 @@
         <% crew_profiles.each do |profile| %>
           <% if profile[:id] != character_class %>
             <a class="crew-next-card crew-next-<%= profile[:id] %>" href="/characters/<%= profile[:id] %>">
-              <img src="<%= profile[:image] %>" width="800" height="800" alt="Portrait of <%= profile[:name] %>">
+              <img src="<%= asset_path(profile[:image]) %>" width="800" height="800" alt="Portrait of <%= profile[:name] %>">
               <span><small><%= profile[:role] %></small><strong><%= profile[:name] %></strong><em>Open personnel file →</em></span>
             </a>
           <% end %>

@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Manrope Local";
-  src: url("/assets/fonts/Manrope-Variable.woff2") format("woff2-variations");
+  src: url("../fonts/Manrope-Variable.woff2") format("woff2-variations");
   font-style: normal;
   font-weight: 200 800;
   font-display: swap;
@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: "Fraunces Local";
-  src: url("/assets/fonts/Fraunces-Variable.woff2") format("woff2-variations");
+  src: url("../fonts/Fraunces-Variable.woff2") format("woff2-variations");
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
@@ -16,7 +16,7 @@
 
 @font-face {
   font-family: "Fraunces Local";
-  src: url("/assets/fonts/Fraunces-Italic-Variable.woff2") format("woff2-variations");
+  src: url("../fonts/Fraunces-Italic-Variable.woff2") format("woff2-variations");
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
@@ -194,11 +194,11 @@ pre {
   flex: 1;
   align-items: center;
   justify-content: flex-end;
-  gap: 3px;
+  gap: 7px;
 }
 
 .site-menu > a {
-  padding: 9px 10px;
+  padding: 9px 8px;
   border-radius: 9px;
   color: var(--ink-soft);
   font-size: 0.84rem;
@@ -3353,6 +3353,33 @@ pre {
   .hero-grid { width: min(1560px, calc(100% - 80px)); grid-template-columns: minmax(0, 1.08fr) minmax(650px, 0.92fr); }
   .hero-art-amber > picture > img { right: -16%; bottom: -88px; width: 158%; }
   .character-callout { right: 1%; bottom: 4%; }
+}
+
+@media (max-width: 1120px) {
+  .nav-inner { min-height: 67px; }
+  .brand-lockup { font-size: 1.06rem; }
+  .brand-lockup img { width: 24px; height: 32px; }
+  .brand-lockup .brand-character-mark { width: 33px; height: 42px; }
+  .brand-version { display: none; }
+  .menu-button { display: inline-flex; }
+
+  .site-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    display: none;
+    align-items: stretch;
+    flex-direction: column;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 0 0 13px 13px;
+    background: var(--paper);
+    box-shadow: var(--shadow-md);
+  }
+
+  .site-menu[data-open] { display: flex; }
+  .site-menu > a { padding: 11px 12px; }
 }
 
 @media (max-width: 1060px) {

@@ -18,7 +18,7 @@ The standalone Amber CLI is independent from this runtime upgrade. Install or
 update it when you want V2 generators; an existing application can change its
 framework shard without being regenerated.
 
-> Amber `2.0.0-beta.3` release-gates the framework core and the new ECR web
+> Amber `2.0.0-beta.4` release-gates the framework core and the new ECR web
 > template with Grant, Micrate, and SQLite. Existing applications do not have
 > to replace a working ORM to adopt the framework beta. Gemma, Asset Pipeline,
 > generated auth/API resources, and native output remain separate previews.
@@ -31,7 +31,7 @@ framework shard without being regenerated.
 dependencies:
   amber:
     github: amberframework/amber
-    version: 2.0.0-beta.3
+    version: 2.0.0-beta.4
 ```
 
 Keep the rest of the application's dependencies unchanged for this first pass.
@@ -73,7 +73,7 @@ rebuilt.
 | Application boundary | Amber 1.x starting point | Amber 2.0 path |
 |---|---|---|
 | Views | ECR, Slang, or Kilt | ECR for new and generated V2 views |
-| JavaScript and CSS | Commonly Webpack-managed | Static files work without a bundler; Asset Pipeline is a separate preview |
+| JavaScript and CSS | Commonly Webpack-managed | The released manifest fingerprints browser-ready CSS, JS, images, and fonts without a bundler |
 | Persistence | Commonly Granite or Jennifer | Existing apps may keep their working ORM; new CLI apps use Grant and a selected driver |
 | Sessions | Redis-oriented configuration | Built-in memory adapter or an explicitly registered external adapter |
 | WebSocket pub/sub | Redis-oriented configuration | Built-in in-process adapter or an explicitly registered external adapter |
@@ -129,7 +129,7 @@ multi-process delivery before switching production traffic.
 
 ## 4. Keep an existing persistence migration separate
 
-Amber CLI `2.0.4` installs Grant and SQLite in a newly generated web
+Amber CLI `2.0.5` installs Grant and SQLite in a newly generated web
 application. That default does not require an existing Granite or Jennifer
 application to change ORM during the framework upgrade. Keep its current
 persistence layer for the first pass, then verify compatibility against the
@@ -144,16 +144,19 @@ transactions, migrations, and models is explicit. Review the
 
 ## 5. Preserve working assets before replacing tooling
 
-The supported V2 web application serves CSS, JavaScript, images, and fonts from
-`public/` without requiring Node.js or a bundler. That does not require an
-existing application to remove a working Webpack pipeline during the framework
-upgrade.
+Released CLI `2.0.5` compiles browser-ready files from `app/assets/` into a
+fingerprinted `public/assets/` manifest without requiring Node.js or a bundler.
+That does not require an existing application to remove a working Webpack
+pipeline during the framework upgrade.
 
-If you evaluate native ESM or the separate Asset Pipeline project, treat it as
-its own migration. Compare the generated files, import behavior, cache headers,
-and production deployment before retiring the previous build. The
+If you adopt native ESM and the build-time Asset Pipeline contract, treat it as
+its own migration. Compare the complete manifest; rewritten local
+CSS and JavaScript dependencies; image, font, and binary bytes and MIME types;
+import behavior; cache headers; read-only runtime; and atomic production
+deployment before retiring the previous build. The
 [Webpack-to-ESM guide](webpack-to-esm/) and [Asset Pipeline guides](../guides/assets/)
-describe preview paths rather than a requirement of the web-framework beta.
+describe that independently reviewable migration; existing asset tooling may
+remain in place while the framework dependency changes.
 
 ## 6. Adopt optional V2 features after the baseline passes
 
@@ -171,7 +174,7 @@ Use observed behavior instead of an estimated migration timeline:
 | HTTP | Representative request specs for routes, pipelines, parameters, redirects, and errors |
 | Sessions | Login/logout, expiration, rotation, cookie settings, and multi-process behavior where required |
 | WebSockets | Subscription, broadcast, reconnect, and cross-process delivery where required |
-| Assets | Production-built CSS and JavaScript, static-file responses, and browser smoke tests |
+| Assets | One build manifest; strict CSS, JavaScript, image, font, and binary lookups; rewritten dependency URLs; MIME/cache/compression responses; read-only runtime; and browser smoke tests |
 | Persistence | Database backup/restore proof, migrations, transactions, and representative reads and writes |
 | Deployment | A staging build produced through the same commands and configuration used in production |
 

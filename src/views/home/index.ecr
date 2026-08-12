@@ -4,7 +4,7 @@
 <div class="release-strip preview-strip">
   <div class="site-container">
     <span class="release-pill">V2 web beta</span>
-    <span>Framework beta.3 · Aug 11, 2026 · CLI 2.0.4 · Aug 11, 2026</span>
+    <span>Framework beta.4 · Aug 12, 2026 · CLI 2.0.5 · Aug 12, 2026</span>
     <a href="/releases">What shipped →</a>
   </div>
 </div>
@@ -29,16 +29,16 @@
         <a class="button button-secondary" href="#application-types">Compare application types</a>
       </div>
       <div class="hero-proof-row" aria-label="Preview support summary">
-        <span><img src="/assets/brand/crys-mascot.svg" width="26" height="23" alt=""><span><strong>Crystal</strong> 1.20+ · latest stable recommended</span></span>
-        <span><img src="/assets/characters/amber-chibi-hero-mark-v2.webp" width="26" height="26" alt=""><span><strong>Amber</strong> 2.0.0-beta.3 · Aug 11</span></span>
-        <span><span class="hero-proof-symbol" aria-hidden="true">⌘</span><span><strong>amber_cli</strong> 2.0.4 · Aug 11</span></span>
+        <span><%= image_tag("brand/crys-mascot.svg", width: "26", height: "23", alt: "") %><span><strong>Crystal</strong> 1.20+ · latest stable recommended</span></span>
+        <span><%= image_tag("characters/amber-chibi-hero-mark-v2.webp", width: "26", height: "26", alt: "") %><span><strong>Amber</strong> 2.0.0-beta.4 · Aug 12</span></span>
+        <span><span class="hero-proof-symbol" aria-hidden="true">⌘</span><span><strong>amber_cli</strong> 2.0.5 · Aug 12</span></span>
       </div>
     </div>
     <div class="hero-art hero-art-amber reveal" aria-label="Amber, the framework lead, building an application">
       <picture>
-        <source media="(max-width: 620px)" srcset="/assets/characters/amber-hero-desk-mobile-higgsfield.webp">
-        <source media="(max-width: 1100px)" srcset="/assets/characters/amber-hero-desk-desktop-higgsfield.webp">
-        <img src="/assets/characters/amber-hero-desk-transparent-higgsfield.webp" width="1800" height="1208" alt="Amber smiling behind her desk and beckoning the visitor to join her">
+        <source media="(max-width: 620px)" srcset="<%= asset_path("characters/amber-hero-desk-mobile-higgsfield.webp") %>">
+        <source media="(max-width: 1100px)" srcset="<%= asset_path("characters/amber-hero-desk-desktop-higgsfield.webp") %>">
+        <%= image_tag("characters/amber-hero-desk-transparent-higgsfield.webp", width: "1800", height: "1208", alt: "Amber smiling behind her desk and beckoning the visitor to join her") %>
       </picture>
       <a class="character-callout" href="/characters/amber">
         <span class="callout-kicker">Framework lead</span>
@@ -81,12 +81,12 @@
           </div>
           <div class="terminal-screen" aria-live="polite" data-terminal-screen>
             <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="brew install amberframework/amber_cli/amber_cli"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
-            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Installing amber_cli 2.0.4"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-muted" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Installing amber_cli 2.0.5"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-muted" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Installed amber and amber-lsp"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-success" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="amber --version"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
-            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Amber CLI v2.0.4"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-success" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Amber CLI v2.0.5"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-success" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="amber new my_app"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-comment"> # web is the default</span><span class="terminal-cursor" aria-hidden="true"></span></div>
-            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Created my_app · Amber beta.3 · Grant · SQLite"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-accent" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Created my_app · Amber beta.4 · Grant · SQLite · fingerprinted assets"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-accent" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="cd my_app && amber generate scaffold Pet name:string:required species:string:required"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
             <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Created Pet model · schema · controller · ECR views · migration · route"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-muted" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="amber database migrate && amber watch"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
@@ -248,7 +248,7 @@
     <div class="site-container">
       <div class="grant-spotlight reveal">
         <div class="grant-spotlight-art">
-          <img src="/assets/characters/grant-records-warehouse-higgsfield.webp" width="1800" height="1005" alt="Grant organizing application records in a large archive warehouse">
+          <%= image_tag("characters/grant-records-warehouse-higgsfield.webp", width: "1800", height: "1005", alt: "Grant organizing application records in a large archive warehouse") %>
           <span class="grant-file-stamp">AF-014 · Records</span>
         </div>
         <div class="grant-spotlight-copy">
@@ -279,15 +279,15 @@
 
       <div class="crew-roster crew-roster-home">
         <a class="personnel-card personnel-amber reveal" href="/characters/amber" data-tilt>
-          <div class="personnel-photo"><img src="/assets/characters/amber-id-original-studio.webp" width="800" height="800" alt="Portrait of Amber"></div>
+          <div class="personnel-photo"><%= image_tag("characters/amber-id-original-studio.webp", width: "800", height: "800", alt: "Portrait of Amber") %></div>
           <div class="personnel-file"><span class="file-label">AF-001 · Framework lead</span><h3>Amber</h3><p>Owns routing, controllers, ECR views, typed configuration, and the application structure that connects them.</p><span class="status-badge">V2 beta core</span><span class="file-link">Open file · Read docs →</span></div>
         </a>
         <a class="personnel-card personnel-grant reveal" href="/characters/grant" data-tilt>
-          <div class="personnel-photo"><img src="/assets/characters/grant-id-original-studio.webp" width="800" height="800" alt="Portrait of Grant"></div>
+          <div class="personnel-photo"><%= image_tag("characters/grant-id-original-studio.webp", width: "800", height: "800", alt: "Portrait of Grant") %></div>
           <div class="personnel-file"><span class="file-label">AF-014 · Records</span><h3>Grant</h3><p>Keeps models, relations, migrations, and queries organized.</p><span class="status-badge">Web default</span><span class="file-link">Open file · Read docs →</span></div>
         </a>
         <a class="personnel-card personnel-gemma reveal" href="/characters/gemma" data-tilt>
-          <div class="personnel-photo"><img src="/assets/characters/gemma-id-original-studio.webp" width="800" height="800" alt="Portrait of Gemma"></div>
+          <div class="personnel-photo"><%= image_tag("characters/gemma-id-original-studio.webp", width: "800", height: "800", alt: "Portrait of Gemma") %></div>
           <div class="personnel-file"><span class="file-label">AF-027 · Files</span><h3>Gemma</h3><p>Moves attachments from validation through storage and delivery.</p><span class="status-badge">Ecosystem preview</span><span class="file-link">Open file · Read docs →</span></div>
         </a>
       </div>
@@ -297,7 +297,7 @@
 
   <section class="section">
     <div class="site-container amber-way-panel reveal">
-      <img src="/assets/characters/amber-chibi-hero-mark-v2.webp" width="1254" height="1254" alt="Chibi Amber standing in a hero pose and giving a peace sign">
+      <%= image_tag("characters/amber-chibi-hero-mark-v2.webp", width: "1254", height: "1254", alt: "Chibi Amber standing in a hero pose and giving a peace sign") %>
       <div>
         <p class="eyebrow">The philosophy behind the defaults</p>
         <h2>Learn Amber's Way.</h2>

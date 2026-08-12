@@ -1,16 +1,17 @@
 # Amber CLI template delivery strategy
 
-Status: **PROPOSED — NOT IMPLEMENTED**
+Status: **OFFLINE DELIVERY IMPLEMENTED; REMOTE CHANNEL PROPOSED**
 
-Date: August 3, 2026
+Updated: August 11, 2026
 
 ## Current behavior
 
-Amber CLI `2.0.3` generates web projects through inline writer methods in
+Amber CLI `2.0.5` generates web projects through inline writer methods in
 `AmberCLI::Commands::NewCommand`. The repository also contains an application
 template tree, but `NewCommand#create_project_structure` does not render that
-tree. The two representations have already drifted: their welcome copy and
-first-run instructions differ.
+tree. The beta contract now checks the identifying dependencies, views, and
+authored assets in both representations, but they are still two maintenance
+surfaces rather than one canonical generator input.
 
 The executable therefore has two useful properties today:
 
@@ -18,7 +19,9 @@ The executable therefore has two useful properties today:
 - a project records an exact Amber prerelease pin.
 
 It also has one material operational cost: fixing the generated scaffold
-requires a new CLI build and package release.
+requires a new CLI build and package release. Static assets are authored under
+`app/assets/` and compiled locally into `public/assets/`; template delivery does
+not require a runtime CDN, npm registry, or remote font host.
 
 ## Near-term beta decision
 

@@ -67,7 +67,7 @@ class HomeController < ApplicationController
     {
       slug:    "background-work",
       title:   "Move slow work off the request",
-      summary: "Named queues, worker fibers, retries, and delayed jobs keep long tasks explicit and let completed work broadcast back to the page. Request-aware work stealing is available in beta.3 and remains disabled by default.",
+      summary: "Named queues, worker fibers, retries, and delayed jobs keep long tasks explicit and let completed work broadcast back to the page. Request-aware work stealing is available since beta.3 and remains disabled by default.",
     },
     {
       slug:    "measured-performance",
@@ -116,8 +116,8 @@ class HomeController < ApplicationController
     framework_releases = ReleaseCatalog.for_project(snapshot, "Amber Framework")
     cli_releases = ReleaseCatalog.for_project(snapshot, "Amber CLI")
     stable_release = ReleaseCatalog.find(snapshot, "amberframework/amber", "v1.5.0")
-    beta_release = ReleaseCatalog.find(snapshot, "amberframework/amber", "v2.0.0-beta.3")
-    cli_release = ReleaseCatalog.find(snapshot, "amberframework/amber_cli", "v2.0.4")
+    beta_release = ReleaseCatalog.find(snapshot, "amberframework/amber", "v2.0.0-beta.4")
+    cli_release = ReleaseCatalog.find(snapshot, "amberframework/amber_cli", "v2.0.5")
     render("releases.ecr")
   end
 

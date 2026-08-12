@@ -7,7 +7,7 @@ description: "Validating file uploads for size, type, and dimensions"
 
 # File Validation
 
-> **Preview ecosystem guide:** Gemma is not part of the Amber 2.0.0-beta.3
+> **Preview ecosystem guide:** Gemma is not part of the Amber 2.0.0-beta.4
 > core web-app release gate. Its package version, API, and platform support may
 > change independently. Confirm a compatible official release before adding it
 > to an application.
@@ -16,7 +16,7 @@ description: "Validating file uploads for size, type, and dimensions"
 
 Attachment validation declarations, conditions, and custom validator methods
 belong in the matching Grant model under `src/models/`. Analyzer and plugin
-configuration belongs in `config/application.cr`. Error rendering belongs in
+configuration belongs in `config/uploads.cr`. Error rendering belongs in
 the matching ECR file under `src/views/`. Virus scanning and expensive file
 inspection belong in a dedicated job or service after inexpensive limits have
 run.

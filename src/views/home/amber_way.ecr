@@ -13,7 +13,7 @@
         <% end %>
       </nav>
     </div>
-    <img class="guide-amber guide-amber-hero" src="/assets/characters/amber-chibi-hero-mark-v2.webp" width="1254" height="1254" alt="Chibi Amber standing confidently and giving a peace sign">
+    <%= image_tag("characters/amber-chibi-hero-mark-v2.webp", class: "guide-amber guide-amber-hero", width: "1254", height: "1254", alt: "Chibi Amber standing confidently and giving a peace sign") %>
   </div>
 </header>
 
@@ -31,8 +31,8 @@
         <% values.each do |value| %>
           <article class="principle-card way-value-card reveal" id="<%= value[:slug] %>">
             <div class="way-value-sprite" aria-hidden="true">
-              <img src="/assets/characters/way-sprites/<%= value[:slug] %>-a.webp" width="418" height="313" alt="">
-              <img src="/assets/characters/way-sprites/<%= value[:slug] %>-b.webp" width="418" height="313" alt="">
+              <img src="<%= asset_path("characters/way-sprites/#{value[:slug]}-a.webp") %>" width="418" height="313" alt="">
+              <img src="<%= asset_path("characters/way-sprites/#{value[:slug]}-b.webp") %>" width="418" height="313" alt="">
             </div>
             <div class="way-value-copy">
               <span><%= value[:number] %></span>
@@ -70,7 +70,7 @@
         <a class="text-link" href="/amber-way.json">Open this action's JSON representation <span aria-hidden="true">↗</span></a>
       </div>
       <div class="way-code-stack reveal">
-        <div class="code-window code-window-editor way-code-window">
+        <div class="code-window code-window-editor way-code-window" data-code-kind="editor">
           <div class="code-window-toolbar"><span class="code-window-language">src/controllers/articles_controller.cr</span></div>
           <pre><code class="language-crystal">class ArticlesController &lt; ApplicationController
   def show
@@ -106,7 +106,7 @@ end</code></pre>
         <p>Amber CLI generates one predictable home for each responsibility. This is the supported V2 web shape—not a suggestion that every application invents again.</p>
       </div>
       <div class="way-filesystem-grid reveal">
-        <div class="code-window code-window-editor way-code-window way-tree-window">
+        <div class="code-window code-window-editor way-code-window way-tree-window" data-code-kind="editor">
           <div class="code-window-toolbar"><span class="code-window-language">my_app/</span></div>
           <pre><code class="language-tree">my_app/
 ├── config/
@@ -151,7 +151,7 @@ end</code></pre>
         <p>ECR keeps HTML visible, lets Crystal locals cross the rendering boundary, and makes layout composition explicit. Dynamic values are escaped; only framework-rendered template content is inserted as trusted markup.</p>
       </div>
       <div class="way-template-grid reveal">
-        <div class="code-window code-window-editor way-code-window">
+        <div class="code-window code-window-editor way-code-window" data-code-kind="editor">
           <div class="code-window-toolbar"><span class="code-window-language">src/views/articles/show.ecr</span></div>
           <pre><code class="language-ecr">&lt;article class="article-shell"&gt;
   &lt;p class="eyebrow"&gt;Field note&lt;/p&gt;
@@ -163,7 +163,7 @@ end</code></pre>
   ) %&gt;
 &lt;/article&gt;</code></pre>
         </div>
-        <div class="code-window code-window-editor way-code-window">
+        <div class="code-window code-window-editor way-code-window" data-code-kind="editor">
           <div class="code-window-toolbar"><span class="code-window-language">src/views/layouts/application.ecr</span></div>
           <pre><code class="language-ecr">&lt;!doctype html&gt;
 &lt;html lang="en"&gt;
@@ -171,13 +171,14 @@ end</code></pre>
     &lt;meta charset="utf-8"&gt;
     &lt;meta name="viewport"
       content="width=device-width, initial-scale=1"&gt;
-    &lt;link rel="stylesheet" href="/css/app.css"&gt;
+    &lt;%= stylesheet_link_tag("stylesheets/app.css") %&gt;
   &lt;/head&gt;
   &lt;body&gt;
     &lt;%= content %&gt;
-    &lt;script type="importmap"&gt;
-      {"imports":{"app":"/js/app.js"}}
-    &lt;/script&gt;
+    &lt;%= javascript_importmap_tag(
+      {"app" =&gt; "javascript/app.js"},
+      preload: ["javascript/app.js"]
+    ) %&gt;
     &lt;script type="module"&gt;import "app";&lt;/script&gt;
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
@@ -248,7 +249,7 @@ end</code></pre>
         <p>Server-rendered HTML remains the baseline. When a page needs live state, an Amber channel carries named events to a small local ES module. The result is a reactive interface without replacing the application with a separate client framework.</p>
       </div>
       <div class="way-template-grid reveal">
-        <div class="code-window code-window-editor way-code-window">
+        <div class="code-window code-window-editor way-code-window" data-code-kind="editor">
           <div class="code-window-toolbar"><span class="code-window-language">src/channels/status_channel.cr</span></div>
           <pre><code class="language-crystal">class StatusChannel &lt; Amber::WebSockets::Channel
   def handle_message(client_socket, message)
@@ -263,8 +264,8 @@ StatusChannel.broadcast_to(
   {"id" =&gt; deployment.id.to_s}
 )</code></pre>
         </div>
-        <div class="code-window code-window-editor way-code-window">
-          <div class="code-window-toolbar"><span class="code-window-language">public/js/live-status.js</span></div>
+        <div class="code-window code-window-editor way-code-window" data-code-kind="editor">
+          <div class="code-window-toolbar"><span class="code-window-language">app/assets/javascript/live-status.js</span></div>
           <pre><code class="language-javascript">const protocol = location.protocol === "https:" ? "wss" : "ws";
 const socket = new WebSocket(`${protocol}://${location.host}/ws`);
 
@@ -286,7 +287,7 @@ socket.addEventListener("message", ({data}) =&gt; {
         <span><strong>Socket</strong><code>src/sockets/user_socket.cr</code></span>
         <span><strong>Channel</strong><code>src/channels/status_channel.cr</code></span>
         <span><strong>Route</strong><code>websocket "/ws", UserSocket</code></span>
-        <span><strong>Browser</strong><code>public/js/live-status.js</code></span>
+        <span><strong>Browser</strong><code>app/assets/javascript/live-status.js</code></span>
       </div>
       <a class="text-link" href="/docs/v2/guides/websockets">Build a live page with channels <span aria-hidden="true">→</span></a>
     </div>
@@ -298,7 +299,7 @@ socket.addEventListener("message", ({data}) =&gt; {
         <p class="way-belief-number">Belief 06</p>
         <p class="eyebrow">Background work</p>
         <h2 id="background-work-title">Finish the request.<br>Keep doing the work.</h2>
-        <p>Jobs make slow responsibilities visible: enqueue the task, choose a queue, retry failures with backoff, and let a completed job broadcast its result. Queue order is priority order. In beta.3, request-aware work stealing can let an idle web process contribute without dequeuing new work while HTTP requests are active.</p>
+        <p>Jobs make slow responsibilities visible: enqueue the task, choose a queue, retry failures with backoff, and let a completed job broadcast its result. Queue order is priority order. Since beta.3, request-aware work stealing can let an idle web process contribute without dequeuing new work while HTTP requests are active.</p>
         <div class="way-contract-list" aria-label="Background job boundaries">
           <span><strong>Fast request</strong> validates input and enqueues work</span>
           <span><strong>Worker fiber</strong> performs the slow responsibility</span>
@@ -308,7 +309,7 @@ socket.addEventListener("message", ({data}) =&gt; {
         <a class="text-link" href="/docs/v2/guides/background-jobs">Read the jobs and capacity guide <span aria-hidden="true">→</span></a>
       </div>
       <div class="way-code-stack reveal">
-        <div class="code-window code-window-editor way-code-window">
+        <div class="code-window code-window-editor way-code-window" data-code-kind="editor">
           <div class="code-window-toolbar"><span class="code-window-language">src/jobs/build_report_job.cr</span></div>
           <pre><code class="language-crystal">class BuildReportJob &lt; Amber::Jobs::Job
   include JSON::Serializable
@@ -333,7 +334,7 @@ end
 
 Amber::Jobs.register(BuildReportJob)</code></pre>
         </div>
-        <div class="code-window code-window-editor way-code-window">
+        <div class="code-window code-window-editor way-code-window" data-code-kind="editor">
           <div class="code-window-toolbar"><span class="code-window-language">config/environments/development.yml</span></div>
           <pre><code class="language-yaml">jobs:
   adapter: "memory"
