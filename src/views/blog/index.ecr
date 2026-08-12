@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="blog-hero-art">
-      <img src="/assets/characters/amber-chibi-original-studio.webp" width="800" height="800" alt="Chibi Amber pointing readers toward the latest stories">
+      <%= image_tag("characters/amber-chibi-original-studio.webp", width: "800", height: "800", alt: "Chibi Amber pointing readers toward the latest stories") %>
     </div>
   </div>
 </header>
@@ -26,7 +26,7 @@
     <% featured = @posts.first %>
     <article class="featured-post reveal">
       <a class="featured-post-image" href="<%= post_path(featured) %>">
-        <img src="<%= featured["image"] %>" width="960" height="640" alt="Illustration for <%= featured["title"] %>">
+        <img src="<%= asset_path(featured["image"].to_s) %>" width="960" height="640" alt="Illustration for <%= featured["title"] %>">
         <span>Latest story</span>
       </a>
       <div class="featured-post-body">
@@ -38,7 +38,7 @@
         <h2><a href="<%= post_path(featured) %>"><%= featured["title"] %></a></h2>
         <p><%= featured["summary"]? || "An update from the Amber Framework community." %></p>
         <div class="post-author featured-post-author">
-          <img src="<%= featured["character_image"]? || "/assets/characters/amber-id-original-studio.webp" %>" width="60" height="60" alt="">
+          <img src="<%= asset_path((featured["character_image"]? || "characters/amber-id-original-studio.webp").to_s) %>" width="60" height="60" alt="">
           <span><strong><%= featured["author"] %></strong><br>Filed with <%= featured["character"]? || "Amber" %></span>
         </div>
         <a class="text-link" href="<%= post_path(featured) %>">Read the story →</a>
@@ -58,7 +58,7 @@
         <% @posts.skip(1).each do |post| %>
           <article class="story-row reveal">
             <a class="story-era-art" href="<%= post_path(post) %>" tabindex="-1" aria-hidden="true">
-              <img src="<%= post["image"] %>" width="240" height="180" alt="">
+              <img src="<%= asset_path(post["image"].to_s) %>" width="240" height="180" alt="">
               <span><%= post_iso_date(post)[0, 4] %></span>
             </a>
             <div class="story-row-copy">

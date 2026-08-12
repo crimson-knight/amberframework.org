@@ -1,6 +1,12 @@
 # Amber V2 website release gates
 
-Status: **PUBLIC BETA LIVE — ALL RELEASE AND PRODUCTION GATES PASSED**
+Status: **BETA.4 RELEASED — PRODUCTION SITE REVALIDATION IN PROGRESS**
+
+The checked items below record the approved public-beta experience. The
+component versions, generated application, production image, and public origin
+must be re-proven for every release. The active beta.4 evidence and remaining
+gates are tracked in `RELEASE_PROOF_BETA4.md`; `RELEASE_PROOF.md` is the
+historical beta.2/CLI 2.0.3 launch record.
 
 Every gate must pass and the owner must explicitly approve the rendered proof.
 A green automated check does not authorize a production merge or deployment.

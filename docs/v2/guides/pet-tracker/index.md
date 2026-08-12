@@ -222,7 +222,7 @@ complete view.**
 </main>
 ```
 
-**File: `public/css/app.css` — append this component layer after the generated
+**File: `app/assets/stylesheets/app.css` — append this component layer after the generated
 starter styles.**
 
 ```css
@@ -294,7 +294,7 @@ website's character art or require an external design library.
 
 ## 8. Add browser-native filtering
 
-**File: `public/js/app.js` — replace the starter module with this behavior.**
+**File: `app/assets/javascript/app.js` — replace the starter module with this behavior.**
 
 ```javascript
 document.querySelectorAll("[data-pet-filter]").forEach((button) => {
@@ -338,6 +338,8 @@ end
 
 ```bash
 AMBER_ENV=test amber database migrate
+amber assets build
+amber assets check
 crystal spec
 crystal build src/pet_tracker.cr -o bin/pet_tracker
 amber watch
@@ -367,4 +369,4 @@ the application, create a Pet through the ECR form, edit it through
 - [Views](../views/) expands the controller, ECR, partial, and layout boundary.
 - [Import Maps](../assets/import-maps/) shows how to split local browser code.
 - [Beta Support](../../beta-support/) separates the supported web path from
-  authentication, API-resource, Gemma, Asset Pipeline, and native previews.
+  authentication, API-resource, Gemma, and native previews.

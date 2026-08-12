@@ -24,11 +24,11 @@ versions:
   - id: v2
     name: "2.0"
     label: "2.0 Web Beta"
-    amber_versions: "2.0.0-beta.3"
+    amber_versions: "2.0.0-beta.4"
     status: preview
     inherits_from: v1.4.1
-    release_date: "2026-07-31"
-    description: "Amber Framework 2.0 beta core with ECR web templates and the new Amber CLI"
+    release_date: "2026-08-12"
+    description: "Amber Framework 2.0 web beta with Grant persistence and fingerprinted static assets"
 
   - id: v1.5
     name: "1.5"

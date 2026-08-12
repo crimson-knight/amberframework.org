@@ -134,7 +134,7 @@ class BlogController < ApplicationController
       url:          "#{SITE_URL}#{post_path(post)}",
       markdown_url: "#{SITE_URL}#{post_path(post)}.md",
       json_url:     "#{SITE_URL}#{post_path(post)}.json",
-      image_url:    "#{SITE_URL}#{post["image"]}",
+      image_url:    "#{SITE_URL}#{Amber::Assets.path(post["image"].to_s)}",
     }
   end
 
@@ -146,7 +146,7 @@ class BlogController < ApplicationController
       "datePublished" => post_iso_date(post),
       "author"        => {"@type" => "Person", "name" => post["author"].to_s},
       "url"           => "#{SITE_URL}#{post_path(post)}",
-      "image"         => "#{SITE_URL}#{post["image"]}",
+      "image"         => "#{SITE_URL}#{Amber::Assets.path(post["image"].to_s)}",
     }
   end
 

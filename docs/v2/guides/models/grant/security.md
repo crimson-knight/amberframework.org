@@ -7,7 +7,7 @@ description: "Encrypted attributes, secure tokens, and signed IDs in Grant ORM"
 
 # Security Features
 
-> **Supported web path:** Amber CLI `2.0.4` includes Grant in every generated
+> **Supported web path:** Amber CLI `2.0.5` includes Grant in every generated
 > web application and pins the reviewed V2 commit. Preserve that pin while
 > following this beta.
 
@@ -15,9 +15,10 @@ description: "Encrypted attributes, secure tokens, and signed IDs in Grant ORM"
 
 Encrypted attributes, secure-token declarations, signed-ID methods,
 normalization, and enums belong inside the matching Grant model under
-`src/models/`. Configure encryption in `config/application.cr`, which the
-released V2 template loads directly. Token generation and lookup expressions
-run from the controller, job, service, or spec that owns the security flow.
+`src/models/`. Configure encryption in `config/application.cr`; the generated
+application entry point loads top-level `config/*` before application source.
+Token generation and lookup expressions run from the controller, job, service,
+or spec that owns the security flow.
 Never put key values in source code or committed environment YAML.
 
 Grant provides built-in security features for protecting sensitive data, generating secure tokens, and creating tamper-proof URLs.

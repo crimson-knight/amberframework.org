@@ -7,6 +7,8 @@ description: "Create the supported Amber V2 beta web application"
 
 # `amber new`
 
+**Run from: any directory; `NAME` controls where the project is created.**
+
 ```bash
 amber new NAME [options]
 ```
@@ -40,13 +42,16 @@ is the recommended first run; the explicit form is useful in automation.
 
 The generated web app contains:
 
-- `amberframework/amber` pinned to `2.0.0-beta.3`
+- `amberframework/amber` pinned to `2.0.0-beta.4`
 - Grant pinned to the reviewed V2 commit
 - SQLite by default, or the selected PostgreSQL/MySQL driver
 - `config/database.cr` and typed per-environment database URLs
 - Micrate-powered database commands in the compiled CLI
 - Crystal `>= 1.20.0, < 2.0`
 - ECR layout and homepage
+- authored CSS, JavaScript, images, fonts, and files under `app/assets/`
+- fingerprinted output and a strict manifest under ignored `public/assets/`
+- manifest-aware ECR helpers and `amber assets build|check`
 - typed development, test, and production YAML
 - web, API, and static pipelines plus routes
 - homepage request spec and `bin/` build directory
@@ -56,12 +61,20 @@ The generated web app contains:
 The database option installs a complete persistence choice. SQLite is the
 zero-server first run; PostgreSQL and MySQL require their matching server.
 
+The generator builds the initial manifest before it finishes, including with
+`--no-deps`. Authored files belong in source control; generated
+`public/assets/` output does not. See the [web template
+guide](../guides/web-template/) for the exact file map and ownership boundary.
+
 ## After generation
+
+**Run from: the generated application root after `cd my_app`.**
 
 ```bash
 cd my_app
 # Needed only when --no-deps was used:
 shards install
+amber assets check
 crystal spec
 crystal build src/my_app.cr -o bin/my_app
 amber generate scaffold Pet name:string:required species:string:required adopted:bool
@@ -69,7 +82,10 @@ amber database migrate
 amber watch
 ```
 
-Verify both `/` and `/css/app.css`.
+Verify `/`, then follow the fingerprinted CSS, JavaScript, image, and font URLs
+rendered into the HTML and compiled CSS. Those URLs come from
+`public/assets/manifest.json`; a request to an old raw `/css` or `/js` path is
+not an asset-manifest verification.
 
 `--type native` remains available for contributors and early adopters, but it
 is not part of the Amber V2 beta install/build guarantee. Read the [native

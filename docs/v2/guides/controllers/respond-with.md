@@ -2,7 +2,7 @@
 title: "Respond With"
 section: "guides/controllers"
 order: 40
-description: "Negotiate HTML, JSON, text, XML, and JavaScript responses in Amber V2 beta.3, with an explicit Markdown route"
+description: "Negotiate HTML, JSON, text, XML, and JavaScript responses in Amber V2, with an explicit Markdown route"
 ---
 
 # Respond With
@@ -41,7 +41,7 @@ Each helper accepts a string, a zero-argument block returning a string, or—for
 HTML—rendered ECR output. If Amber cannot match any available response, it
 returns `406 Response Not Acceptable`.
 
-Amber `2.0.0-beta.3` does not ship a `markdown` responder helper. When the
+Amber `2.0.0-beta.4` does not ship a `markdown` responder helper. When the
 application publishes Markdown, keep that representation explicit until a
 tagged framework release includes it.
 

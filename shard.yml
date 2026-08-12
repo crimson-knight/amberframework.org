@@ -1,5 +1,5 @@
 name: amberframework
-version: 2.0.0-beta.3
+version: 2.0.0-beta.4
 
 authors:
   - Amber <amberframework.org>
@@ -15,6 +15,9 @@ targets:
 dependencies:
   amber:
     github: amberframework/amber
-    version: 2.0.0-beta.3
+    version: 2.0.0-beta.4
+  asset_pipeline:
+    github: amberframework/asset_pipeline
+    version: ~> 0.37.0
   markd:
     github: icyleaf/markd

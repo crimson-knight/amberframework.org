@@ -10,8 +10,9 @@ description: "Automatic OpenAPI specification generation from schemas"
 ## Where the examples go
 
 - OpenAPI metadata belongs beside each schema under `src/schemas/`.
-- Application-wide OpenAPI configuration belongs in `config/application.cr`,
-  which the released V2 template loads directly.
+- Application-wide OpenAPI configuration belongs in `config/application.cr`;
+  the generated entry point loads top-level `config/*` before application
+  source.
 - Endpoint declarations belong in `config/routes.cr`; response code belongs in
   the named controller under `src/controllers/`.
 - Generated specifications belong under `public/` only when the application

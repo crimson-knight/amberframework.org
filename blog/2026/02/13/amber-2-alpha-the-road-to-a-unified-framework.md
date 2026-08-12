@@ -189,7 +189,9 @@ We benchmarked every change against realistic route tables — from 50 routes (a
 
 For an app with ~100 routes — which covers the vast majority of real-world applications — every route type got faster:
 
-<img src="/assets/img/router-benchmark-100-routes.svg" alt="Bar chart comparing route lookup performance at 100 routes: Fixed 2.55M→3.36M IPS (1.3x), Variable 3.54M→4.44M IPS (1.3x), Glob 1.64M→2.32M IPS (1.4x), Not Found 3.06M→5.66M IPS (1.9x)" width="800"/>
+The detailed comparison is preserved in the table below: fixed lookups improved
+from 2.55M to 3.36M IPS, variable lookups from 3.54M to 4.44M, glob lookups
+from 1.64M to 2.32M, and the not-found path from 3.06M to 5.66M.
 
 The "Not Found" path — what happens when no route matches — got almost 2x faster. This matters because 404s, health checks, and favicon requests hit this path constantly.
 
@@ -197,7 +199,9 @@ The "Not Found" path — what happens when no route matches — got almost 2x fa
 
 The real story is what happens to glob routes (`/files/*path`) as the route table grows. The old router's linear scan through a mixed-type array degraded catastrophically. The optimized engine barely notices:
 
-<img src="/assets/img/router-benchmark-glob.svg" alt="Line chart showing glob route performance: optimized stays flat at ~2M IPS from 50 to 10K routes, while baseline crashes from 1.7M to 31K IPS — a 55.7x difference at 10K routes" width="800"/>
+Across 50 to 10,000 routes, the optimized glob path stayed near 2M IPS while
+the baseline fell from roughly 1.7M to 31K IPS—a 55.7x difference at 10,000
+routes.
 
 At 10,000 routes, the optimized engine is **55.7x faster** for glob lookups. Even at 500 routes — a realistic scale for a large app — it's already **3.5x faster**.
 

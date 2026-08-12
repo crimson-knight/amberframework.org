@@ -65,8 +65,9 @@ explicit product decision.
 ## Register an application adapter
 
 Load and register the adapter before Amber builds the configured session store.
-The generated application already requires `config/application.cr`, so it is a
-reliable registration point.
+The generated application entry point requires top-level `config/*`, including
+`config/application.cr`, before application source, so it is a reliable
+registration point.
 
 **File: `config/application.cr` — keep `require "amber"`, require the adapter
 class, then register it before routes are loaded.**

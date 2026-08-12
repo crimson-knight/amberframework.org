@@ -7,6 +7,8 @@ description: "Supported and preview generators in the Amber V2 beta"
 
 # `amber generate`
 
+**Run from: the generated application root beside `shard.yml`.**
+
 ```bash
 amber generate TYPE NAME [fields or actions]
 ```
@@ -18,13 +20,13 @@ amber generate TYPE NAME [fields or actions]
 | `job` | Supported | Built-in job class |
 | `mailer` | Supported | Built-in mailer class |
 | `channel` | Supported | WebSocket channel |
-| `migration` | Supported output | SQL migration; applying it needs DB tooling |
-| `model` | Preview | Grant-backed model and migration |
-| `scaffold` | Preview | Persistence-backed CRUD resource |
+| `migration` | Supported | Reversible Micrate SQL migration |
+| `model` | Supported | Grant-backed model, spec, and migration |
+| `scaffold` | Supported | Grant model, schema, HTML CRUD, ECR views, specs, route, and migration |
 | `api` | Preview | Persistence-backed model and controller |
 | `auth` | Preview | Requires a compatible persistence/auth stack |
 
-Examples for the core web app:
+**Run from: the same application root — examples for the core web app.**
 
 ```bash
 amber generate controller Posts index show
@@ -39,5 +41,7 @@ Controller routes are intentionally not guessed. Add them to `config/routes.cr`,
 then enable the generated pending request specs. Amber V2 generator output is
 always ECR, even if a migrated `.amber.yml` still contains a legacy Slang value.
 
-Preview generators print a warning. They may write useful files, but the clean
-web app does not include the dependencies needed to compile them.
+Generated API resources and authentication remain preview and may require
+additional application integration. Model, scaffold, and migration generators
+use the Grant, selected database driver, and Micrate tooling included in the
+supported database-backed web template.

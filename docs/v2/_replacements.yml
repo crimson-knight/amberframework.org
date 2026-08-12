@@ -38,3 +38,7 @@ guides/installation.md: getting-started/installation
 guides/views/form-builder.md: guides/views
 examples/crystal-debug.md: troubleshooting
 cookbook/json-api.md: guides/schema-api
+cookbook/file-download.md: guides/routing/pipelines
+cookbook/file-upload.md: guides/uploads
+cookbook/websocket-chat.md: guides/websockets
+guides/websockets/javascript-client.md: guides/websockets

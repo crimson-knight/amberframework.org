@@ -3,18 +3,22 @@ title: "Amber 2.0 Beta"
 section: ""
 order: 10
 is_section: true
-description: "Install, verify, and evaluate Amber 2.0.0-beta.3"
+description: "Install, verify, and evaluate Amber 2.0.0-beta.4"
 ---
 
 # Amber 2.0 Beta
 
-Amber `2.0.0-beta.3` is available for evaluation. This is a prerelease: expect
+Amber `2.0.0-beta.4` is available for evaluation. This is a prerelease: expect
 breaking changes and do not treat it as a production-support promise.
 
 The release-gated first-run path is a server-rendered ECR web application
 created by the standalone Amber CLI. It includes routing, controllers, typed
-configuration, sessions, Grant ORM, Micrate migrations, SQLite, static files,
-tests, and a development watcher without requiring a database server.
+configuration, sessions, Grant ORM, Micrate migrations, SQLite, fingerprinted
+static assets, tests, and a development watcher without requiring a database
+server.
+
+**Run from: a parent directory where `my_app/` can be created. Commands after
+`cd my_app` run from the generated application root.**
 
 ```bash
 brew install amberframework/amber_cli/amber_cli
@@ -46,14 +50,16 @@ and its release boundary.
 - Grant ORM with SQLite by default and PostgreSQL/MySQL options
 - Micrate-powered migrations and database maintenance commands
 - database-backed model and HTML CRUD scaffold generators
+- deterministic CSS, JavaScript, image, font, and file fingerprinting
+- manifest-aware ECR helpers, SRI, compression, and immutable asset caching
 - standalone CLI and diagnostics LSP
 
 ## What is preview
 
-Generated authentication and API resources, Gemma file attachments, the
-separate Asset Pipeline, and native-app generation have useful code and
-documentation, but they are not part of the beta web-app release gate. Preview
-pages are labeled so new users do not mistake them for the supported path.
+Generated authentication and API resources, Gemma file attachments, and
+native-app generation have useful code and documentation, but they are not part
+of the beta web-app release gate. Preview pages are labeled so new users do not
+mistake them for the supported path.
 
 See [Beta support](beta-support/) for the exact platform and generator matrix.
 

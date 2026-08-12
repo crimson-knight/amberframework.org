@@ -9,7 +9,7 @@
       <h1><%= post["title"] %></h1>
       <p><%= post["summary"]? || "An Amber Framework release and community update." %></p>
     </div>
-    <img class="page-hero-character" src="<%= post["character_image"]? || "/assets/characters/amber-id-original-studio.webp" %>" width="800" height="800" alt="<%= post["character"]? || "Amber" %> character portrait">
+    <img class="page-hero-character" src="<%= asset_path((post["character_image"]? || "characters/amber-id-original-studio.webp").to_s) %>" width="800" height="800" alt="<%= post["character"]? || "Amber" %> character portrait">
   </div>
 </header>
 
@@ -23,7 +23,7 @@
       <a href="<%= post_path(post) %>.json">JSON</a>
     </nav>
     <figure class="post-cover">
-      <img src="<%= post["image"] %>" alt="Illustration for <%= post["title"] %>">
+      <img src="<%= asset_path(post["image"].to_s) %>" alt="Illustration for <%= post["title"] %>">
     </figure>
     <%= MarkdownPreprocessor.render(File.read(filepath).sub(/\A# [^\n]+\n+/, ""), preprocess: false) %>
   </article>

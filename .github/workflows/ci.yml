@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test the reference application
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the site
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Install Crystal
+        uses: crystal-lang/install-crystal@d8ef131ecec0352ce0e39b81b0a6d95def58fe2f # v1
+        with:
+          crystal: "1.21.0"
+
+      - name: Install documentation audit tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes ripgrep
+
+      - name: Cache shards
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: lib
+          key: ${{ runner.os }}-shards-${{ hashFiles('shard.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-shards-
+
+      - name: Install dependencies
+        run: shards install
+
+      - name: Build and verify static assets
+        run: |
+          crystal run scripts/build_assets.cr
+          crystal run scripts/build_assets.cr -- --check
+
+      - name: Run application and documentation checks
+        run: |
+          crystal spec
+          scripts/check_v2_preview.sh
+          scripts/check_v2_site_launch.sh
+          scripts/check_v2_beta_docs.sh
+
+      - name: Build the production application
+        run: shards build amberframework --release --no-debug
+
+      - name: Smoke-test the running site
+        run: |
+          PORT=3212 AMBER_ENV=production ./bin/amberframework >/tmp/amberframework.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent --show-error http://127.0.0.1:3212/ >/tmp/homepage.html; then
+              break
+            fi
+            sleep 1
+          done
+          curl --fail --silent --show-error http://127.0.0.1:3212/ >/tmp/homepage.html
+          grep -F '/assets/css/amber-brand-' /tmp/homepage.html
+          grep -F 'integrity="sha256-' /tmp/homepage.html
+
+  container:
+    name: Build the deployment image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the site
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Build the image
+        run: docker build --tag amberframework-site:test .

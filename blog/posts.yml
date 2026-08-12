@@ -1,120 +1,120 @@
 title: "Amber V2 Can Remember Things Now"
 file: blog/2026/08/11/amber-v2-persistence-by-default.md
-image: /assets/characters/grant-records-warehouse-higgsfield.webp
+image: characters/grant-records-warehouse-higgsfield.webp
 date: Aug 11, 2026
 author: Seth Tucker
 profile: https://github.com/crimson-knight
 category: Release
 character: Grant
-character_image: /assets/characters/grant-id-original-studio.webp
+character_image: characters/grant-id-original-studio.webp
 summary: Amber 2.0.0-beta.3 and Amber CLI 2.0.4 make Grant, Micrate migrations, and SQLite part of the tested default web application.
 ---
 title: "Meet Amber: The Framework Has a Face"
 file: blog/2026/08/11/meet-amber-and-the-new-website.md
-image: /assets/blog/amber-new-website-character-2026.webp
+image: blog/amber-new-website-character-2026.webp
 date: Aug 11, 2026
 author: Seth Tucker
 profile: https://github.com/crimson-knight
 category: Website
 character: Amber
-character_image: /assets/characters/amber-id-original-studio.webp
+character_image: characters/amber-id-original-studio.webp
 summary: The new site gives Amber a playful face, a clearer job, and a public application that demonstrates the framework's own V2 web path.
 ---
 title: Amber V2 Public Beta - The New First Run Is Live
 file: blog/2026/08/10/amber-v2-public-beta.md
-image: /assets/characters/amber-hero-desk-transparent-higgsfield.webp
+image: characters/amber-hero-desk-transparent-higgsfield.webp
 date: Aug 10, 2026
 author: Seth Tucker
 profile: https://github.com/crimson-knight
 category: Release
 character: Amber
-character_image: /assets/characters/amber-id-original-studio.webp
+character_image: characters/amber-id-original-studio.webp
 summary: A new public home, Amber CLI 2.0.3, a branded web starter, and one documented path for testing Amber V2.
 ---
 title: Amber 2.0 Beta 2 - A Complete First-Run Path
 file: blog/2026/07/31/amber-2-beta-2.md
-image: /assets/characters/amber-hero-original-studio.webp
+image: characters/amber-hero-original-studio.webp
 date: Jul 31, 2026
 author: Seth Tucker
 profile: https://github.com/crimson-knight
 category: Release
 character: Amber
-character_image: /assets/characters/amber-id-original-studio.webp
+character_image: characters/amber-id-original-studio.webp
 summary: A verified installation path, a standalone CLI, and the release boundary for evaluating Amber 2.0.0-beta.2.
 ---
 title: "Shards-Alpha: Supply Chain Compliance + AI Tooling for Crystal"
 file: blog/2026/02/16/shards-alpha-supply-chain-compliance-and-ai-tooling-for-crystal.md
-image: /assets/img/amber-2.0-blog-header.jpg
+image: img/amber-2.0-blog-header.jpg
 date: Feb 16, 2026
 author: Seth Tucker
 profile: https://github.com/crimson-knight
 category: Tooling
 character: Grant
-character_image: /assets/characters/grant-id-original-studio.webp
+character_image: characters/grant-id-original-studio.webp
 summary: Supply-chain compliance and AI-assisted tooling for Crystal packages, records, and release workflows.
 ---
 title: Amber 2.0 Road Map
 file: blog/2023/04/24/amber-2.0-roadmap.md
-image: /assets/img/amber-2.0-blog-header.jpg
+image: img/amber-2.0-blog-header.jpg
 date: Apr 24, 2023
 author: Seth Tucker
 profile: https://github.com/crimson-knight
 category: Roadmap
 character: Amber
-character_image: /assets/characters/amber-id-original-studio.webp
+character_image: characters/amber-id-original-studio.webp
 summary: The business-framework direction behind Amber 2 and the responsibilities a mature application needs.
 ---
 title: Amber 2023 & Beyond
 file: blog/2023/03/10/state-of-amber-2023.md
-image: /assets/img/snow-canyon-isaac-sloan-tiny.png
+image: img/snow-canyon-isaac-sloan-tiny.png
 date: Mar 10, 2023
 author: Seth Tucker
 profile: https://github.com/crimson-knight
 category: Community
 character: Amber
-character_image: /assets/characters/amber-id-original-studio.webp
+character_image: characters/amber-id-original-studio.webp
 summary: A state-of-the-framework look at Amber's community, priorities, and path forward.
 ---
 title: Amber - 2017 in Review
 file: blog/2018/01/08/amber-new-releases-new-year.md
-image: /assets/img/snow-canyon-isaac-sloan-tiny.png
+image: img/snow-canyon-isaac-sloan-tiny.png
 date: Jan 08, 2018
 author: Mark Siemers
 profile: https://github.com/marksiemers
 category: Retrospective
 character: Amber
-character_image: /assets/characters/amber-id-original-studio.webp
+character_image: characters/amber-id-original-studio.webp
 summary: The releases, contributors, and lessons that shaped Amber during 2017.
 ---
 title: Amber 0.3.0 has been released including enhancements and bug fixes
 file: blog/2017/10/18/amber-0.3.0-has-been-released-including-enhancements-and-bug-fixes.md
-image: /assets/img/amber-logo-t-bg.png
+image: img/amber-logo-t-bg.png
 date: Oct 18, 2017
 author: Massimiliano Bertinetti
 profile: https://github.com/codelessfuture
 category: Release
 character: Grant
-character_image: /assets/characters/grant-id-original-studio.webp
+character_image: characters/grant-id-original-studio.webp
 summary: Enhancements and fixes included in the Amber 0.3.0 release.
 ---
 title: Amber 0.2.7 has been released including enhancements and bug fixes
 file: blog/2017/10/11/amber-0.2.7-has-been-released-including-enhancements-and-bug-fixes.md
-image: /assets/img/amber.png
+image: img/amber.png
 date: Oct 11, 2017
 author: Faustino Aguilar
 profile: https://github.com/faustinoaq
 category: Release
 character: Gemma
-character_image: /assets/characters/gemma-id-original-studio.webp
+character_image: characters/gemma-id-original-studio.webp
 summary: The Amber 0.2.7 maintenance release and its collection of improvements.
 ---
 title: New website for Amber Framework
 file: blog/2017/10/07/new-website-for-amber-framework.md
-image: /assets/img/header.jpg
+image: img/header.jpg
 date: Oct 07, 2017
 author: Faustino Aguilar
 profile: https://github.com/faustinoaq
 category: Website
 character: Amber
-character_image: /assets/characters/amber-id-original-studio.webp
+character_image: characters/amber-id-original-studio.webp
 summary: The story behind an earlier Amber Framework website and community home.

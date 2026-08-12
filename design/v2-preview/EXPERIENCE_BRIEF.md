@@ -24,9 +24,10 @@ map to real software boundaries rather than decorative mascots.
   proposed identity as a concept.
 
 The homepage gives Grant a dedicated persistence spotlight before the full
-crew roster. That spotlight must say that Grant is an independently changing
-ecosystem preview and that the core web template does not silently install or
-select an ORM.
+crew roster. The default web template installs Grant with SQLite and exposes
+Micrate-backed database commands as part of the supported beta path. Grant is
+still an independently versioned ecosystem library; pages must distinguish
+that boundary from Gemma's preview-only attachment and storage integration.
 
 ## Application types
 
@@ -77,7 +78,7 @@ structure.
 
 ## Template delivery boundary
 
-Amber CLI `2.0.3` embeds the generated scaffold, so a template fix currently
+Amber CLI `2.0.5` embeds the generated scaffold, so a template fix currently
 requires a CLI patch release. The beta docs must say this plainly and must not
 promise remote template freshness. The signed remote-channel design in
 `TEMPLATE_DELIVERY_STRATEGY.md` remains proposed until its trust, caching,
