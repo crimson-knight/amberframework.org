@@ -2,7 +2,7 @@
 
 Date: August 12, 2026 (America/New_York)
 
-Status: **COMPONENT RELEASES PUBLISHED — PRODUCTION SITE PENDING**
+Status: **PUBLISHED — PUBLIC ORIGIN VERIFIED**
 
 This document is the live gate for the manifest-backed asset release. A check
 is recorded only after it has run against the clean release branches. The
@@ -32,7 +32,8 @@ August 10 beta.2 launch evidence remains in `RELEASE_PROOF.md`.
       their canonical merged commits.
 - [x] Amber CLI `2.0.5` was merged and published from its canonical all-green
       commit with three archives and matching checksum files.
-- [ ] The website release branch is committed, reviewed, and merged.
+- [x] The website release branch was committed, reviewed, and merged in
+      [site PR 17](https://github.com/crimson-knight/amberframework.org/pull/17).
 
 ## Executed validation
 
@@ -88,8 +89,13 @@ August 10 beta.2 launch evidence remains in `RELEASE_PROOF.md`.
 - [x] Production Docker image builds and serves the final candidate.
 - [x] Desktop and mobile browser proof covers homepage, installation, asset
       guide, web-template guide, Amber's Way, blog, and release pages.
-- [ ] Public-origin asset inventory, downloads, assistant handoffs, and release
-      notes are verified after deployment.
+- [x] Public-origin asset inventory, all three CLI downloads, dated release
+      notes, page-level Markdown and JSON, and Claude, ChatGPT, and Gemini
+      handoffs are verified after deployment. The full V2 documentation bundle
+      was corrected and live-server gated in
+      [site PR 18](https://github.com/crimson-knight/amberframework.org/pull/18),
+      then downloaded successfully from `/docs/v2/knowledge.md` on the public
+      origin.
 
 ## Publication order
 
@@ -97,8 +103,9 @@ August 10 beta.2 launch evidence remains in `RELEASE_PROOF.md`.
 2. **Complete:** merge `v2-dev` and publish Amber `2.0.0-beta.4` as a prerelease.
 3. **Complete:** replace candidate pins with the two released versions, rerun
    the fresh-app matrix, merge Amber CLI, and publish `2.0.5` plus checksums.
-4. Synchronize the release catalog, lock the site to published versions, run
-   Docker/browser proof, merge the website, and verify the public origin.
+4. **Complete:** synchronize the release catalog, lock the site to published
+   versions, run Docker/browser proof, merge the website, and verify the public
+   origin.
 
 ## Remaining boundaries
 
