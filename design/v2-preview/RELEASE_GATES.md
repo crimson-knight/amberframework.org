@@ -1,6 +1,6 @@
 # Amber V2 website release gates
 
-Status: **BETA.4 RELEASED — PRODUCTION SITE REVALIDATION IN PROGRESS**
+Status: **BETA.4 PUBLISHED — PUBLIC ORIGIN VERIFIED**
 
 The checked items below record the approved public-beta experience. The
 component versions, generated application, production image, and public origin
