@@ -136,7 +136,7 @@ Several major changes have landed since the initial alpha:
 
 <table>
 <tr><th>Change</th><th>Impact</th></tr>
-<tr><td>Router internalized + optimized</td><td>amber_router brought into source tree with 1.3–55.7x faster lookups (details below)</td></tr>
+<tr><td>Router internalized + optimized</td><td>amber_router brought into the source tree; the historical local results below have now been superseded by a controlled cloud rerun</td></tr>
 <tr><td>Built-in Markdown renderer</td><td>Full CommonMark + GFM (tables, strikethrough, task lists) — no external shard needed</td></tr>
 <tr><td>Amber LSP for Claude Code</td><td>AI-assisted development with 15 convention rules — the default way to build with Amber</td></tr>
 </table>
@@ -172,6 +172,16 @@ That was the roadmap as of the initial alpha announcement. Every single item on 
 
 ### Faster Routing: Internalizing and Optimizing amber_router
 
+> **Benchmark correction — August 13, 2026:** The figures preserved in this
+> section came from an earlier same-machine local microbenchmark. They were not
+> measured on DigitalOcean, and the old glob-route generator reused five
+> effective URL shapes while describing them as unique routes. That duplicate
+> route edge case produced the `55.7x` headline. We have retired that number as
+> a current performance claim and rerun the released V2 beta.4 router against
+> `amber_router` 0.4.4 with unique route shapes, seven paired trials, and the
+> exact $4 DigitalOcean target. Read [the cloud benchmark and its corrections](/blog/2026/08/13/amber-v2-router-on-a-four-dollar-droplet),
+> or inspect the [machine-readable summary](/benchmarks/amber-v2-router-digitalocean-2026-08-13-summary.json).
+
 The HTTP routing engine (`amber_router`) has been brought directly into the Amber source tree. We didn't just copy it in — we rethought how it uses Crystal's type system and memory model to make it significantly faster.
 
 The old router used a tree of segment nodes to match URL paths. It worked, but every node stored its children in a single dynamic `Array` of union types, which meant every route lookup did a linear scan with runtime type checks at every level of the tree. Parameters were extracted with heap-allocated `Hash` objects. Path strings were split into temporary arrays on every request.
@@ -179,13 +189,19 @@ The old router used a tree of segment nodes to match URL paths. It worked, but e
 Here's what changed:
 
 - **Split segment storage by type.** Fixed segments (literal strings like `/users`) go into a `Hash` for O(1) lookup. Variable segments (`:id`) stay in a small array. Glob segments get a single nullable slot. No more linear scan through a mixed bag of types.
-- **Stack-allocate where possible.** `TerminalSegment` (the leaf node holding your route handler) and `RoutedResult` (the return value from a lookup) become Crystal `struct`s — allocated on the stack instead of the heap. Every `find` call currently heap-allocates a result object. That goes away.
-- **Index-based tree traversal.** The current code uses `Array#shift` (which copies the remaining array) to walk through path segments. We're replacing it with a simple integer index. O(1) instead of O(n) per tree level.
+- **Use a value type for terminal leaves.** `TerminalSegment`, the leaf node
+  that holds a route payload and priority, became a Crystal `struct`.
+  `RoutedResult` remains a class in beta.4, so this change does not eliminate
+  every lookup allocation.
+- **Index-based route registration.** The old insertion path used
+  `Array#shift`, which moves the remaining segment references at each level.
+  Beta.4 registers routes with an integer index instead. This improves route
+  table construction; it is not part of the timed lookup phase below.
 - **Pre-allocated path splitting.** Instead of creating two intermediate arrays every time a URL is split, we do a single pass with a pre-sized array.
 
 We benchmarked every change against realistic route tables — from 50 routes (a small app) up to 10,000 (far beyond what most apps need) — measuring isolated routing speed with `Benchmark.ips` in Crystal.
 
-#### Results at a typical scale (100 routes)
+#### Historical local results at a typical scale (100 routes)
 
 For an app with ~100 routes — which covers the vast majority of real-world applications — every route type got faster:
 
@@ -195,17 +211,22 @@ from 1.64M to 2.32M, and the not-found path from 3.06M to 5.66M.
 
 The "Not Found" path — what happens when no route matches — got almost 2x faster. This matters because 404s, health checks, and favicon requests hit this path constantly.
 
-#### Where it gets dramatic: glob routes at scale
+#### Why the old glob result looked dramatic
 
-The real story is what happens to glob routes (`/files/*path`) as the route table grows. The old router's linear scan through a mixed-type array degraded catastrophically. The optimized engine barely notices:
+The old data appeared to show a dramatic change in glob routes
+(`/files/*path`) as the route table grew:
 
 Across 50 to 10,000 routes, the optimized glob path stayed near 2M IPS while
 the baseline fell from roughly 1.7M to 31K IPS—a 55.7x difference at 10,000
 routes.
 
-At 10,000 routes, the optimized engine is **55.7x faster** for glob lookups. Even at 500 routes — a realistic scale for a large app — it's already **3.5x faster**.
+That was a real measurement of the old harness, but it was not a clean
+10,000-unique-route comparison. At that tier, 500 declared glob routes
+collapsed onto five effective match shapes, leaving 100 terminal entries
+behind each shape. The result is useful for understanding that duplicate-route
+edge case, but it should not be quoted as Amber V2's general routing speedup.
 
-#### Full comparison
+#### Historical full comparison
 
 <table style="border-collapse: collapse; width: 100%; font-size: 14px;">
 <tr>
@@ -233,16 +254,25 @@ At 10,000 routes, the optimized engine is **55.7x faster** for glob lookups. Eve
 <tr><td style="padding: 8px 12px; border: 1px solid #334155; text-align: center; font-weight: 600;">10,000</td><td style="padding: 8px 12px; border: 1px solid #334155; text-align: right; color: #94a3b8;">1.51M</td><td style="padding: 8px 12px; border: 1px solid #334155; text-align: right;"><strong>2.41M</strong></td><td style="padding: 8px 12px; border: 1px solid #334155; text-align: right; color: #94a3b8;">1.79M</td><td style="padding: 8px 12px; border: 1px solid #334155; text-align: right;"><strong>3.30M</strong></td><td style="padding: 8px 12px; border: 1px solid #334155; text-align: right; color: #94a3b8;">31K</td><td style="padding: 8px 12px; border: 1px solid #334155; text-align: right;"><strong>1.74M</strong></td><td style="padding: 8px 12px; border: 1px solid #334155; text-align: right; color: #94a3b8;">2.37M</td><td style="padding: 8px 12px; border: 1px solid #334155; text-align: right;"><strong>4.16M</strong></td></tr>
 </table>
 
-All values are iterations per second (higher is better), measured with `Benchmark.ips` in Crystal. The raw benchmark data and scripts are in the [repository](https://github.com/crimson-knight/amber/tree/feature/internalize-amber-router/benchmarks).
+All values are iterations per second (higher is better), measured with
+`Benchmark.ips` in Crystal. This table is retained so the project's published
+history remains inspectable; use the August 13 cloud rerun for current claims.
 
 <details>
 <summary><strong>Why this matters for your app</strong></summary>
 
 Routing runs on every single HTTP request. It's the first thing that happens after the TCP connection and HTTP parsing. In a framework that handles thousands of requests per second, even small per-request allocations add up. A `Hash` allocation here, an `Array` copy there — multiply that by 10,000 requests/second and you're generating significant GC pressure.
 
-By moving fixed-segment lookups to O(1), eliminating unnecessary heap allocations, and using Crystal's value types (structs) for short-lived objects, we're reducing both the CPU time and the memory pressure of every request. The goal isn't just faster routing in isolation — it's less GC pausing under sustained production load.
+Moving fixed-segment lookups to a hash, separating segment types, and removing
+temporary path work reduces the amount of routing work performed for each
+request. The microbenchmark measures lookup throughput only. Any claim about
+whole-request allocation pressure or GC pauses requires separate application
+profiling.
 
-We've also built a comprehensive benchmark suite that runs against every PR. If a change makes routing slower, we'll know before it merges.
+The corrected benchmark now preserves the exact source revisions, compiler,
+binary checksums, cloud target, raw paired trials, summary statistic, and
+limitations. It is a reproducible release check, but it is not currently a
+required pull-request check.
 
 </details>
 

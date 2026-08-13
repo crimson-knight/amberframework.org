@@ -1,3 +1,14 @@
+title: "We Reran Amber V2's Router on a $4 DigitalOcean Droplet"
+file: blog/2026/08/13/amber-v2-router-on-a-four-dollar-droplet.md
+image: characters/way-sprites/performance-b.webp
+date: Aug 13, 2026
+author: Seth Tucker
+profile: https://github.com/crimson-knight
+category: Performance
+character: Grant
+character_image: characters/grant-id-original-studio.webp
+summary: A controlled beta.4-versus-0.4.4 cloud rerun confirms the router improvement, corrects the old 55.7x headline, and publishes every paired trial.
+---
 title: "Amber V2 Can Remember Things Now"
 file: blog/2026/08/11/amber-v2-persistence-by-default.md
 image: characters/grant-records-warehouse-higgsfield.webp

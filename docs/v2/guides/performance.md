@@ -117,6 +117,37 @@ HTTP parsing, middleware, controller dispatch, template rendering, and response
 serialization. They are useful for choosing router implementations, but they
 must never be presented as HTTP requests per second.
 
+## Released router before and after on the $4 target
+
+On August 13, 2026, we ran a corrected router-only comparison on the exact
+DigitalOcean `s-1vcpu-512mb-10gb` size: one shared vCPU, 512 MiB advertised
+memory, 469,236 KiB visible memory, and no swap. Both static binaries used
+Crystal 1.21.0 and the same workload. The comparison was `amber_router` 0.4.4
+against Amber `2.0.0-beta.4`.
+
+Each of 12 scenarios used seven paired trials with alternating order. Amber V2
+was faster in all 84 individual pairs, and every scenario's median bootstrap
+interval excluded `1.0x`. The geometric mean across the 12 scenario medians
+was **1.89x**.
+
+| Route table | Lookup | V1 router median | V2 beta.4 median | Median paired speedup |
+|---:|---|---:|---:|---:|
+| 100 | Fixed | 599,440/s | 885,523/s | **1.44x** |
+| 100 | Variable | 796,564/s | 1,205,931/s | **1.55x** |
+| 100 | Glob | 384,426/s | 608,145/s | **1.58x** |
+| 100 | Not found | 669,406/s | 1,628,256/s | **2.31x** |
+| 10,000 | Unique glob | 69,704/s | 310,112/s | **4.54x** |
+
+This rerun also corrected the old `55.7x` headline. The historical glob
+generator reused only five effective URL shapes, so the 10,000-route tier put
+100 terminal entries behind each shape. That result measured a real
+duplicate-route edge case, but it was not a clean 10,000-unique-route
+comparison and is no longer a general Amber V2 claim.
+
+Read [the complete benchmark explanation](/blog/2026/08/13/amber-v2-router-on-a-four-dollar-droplet),
+inspect the [machine-readable paired summary](/benchmarks/amber-v2-router-digitalocean-2026-08-13-summary.json),
+or download the [168 raw trials](/benchmarks/amber-v2-router-digitalocean-2026-08-13-raw.jsonl).
+
 ## Published evidence
 
 The [round 22 summary data](/benchmarks/amber-v2-round22-summary.json) records

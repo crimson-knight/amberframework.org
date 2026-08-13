@@ -12,6 +12,10 @@ test -s public/assets/manifest.json
 test -s docs/v2/guides/web-template/index.md
 test -s docs/v2/guides/pet-tracker/index.md
 test -s docs/v2/guides/ai-assistants/index.md
+test -s blog/2026/08/13/amber-v2-router-on-a-four-dollar-droplet.md
+test -s public/benchmarks/amber-v2-router-digitalocean-2026-08-13-summary.json
+test -s public/benchmarks/amber-v2-router-digitalocean-2026-08-13-raw.jsonl
+test -s public/benchmarks/amber-v2-router-digitalocean-2026-08-13-machine.txt
 test -s src/views/home/showcase.ecr
 test -s src/views/home/sponsors.ecr
 
@@ -35,6 +39,9 @@ grep -F 'Web, ECR, and SQLite are the defaults' docs/v2/guides/web-template/inde
 grep -F 'respond_with' docs/v2/guides/views/index.md
 grep -F 'javascript_importmap_tag(' docs/v2/guides/assets/import-maps.md
 grep -F '21,795 requests/second' docs/v2/guides/performance.md
+grep -F 'overall_geometric_mean_speedup": 1.8857282238240094' public/benchmarks/amber-v2-router-digitalocean-2026-08-13-summary.json
+grep -F 'Amber V2 was faster in all 84 individual pairs.' blog/2026/08/13/amber-v2-router-on-a-four-dollar-droplet.md
+grep -F 'We have retired that number as' blog/2026/02/13/amber-2-alpha-the-road-to-a-unified-framework.md
 grep -F '"median": 21795.0' public/benchmarks/amber-v2-round22-summary.json
 grep -F 'OFFLINE DELIVERY IMPLEMENTED; REMOTE CHANNEL PROPOSED' design/v2-preview/TEMPLATE_DELIVERY_STRATEGY.md
 grep -F '.code-window' app/assets/css/amber-brand.css
@@ -77,6 +84,12 @@ fi
 if rg -n 'owner proofing|Owner approval|PROPOSED — NOT APPROVED|generic centered welcome|Amber advertisement' \
   src/views docs/v2; then
   echo "Amber V2 public copy still contains internal proofing or placeholder language" >&2
+  exit 1
+fi
+
+if rg -n 'RESULT_TABLE|TBD|TODO' blog/2026/08/13/amber-v2-router-on-a-four-dollar-droplet.md \
+  docs/v2/guides/performance.md; then
+  echo "Published performance content still contains a placeholder" >&2
   exit 1
 fi
 
