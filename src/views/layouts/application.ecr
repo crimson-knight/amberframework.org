@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="<%= @meta %>">
+    <meta name="keywords" content="Amber Framework, Crystal language, web framework, Amber 2, Amber CLI">
+    <meta name="theme-color" content="#fffaf3">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta property="og:site_name" content="Amber Framework">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="<%= @title %>">
+    <meta property="og:description" content="<%= @meta %>">
+    <meta property="og:url" content="https://amberframework.org<%= context.request.path %>">
+    <meta property="og:image" content="https://amberframework.org<%= asset_path(@image) %>">
+    <meta name="twitter:card" content="summary_large_image">
+    <title><%= @title %></title>
+    <link rel="canonical" href="https://amberframework.org<%= context.request.path %>">
+    <link rel="alternate" type="application/rss+xml" title="Amber Framework blog" href="https://amberframework.org/blog/feed.xml">
+    <%= stylesheet_link_tag("css/amber-brand.css") %>
+    <link rel="apple-touch-icon" href="<%= asset_path("brand/amber-crystal.svg") %>">
+    <%= favicon_tag("brand/amber-crystal.svg") %>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  </head>
+  <body data-no-tracking="true">
+    <%= render(partial: "layouts/_nav.ecr") %>
+    <%= content %>
+    <%= render(partial: "layouts/_footer.ecr") %>
+    <%= javascript_importmap_tag(
+      {"amber/site" => "js/amber-site.js"},
+      preload: ["js/amber-site.js"]
+    ) %>
+    <script type="module">import "amber/site";</script>
+  </body>
+</html>

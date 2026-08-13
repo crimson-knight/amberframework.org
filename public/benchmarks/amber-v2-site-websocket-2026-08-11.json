@@ -1,0 +1,184 @@
+{
+  "schema_version": 1,
+  "benchmark_id": "amber-v2-site-websocket-2026-08-11",
+  "measured_at": "2026-08-11",
+  "status": "historical_release_candidate_evidence",
+  "subject": {
+    "application": "Amber Framework website release candidate",
+    "source_base_commit": "2bcae249e912f84ecab1d849393c48fed6b729ef",
+    "working_tree_patch_sha256": "89b970a09f028f990c2d585d4835917b9a6e7748f9b4cdf47a790610f92017de",
+    "deployed_binary_sha256": "984b11cbfc178d166fca428c0cb5ac56036f84e9ab675f774cb30592a61050ff",
+    "amber_version": "2.0.0-beta.2",
+    "crystal_version": "1.21.0",
+    "llvm_version": "22.1.8",
+    "build_target": "linux x86_64-v2",
+    "server_port": 41019
+  },
+  "infrastructure": {
+    "provider": "DigitalOcean",
+    "region": "nyc1",
+    "network": "private VPC",
+    "target": {
+      "size_slug": "s-1vcpu-512mb-10gb",
+      "shared_vcpus": 1,
+      "memory_mebibytes_advertised": 512,
+      "memory_kibibytes_visible": 469236,
+      "monthly_price_usd_at_measurement": 4,
+      "architecture": "x86_64"
+    },
+    "load_generator": {
+      "size_slug": "c-4",
+      "dedicated_vcpus": 4,
+      "memory_mebibytes_advertised": 8192,
+      "tool": "wrk 4.1.0",
+      "architecture": "x86_64"
+    }
+  },
+  "http_method": {
+    "threads": 4,
+    "connections": 16,
+    "warmup_seconds": 5,
+    "baseline_trial_seconds": 15,
+    "baseline_repetitions": 5,
+    "concurrent_trial_seconds": 10,
+    "concurrent_repetitions": 3,
+    "protocol": "HTTP/1.1 keep-alive",
+    "tls": false
+  },
+  "http_baseline": {
+    "full_homepage": {
+      "path": "/",
+      "response_bytes": 26271,
+      "requests_per_second_trials": [4932.80, 5225.17, 6113.54, 6285.26, 5906.72],
+      "median_requests_per_second": 5906.72,
+      "median_trial_p50_latency_ms": 2.67,
+      "median_trial_p99_latency_ms": 7.07,
+      "successful_responses": 427162,
+      "socket_errors": 0,
+      "non_2xx_responses": 0
+    },
+    "rendered_json": {
+      "path": "/index.json",
+      "response_bytes": 881,
+      "requests_per_second_trials": [10369.35, 8364.73, 9042.33, 9354.58, 9513.99],
+      "median_requests_per_second": 9354.58,
+      "median_trial_p50_latency_ms": 1.66,
+      "median_trial_p99_latency_ms": 5.84,
+      "successful_responses": 701730,
+      "socket_errors": 0,
+      "non_2xx_responses": 0
+    },
+    "static_agent_index": {
+      "path": "/llms.txt",
+      "response_bytes": 1410,
+      "requests_per_second_trials": [13535.67, 14084.87, 12824.61, 14409.34, 15038.49],
+      "median_requests_per_second": 14084.87,
+      "median_trial_p50_latency_ms": 1.08,
+      "median_trial_p99_latency_ms": 3.90,
+      "successful_responses": 1055356,
+      "socket_errors": 0,
+      "non_2xx_responses": 0
+    }
+  },
+  "websocket_method": {
+    "endpoint": "/ws",
+    "topic": "site:proof",
+    "transport": "Amber WebSocket channel over private VPC",
+    "client_action": "connect, join topic, hold, close",
+    "http_during_hold": {
+      "path": "/index.json",
+      "threads": 4,
+      "connections": 16
+    }
+  },
+  "websocket_stages": [
+    {
+      "requested_connections": 100,
+      "connected": 100,
+      "connection_errors": 0,
+      "connect_seconds": 0.032,
+      "hold_seconds": 75,
+      "http_requests_per_second_trials": [9517.62, 11159.13, 11127.73],
+      "http_median_requests_per_second": 11127.73,
+      "http_median_trial_p50_latency_ms": 1.39,
+      "http_median_trial_p99_latency_ms": 5.47,
+      "http_successful_responses": 321213,
+      "target_process_rss_kibibytes": 38032,
+      "target_process_open_file_descriptors": 125,
+      "target_established_connections_during_http_capture": 116
+    },
+    {
+      "requested_connections": 500,
+      "connected": 500,
+      "connection_errors": 0,
+      "connect_seconds": 2.397,
+      "hold_seconds": 80,
+      "http_requests_per_second_trials": [6181.86, 6540.69, 6393.69],
+      "http_median_requests_per_second": 6393.69,
+      "http_median_trial_p50_latency_ms": 2.16,
+      "http_median_trial_p99_latency_ms": 17.71,
+      "http_successful_responses": 191290,
+      "target_process_rss_kibibytes": 88604,
+      "target_process_open_file_descriptors": 525,
+      "target_established_connections_during_http_capture": 516
+    },
+    {
+      "requested_connections": 1000,
+      "connected": 1000,
+      "connection_errors": 0,
+      "connect_seconds": 11.738,
+      "hold_seconds": 85,
+      "http_requests_per_second_trials": [7620.57, 8057.74, 9065.16],
+      "http_median_requests_per_second": 8057.74,
+      "http_median_trial_p50_latency_ms": 1.83,
+      "http_median_trial_p99_latency_ms": 26.77,
+      "http_successful_responses": 247536,
+      "target_process_rss_kibibytes": 140360,
+      "target_process_open_file_descriptors": 1025,
+      "target_established_connections_during_http_capture": 1016,
+      "target_host_available_memory_kibibytes": 170000,
+      "target_cgroup_peak_bytes": 182628352
+    },
+    {
+      "requested_connections": 1000,
+      "connected": 1000,
+      "connection_errors": 0,
+      "connect_seconds": 10.352,
+      "hold_seconds": 30,
+      "purpose": "second connection cycle after the first 1000 clients closed",
+      "target_process_rss_kibibytes": 175644,
+      "target_process_open_file_descriptors": 1009,
+      "target_established_connections": 1000,
+      "target_cgroup_peak_bytes": 182632448
+    }
+  ],
+  "resource_snapshots": {
+    "idle_before_websockets": {
+      "target_process_rss_kibibytes": 15992,
+      "target_process_open_file_descriptors": 9
+    },
+    "after_first_1000_connection_cycle_closed": {
+      "target_process_rss_kibibytes": 131352,
+      "target_process_open_file_descriptors": 9,
+      "target_established_connections": 0
+    }
+  },
+  "totals": {
+    "http_successful_responses": 2944287,
+    "http_socket_errors": 0,
+    "http_non_2xx_responses": 0,
+    "websocket_connection_attempts": 2600,
+    "websocket_successful_connections": 2600,
+    "websocket_connection_errors": 0
+  },
+  "interpretation": {
+    "supported_statement": "This Amber website release candidate held 1,000 WebSocket clients with zero connection errors on the smallest DigitalOcean target and concurrently served the rendered JSON path at a median 8,057.74 requests per second in that stage.",
+    "limitations": [
+      "The 100, 500, and 1,000 connection stages were sequential rather than interleaved.",
+      "The shared-vCPU target produced noisy, non-monotonic throughput; the 500-connection stage was slower than the 1,000-connection stage, so these stages are not a causal scaling curve.",
+      "Connections were idle after joining; this does not measure broadcast fan-out, message throughput, slow consumers, TLS, a reverse proxy, a public network, or multiple Amber processes.",
+      "The second 1,000-connection cycle barely changed the cgroup peak, which is consistent with bounded reuse in this short run but is not a memory-leak certification.",
+      "These are dated results for this release candidate, hardware, compiler, and workload—not a capacity promise for every Amber application."
+    ]
+  }
+}

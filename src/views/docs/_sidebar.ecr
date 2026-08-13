@@ -1,0 +1,66 @@
+<div class="docs-sidebar-inner">
+  <%= render(partial: "docs/_version_selector.ecr") %>
+  <nav class="sidebar-nav" aria-label="Documentation pages">
+    <h2 class="sidebar-heading">Documentation</h2>
+    <ul class="nav-tree">
+      <% full_path = @path.empty? ? @version_id : "#{@version_id}/#{@path}" %>
+      <% @nav_tree.each do |item| %>
+        <% is_active = item.path == full_path || full_path.starts_with?(item.path + "/") %>
+        <li>
+          <% if item.children.empty? %>
+            <a class="<%= "active" if is_active %>" href="/docs/<%= item.path %>">
+              <span><%= item.title %></span>
+              <% if badge = item.badge %><span class="badge <%= item.badge_class %>"><%= badge %></span><% end %>
+            </a>
+          <% else %>
+            <details class="nav-group<%= " active-branch" if is_active %>"<%= " open" if is_active %>>
+              <summary>
+                <span><%= item.title %></span>
+                <span class="nav-group-meta">
+                  <% if badge = item.badge %><span class="badge <%= item.badge_class %>"><%= badge %></span><% end %>
+                  <span class="nav-chevron" aria-hidden="true">›</span>
+                </span>
+              </summary>
+              <ul class="nav-children">
+                <li><a class="nav-overview <%= "active" if item.path == full_path %>" href="/docs/<%= item.path %>">Overview</a></li>
+                <% item.children.each do |child| %>
+                  <% child_active = child.path == full_path || full_path.starts_with?(child.path + "/") %>
+                  <li>
+                    <% if child.children.empty? %>
+                      <a class="<%= "active" if child_active %>" href="/docs/<%= child.path %>">
+                        <span><%= child.title %></span>
+                        <% if badge = child.badge %><span class="badge <%= child.badge_class %>"><%= badge %></span><% end %>
+                      </a>
+                    <% else %>
+                      <details class="nav-group nav-group-nested<%= " active-branch" if child_active %>"<%= " open" if child_active %>>
+                        <summary>
+                          <span><%= child.title %></span>
+                          <span class="nav-group-meta">
+                            <% if badge = child.badge %><span class="badge <%= child.badge_class %>"><%= badge %></span><% end %>
+                            <span class="nav-chevron" aria-hidden="true">›</span>
+                          </span>
+                        </summary>
+                        <ul class="nav-children">
+                          <li><a class="nav-overview <%= "active" if child.path == full_path %>" href="/docs/<%= child.path %>">Overview</a></li>
+                          <% child.children.each do |grandchild| %>
+                            <% grandchild_active = grandchild.path == full_path %>
+                            <li>
+                              <a class="<%= "active" if grandchild_active %>" href="/docs/<%= grandchild.path %>">
+                                <span><%= grandchild.title %></span>
+                                <% if badge = grandchild.badge %><span class="badge <%= grandchild.badge_class %>"><%= badge %></span><% end %>
+                              </a>
+                            </li>
+                          <% end %>
+                        </ul>
+                      </details>
+                    <% end %>
+                  </li>
+                <% end %>
+              </ul>
+            </details>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+</div>

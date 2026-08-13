@@ -1,0 +1,100 @@
+<% @title = "Amber releases — dated framework and CLI notes" %>
+<% @meta = "Current Amber Framework and Amber CLI releases, dates, beta boundaries, and notes synchronized from GitHub." %>
+
+<header class="page-hero release-page-hero">
+  <div class="site-container page-hero-grid">
+    <div>
+      <p class="eyebrow">Release notes · synchronized from GitHub</p>
+      <h1>Know what shipped.<br><em>And what beta means.</em></h1>
+      <p>GitHub Releases remains the source of truth. This page turns those records into a dated, readable map of the stable framework, V2 web beta, and standalone CLI.</p>
+    </div>
+    <div class="release-sync-card">
+      <span>Last synchronized</span>
+      <strong><%= snapshot.synced_at == "Unavailable" ? snapshot.synced_at : Time.parse_rfc3339(snapshot.synced_at).to_s("%B %d, %Y at %H:%M UTC").gsub(" 0", " ") %></strong>
+      <small>Automatic check every six hours</small>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section release-current-section">
+    <div class="site-container">
+      <div class="section-heading">
+        <div><p class="eyebrow">Current choices</p><h2>Three versions.<br>Three different jobs.</h2></div>
+        <p>The framework runtime and the CLI now have independent releases. Pick the framework line first; use the current CLI when creating a new V2 application.</p>
+      </div>
+      <div class="release-choice-grid">
+        <% if release = stable_release %>
+          <article class="release-choice-card release-choice-stable">
+            <span class="release-status">Stable framework</span>
+            <h3><%= release.tag_name %></h3>
+            <time datetime="<%= release.published_at %>"><%= release.published_on %></time>
+            <p>The conservative Amber 1.x line for existing applications, with current Crystal compatibility and maintenance corrections.</p>
+            <a href="<%= release.url %>" target="_blank" rel="noopener">Read the official GitHub release →</a>
+          </article>
+        <% end %>
+        <% if release = beta_release %>
+          <article class="release-choice-card release-choice-beta">
+            <span class="release-status">V2 web beta</span>
+            <h3><%= release.tag_name %></h3>
+            <time datetime="<%= release.published_at %>"><%= release.published_on %></time>
+            <p>The current V2 framework tag and release-gated ECR web path. It is a prerelease, but it is not a promise of a difficult rewrite before stable.</p>
+            <a href="/docs/v2/getting-started/installation">Test the supported web path →</a>
+          </article>
+        <% end %>
+        <% if release = cli_release %>
+          <article class="release-choice-card release-choice-cli">
+            <span class="release-status">Standalone CLI</span>
+            <h3><%= release.tag_name %></h3>
+            <time datetime="<%= release.published_at %>"><%= release.published_on %></time>
+            <p>The current application generator and development command. Its release cycle is independent from the framework dependency in your app.</p>
+            <a href="<%= release.url %>" target="_blank" rel="noopener">Read the official GitHub release →</a>
+          </article>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section beta-explainer-section">
+    <div class="site-container beta-explainer-grid">
+      <div>
+        <p class="eyebrow">The word “beta,” unpacked</p>
+        <h2>The web path is coherent.<br><em>The frontier stays named.</em></h2>
+      </div>
+      <div class="beta-explainer-copy">
+        <p><strong>V2 is tagged as a prerelease</strong> while real applications test it in public. Routes, controllers, ECR views, configuration, schemas, WebSockets, jobs, and the clean web template form the web-framework core being release-gated.</p>
+        <p><strong>Preview does not spread by association.</strong> Grant persistence and the static Asset Pipeline are part of the tested web path. Attachments, generated authentication and APIs, and native applications keep their own status.</p>
+        <p><strong>V1 applications are not expected to be rewritten.</strong> Many ECR applications can begin—and some can finish—with the Amber version change in <code>shard.yml</code>. The migration guide identifies the bounded exceptions.</p>
+        <a class="button button-primary" href="/docs/v2/migration-guide">See the smallest safe upgrade path</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section release-history-section">
+    <div class="site-container">
+      <div class="section-heading compact-heading">
+        <div><p class="eyebrow">Synchronized history</p><h2>Notes from the repositories.</h2></div>
+        <p>Every entry links to its authoritative GitHub record. Expand an item here for the published release body.</p>
+      </div>
+      <div class="release-streams">
+        <% [{"Amber Framework", framework_releases}, {"Amber CLI", cli_releases}].each do |stream| %>
+          <section class="release-stream">
+            <h3><%= stream[0] %></h3>
+            <% stream[1].each do |release| %>
+              <details class="release-note">
+                <summary>
+                  <span><strong><%= release.tag_name %></strong><small><%= release.name %></small></span>
+                  <time datetime="<%= release.published_at %>"><%= release.published_on %></time>
+                </summary>
+                <div class="release-note-body">
+                  <% unless release.body.empty? %><%= MarkdownPreprocessor.render(release.body, preprocess: false, safe: true) %><% end %>
+                  <a href="<%= release.url %>" target="_blank" rel="noopener">Open the source release on GitHub →</a>
+                </div>
+              </details>
+            <% end %>
+          </section>
+        <% end %>
+      </div>
+    </div>
+  </section>
+</main>

@@ -1,0 +1,110 @@
+<% @title = "Amber performance — evidence, not mythology" %>
+<% @meta = "Human-readable Amber V2 website and framework benchmarks with exact workloads, limitations, and reproducible source data." %>
+
+<header class="performance-hero">
+  <div class="site-container performance-hero-grid">
+    <div>
+      <p class="eyebrow">Measured August 11, 2026 · smallest server target</p>
+      <h1>A real homepage.<br><em>5,907 requests a second.</em></h1>
+      <p>This is the public Amber V2 site: controllers, ECR rendering, layout, content, and 26,271 bytes over HTTP. It ran on the DigitalOcean Basic one-vCPU, 512 MB class—the $4/month size when the lab ran.</p>
+    </div>
+    <dl class="performance-hero-numbers">
+      <div><dt>Homepage median</dt><dd>5,906.72 <small>req/s</small></dd></div>
+      <div><dt>WebSocket clients</dt><dd>1,000 <small>joined</small></dd></div>
+      <div><dt>Connection errors</dt><dd>0</dd></div>
+    </dl>
+  </div>
+</header>
+
+<main>
+  <section class="section performance-story-section">
+    <div class="site-container performance-story-grid">
+      <div>
+        <p class="eyebrow">What the number means</p>
+        <h2>Small infrastructure can carry a surprisingly large read path.</h2>
+      </div>
+      <div>
+        <p>A median of 5,906.72 requests per second means the middle repeated run completed that many full homepage responses each second under the test's connection and keep-alive settings. It does not mean every database-backed page will do the same thing.</p>
+        <p>The practical result is room: a documentation site, small product, or portfolio of read-heavy applications can begin on modest infrastructure without treating performance as an afterthought.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section performance-workloads-section">
+    <div class="site-container">
+      <div class="performance-workload-grid">
+        <article class="performance-workload-card performance-workload-primary">
+          <span class="release-status">Public application</span>
+          <h2>amberframework.org</h2>
+          <p class="workload-result"><strong>5,906.72</strong> req/s median</p>
+          <dl>
+            <div><dt>Response</dt><dd>Complete 26,271-byte homepage</dd></div>
+            <div><dt>Machine index</dt><dd>14,084.87 req/s median</dd></div>
+            <div><dt>JSON route</dt><dd>9,354.58 req/s median</dd></div>
+            <div><dt>Live stage</dt><dd>1,000 joined sockets for 85 seconds</dd></div>
+            <div><dt>JSON during live stage</dt><dd>8,057.74 req/s median</dd></div>
+            <div><dt>Median trial p99</dt><dd>26.77 ms during live stage</dd></div>
+          </dl>
+        </article>
+        <article class="performance-workload-card">
+          <span class="release-status">Framework request path</span>
+          <h2>Mixed 1,000-route application</h2>
+          <p class="workload-result"><strong>21,795</strong> req/s median</p>
+          <dl>
+            <div><dt>Measured</dt><dd>July 17, 2026</dd></div>
+            <div><dt>Target</dt><dd>1 shared vCPU · 512 MB</dd></div>
+            <div><dt>Load</dt><dd>16 connections · keep-alive</dd></div>
+            <div><dt>Trials</dt><dd>7 rotating repetitions</dd></div>
+            <div><dt>Successful responses</dt><dd>18,728,053</dd></div>
+            <div><dt>Errors</dt><dd>0 socket · 0 non-2xx</dd></div>
+          </dl>
+        </article>
+        <article class="performance-workload-card">
+          <span class="release-status">Amber 2.0.0-beta.5</span>
+          <h2>Executable JSON contract</h2>
+          <p class="workload-result"><strong>19,488</strong> req/s median</p>
+          <dl>
+            <div><dt>Measured</dt><dd>August 13, 2026</dd></div>
+            <div><dt>Target</dt><dd>1 shared vCPU · 512 MB</dd></div>
+            <div><dt>Request path</dt><dd>Parse · route · validate · respond</dd></div>
+            <div><dt>Trials</dt><dd>7 rotating repetitions</dd></div>
+            <div><dt>All four scenarios</dt><dd>7,974,608 HTTP 200</dd></div>
+            <div><dt>Schema cost</dt><dd>6.0% versus generic JSON</dd></div>
+          </dl>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section performance-boundaries-section">
+    <div class="site-container performance-boundaries-grid">
+      <div>
+        <p class="eyebrow">Read this before repeating the number</p>
+        <h2>The workload travels with the claim.</h2>
+      </div>
+      <div class="performance-boundary-list">
+        <p><strong>No database was involved.</strong> A query, remote API, file store, authentication flow, or application code can become the limiting factor.</p>
+        <p><strong>The 1,000 WebSocket clients were idle after joining.</strong> The result proves connection holding and concurrent HTTP work, not 1,000 clients broadcasting continuously.</p>
+        <p><strong>Sequential shared-vCPU stages were noisy.</strong> They are published as observed evidence, not presented as a causal scaling curve.</p>
+        <p><strong>This is not an SLA or cross-framework ranking.</strong> Hardware, proxies, TLS, traffic shape, application behavior, and deployment tuning will change the result.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section performance-source-section">
+    <div class="site-container performance-source-card">
+      <div>
+        <p class="eyebrow">Reproduce or audit it</p>
+        <h2>Human explanation first.<br>Source data when you need it.</h2>
+        <p>The raw records preserve exact stages and measurements for reviewers and tools. They support this page; they are not the page.</p>
+      </div>
+      <div class="performance-source-links">
+        <a class="button button-primary" href="/amber-way#measured-performance">Read Amber's performance belief</a>
+        <a href="/benchmarks/amber-v2-site-websocket-2026-08-11.json">Source data: website and WebSockets (JSON)</a>
+        <a href="/benchmarks/amber-v2-round22-summary.json">Source data: framework request path (JSON)</a>
+        <a href="/blog/2026/08/13/amber-v2-executable-schema-contracts">Read the executable-schema benchmark</a>
+        <a href="/benchmarks/amber-v2-schema-contract-round27-summary.json">Source data: schema contracts (JSON)</a>
+      </div>
+    </div>
+  </section>
+</main>

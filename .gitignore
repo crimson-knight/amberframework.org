@@ -6,6 +6,7 @@
 /tmp/
 /log/
 /bin/
+/public/assets/
 /node_modules/
 .env
 .amber_secret_key

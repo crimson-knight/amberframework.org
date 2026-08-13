@@ -1,0 +1,90 @@
+<% @title = "Amber design system — Amber Framework" %>
+<% @meta = "Explore the Amber character mark, locally hosted typography, crew colors, faceted crystal motifs, interface components, and motion rules." %>
+
+<header class="page-hero">
+  <div class="site-container">
+    <p class="eyebrow">Design system</p>
+    <h1>Technical clarity,<br>warmly expressed.</h1>
+    <p>This visual language connects the Amber website, documentation, and generated V2 web starter through original-studio character art, locally served type, responsibility colors, faceted geometry, and restrained motion.</p>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="site-container brand-grid">
+      <article class="brand-card logo-stage reveal">
+        <div>
+          <p class="eyebrow">Primary mark</p>
+          <h2>Amber leads the show.</h2>
+          <p>The primary character mark uses Amber's playful original-studio identity: full-body chibi proportions, a confident hero stance, and a welcoming peace sign. The transparent WebP ships with the site for local reuse.</p>
+        </div>
+        <div class="logo-scale-row character-mark-scale-row">
+          <%= image_tag("characters/amber-chibi-hero-mark-v2.webp", width: "260", height: "260", alt: "Chibi Amber standing confidently and giving a peace sign") %>
+          <%= image_tag("characters/amber-chibi-hero-mark-v2.webp", width: "72", height: "72", alt: "") %>
+          <%= image_tag("characters/amber-chibi-hero-mark-v2.webp", width: "40", height: "40", alt: "") %>
+        </div>
+      </article>
+
+      <article class="brand-card type-specimen reveal">
+        <p class="eyebrow">Locally served type</p>
+        <p class="display-sample">Build something <em>crystal clear.</em></p>
+        <p>Fraunces brings expression and human warmth. Manrope carries the interface. Both variable fonts and their SIL licenses live with the site; the browser never calls a hosted font API.</p>
+      </article>
+
+      <article class="brand-card brand-card-wide reveal">
+        <p class="eyebrow">Responsibility colors</p>
+        <h2>One crew, clear boundaries.</h2>
+        <div class="swatches">
+          <div class="swatch" style="background:#fff9ef;">Canvas<br>#FFF9EF</div>
+          <div class="swatch" style="background:#f47a16; color:white;">Amber<br>#F47A16</div>
+          <div class="swatch" style="background:#147f80; color:white;">Grant<br>#147F80</div>
+          <div class="swatch" style="background:#8051a7; color:white;">Gemma<br>#8051A7</div>
+        </div>
+      </article>
+
+      <article class="brand-card brand-card-wide crystal-motif-card reveal">
+        <div><p class="eyebrow">Supporting motif</p><h2>The crystal stays in the world.</h2><p>The faceted crystal remains a decorative system motif for fields, accents, and technical diagrams. It no longer carries the primary identity by itself.</p></div>
+        <%= image_tag("brand/amber-crystal.svg", width: "96", height: "128", alt: "Faceted amber crystal supporting motif") %>
+      </article>
+    </div>
+  </section>
+
+  <section class="section section-tinted">
+    <div class="site-container">
+      <div class="section-heading">
+        <div><p class="eyebrow">Component shelf</p><h2>Small pieces.<br>One visual language.</h2></div>
+        <p>The same border geometry, type, spacing, and state language carries from marketing pages into documentation and the generated V2 web starter.</p>
+      </div>
+
+      <div class="component-shelf">
+        <article class="component-demo">
+          <span class="file-label">Actions</span>
+          <div class="component-row"><a class="button button-primary" href="#">Primary action</a><a class="button button-secondary" href="#">Secondary action</a></div>
+        </article>
+        <article class="component-demo">
+          <span class="file-label">Status</span>
+          <div class="component-row"><span class="status-badge badge-preview">Preview</span><span class="status-badge badge-supported">V2 beta core</span></div>
+        </article>
+        <article class="component-demo component-demo-wide">
+          <span class="file-label">Terminal window</span>
+          <div class="terminal mini-terminal"><div class="terminal-toolbar"><span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-dot"></span><span class="terminal-title">amber — zsh</span></div><div class="terminal-screen"><div><span class="terminal-prompt">$</span> amber new my_app</div><div class="terminal-success">✓ Web application created</div></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="site-container motion-spec reveal">
+      <div>
+        <p class="eyebrow">Motion contract</p>
+        <h2>Movement must explain state.</h2>
+      </div>
+      <ul>
+        <li><strong>Terminal:</strong> progress from install to a running browser.</li>
+        <li><strong>Cards:</strong> small pointer depth, never layout movement.</li>
+        <li><strong>Crystal field:</strong> decorative response to pointer and scroll.</li>
+        <li><strong>Reduced motion:</strong> show the complete state immediately.</li>
+      </ul>
+    </div>
+  </section>
+</main>

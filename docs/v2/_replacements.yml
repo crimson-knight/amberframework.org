@@ -1,0 +1,44 @@
+# V1 pages intentionally retired in V2 and their closest V2 destination.
+# Paths on the left match documentation-relative Markdown paths. Destinations
+# omit the version prefix and file extension.
+
+guides/models/granite/index.md: migration-guide/granite-to-grant
+guides/models/granite/callbacks.md: guides/models/grant/callbacks
+guides/models/granite/migrations.md: migration-guide/granite-to-grant
+guides/models/granite/validations.md: guides/models/grant/validations
+guides/models/granite/querying.md: guides/models/grant/queries
+guides/models/granite/bulk-insertions.md: guides/models/grant
+guides/models/granite/associations.md: guides/models/grant/associations
+
+guides/models/jennifer/index.md: guides/models/grant
+guides/models/jennifer/migrations.md: migration-guide/granite-to-grant
+guides/models/jennifer/models.md: guides/models/grant/basics
+
+cli/recipes.md: cli
+cli/routes.md: cli
+cli/plugins.md: cli
+cli/encrypt.md: cli
+cli/exec.md: cli
+cli/database.md: cli
+
+deployment/digital-ocean.md: deployment
+deployment/heroku.md: deployment
+deployment/dokku.md: deployment
+
+examples/amber-auth.md: cli/generate
+examples/json-api-full-crud.md: guides/schema-api
+cookbook/from-scratch.md: guides/web-template
+guides/create-new-app.md: cli/new
+guides/directory-structure.md: guides/web-template
+guides/configuration.md: guides/web-template
+guides/overview.md: guides
+guides/docker.md: deployment
+guides/controllers/params.md: guides/schema-api
+guides/installation.md: getting-started/installation
+guides/views/form-builder.md: guides/views
+examples/crystal-debug.md: troubleshooting
+cookbook/json-api.md: guides/schema-api
+cookbook/file-download.md: guides/routing/pipelines
+cookbook/file-upload.md: guides/uploads
+cookbook/websocket-chat.md: guides/websockets
+guides/websockets/javascript-client.md: guides/websockets

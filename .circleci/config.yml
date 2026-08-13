@@ -7,6 +7,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Check Amber V2 Beta Documentation
+          command: scripts/check_v2_beta_docs.sh
+      - run:
           name: Shards Install
           command: |
             echo "shards version: $(shards version)"

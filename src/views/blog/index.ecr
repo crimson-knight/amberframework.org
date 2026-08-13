@@ -1,0 +1,82 @@
+<% @title = "Amber Framework blog" %>
+<% @meta = "Release notes, engineering stories, and practical Crystal guidance from Amber and the framework community." %>
+<script type="application/ld+json"><%= structured_data %></script>
+
+<header class="page-hero blog-page-hero">
+  <div class="site-container blog-hero-grid">
+    <div>
+      <p class="eyebrow">Articles, release stories, and field reports</p>
+      <h1>Stories from the<br><em>Amber crew.</em></h1>
+      <p>Release notes, engineering decisions, and practical guidance from the people building Amber. Start with what changed, when it changed, and why it matters.</p>
+      <div class="blog-subscribe-row">
+        <a class="button button-primary" href="/blog/feed.xml">Subscribe via RSS</a>
+        <span class="machine-format-label">For tools:</span>
+        <a class="format-link" href="/blog.md">Markdown</a>
+        <a class="format-link" href="/blog.json">JSON</a>
+      </div>
+    </div>
+    <div class="blog-hero-art">
+      <%= image_tag("characters/amber-chibi-original-studio.webp", width: "800", height: "800", alt: "Chibi Amber pointing readers toward the latest stories") %>
+    </div>
+  </div>
+</header>
+
+<main class="section">
+  <div class="site-container">
+    <% featured = @posts.first %>
+    <article class="featured-post reveal">
+      <a class="featured-post-image" href="<%= post_path(featured) %>">
+        <img src="<%= asset_path(featured["image"].to_s) %>" width="960" height="640" alt="Illustration for <%= featured["title"] %>">
+        <span>Latest story</span>
+      </a>
+      <div class="featured-post-body">
+        <div class="post-meta-row">
+          <span class="post-topic"><%= featured["category"]? || "Framework" %></span>
+          <time datetime="<%= post_iso_date(featured) %>"><%= featured["date"] %></time>
+          <span data-relative-date="<%= post_iso_date(featured) %>"></span>
+        </div>
+        <h2><a href="<%= post_path(featured) %>"><%= featured["title"] %></a></h2>
+        <p><%= featured["summary"]? || "An update from the Amber Framework community." %></p>
+        <div class="post-author featured-post-author">
+          <img src="<%= asset_path((featured["character_image"]? || "characters/amber-id-original-studio.webp").to_s) %>" width="60" height="60" alt="">
+          <span><strong><%= featured["author"] %></strong><br>Filed with <%= featured["character"]? || "Amber" %></span>
+        </div>
+        <a class="text-link" href="<%= post_path(featured) %>">Read the story →</a>
+      </div>
+    </article>
+
+    <section class="story-archive" aria-labelledby="story-archive-heading">
+      <div class="story-archive-heading">
+        <div>
+          <p class="eyebrow">The archive</p>
+          <h2 id="story-archive-heading">What happened, in order.</h2>
+        </div>
+        <p>Historical posts keep their original date and era. Current crew art is reserved for current stories, so an old release cannot accidentally look new.</p>
+      </div>
+
+      <div class="story-list">
+        <% @posts.skip(1).each do |post| %>
+          <article class="story-row reveal">
+            <a class="story-era-art" href="<%= post_path(post) %>" tabindex="-1" aria-hidden="true">
+              <img src="<%= asset_path(post["image"].to_s) %>" width="240" height="180" alt="">
+              <span><%= post_iso_date(post)[0, 4] %></span>
+            </a>
+            <div class="story-row-copy">
+              <div class="post-meta-row">
+                <span class="post-topic"><%= post["category"]? || "Framework" %></span>
+                <time datetime="<%= post_iso_date(post) %>"><%= post["date"] %></time>
+                <span data-relative-date="<%= post_iso_date(post) %>"></span>
+              </div>
+              <h3><a href="<%= post_path(post) %>"><%= post["title"] %></a></h3>
+              <p><%= post["summary"]? || "An update from the Amber Framework community." %></p>
+            </div>
+            <div class="story-row-byline">
+              <span>By <strong><%= post["author"] %></strong></span>
+              <a href="<%= post_path(post) %>" aria-label="Read <%= post["title"] %>">Read →</a>
+            </div>
+          </article>
+        <% end %>
+      </div>
+    </section>
+  </div>
+</main>

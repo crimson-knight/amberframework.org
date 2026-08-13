@@ -1,0 +1,79 @@
+<% @title = "Built with Amber — Amber Framework" %>
+<% @meta = "Explore verified Amber V2 applications, source code, first-app examples, and measured performance evidence." %>
+
+<header class="page-hero showcase-hero">
+  <div class="site-container page-hero-grid">
+    <div>
+      <p class="eyebrow">Built with Amber</p>
+      <h1>See the framework<br>doing the work.</h1>
+      <p>A portfolio should be inspectable. Every project here links to working software, source code, or a complete build guide so you can see the application shape rather than take a logo wall on faith.</p>
+    </div>
+    <%= image_tag("characters/amber-chibi-hero-mark-v2.webp", class: "guide-amber", width: "520", height: "520", alt: "Amber presenting applications built with the framework") %>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="site-container">
+      <div class="section-heading">
+        <div><p class="eyebrow">Reference application</p><h2>Amber Framework.org</h2></div>
+        <p>This website is the first public Amber V2 reference app. Its source exposes the same routing, controllers, ECR views, local CSS, browser modules, import map, specs, and deployment boundary described in the guides.</p>
+      </div>
+
+      <article class="showcase-feature reveal">
+        <div class="showcase-site-preview" aria-label="A stylized preview of the Amber Framework homepage">
+          <div class="showcase-browser-bar"><span></span><span></span><span></span><b>amberframework.org</b></div>
+          <div class="showcase-preview-body">
+            <div><span class="file-label">Amber V2 reference app</span><strong>Build something<br><em>crystal clear.</em></strong></div>
+            <%= image_tag("characters/amber-chibi-hero-mark-v2.webp", width: "320", height: "320", alt: "") %>
+          </div>
+        </div>
+        <div class="showcase-copy">
+          <span class="status-badge badge-supported">Live on Amber V2</span>
+          <h2>The docs are part of the proof.</h2>
+          <p>No frontend framework or hosted runtime asset is required. Amber renders the document with ECR, serves its own visual system, and uses a browser-native import map for the small interactive layer.</p>
+          <ul class="evidence-list">
+            <li><strong>Server:</strong> Amber V2 controllers and ECR views</li>
+            <li><strong>Frontend:</strong> local CSS and browser-native JavaScript modules</li>
+            <li><strong>Content:</strong> versioned Markdown scanned into the documentation UI</li>
+            <li><strong>Privacy:</strong> no analytics, application cookies, or third-party runtime assets</li>
+          </ul>
+          <div class="community-actions">
+            <a class="button button-primary" href="/">Open the live app</a>
+            <a class="button button-secondary" href="https://github.com/crimson-knight/amberframework.org" target="_blank" rel="noopener">Inspect the source</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section section-tinted">
+    <div class="site-container showcase-grid">
+      <article class="community-card reveal">
+        <span class="file-label">Canonical first app</span>
+        <h3>Pet Tracker</h3>
+        <p>Build a small application with one resource, both HTML and JSON representations, ECR templates, local styling, an import map, browser JavaScript, and request specs. Every block names its file.</p>
+        <a class="text-link" href="/docs/v2/guides/pet-tracker">Build the Pet Tracker →</a>
+      </article>
+
+      <article class="community-card benchmark-card reveal">
+        <span class="file-label">Published benchmark</span>
+        <p class="showcase-metric"><strong>21,795</strong> median req/s</p>
+        <p>A July 17, 2026 mixed HTTP workload with 1,000 routes, 16 connections, seven repetitions, and zero socket or non-2xx errors on a DigitalOcean Basic one-vCPU, 512 MB-class target.</p>
+        <p class="benchmark-caveat">This is framework evidence—not a capacity promise for this website or an arbitrary production application.</p>
+        <a class="text-link" href="/docs/v2/guides/performance">Read the workload and limits →</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="site-container community-invite reveal">
+      <div>
+        <p class="eyebrow">Add a real application</p>
+        <h2>Built something with Amber?</h2>
+        <p>Send a public URL, the Amber version, and a source link when one is available. We will verify the project before adding it here.</p>
+      </div>
+      <a class="button button-primary" href="https://github.com/amberframework/amber/issues/new" target="_blank" rel="noopener">Submit an Amber app</a>
+    </div>
+  </section>
+</main>

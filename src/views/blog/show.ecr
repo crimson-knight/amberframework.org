@@ -1,0 +1,30 @@
+<% @title = "#{post["title"]} — Amber Framework" %>
+<% @meta = (post["summary"]? || "An Amber Framework release and community update.").to_s %>
+<script type="application/ld+json"><%= structured_data %></script>
+
+<header class="page-hero post-page-hero">
+  <div class="site-container page-hero-grid">
+    <div>
+      <p class="eyebrow"><%= post["category"]? || "Framework" %> · <time datetime="<%= post_iso_date(post) %>"><%= post["date"] %></time> · <span data-relative-date="<%= post_iso_date(post) %>"></span></p>
+      <h1><%= post["title"] %></h1>
+      <p><%= post["summary"]? || "An Amber Framework release and community update." %></p>
+    </div>
+    <img class="page-hero-character" src="<%= asset_path((post["character_image"]? || "characters/amber-id-original-studio.webp").to_s) %>" width="800" height="800" alt="<%= post["character"]? || "Amber" %> character portrait">
+  </div>
+</header>
+
+<main class="section">
+  <article class="content-narrow post-article">
+    <nav class="post-utility" aria-label="Story formats">
+      <a href="/blog">← All stories</a>
+      <a href="/blog/feed.xml">RSS</a>
+      <span>For tools:</span>
+      <a href="<%= post_path(post) %>.md">Markdown</a>
+      <a href="<%= post_path(post) %>.json">JSON</a>
+    </nav>
+    <figure class="post-cover">
+      <img src="<%= asset_path(post["image"].to_s) %>" alt="Illustration for <%= post["title"] %>">
+    </figure>
+    <%= MarkdownPreprocessor.render(File.read(filepath).sub(/\A# [^\n]+\n+/, ""), preprocess: false) %>
+  </article>
+</main>

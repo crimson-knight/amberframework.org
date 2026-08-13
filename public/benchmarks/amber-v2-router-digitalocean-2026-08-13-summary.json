@@ -1,0 +1,404 @@
+{
+  "schema_version": 1,
+  "comparison": "amber_router_v0.4.4 vs amber_v2.0.0-beta.4",
+  "context": {
+    "benchmark_id": "amber-router-digitalocean-2026-08-13",
+    "provenance_audit": {
+      "historical_router_result": "Local same-machine microbenchmark; cloud provider and hardware were not recorded",
+      "historical_55_7x_status": "Retired as a current headline because the old glob generator reused five effective route shapes",
+      "earlier_hosted_http_comparison": "DigitalOcean, but used a c-8-intel application server rather than the smallest Basic Droplet"
+    },
+    "target": {
+      "provider": "DigitalOcean",
+      "region": "nyc3",
+      "size_slug": "s-1vcpu-512mb-10gb",
+      "size_class": "Basic shared CPU",
+      "price_observed_usd_per_month": 4.0,
+      "price_observed_usd_per_hour": 0.00595,
+      "advertised_vcpus": 1,
+      "advertised_memory_mib": 512,
+      "visible_memory_kib": 469236,
+      "disk_gib": 10,
+      "cpu_model": "DO-Regular CPU @ 2.0GHz",
+      "architecture": "x86_64",
+      "operating_system": "Ubuntu 24.04.4 LTS",
+      "swap_kib": 0
+    },
+    "software": {
+      "before": {
+        "name": "amber_router",
+        "version": "0.4.4",
+        "tag_commit": "8f05718a4d49411e664f57a7f162565ce25fab75"
+      },
+      "after": {
+        "name": "Amber internal router",
+        "version": "2.0.0-beta.4",
+        "tag_commit": "a2128cdb4fef07025e0cc1c1578d4c807ae6c274",
+        "router_optimization_commit": "2b9f9e08730a0f700df74ff31c86049d4b953abd"
+      },
+      "compiler": "Crystal 1.21.0 [57cf7da50]",
+      "llvm": "20.1.8",
+      "shards": "0.20.0 [b2b98ca]",
+      "build_flags": [
+        "--release",
+        "--no-debug",
+        "--static"
+      ],
+      "binaries": {
+        "before_sha256": "a30a71b5a9df76fe29a1a09fd132ccd55203d54416ab95b64275da05afa7a377",
+        "after_sha256": "0acb2aeec585b081f22ad49ea0ace550f20c82916e3240e096b679fd279486d7"
+      }
+    },
+    "workload": {
+      "route_tiers": [
+        100,
+        1000,
+        10000
+      ],
+      "route_distribution_percent": {
+        "fixed": 60,
+        "variable": 25,
+        "variable_with_fixed_suffix": 10,
+        "glob": 5
+      },
+      "historical_constrained_label_correction": "The historical generator called the 10% group constrained but supplied no regex constraints",
+      "lookup_types": [
+        "fixed",
+        "variable",
+        "glob",
+        "notfound"
+      ],
+      "glob_routes_have_unique_match_shapes": true,
+      "warmup_seconds_per_process": 2,
+      "measurement_seconds_per_process": 5,
+      "paired_repetitions_per_scenario": 7,
+      "execution_order": "before-after on odd repetitions; after-before on even repetitions",
+      "route_registration_in_timed_lookup_phase": false
+    },
+    "limitations": [
+      "Router-engine microbenchmark only; it excludes sockets, HTTP parsing, middleware, controller dispatch, rendering, serialization, databases, TLS, and public networking",
+      "DigitalOcean Basic uses shared CPU, so absolute rates can vary with host contention",
+      "Seven paired repetitions reduce but do not eliminate shared-host noise",
+      "The result compares the released beta.4 router with the Amber 1.x router shard; it is not a cross-framework ranking",
+      "Registration time is recorded but excluded from lookup throughput"
+    ],
+    "resource_lifecycle": {
+      "temporary_builder_deleted_after_build": true,
+      "temporary_target_deleted_after_evidence_retrieval": true,
+      "unrelated_preexisting_droplets_modified": false
+    }
+  },
+  "raw_file": "raw.jsonl",
+  "raw_sha256": "ae549cc134cbaf4eef985251b674ae16a7d241f9dbc29f7ab7464b29bb149837",
+  "raw_rows": 168,
+  "first_trial_utc": "2026-08-13T12:05:01Z",
+  "last_trial_utc": "2026-08-13T12:25:56Z",
+  "method": {
+    "statistic": "median of seven same-repetition new/old throughput ratios",
+    "interval": "deterministic percentile bootstrap 95% CI for the paired median",
+    "overall": "geometric mean of the 12 scenario median paired speedups"
+  },
+  "overall_geometric_mean_speedup": 1.8857282238240094,
+  "robustness": {
+    "paired_comparisons": 84,
+    "all_individual_pairs_favor_after": true,
+    "minimum_individual_paired_speedup": 1.1597078847671833,
+    "maximum_individual_paired_speedup": 4.758089195739871,
+    "all_scenario_median_intervals_exclude_1_0": true,
+    "before_then_after_order_geometric_mean_speedup": 1.8979871460295308,
+    "after_then_before_order_geometric_mean_speedup": 1.8681517260196998,
+    "minimum_elapsed_seconds": 5.000004741,
+    "maximum_elapsed_seconds": 5.006040792,
+    "total_timed_lookup_iterations": 538473728
+  },
+  "scenarios": [
+    {
+      "tier": 100,
+      "lookup": "fixed",
+      "paired_runs": 7,
+      "old_median_lookups_per_second": 599439.947458302,
+      "new_median_lookups_per_second": 885522.9425244589,
+      "median_paired_speedup": 1.443355197904351,
+      "median_paired_percent_change": 44.33551979043511,
+      "paired_speedup_min": 1.222426279509629,
+      "paired_speedup_max": 1.8438068373900005,
+      "bootstrap_95_percent_ci_for_median_speedup": [
+        1.3475588008793313,
+        1.586045556457608
+      ],
+      "paired_speedups": [
+        1.3475588008793313,
+        1.8438068373900005,
+        1.4631736056083184,
+        1.4212690444772984,
+        1.443355197904351,
+        1.222426279509629,
+        1.586045556457608
+      ]
+    },
+    {
+      "tier": 100,
+      "lookup": "glob",
+      "paired_runs": 7,
+      "old_median_lookups_per_second": 384426.4810178748,
+      "new_median_lookups_per_second": 608145.1456878136,
+      "median_paired_speedup": 1.5819543546469073,
+      "median_paired_percent_change": 58.195435464690725,
+      "paired_speedup_min": 1.5084446148802602,
+      "paired_speedup_max": 1.6563996478074403,
+      "bootstrap_95_percent_ci_for_median_speedup": [
+        1.560013785200932,
+        1.6048582916805298
+      ],
+      "paired_speedups": [
+        1.6048582916805298,
+        1.6563996478074403,
+        1.5084446148802602,
+        1.574952516740728,
+        1.592355956357448,
+        1.560013785200932,
+        1.5819543546469073
+      ]
+    },
+    {
+      "tier": 100,
+      "lookup": "notfound",
+      "paired_runs": 7,
+      "old_median_lookups_per_second": 669405.9030070432,
+      "new_median_lookups_per_second": 1628255.8788352052,
+      "median_paired_speedup": 2.3130530662434343,
+      "median_paired_percent_change": 131.30530662434344,
+      "paired_speedup_min": 2.218077572184744,
+      "paired_speedup_max": 2.558479613778384,
+      "bootstrap_95_percent_ci_for_median_speedup": [
+        2.228087458729428,
+        2.545381835402474
+      ],
+      "paired_speedups": [
+        2.558479613778384,
+        2.218077572184744,
+        2.545381835402474,
+        2.228087458729428,
+        2.310045317745065,
+        2.3130530662434343,
+        2.4072215288325656
+      ]
+    },
+    {
+      "tier": 100,
+      "lookup": "variable",
+      "paired_runs": 7,
+      "old_median_lookups_per_second": 796563.5324162609,
+      "new_median_lookups_per_second": 1205930.6779502814,
+      "median_paired_speedup": 1.5520758272634094,
+      "median_paired_percent_change": 55.207582726340945,
+      "paired_speedup_min": 1.1597078847671833,
+      "paired_speedup_max": 1.6739957194458124,
+      "bootstrap_95_percent_ci_for_median_speedup": [
+        1.5038078959690202,
+        1.5995788629349619
+      ],
+      "paired_speedups": [
+        1.5931258157894483,
+        1.5520758272634094,
+        1.5280884548580167,
+        1.1597078847671833,
+        1.6739957194458124,
+        1.5995788629349619,
+        1.5038078959690202
+      ]
+    },
+    {
+      "tier": 1000,
+      "lookup": "fixed",
+      "paired_runs": 7,
+      "old_median_lookups_per_second": 481508.2474054459,
+      "new_median_lookups_per_second": 706378.9296298056,
+      "median_paired_speedup": 1.4325445603879632,
+      "median_paired_percent_change": 43.25445603879632,
+      "paired_speedup_min": 1.2093674891785227,
+      "paired_speedup_max": 1.5607753352596967,
+      "bootstrap_95_percent_ci_for_median_speedup": [
+        1.3905947275306216,
+        1.5532798363827436
+      ],
+      "paired_speedups": [
+        1.5607753352596967,
+        1.4096759912732002,
+        1.4325445603879632,
+        1.5272201714019995,
+        1.2093674891785227,
+        1.3905947275306216,
+        1.5532798363827436
+      ]
+    },
+    {
+      "tier": 1000,
+      "lookup": "glob",
+      "paired_runs": 7,
+      "old_median_lookups_per_second": 252410.9201797492,
+      "new_median_lookups_per_second": 526378.366739352,
+      "median_paired_speedup": 2.032053207252519,
+      "median_paired_percent_change": 103.20532072525191,
+      "paired_speedup_min": 1.8861904288339058,
+      "paired_speedup_max": 2.1535871631594627,
+      "bootstrap_95_percent_ci_for_median_speedup": [
+        1.9094050089129428,
+        2.083589364915413
+      ],
+      "paired_speedups": [
+        2.074691049925425,
+        1.9094050089129428,
+        2.1535871631594627,
+        2.032053207252519,
+        2.083589364915413,
+        1.925255248804305,
+        1.8861904288339058
+      ]
+    },
+    {
+      "tier": 1000,
+      "lookup": "notfound",
+      "paired_runs": 7,
+      "old_median_lookups_per_second": 619667.9933679296,
+      "new_median_lookups_per_second": 1280213.6367065904,
+      "median_paired_speedup": 1.9578613836464722,
+      "median_paired_percent_change": 95.78613836464723,
+      "paired_speedup_min": 1.8074488835139164,
+      "paired_speedup_max": 2.368218531993388,
+      "bootstrap_95_percent_ci_for_median_speedup": [
+        1.919492215601617,
+        1.9993360175161103
+      ],
+      "paired_speedups": [
+        1.9578613836464722,
+        1.9993360175161103,
+        1.9735134435353605,
+        1.8074488835139164,
+        2.368218531993388,
+        1.946200962168061,
+        1.919492215601617
+      ]
+    },
+    {
+      "tier": 1000,
+      "lookup": "variable",
+      "paired_runs": 7,
+      "old_median_lookups_per_second": 572084.1988920288,
+      "new_median_lookups_per_second": 999891.5228252817,
+      "median_paired_speedup": 1.701196232284321,
+      "median_paired_percent_change": 70.1196232284321,
+      "paired_speedup_min": 1.5642468366743336,
+      "paired_speedup_max": 1.8874609392332384,
+      "bootstrap_95_percent_ci_for_median_speedup": [
+        1.6596774305434077,
+        1.8668493876147052
+      ],
+      "paired_speedups": [
+        1.8668493876147052,
+        1.6596774305434077,
+        1.701196232284321,
+        1.667901242363198,
+        1.7348041245135868,
+        1.8874609392332384,
+        1.5642468366743336
+      ]
+    },
+    {
+      "tier": 10000,
+      "lookup": "fixed",
+      "paired_runs": 7,
+      "old_median_lookups_per_second": 256121.90168753022,
+      "new_median_lookups_per_second": 417706.60570184403,
+      "median_paired_speedup": 1.5777708896979825,
+      "median_paired_percent_change": 57.77708896979825,
+      "paired_speedup_min": 1.4512746399693155,
+      "paired_speedup_max": 1.7918805960845958,
+      "bootstrap_95_percent_ci_for_median_speedup": [
+        1.4538697185592437,
+        1.6899861622904606
+      ],
+      "paired_speedups": [
+        1.631369414661292,
+        1.7918805960845958,
+        1.4512746399693155,
+        1.4538697185592437,
+        1.5777708896979825,
+        1.540354368796291,
+        1.6899861622904606
+      ]
+    },
+    {
+      "tier": 10000,
+      "lookup": "glob",
+      "paired_runs": 7,
+      "old_median_lookups_per_second": 69704.10123038948,
+      "new_median_lookups_per_second": 310111.68552380736,
+      "median_paired_speedup": 4.544444371044272,
+      "median_paired_percent_change": 354.4444371044272,
+      "paired_speedup_min": 4.143083435981273,
+      "paired_speedup_max": 4.758089195739871,
+      "bootstrap_95_percent_ci_for_median_speedup": [
+        4.329910734178311,
+        4.6948397343752974
+      ],
+      "paired_speedups": [
+        4.6948397343752974,
+        4.673630501310728,
+        4.544444371044272,
+        4.143083435981273,
+        4.4479274053824644,
+        4.758089195739871,
+        4.329910734178311
+      ]
+    },
+    {
+      "tier": 10000,
+      "lookup": "notfound",
+      "paired_runs": 7,
+      "old_median_lookups_per_second": 441333.0750645266,
+      "new_median_lookups_per_second": 828546.4210824517,
+      "median_paired_speedup": 1.8174711750899584,
+      "median_paired_percent_change": 81.74711750899584,
+      "paired_speedup_min": 1.64052867474362,
+      "paired_speedup_max": 2.002904721189847,
+      "bootstrap_95_percent_ci_for_median_speedup": [
+        1.724258856489748,
+        1.9744036599306638
+      ],
+      "paired_speedups": [
+        1.8174711750899584,
+        1.724258856489748,
+        2.002904721189847,
+        1.7314044155259083,
+        1.64052867474362,
+        1.8773721433892334,
+        1.9744036599306638
+      ]
+    },
+    {
+      "tier": 10000,
+      "lookup": "variable",
+      "paired_runs": 7,
+      "old_median_lookups_per_second": 306469.0215171885,
+      "new_median_lookups_per_second": 592417.1172439912,
+      "median_paired_speedup": 1.952143253361329,
+      "median_paired_percent_change": 95.2143253361329,
+      "paired_speedup_min": 1.6934051909341936,
+      "paired_speedup_max": 2.03638022787186,
+      "bootstrap_95_percent_ci_for_median_speedup": [
+        1.7386876927960593,
+        2.017081568398356
+      ],
+      "paired_speedups": [
+        1.902386825435038,
+        2.017081568398356,
+        1.7386876927960593,
+        2.03638022787186,
+        1.6934051909341936,
+        1.9658304334406829,
+        1.952143253361329
+      ]
+    }
+  ]
+}

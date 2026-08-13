@@ -1,3 +1,25 @@
 type: app
-database: pg
-language: slang
+database: none
+language: ecr
+model: none
+
+watch:
+  run:
+    build_commands:
+      - mkdir -p bin
+      - crystal build ./src/amberframework.cr -o bin/amberframework
+    run_commands:
+      - bin/amberframework
+    include:
+      - ./config/**/*.cr
+      - ./config/environments/*.yml
+      - ./src/**/*.cr
+      - ./src/**/*.ecr
+      - ./blog/**/*.md
+      - ./docs/**/*.md
+      - ./public/**/*
+  spec:
+    run_commands:
+      - AMBER_ENV=test crystal spec
+    include:
+      - ./spec/**/*.cr

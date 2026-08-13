@@ -1,1 +1,1 @@
-web: nodemon --exec crystal run src/amberframework.cr --watch
+web: bin/amberframework

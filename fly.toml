@@ -1,18 +1,23 @@
-# fly.toml app configuration file generated for amberframework-site on 2023-10-18T04:12:27Z
+# fly.toml app configuration file generated for amberframework-site on 2024-05-15T17:06:45-07:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "amberframework-site"
-primary_region = "iad"
+app = 'amberframework-site'
+primary_region = 'bos'
 
 [build]
-  dockerfile = "Dockerfile"
+  dockerfile = 'Dockerfile'
 
 [http_service]
   internal_port = 3000
-  force_https = true
-  auto_stop_machines = false
+  force_https = false
+  auto_stop_machines = true
   auto_start_machines = true
   min_machines_running = 0
-  processes = ["app"]
+  processes = ['app']
+
+[[vm]]
+  memory = '256mb'
+  cpu_kind = 'shared'
+  cpus = 1

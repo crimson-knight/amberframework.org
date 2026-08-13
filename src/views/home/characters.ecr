@@ -1,0 +1,63 @@
+<% @title = "Meet the Amber crew — Amber Framework" %>
+<% @meta = "Meet Amber, Grant, and Gemma through the software responsibilities they represent in the Amber ecosystem." %>
+
+<header class="page-hero character-page-hero">
+  <div class="site-container page-hero-grid">
+    <div>
+      <p class="eyebrow">The framework has a crew</p>
+      <h1>Big responsibilities.<br>Memorable owners.</h1>
+      <p>Amber’s characters make architectural boundaries easier to remember. The personality is playful; the responsibility is real.</p>
+    </div>
+    <%= image_tag("characters/amber-id-original-studio.webp", class: "page-hero-character", width: "800", height: "800", alt: "Amber, the framework lead") %>
+  </div>
+</header>
+
+<main>
+  <section class="section">
+    <div class="site-container">
+      <div class="crew-roster">
+        <a class="personnel-card personnel-amber reveal" href="/characters/amber" data-tilt>
+          <div class="personnel-photo"><%= image_tag("characters/amber-id-original-studio.webp", width: "800", height: "800", alt: "Portrait of Amber") %></div>
+          <div class="personnel-file">
+            <span class="file-label">AF-001 · Framework lead</span>
+            <h2>Amber</h2>
+            <p>Owns the web application’s shape: routing, controllers, ECR views, typed configuration, interaction, and local asset delivery.</p>
+            <span class="file-link">Open personnel file · Read docs →</span>
+          </div>
+        </a>
+
+        <a class="personnel-card personnel-grant reveal" href="/characters/grant" data-tilt>
+          <div class="personnel-photo"><%= image_tag("characters/grant-id-original-studio.webp", width: "800", height: "800", alt: "Portrait of Grant") %></div>
+          <div class="personnel-file">
+            <span class="file-label">AF-014 · Records and persistence</span>
+            <h2>Grant</h2>
+            <p>Runs the data warehouse: models, relations, migrations, transactions, queries, and record keeping.</p>
+            <span class="file-link">Open personnel file · Read docs →</span>
+          </div>
+        </a>
+
+        <a class="personnel-card personnel-gemma reveal" href="/characters/gemma" data-tilt>
+          <div class="personnel-photo"><%= image_tag("characters/gemma-id-original-studio.webp", width: "800", height: "800", alt: "Portrait of Gemma") %></div>
+          <div class="personnel-file">
+            <span class="file-label">AF-027 · Files and fulfillment</span>
+            <h2>Gemma</h2>
+            <p>Handles attachments from intake to delivery: validation, storage, streaming, and organization.</p>
+            <span class="file-link">Open personnel file · Read docs →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-tinted">
+    <div class="site-container open-role-panel reveal">
+      <div class="open-role-mark" aria-hidden="true">?</div>
+      <div>
+        <p class="eyebrow">Responsibility map</p>
+        <h2>Background work is next.</h2>
+        <p>Jobs, retries, schedules, and queues form a separate application boundary. Amber documents that responsibility directly today; a future crew member will represent it only when the name and visual identity are ready.</p>
+      </div>
+      <a class="button button-secondary" href="/amber-way#clear-responsibilities">See how the crew is designed</a>
+    </div>
+  </section>
+</main>

@@ -1,0 +1,313 @@
+require "../models/doc_page"
+require "../models/doc_version"
+require "../services/docs_scanner"
+require "../services/markdown_preprocessor"
+
+class DocsController < ApplicationController
+  LAYOUT = "application.ecr"
+
+  # Instance variable type annotations
+  @path : String = ""
+  @page : DocPage? = nil
+  @nav_tree : Array(NavItem) = [] of NavItem
+  @breadcrumbs : Array(NamedTuple(title: String, path: String)) = [] of NamedTuple(title: String, path: String)
+  @prev_page : DocPage? = nil
+  @next_page : DocPage? = nil
+
+  # Version-related instance variables
+  @version : DocVersion? = nil
+  @version_id : String = ""
+  @all_versions : Array(DocVersion) = [] of DocVersion
+  @is_inherited : Bool = false
+  @page_badge : String? = nil
+  @page_badge_class : String? = nil
+
+  # Version timeline data
+  alias TimelineEntry = NamedTuple(
+    version_id: String,
+    label: String,
+    short_label: String,
+    exists: Bool,
+    is_current: Bool,
+    change_type: String?,
+    line_diff: Int32?,
+    replacement_path: String?,
+    replacement_title: String?)
+  @version_timeline : Array(TimelineEntry) = [] of TimelineEntry
+  @show_version_timeline : Bool = false
+
+  # Root /docs - redirect to /docs/latest
+  def index
+    redirect_to location: "/docs/latest", status: 302
+  end
+
+  # Handle /docs/*path - could be version index or versioned page
+  def show
+    # Amber's wildcard route receives dotted paths after the router has removed
+    # the extension from `params["path"]`. Keep the public knowledge-bundle URL
+    # working even when the literal dotted route is normalized into this action.
+    return knowledge if request.path == "/docs/v2/knowledge.md"
+
+    requested_markdown = request.path.ends_with?(".md")
+    requested_json = request.path.ends_with?(".json")
+    full_path = params["path"].as(String).sub(/\.(?:md|json)$/, "")
+    path_parts = full_path.split("/", 2)
+
+    # Check if first part is a version or "latest"
+    potential_version = path_parts[0]
+
+    # Handle "latest" as an alias for the default version
+    if potential_version == "latest"
+      default_version = DocVersionConfig.default.id
+      remaining_path = path_parts.size > 1 ? path_parts[1] : ""
+      target = remaining_path.empty? ? "/docs/#{default_version}" : "/docs/#{default_version}/#{remaining_path}"
+      redirect_to location: target, status: 302
+      return
+    end
+
+    if DocVersionConfig.valid?(potential_version)
+      @version_id = potential_version
+      @path = path_parts.size > 1 ? path_parts[1] : ""
+    else
+      # No version specified, redirect to /docs/latest with the path
+      redirect_to location: "/docs/latest/#{full_path}", status: 302
+      return
+    end
+
+    @version = DocVersionConfig.find(@version_id)
+    @all_versions = DocVersionConfig.all
+
+    unless @version
+      raise Amber::Exceptions::RouteNotFound.new(request)
+    end
+
+    # Find page using version-aware scanner
+    @page = DocsScanner.find_page(@version_id, @path)
+    @nav_tree = DocsScanner.build_nav_tree_for_version(@version_id)
+    @breadcrumbs = DocsScanner.breadcrumbs(@version_id, "#{@version_id}/#{@path}")
+
+    prev_page, next_page = DocsScanner.prev_next(@version_id, @path)
+    @prev_page = prev_page
+    @next_page = next_page
+
+    # Calculate page badge (new/updated)
+    if @page
+      calculate_page_badge
+      build_version_timeline
+    end
+
+    if @page
+      if requested_markdown
+        documentation_markdown
+      elsif requested_json
+        documentation_json
+      else
+        render("show.ecr")
+      end
+    elsif replacement = DocsScanner.replacement_path(@version_id, "#{@path}.md")
+      redirect_to location: "/docs/#{@version_id}/#{replacement}", status: 302
+    else
+      raise Amber::Exceptions::RouteNotFound.new(request)
+    end
+  end
+
+  # API endpoint to get changed files for a version (useful for changelog)
+  def changes
+    version_id = params["version"]?.to_s
+    unless DocVersionConfig.valid?(version_id)
+      return respond_with do
+        json({error: "Invalid version"}.to_json)
+      end
+    end
+
+    changes = DocsScanner.changed_files(version_id)
+    respond_with do
+      json(changes.to_json)
+    end
+  end
+
+  # Return raw markdown content (for Copy Page feature)
+  def raw
+    full_path = params["path"].as(String)
+    path_parts = full_path.split("/", 2)
+
+    potential_version = path_parts[0]
+
+    # Handle "latest" alias
+    if potential_version == "latest"
+      version_id = DocVersionConfig.default.id
+      page_path = path_parts.size > 1 ? path_parts[1] : ""
+    elsif DocVersionConfig.valid?(potential_version)
+      version_id = potential_version
+      page_path = path_parts.size > 1 ? path_parts[1] : ""
+    else
+      version_id = DocVersionConfig.default.id
+      page_path = full_path
+    end
+
+    page = DocsScanner.find_page(version_id, page_path)
+
+    if page
+      response.content_type = "text/plain; charset=utf-8"
+      response.headers["Content-Disposition"] = "inline"
+      page.content
+    else
+      response.status_code = 404
+      "Page not found"
+    end
+  end
+
+  # A single text-forward upload for documentation assistants. Page-level raw
+  # Markdown remains available through /docs/raw/:version/*path.
+  def knowledge
+    version_id = "v2"
+    response.content_type = "text/markdown; charset=utf-8"
+    response.headers["Content-Disposition"] = %(attachment; filename="amber-v2-docs.md")
+    DocsScanner.knowledge_bundle(version_id)
+  end
+
+  private def documentation_markdown : String
+    page = @page.not_nil!
+    response.content_type = "text/markdown; charset=utf-8"
+    response.headers["Content-Disposition"] = "inline"
+    response.headers["Vary"] = "Accept"
+    page.content
+  end
+
+  private def documentation_json : String
+    page = @page.not_nil!
+    canonical_path = @path.empty? ? "/docs/#{@version_id}" : "/docs/#{@version_id}/#{@path}"
+    response.content_type = "application/json; charset=utf-8"
+    response.headers["Vary"] = "Accept"
+    {
+      title:            page.title,
+      description:      page.description,
+      section:          page.section,
+      version:          @version_id,
+      path:             @path,
+      canonical_url:    "https://amberframework.org#{canonical_path}",
+      markdown_url:     "https://amberframework.org#{canonical_path}.md",
+      inherited:        @is_inherited,
+      content_markdown: page.content,
+    }.to_json
+  end
+
+  private def calculate_page_badge
+    return unless page = @page
+    return unless version = @version
+
+    # For base versions (no inheritance), don't show any badges
+    # Everything would be "new" which is meaningless
+    return unless version.inherits_from
+
+    # Check if page exists in this version's folder
+    own_pages = DocsScanner.scan_version_only(@version_id)
+    own_paths = own_pages.map(&.relative_path).to_set
+
+    unless own_paths.includes?(page.relative_path)
+      @is_inherited = true
+      return
+    end
+
+    # Check parent version
+    if parent_id = version.inherits_from
+      parent_pages = DocsScanner.scan_version_only(parent_id)
+      parent_paths = parent_pages.map(&.relative_path).to_set
+
+      if parent_paths.includes?(page.relative_path)
+        @page_badge = "Updated"
+        @page_badge_class = "badge-info"
+      else
+        @page_badge = "New"
+        @page_badge_class = "badge-success"
+      end
+    end
+  end
+
+  private def build_version_timeline
+    return unless page = @page
+
+    history = DocsScanner.get_history_for_page(@version_id, @path)
+    return unless history
+
+    timeline = [] of TimelineEntry
+
+    history.entries.each do |entry|
+      change_type = case entry.status
+                    when .updated?
+                      "added"
+                    when .reduced?
+                      "reduced"
+                    else
+                      nil
+                    end
+
+      replacement_path = entry.available? ? nil : DocsScanner.replacement_path(entry.version_id, history.relative_path)
+      replacement_title = replacement_path.try do |path|
+        DocsScanner.find_page(entry.version_id, path).try(&.title)
+      end
+
+      timeline << {
+        version_id:        entry.version_id,
+        label:             DocVersionConfig.find(entry.version_id).try(&.label) || entry.version_name,
+        short_label:       entry.version_name,
+        exists:            entry.available?,
+        is_current:        entry.version_id == @version_id,
+        change_type:       change_type,
+        line_diff:         entry.line_delta,
+        replacement_path:  replacement_path,
+        replacement_title: replacement_title,
+      }
+    end
+
+    @version_timeline = timeline
+    @show_version_timeline = timeline.size > 1
+  end
+
+  # Helper for timeline segment CSS class
+  def version_timeline_status_class(entry : TimelineEntry) : String
+    if entry[:exists]
+      "available"
+    else
+      "unavailable-status"
+    end
+  end
+
+  # Helper for timeline tooltip text
+  def version_timeline_tooltip(entry : TimelineEntry) : String
+    if entry[:exists]
+      case entry[:change_type]
+      when "added"
+        diff = entry[:line_diff]
+        "#{entry[:label]}: +#{diff} lines"
+      when "reduced"
+        diff = entry[:line_diff]
+        "#{entry[:label]}: #{diff} lines"
+      else
+        "#{entry[:label]}: Available"
+      end
+    else
+      "#{entry[:label]}: Not available"
+    end
+  end
+
+  # Helper to render markdown with preprocessing
+  def render_markdown(content : String) : String
+    source_path = @page.try(&.relative_path).to_s.sub(/\.md$/, "")
+    MarkdownPreprocessor.render(content, version_id: @version_id, page_path: source_path)
+  end
+
+  # Helper to get URL for a page in a different version
+  def version_url(target_version : String, current_path : String) : String
+    path_without_version = current_path.sub(/^#{Regex.escape(@version_id)}\//, "").strip("/")
+
+    if path_without_version.empty?
+      "/docs/#{target_version}"
+    elsif DocsScanner.find_page(target_version, path_without_version)
+      "/docs/#{target_version}/#{path_without_version}"
+    else
+      # A version-specific page should never turn version switching into a 404.
+      "/docs/#{target_version}"
+    end
+  end
+end

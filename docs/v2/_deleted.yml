@@ -1,0 +1,57 @@
+# Pages deleted from V2 documentation
+# These pages exist in v1.4.1 but should not appear in V2
+# Deletions cascade through the inheritance chain
+
+# Jennifer ORM (replaced by Grant in V2)
+- guides/models/jennifer/index.md
+- guides/models/jennifer/migrations.md
+- guides/models/jennifer/models.md
+
+# Granite ORM (replaced by Grant in V2)
+- guides/models/granite/index.md
+- guides/models/granite/callbacks.md
+- guides/models/granite/migrations.md
+- guides/models/granite/validations.md
+- guides/models/granite/querying.md
+- guides/models/granite/bulk-insertions.md
+- guides/models/granite/associations.md
+
+# Legacy CLI pages that are replaced by the consolidated V2 CLI reference
+- cli/recipes.md
+- cli/routes.md
+- cli/plugins.md
+- cli/encrypt.md
+- cli/exec.md
+- cli/database.md
+
+# V1 deployment recipes depend on obsolete buildpacks, asset compilation, CLI
+# encryption, Redis, or old Crystal releases. V2 uses the reviewed deployment
+# and manual binary guides instead.
+- deployment/digital-ocean.md
+- deployment/heroku.md
+- deployment/dokku.md
+
+# V1 pages whose primary instructions depend on Slang, Webpack, bundled CLI
+# behavior, Granite, or an obsolete project layout. V2 publishes reviewed
+# replacements instead of presenting these as carried-forward instructions.
+- examples/amber-auth.md
+- examples/json-api-full-crud.md
+- cookbook/from-scratch.md
+- guides/create-new-app.md
+- guides/directory-structure.md
+- guides/configuration.md
+- guides/overview.md
+- guides/docker.md
+- guides/controllers/params.md
+- guides/installation.md
+- guides/views/form-builder.md
+- examples/crystal-debug.md
+- cookbook/json-api.md
+
+# These inherited recipes depend on V1-only static, upload, or browser-client
+# behavior. V2 points readers to the reviewed routing, Gemma, and native
+# WebSocket guides instead of publishing the obsolete examples under /docs/v2.
+- cookbook/file-download.md
+- cookbook/file-upload.md
+- cookbook/websocket-chat.md
+- guides/websockets/javascript-client.md
