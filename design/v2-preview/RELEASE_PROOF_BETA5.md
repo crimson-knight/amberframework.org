@@ -2,7 +2,7 @@
 
 Date: August 13, 2026 (America/New_York)
 
-Status: **FRAMEWORK AND CLI PUBLISHED — WEBSITE RELEASE IN PROGRESS**
+Status: **PUBLISHED — PUBLIC ORIGIN VERIFIED**
 
 This document is the live gate for executable request and response schemas,
 CBOR/COSE support, and the coordinated generated-application update. A check is
@@ -66,16 +66,27 @@ recorded only after it has run against the canonical release commit.
 - [x] Desktop and mobile browser proof passes for the homepage, installation,
       web template, Pet Tracker, schema, migration, performance, blog, and
       releases pages.
-- [ ] The website PR merges from an all-green reviewed commit.
-- [ ] The canonical website commit is deployed and the public origin is
+- [x] [Website PR 21](https://github.com/amberframework/amberframework.org/pull/21)
+      merged from an all-green reviewed commit as
+      `fe4bf6c4766b0ebc3222806337beccc2d59c87a0`.
+- [x] The canonical website commit is deployed and the public origin is
       verified independently.
+
+DigitalOcean deployment
+`cf9f2e70-0a04-42a7-81ef-cd3c10554bb6` completed all six stages and became
+active. The public-origin audit verified the beta.5/CLI 2.0.6 homepage and
+release page, installation, web-template, schema, migration, performance, and
+blog pages, the complete documentation knowledge bundle, JSON and feed routes,
+and all three CLI release archives. Desktop and mobile checks found no missing
+images, page-level horizontal overflow, console warnings, or third-party
+runtime asset hosts.
 
 ## Publication order
 
 1. **Complete:** merge framework PR 1408 and publish Amber `2.0.0-beta.5`.
 2. **Complete:** merge CLI PR 38, publish `2.0.6`, upload archives and
    checksums, and complete the Homebrew handoff.
-3. **Pending:** finish the site release proof, merge the website, deploy the
+3. **Complete:** finish the site release proof, merge the website, deploy the
    canonical commit, and verify the public origin.
 
 ## Remaining boundaries
