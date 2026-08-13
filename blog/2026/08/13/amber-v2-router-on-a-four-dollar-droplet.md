@@ -63,7 +63,10 @@ the story: the geometric mean was `1.90x` when the old router ran first and
 
 Across the 12 scenario medians, the geometric-mean speedup was **1.89x**.
 
-| Routes | Lookup | Amber 1.x median | Amber V2 beta.4 median | Median paired speedup | 95% bootstrap interval |
+> **Unit:** every rate in this table is an in-process router lookup per second,
+> not a completed HTTP request per second.
+
+| Routes | Lookup | Amber 1.x router lookups/s | Amber V2 beta.4 router lookups/s | Median paired speedup | 95% bootstrap interval |
 | ---: | --- | ---: | ---: | ---: | ---: |
 | 100 | Fixed | 599,440/s | 885,523/s | **1.44x** | 1.35x–1.59x |
 | 100 | Variable | 796,564/s | 1,205,931/s | **1.55x** | 1.50x–1.60x |

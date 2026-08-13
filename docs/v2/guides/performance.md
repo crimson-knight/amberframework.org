@@ -130,7 +130,10 @@ was faster in all 84 individual pairs, and every scenario's median bootstrap
 interval excluded `1.0x`. The geometric mean across the 12 scenario medians
 was **1.89x**.
 
-| Route table | Lookup | V1 router median | V2 beta.4 median | Median paired speedup |
+> **Unit:** every rate in this table is an in-process router lookup per second,
+> not a completed HTTP request per second.
+
+| Route table | Lookup | V1 router lookups/s | V2 beta.4 router lookups/s | Median paired speedup |
 |---:|---|---:|---:|---:|
 | 100 | Fixed | 599,440/s | 885,523/s | **1.44x** |
 | 100 | Variable | 796,564/s | 1,205,931/s | **1.55x** |
