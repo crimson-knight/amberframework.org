@@ -105,7 +105,17 @@ A smaller but important change: all usage of `YAML.mapping` (which Crystal depre
 
 **The problem:** Handling request parameters in Amber V1 meant working with raw, untyped params. You'd pull values out of `params`, cast them yourself, validate them yourself, and hope you covered all the edge cases. This works for small apps, but it doesn't scale, and it's error-prone.
 
-**What changed:** Amber 2.0 introduces a full Schema API for type-safe request and response handling. This is a macro-based DSL that lets you define exactly what your endpoint expects, with built-in parsing, validation, type coercion, and error reporting.
+> **Update — August 13, 2026:** The alpha introduced the schema-definition DSL
+> and parsers, but its controller declarations did not yet guarantee automatic
+> enforcement. The next-beta candidate in
+> [Amber PR #1408](https://github.com/amberframework/amber/pull/1408) completes
+> that runtime contract. The deprecated `params.validation` API remains
+> functional so applications can upgrade first and migrate action by action.
+
+**What changed:** Amber 2.0 introduced a macro-based Schema API for typed
+request data, parsing, validation, coercion, and error reporting. The
+next-beta candidate extends the same declaration through automatic controller
+enforcement, response validation, content negotiation, and OpenAPI 3.1.
 
 Here's what it includes:
 
@@ -113,19 +123,23 @@ Here's what it includes:
 - **Seven built-in validators:** required, type, length, range, format (email, URL, UUID, ISO8601, etc.), enum, and pattern
 - **Five request parsers:** JSON, XML, form data, multipart (with file uploads), and query string
 - **Type coercion** that handles the common conversions automatically (string to int, string to bool, string to UUID, etc.)
-- **A monadic Result type** (Success/Failure) that makes validation flow explicit
-- **Controller integration** that's backward-compatible with existing params code
+- **Request-local typed values** after automatic enforcement in the next-beta candidate
+- **Controller integration** that remains backward-compatible with existing params code
 
 ```crystal
-class CreateUserSchema < Amber::Schema::RequestSchema
+class CreateUserSchema < Amber::Schema::Definition
   field :name, String, required: true
-  field :email, String, required: true, format: :email
+  field :email, String, required: true, format: "email"
   field :age, Int32, min: 18, max: 150
   field :role, String, enum: ["admin", "user", "moderator"]
 end
 ```
 
-The Schema API is designed to eliminate an entire category of bugs. Instead of scattering validation logic across controllers and models, you define your contract once, and the framework enforces it before your action code ever runs.
+Bind that class with `schema :action, CreateUserSchema` in the controller. On
+the release-candidate path, Amber enforces it before the action runs and exposes
+the request-local instance with `validated_as(CreateUserSchema)`. Read the
+[current schema guide](/docs/v2/guides/schema-api/) instead of treating this
+historical alpha post as an API reference.
 
 </details>
 

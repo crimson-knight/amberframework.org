@@ -59,6 +59,19 @@
             <div><dt>Errors</dt><dd>0 socket · 0 non-2xx</dd></div>
           </dl>
         </article>
+        <article class="performance-workload-card">
+          <span class="release-status">V2 schema release candidate</span>
+          <h2>Executable JSON contract</h2>
+          <p class="workload-result"><strong>19,488</strong> req/s median</p>
+          <dl>
+            <div><dt>Measured</dt><dd>August 13, 2026</dd></div>
+            <div><dt>Target</dt><dd>1 shared vCPU · 512 MB</dd></div>
+            <div><dt>Request path</dt><dd>Parse · route · validate · respond</dd></div>
+            <div><dt>Trials</dt><dd>7 rotating repetitions</dd></div>
+            <div><dt>All four scenarios</dt><dd>7,974,608 HTTP 200</dd></div>
+            <div><dt>Schema cost</dt><dd>6.0% versus generic JSON</dd></div>
+          </dl>
+        </article>
       </div>
     </div>
   </section>
@@ -89,6 +102,8 @@
         <a class="button button-primary" href="/amber-way#measured-performance">Read Amber's performance belief</a>
         <a href="/benchmarks/amber-v2-site-websocket-2026-08-11.json">Source data: website and WebSockets (JSON)</a>
         <a href="/benchmarks/amber-v2-round22-summary.json">Source data: framework request path (JSON)</a>
+        <a href="/blog/2026/08/13/amber-v2-executable-schema-contracts">Read the executable-schema benchmark</a>
+        <a href="/benchmarks/amber-v2-schema-contract-round27-summary.json">Source data: schema contracts (JSON)</a>
       </div>
     </div>
   </section>

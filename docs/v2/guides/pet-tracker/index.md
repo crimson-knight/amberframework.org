@@ -89,15 +89,44 @@ a database default when omitted.
 
 ```crystal
 class PetSchema < Amber::Schema::Definition
+  content_type "application/x-www-form-urlencoded"
+
   field :name, String, required: true
   field :species, String, required: true
   field :adopted, Bool
 end
 ```
 
-The schema validates browser input before the controller assigns values to the
-Grant model. Database constraints remain in the migration; request validation
-does not replace them.
+The coordinated next-beta CLI candidate binds that schema automatically above
+the generated `create` and `update` actions:
+
+**File: `src/controllers/pet_controller.cr` — generated controller excerpt.**
+
+```crystal
+class PetController < ApplicationController
+  schema :create, PetSchema
+  schema :update, PetSchema
+
+  def create
+    schema = validated_as(PetSchema)
+    pet = Pet.new
+    pet.name = schema.name.not_nil!
+    pet.species = schema.species.not_nil!
+    pet.adopted = schema.adopted
+    # Save and redirect, or render the model failure.
+  end
+end
+```
+
+Amber validates browser input before the action assigns values to the Grant
+model. The generated HTML failure hook returns status 422 and re-renders
+`src/views/pet/new.ecr` or `src/views/pet/edit.ecr` with `@errors`; it does not
+turn the form into a JSON error. This coordinated generator work depends on
+[Amber PR #1408](https://github.com/amberframework/amber/pull/1408) and is not
+part of the already-released CLI 2.0.5 plus framework beta.4 pair.
+
+Database constraints remain in the migration; request validation does not
+replace them.
 
 ## 4. Inspect and apply the migration
 
@@ -354,10 +383,11 @@ it, and return to the filtered index. Then request the second representation:
 curl -H 'Accept: application/json' http://127.0.0.1:3000/pets
 ```
 
-Amber CLI's release test automates this same database path: generate the Pet
+Amber CLI's candidate release test automates this same database path: generate the Pet
 scaffold, migrate development and test, run the generated specs, build and boot
-the application, create a Pet through the ECR form, edit it through
-`_method=PATCH`, and read the updated record back.
+the application, prove invalid input returns an HTML 422 with field errors,
+create a valid Pet through the ECR form, edit it through `_method=PATCH`, and
+read the updated record back.
 
 ## Where to go next
 

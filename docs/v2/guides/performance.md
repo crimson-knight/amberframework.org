@@ -63,6 +63,66 @@ The complete [website and WebSocket evidence](/benchmarks/amber-v2-site-websocke
 includes every throughput trial, response size, resource snapshot, executable
 fingerprint, method, and limitation.
 
+## Executable schema-contract release candidate
+
+On August 13, 2026, we measured the request and response schema implementation
+under review in
+[Amber PR #1408](https://github.com/amberframework/amber/pull/1408). This is
+release-candidate evidence, not a claim about the already-tagged beta.4.
+
+The target was the exact DigitalOcean `s-1vcpu-512mb-10gb` size: one shared
+vCPU, 512 MB advertised memory, a 10 GB disk, and $4/month at test time. A
+separate four-dedicated-vCPU machine generated load over an isolated private
+VPC. Each result below is a complete HTTP response over a real socket—not a
+router lookup.
+
+| Complete HTTP scenario | Median throughput | Observed range | Median p50 | Median p99 |
+|---|---:|---:|---:|---:|
+| Generic JSON decode without schemas | 20,728 req/s | 19,019–22,618 | 0.688 ms | 2.813 ms |
+| Request and response validated as JSON | **19,488 req/s** | 18,573–22,236 | 0.721 ms | 3.185 ms |
+| Request and response validated as CBOR | **21,742 req/s** | 19,904–23,256 | 0.646 ms | 2.921 ms |
+| Authenticated COSE request and response | **14,443 req/s** | 10,962–15,160 | 1.006 ms | 3.612 ms |
+
+The request had eight fields and the acknowledgement had five. Compared with
+generic JSON decoding, enforcing both schemas cost 6.0% in this workload.
+Validated CBOR was 11.6% faster than validated JSON and reduced the request
+body from 257 bytes to 223 bytes. Bidirectional COSE authenticated and decrypted
+the request, validated it, then encoded, authenticated, and encrypted the
+response with a fresh nonce; it was 25.9% slower than validated JSON.
+
+All **7,974,608** measured requests returned HTTP 200. The 28 retained runs had
+a 100% success rate and no unexpected error categories. The Amber process
+peaked at 16.6 MiB on the 512 MB target.
+
+The previous round used the same plans, region, reported processor models,
+1,002-route workload, payloads, load tool, 16 connections, rotating order, and
+seven 15-second measurements per scenario. After the integrated router,
+request, params, pipeline, and responder work, median throughput changed as
+follows:
+
+| Scenario | Previous round | Release candidate | Change |
+|---|---:|---:|---:|
+| Generic JSON | 13,889 req/s | 20,728 req/s | +49.2% |
+| Validated JSON | 12,987 req/s | 19,488 req/s | +50.1% |
+| Validated CBOR | 14,886 req/s | 21,742 req/s | +46.1% |
+| Bidirectional COSE | 10,381 req/s | 14,443 req/s | +39.1% |
+
+That before-and-after covers the complete integrated performance patch, not
+the router alone. The rounds also used separate short-lived cloud machines, so
+normal cloud-host variation cannot be eliminated.
+
+The endpoint is a synthetic in-memory acknowledgement. It includes HTTP
+parsing and serialization, route dispatch through 1,002 routes, body decoding
+or decryption, schema validation, controller execution, response validation,
+and response encoding or encryption. It excludes a database, external
+services, TLS termination, HTML rendering, logging middleware, and the public
+internet. Keep the public-site result near 5,900 req/s separate from this
+framework-contract workload.
+
+Read [the human explanation](/blog/2026/08/13/amber-v2-executable-schema-contracts),
+then inspect the [machine-readable summary](/benchmarks/amber-v2-schema-contract-round27-summary.json)
+when you need exact source values.
+
 ## Workload
 
 The release-mode `x86_64-v2` binary installed 1,000 routes and replayed the same

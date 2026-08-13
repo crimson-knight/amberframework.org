@@ -1,288 +1,183 @@
 ---
-title: "OpenAPI Generation"
+title: "OpenAPI 3.1"
 section: "guides/schema-api"
 order: 40
-description: "Automatic OpenAPI specification generation from schemas"
+description: "Generate OpenAPI 3.1 from Amber's enforced controller contracts"
 ---
 
-# OpenAPI Generation
+# OpenAPI 3.1
+
+> **Release candidate:** this generator documents the automatically enforced
+> controller contracts under review for the next V2 beta in
+> [Amber PR #1408](https://github.com/amberframework/amber/pull/1408), not the
+> already-tagged beta.4.
+
+`Amber::Schema::OpenAPI.generate` builds an OpenAPI 3.1 document from the
+ordinary Amber router and the request and response schemas registered by
+controllers. The generated document describes the same contracts Amber
+enforces at runtime.
+
+There is no separate OpenAPI registry, route-level request or response contract
+keyword, or manually maintained schema list. Controller declarations are the
+Amber V2 source of truth.
 
 ## Where the examples go
 
-- OpenAPI metadata belongs beside each schema under `src/schemas/`.
-- Application-wide OpenAPI configuration belongs in `config/application.cr`;
-  the generated entry point loads top-level `config/*` before application
-  source.
-- Endpoint declarations belong in `config/routes.cr`; response code belongs in
-  the named controller under `src/controllers/`.
-- Generated specifications belong under `public/` only when the application
-  intentionally serves them as static files.
+- Put request and response contracts under `src/schemas/`.
+- Put their action bindings in the matching controller under `src/controllers/`.
+- Put the document-serving action in `src/controllers/open_api_controller.cr`.
+- Put every ordinary application route, including `/openapi.json`, inside the
+  existing router block in `config/routes.cr`.
+- The relationship fragment on this page belongs inside a schema class; it is
+  not a standalone Crystal file.
 
-Blocks on this page use those destinations unless a closer label says
-otherwise.
+## What Amber records
 
-The Schema API can automatically generate OpenAPI (Swagger) specifications from your schema definitions.
+For each routed controller action, generation can include:
 
-## Basic OpenAPI Metadata
+- the HTTP verb and path, with `:id` converted to `{id}`;
+- a deterministic operation ID from the controller and action;
+- path, query, header, and cookie parameters;
+- the body-only request component;
+- every declared JSON, CBOR, or COSE media type;
+- the declared success status and description;
+- field types, required fields, defaults, ranges, lengths, formats, patterns,
+  and enums;
+- nested object and array references;
+- `dependentRequired` for `requires_together`;
+- `oneOf` for `requires_one_of`;
+- conditional `if`/`then` relationships; and
+- the automatic 400, 415, 422, and 500 contract responses.
 
-Add OpenAPI metadata to your schemas:
+`application/cose` is described as a binary COSE Encrypt0 body containing the
+declared CBOR schema. It is not mislabeled as a plain JSON object.
 
-```crystal
-class CreateUserSchema < Amber::Schema::Definition
-  openapi do
-    operation_id "createUser"
-    tags ["Users", "Registration"]
-    summary "Create a new user account"
-    description "Creates a new user with the provided information"
+## 1. Bind schemas to controller actions
 
-    responses do
-      success 201, "User created successfully"
-      error 400, "Invalid request data"
-      error 409, "Email already exists"
-    end
-  end
-
-  field :email, String,
-    required: true,
-    format: :email,
-    description: "User's email address",
-    example: "user@example.com"
-
-  field :name, String,
-    required: true,
-    description: "User's full name",
-    example: "John Doe"
-
-  field :role, String,
-    enum: ["admin", "user", "guest"],
-    default: "user",
-    description: "User's role in the system"
-
-  validates_to UserRequest, UserValidationError
-end
-```
-
-## Field Documentation
-
-Document each field for the API spec:
+**File: `src/controllers/pets_controller.cr`.**
 
 ```crystal
-field :email, String,
-  required: true,
-  format: :email,
-  description: "User's email address",
-  example: "user@example.com",
-  deprecated: false
+require "../schemas/pet_schemas"
 
-field :password, String,
-  required: true,
-  min_length: 8,
-  description: "User's password (min 8 characters)",
-  example: "securepassword123",
-  write_only: true  # Won't appear in response schemas
-```
+class PetsController < ApplicationController
+  schema :create, CreatePetSchema
+  response_schema :create,
+    PetResponseSchema,
+    status: 201,
+    description: "Pet created"
 
-## Generating the Spec
-
-Generate the OpenAPI specification:
-
-**File: `config/application.cr` — append this setup after `require "amber"`, or
-call the generation portion from a dedicated build task if production has a
-read-only filesystem.**
-
-```crystal
-OpenAPI.configure do |config|
-  config.title = "My API"
-  config.version = "2.0.0"
-  config.description = "API documentation for My Application"
-
-  config.servers = [
-    {url: "https://api.example.com", description: "Production"},
-    {url: "https://staging-api.example.com", description: "Staging"}
-  ]
-
-  config.contact = {
-    name: "API Support",
-    email: "support@example.com"
-  }
-end
-
-# Generate spec
-spec = OpenAPI.generate_from_schemas([
-  CreateUserSchema,
-  UpdateUserSchema,
-  ListUsersSchema
-])
-
-File.write("public/openapi.json", spec.to_json)
-```
-
-## Route Integration
-
-Connect schemas to routes:
-
-```crystal
-# config/routes.cr
-routes :api do
-  post "/users", UsersController, :create,
-    schema: CreateUserSchema,
-    response_schema: UserResponseSchema
-
-  get "/users/:id", UsersController, :show,
-    schema: GetUserSchema,
-    response_schema: UserResponseSchema
-end
-```
-
-## Response Schemas
-
-Define response schemas:
-
-```crystal
-class UserResponseSchema < Amber::Schema::Response
-  field :id, Int64
-  field :email, String
-  field :name, String
-  field :role, String
-  field :created_at, Time
-
-  openapi do
-    description "User object response"
-  end
-end
-
-class ErrorResponseSchema < Amber::Schema::Response
-  field :message, String
-  field :errors, Hash(String, Array(String))
-  field :error_code, String
-
-  openapi do
-    description "Error response with validation details"
+  def create
+    input = validated_as(CreatePetSchema)
+    # Create and return the pet with schema-aware respond_with.
   end
 end
 ```
 
-## Security Definitions
+## 2. Register the ordinary route
 
-Define authentication schemes:
+**File: `config/routes.cr` — add this inside the router block.**
 
 ```crystal
-OpenAPI.configure do |config|
-  config.security_schemes = {
-    "bearerAuth" => {
-      type: "http",
-      scheme: "bearer",
-      bearer_format: "JWT"
-    },
-    "apiKey" => {
-      type: "apiKey",
-      in: "header",
-      name: "X-API-Key"
-    }
-  }
-end
-
-# Apply to schema
-class ProtectedSchema < Amber::Schema::Definition
-  openapi do
-    security ["bearerAuth"]
-  end
-
-  # ...fields
-end
+post "/pets", PetsController, :create
 ```
 
-## Serving the Spec
+Route registration supplies the endpoint metadata. Keep request and response
+contract declarations on the controller; the ordinary route needs no extra
+contract options.
 
-Serve the OpenAPI spec and Swagger UI:
+## 3. Serve the document
 
-```crystal
-# config/routes.cr
-routes :api do
-  # OpenAPI JSON spec
-  get "/openapi.json", OpenAPIController, :spec
-
-  # Swagger UI (if using swagger-ui assets)
-  get "/docs", OpenAPIController, :swagger_ui
-end
-```
+**File: `src/controllers/open_api_controller.cr` — create this controller.**
 
 ```crystal
-# src/controllers/openapi_controller.cr
 class OpenAPIController < ApplicationController
-  def spec
-    spec = OpenAPI.generate
-    respond_with 200, spec.to_json, "application/json"
-  end
+  def show
+    response.content_type = "application/json"
 
-  def swagger_ui
-    render "openapi/swagger_ui.ecr"
+    Amber::Schema::OpenAPI.generate(
+      title: "Pet Tracker API",
+      version: "2.0.0",
+      description: "The executable contract for the Pet Tracker API",
+      server_url: ENV["PUBLIC_URL"]? || "http://127.0.0.1:3000"
+    )
   end
 end
 ```
 
-## Example Generated Spec
+**File: `config/routes.cr` — add the document endpoint.**
 
-The generated OpenAPI spec looks like:
-
-```json
-{
-  "openapi": "3.0.3",
-  "info": {
-    "title": "My API",
-    "version": "2.0.0"
-  },
-  "paths": {
-    "/users": {
-      "post": {
-        "operationId": "createUser",
-        "tags": ["Users", "Registration"],
-        "summary": "Create a new user account",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateUser"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "User created successfully"
-          },
-          "400": {
-            "description": "Invalid request data"
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "CreateUser": {
-        "type": "object",
-        "required": ["email", "name"],
-        "properties": {
-          "email": {
-            "type": "string",
-            "format": "email",
-            "description": "User's email address",
-            "example": "user@example.com"
-          },
-          "name": {
-            "type": "string",
-            "description": "User's full name",
-            "example": "John Doe"
-          },
-          "role": {
-            "type": "string",
-            "enum": ["admin", "user", "guest"],
-            "default": "user"
-          }
-        }
-      }
-    }
-  }
-}
+```crystal
+get "/openapi.json", OpenAPIController, :show
 ```
+
+**Run from: the application root while the server is running.**
+
+```bash
+curl --fail-with-body \
+  --header 'Accept: application/json' \
+  http://127.0.0.1:3000/openapi.json
+```
+
+The method returns formatted JSON. Store a generated copy under `public/` only
+when the application intentionally publishes a build artifact; generation can
+also happen per request as shown above.
+
+## Parameters stay out of the body
+
+**File: `src/schemas/update_pet_schema.cr`.**
+
+```crystal
+class UpdatePetSchema < Amber::Schema::Definition
+  field :id, Int64,
+    required: true,
+    source: Amber::Schema::ParamSource::Path
+
+  field :preview, Bool,
+    default: false,
+    source: Amber::Schema::ParamSource::Query
+
+  field :request_id, String,
+    required: true,
+    source: Amber::Schema::ParamSource::Header,
+    source_name: "X-Request-ID"
+
+  field :name, String, required: true
+end
+```
+
+The generated request-body component contains `name`, but not `id`, `preview`,
+or `request_id`. Those values become OpenAPI parameters at their real request
+locations. This keeps generated clients from sending a required header inside
+the JSON document.
+
+## Relationships remain machine-readable
+
+```crystal
+class ContactSchema < Amber::Schema::Definition
+  field :latitude, Float64
+  field :longitude, Float64
+  requires_together :latitude, :longitude
+
+  field :email, String
+  field :phone, String
+  requires_one_of :email, :phone
+
+  field :kind, String, enum: ["person", "business"]
+  when_field :kind, "business" do
+    field :company_name, String, required: true
+  end
+end
+```
+
+Amber emits the paired-coordinate dependency, exact contact alternative, and
+business-only requirement. OpenAPI is therefore more than a field-name dump;
+it preserves the relationships needed by validation-aware clients and tools.
+
+## Current boundary
+
+OpenAPI generation currently derives operation IDs, request and response
+components, parameters, media types, statuses, descriptions, constraints, and
+relationships. Application-wide tags, authentication schemes, contact
+metadata, and a bundled Swagger UI are not configured through the Schema API
+today. Add those in a separately owned document transformation or UI layer
+instead of copying unsupported configuration examples into the application.

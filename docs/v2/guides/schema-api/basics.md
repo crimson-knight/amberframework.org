@@ -2,291 +2,216 @@
 title: "Schema Basics"
 section: "guides/schema-api"
 order: 10
-description: "Schema definition, field types, and options in Amber 2.0"
+description: "Field types, constraints, sources, and relationships in Amber V2 schemas"
 ---
 
-# Schema Basics
+# Schema basics
+
+> **Release candidate:** the automatically enforced controller contracts on
+> this page are under review for the next V2 beta in
+> [Amber PR #1408](https://github.com/amberframework/amber/pull/1408), not the
+> already-tagged beta.4.
+
+Schema classes live under `src/schemas/`. They declare the data an action
+accepts or returns; the controller binds those classes to actions with `schema`
+and `response_schema`.
 
 ## Where the examples go
 
-Schema classes, fields, nested schemas, inheritance, coercion, transformations,
-and validated success/error types belong under `src/schemas/`, grouped by
-resource or request flow. Most blocks on this page are fragments to place
-inside one of those schema classes, not complete files. Controller validation
-calls belong under `src/controllers/`, and their routes belong in
-`config/routes.cr`.
+- Put named and reusable contracts in `src/schemas/*.cr`.
+- Put `schema` and `response_schema` bindings inside the matching class under
+  `src/controllers/`.
+- Put route declarations inside the existing router block in `config/routes.cr`.
+- The short field and relationship fragments on this page belong inside an
+  `Amber::Schema::Definition` subclass under `src/schemas/`; they are not
+  terminal commands or standalone Crystal files.
 
-A schema declares an input contract: accepted content type, typed fields,
-defaults, validation rules, and the value or error type produced after parsing.
+## Built-in field types
 
-## Schema Definition
-
-A schema is a class that inherits from `Amber::Schema::Definition`:
-
-```crystal
-class CreateUserSchema < Amber::Schema::Definition
-  content_type "application/json"
-
-  field :email, String, required: true, format: :email
-  field :name, String, required: true
-  field :age, Int32, min: 18
-
-  validates_to UserRequest, UserValidationError
-end
-```
-
-## Field Types
-
-### Basic Types
+**File: a schema under `src/schemas/` — these are field declarations inside an
+`Amber::Schema::Definition` subclass.**
 
 ```crystal
-field :name, String              # String field
-field :age, Int32                # Integer field
-field :price, Float64            # Float field
-field :active, Bool              # Boolean field
-field :id, UUID                  # UUID field
-field :created_at, Time          # Time field
+field :name, String
+field :quantity, Int32
+field :account_id, Int64
+field :ratio, Float32
+field :price, Float64
+field :active, Bool
+field :published_at, Time
+field :external_id, UUID
+field :tags, Array(String)
+field :scores, Hash(String, Int32)
 ```
 
-### Collections
+Amber also supports typed arrays and `Hash(String, T)` for the built-in value
+types. If any collection member cannot be coerced, the field fails validation;
+Amber does not discard the invalid item and report the shortened collection as
+valid.
 
-```crystal
-field :tags, Array(String)                # Array of strings
-field :scores, Array(Int32)               # Array of integers
-field :metadata, Hash(String, String)     # Hash/dictionary
-```
+An unknown custom type fails closed unless the application registers an
+explicit coercion for it.
 
-### Nested Objects
-
-```crystal
-field :address, AddressSchema             # Single nested object
-field :addresses, Array(AddressSchema)    # Array of nested objects
-```
-
-## Field Options
-
-### Required Fields
-
-```crystal
-field :email, String, required: true    # Must be present
-field :nickname, String?                # Optional (can be nil)
-field :bio, String                      # Optional by default
-```
-
-### Default Values
-
-```crystal
-field :role, String, default: "user"
-field :active, Bool, default: true
-field :page, Int32, default: 1
-```
-
-### Field Aliases
-
-Map different input names to your field:
-
-```crystal
-field :email, String, as: "user_email"       # JSON: {"user_email": "..."}
-field :full_name, String, as: "fullName"     # CamelCase input
-```
-
-### Normalization
-
-Transform values before validation:
-
-```crystal
-field :email, String,
-  normalize: ->(s : String) { s.downcase.strip }
-
-field :phone, String,
-  normalize: ->(s : String) { s.gsub(/\D/, "") }
-
-field :tags, Array(String),
-  normalize: ->(tags : Array(String)) { tags.map(&.downcase).uniq }
-```
-
-## Parameter Sources
-
-Specify where parameters come from:
-
-```crystal
-class SearchSchema < Amber::Schema::Definition
-  # From URL query string: ?q=search&page=1
-  from_query do
-    field :q, String, as: :query
-    field :page, Int32, default: 1
-    field :per_page, Int32, default: 20
-  end
-
-  # From URL path: /categories/:category_id/products
-  from_path do
-    field :category_id, Int32
-  end
-
-  # From HTTP headers
-  from_header do
-    field :api_key, String, key: "X-API-Key"
-    field :version, String, key: "X-API-Version", default: "v1"
-  end
-
-  # From request body
-  from_body do
-    field :filters, SearchFilters
-  end
-
-  validates_to SearchRequest, SearchValidationError
-end
-```
-
-## Nested Schemas
-
-Create reusable schemas for nested objects:
-
-```crystal
-class AddressSchema < Amber::Schema::Definition
-  field :street, String, required: true
-  field :city, String, required: true
-  field :state, String, required: true, length: 2
-  field :zip, String, required: true, format: /^\d{5}(-\d{4})?$/
-
-  validates_to Address, AddressValidationError
-end
-
-class UserSchema < Amber::Schema::Definition
-  field :name, String, required: true
-  field :email, String, required: true, format: :email
-
-  # Single nested object
-  field :primary_address, AddressSchema
-
-  # Array of nested objects
-  field :addresses, Array(AddressSchema), max_items: 5
-
-  validates_to User, UserValidationError
-end
-```
-
-## Schema Inheritance
-
-Share common fields across schemas:
-
-```crystal
-# Base schema with common fields
-abstract class BaseUserSchema < Amber::Schema::Definition
-  field :email, String, required: true, format: :email
-  field :name, String, required: true
-end
-
-# Registration adds password
-class RegistrationSchema < BaseUserSchema
-  field :password, String, required: true, min_length: 8
-  field :password_confirmation, String, required: true
-  field :terms_accepted, Bool, required: true
-
-  validate :password_matches
-  validates_to NewUser, RegistrationError
-end
-
-# Update doesn't require password
-class UpdateUserSchema < BaseUserSchema
-  field :bio, String, max_length: 500
-  field :avatar_url, String, format: :url
-
-  validates_to UserUpdate, UpdateError
-end
-```
-
-## Type Coercion
-
-The schema system automatically converts string inputs:
-
-```crystal
-# Input: {"age": "25", "active": "true", "price": "19.99"}
-class ProductSchema < Amber::Schema::Definition
-  field :age, Int32        # "25" -> 25
-  field :active, Bool      # "true" -> true
-  field :price, Float64    # "19.99" -> 19.99
-end
-```
-
-### Custom Coercion
-
-```crystal
-class DateRangeSchema < Amber::Schema::Definition
-  field :start_date, Time,
-    coerce: ->(s : String) { Time.parse(s, "%Y-%m-%d", Time::Location::UTC) }
-
-  field :status, Status,
-    coerce: ->(s : String) { Status.parse(s) }
-end
-```
-
-## State-Based Types
-
-Schemas validate to specific success and failure types:
-
-```crystal
-# Success type - immutable, validated data
-class UserRequest < Amber::Schema::ValidatedRequest
-  getter email : String
-  getter name : String
-  getter age : Int32
-
-  # Computed properties
-  def adult? : Bool
-    age >= 18
-  end
-end
-
-# Failure type - contains validation errors
-class UserValidationError < Amber::Schema::ValidationError
-  def to_response
-    {
-      message: "User validation failed",
-      errors: errors,
-      fields: errors.keys
-    }
-  end
-end
-```
-
-## Transformations
-
-Apply transformations after validation:
+## Required, default, and closed fields
 
 ```crystal
 class RegistrationSchema < Amber::Schema::Definition
-  field :first_name, String, required: true
-  field :last_name, String, required: true
-  field :email, String, required: true
+  content_type "application/json"
+  additional_properties false
 
-  # Add computed fields after validation
-  transform do |data|
-    data.full_name = "#{data.first_name} #{data.last_name}"
-    data.username = data.email.split("@").first
-  end
-
-  validates_to Registration, RegistrationError
+  field :email, String, required: true, format: "email"
+  field :role, String, default: "member", enum: ["member", "admin"]
+  field :age, Int32, min: 13, max: 120
 end
 ```
 
-## Documentation Metadata
+- `required: true` rejects a missing or null value.
+- `default:` supplies and coerces a value when the field is absent.
+- `additional_properties false` rejects undeclared input or response keys.
+- The default is open for backwards compatibility, so existing APIs can adopt
+  fields incrementally.
 
-Add documentation for API generation:
+## Constraints
 
 ```crystal
-class APISchema < Amber::Schema::Definition
-  description "Creates a new user account"
+field :email, String, required: true, format: "email"
+field :role, String, enum: ["member", "admin"]
+field :score, Float64, min: 0.0, max: 1.0
+field :nickname, String, min_length: 2, max_length: 30
+field :slug, String, pattern: "^[a-z0-9-]+$"
+```
 
-  field :email, String,
+Supported formats include `email`, `url` or `uri`, `uuid`, `iso8601` or
+`datetime`, `date`, `time`, `ipv4`, `ipv6`, and `hostname`. A different format
+string is treated as a regular-expression pattern; an invalid pattern fails
+validation instead of silently becoming a no-op.
+
+## Body, path, query, header, and cookie values
+
+The request body is the default source. Set `source` for every value that comes
+from another part of the request. Use `source_name` when the wire name should
+not become the Crystal getter name.
+
+**File: `src/schemas/show_pet_schema.cr` — create this file.**
+
+```crystal
+class ShowPetSchema < Amber::Schema::Definition
+  field :id, Int64,
     required: true,
-    format: :email,
-    description: "User's email address",
-    example: "user@example.com"
+    source: Amber::Schema::ParamSource::Path
 
-  field :role, String,
-    enum: ["admin", "user", "guest"],
-    default: "user",
-    description: "User's role in the system"
+  field :include_visits, Bool,
+    default: false,
+    source: Amber::Schema::ParamSource::Query,
+    source_name: "include_visits"
+
+  field :request_id, String,
+    source: Amber::Schema::ParamSource::Header,
+    source_name: "X-Request-ID"
+
+  field :session_hint, String,
+    source: Amber::Schema::ParamSource::Cookie,
+    source_name: "pet_session"
 end
 ```
+
+**File: `src/controllers/pets_controller.cr` — bind and use the schema inside
+`PetsController`.**
+
+```crystal
+schema :show, ShowPetSchema
+
+def show
+  input = validated_as(ShowPetSchema)
+  pet = Pet.find!(input.id.not_nil!)
+  # Render or return the pet.
+end
+```
+
+**File: `config/routes.cr` — add the path that supplies `:id`.**
+
+```crystal
+get "/pets/:id", PetsController, :show
+```
+
+OpenAPI emits path, query, header, and cookie fields as parameters rather than
+incorrectly placing them in the JSON request body.
+
+## Conditional fields
+
+**File: `src/schemas/account_schema.cr` — create this schema.**
+
+```crystal
+class AccountSchema < Amber::Schema::Definition
+  field :kind, String, required: true, enum: ["person", "business"]
+
+  when_field :kind, "person" do
+    field :first_name, String, required: true
+    field :last_name, String, required: true
+  end
+
+  when_field :kind, "business" do
+    field :company_name, String, required: true
+    field :tax_id, String, required: true
+  end
+end
+```
+
+`when_present :field` provides the same conditional-required behavior when the
+trigger only needs to exist. Conditional fields are normalized and constrained
+through the same request-local validation pass as ordinary fields.
+
+## Cross-field and nested relationships
+
+```crystal
+class AddressSchema < Amber::Schema::Definition
+  field :city, String, required: true
+  field :postal_code, String, required: true
+end
+
+class DeliverySchema < Amber::Schema::Definition
+  field :latitude, Float64
+  field :longitude, Float64
+  requires_together :latitude, :longitude
+
+  field :email, String
+  field :phone, String
+  requires_one_of :email, :phone
+
+  nested :address, AddressSchema, required: true
+end
+```
+
+- `requires_together` requires all named fields when any one appears.
+- `requires_one_of` requires exactly one named field.
+- `nested` validates an object with another schema and prefixes nested error
+  paths, such as `address.city`.
+- `embedded_array :addresses, AddressSchema` applies the nested contract to
+  each object in an array and reports indexed paths.
+
+These relationships also become OpenAPI `dependentRequired`, `oneOf`, nested
+`$ref`, and conditional `if`/`then` structures.
+
+## Inline action schemas
+
+Keep reusable contracts in `src/schemas/`. For a genuinely action-local input,
+the controller can declare the fields inline:
+
+**File: `src/controllers/health_controller.cr`.**
+
+```crystal
+class HealthController < ApplicationController
+  schema :check do
+    field :verbose, Bool,
+      default: false,
+      source: Amber::Schema::ParamSource::Query
+  end
+
+  def check
+    values = validated_params.not_nil!
+    # Build the health response.
+  end
+end
+```
+
+The inline declaration is enforced automatically just like a named schema.

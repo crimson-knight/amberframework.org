@@ -1,246 +1,240 @@
 ---
-title: "Parsers"
+title: "Request Formats"
 section: "guides/schema-api"
 order: 30
-description: "Content type handling for JSON, XML, forms, CSV, Protocol Buffers, and MessagePack"
+description: "JSON, forms, XML, deterministic CBOR, and encrypted COSE requests"
 ---
 
-# Parsers
+# Request formats
+
+> **Release candidate:** the bounded CBOR and bidirectional COSE paths on this
+> page are under review for the next V2 beta in
+> [Amber PR #1408](https://github.com/amberframework/amber/pull/1408), not the
+> already-tagged beta.4.
+
+Declare every request representation an action actually accepts. Amber checks
+the incoming `Content-Type` before parsing and returns 415 when the media type
+is outside the contract.
 
 ## Where the examples go
 
-Parser and field declarations belong inside schema classes under
-`src/schemas/`. Blocks labeled as example requests are HTTP request bodies, not
-source files. Content negotiation belongs in the receiving controller under
-`src/controllers/`, and the endpoint belongs in `config/routes.cr`. Multipart
-file handling must also follow the application's upload-validation boundary.
+- Put `content_type` and field declarations inside a contract under
+  `src/schemas/`.
+- Put the COSE provider in `config/wire_format.cr` and require it from
+  `config/application.cr`.
+- The JSON, form, and XML documents shown here are HTTP request bodies sent to
+  the bound action; they are not files to add to the application.
+- Run key-generation and request commands from the application root beside
+  `shard.yml`.
 
-Select a parser through the schema's content type. Amber provides explicit
-parsers for the formats listed below.
+## Supported request media types
 
-## Supported Content Types
+| Media type | Parser |
+|---|---|
+| `application/json` or `text/json` | JSON object |
+| `application/xml`, `text/xml`, or `application/xhtml+xml` | XML document |
+| `application/x-www-form-urlencoded` | Form fields, including bracket notation |
+| `multipart/form-data` | Form fields and uploaded-file metadata |
+| `application/cbor` | Bounded deterministic CBOR object |
+| `application/cose` | COSE Encrypt0 containing the CBOR object |
 
-- `application/json` - JSON data
-- `application/xml` - XML documents
-- `application/x-www-form-urlencoded` - Form data
-- `multipart/form-data` - File uploads and forms
-- `text/csv` - CSV bulk operations
-- `application/x-protobuf` - Protocol Buffers
-- `application/msgpack` - MessagePack
+CSV, Protocol Buffers, and MessagePack are not built-in Amber V2 schema
+formats. Applications may integrate them separately, but public contracts
+should not claim framework support that is not present.
 
-## JSON Parser
+## Declare one or more formats
 
-The most common format for APIs:
+**File: `src/schemas/create_pet_schema.cr`.**
 
 ```crystal
-class CreateOrderSchema < Amber::Schema::Definition
+class CreatePetSchema < Amber::Schema::Definition
   content_type "application/json"
 
-  field :items, Array(OrderItemSchema), required: true
-  field :shipping_address, AddressSchema
-  field :billing_address, AddressSchema
-  field :same_as_shipping, Bool, default: false
-
-  validates_to OrderRequest, OrderValidationError
+  field :name, String, required: true
+  field :species, String, required: true
 end
 ```
 
-Example request:
+To support the same JSON-compatible object through JSON, CBOR, and encrypted
+COSE:
+
+```crystal
+content_type "application/json", "application/cbor", "application/cose"
+```
+
+The controller binding is unchanged. Amber chooses the request parser from
+`Content-Type` and the schema-aware response format from `Accept`.
+
+## JSON
+
+**File: the request body sent to the bound action — not a Crystal source file.**
 
 ```json
 {
-  "items": [
-    {"product_id": 1, "quantity": 2},
-    {"product_id": 3, "quantity": 1}
-  ],
-  "shipping_address": {
-    "street": "123 Main St",
-    "city": "Springfield",
-    "zip": "12345"
-  },
-  "same_as_shipping": true
+  "name": "Mochi",
+  "species": "cat",
+  "age": 3,
+  "tags": ["indoor", "friendly"]
 }
 ```
 
-## XML Parser
+The top-level document must be an object. Malformed JSON and non-finite numbers
+fail before field validation.
 
-For SOAP APIs or XML-based integrations:
+## URL-encoded forms
 
-```crystal
-class CreateOrderXMLSchema < Amber::Schema::Definition
-  content_type "application/xml"
-
-  field :items, Array(OrderItemSchema), xpath: "//order/items/item"
-  field :shipping_address, AddressSchema, xpath: "//order/shipping"
-  field :billing_address, AddressSchema, xpath: "//order/billing"
-  field :same_as_shipping, Bool, xpath: "//order/@sameAsShipping"
-
-  validates_to OrderRequest, OrderValidationError
-end
-```
-
-Example request:
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<order sameAsShipping="true">
-  <items>
-    <item>
-      <product_id>1</product_id>
-      <quantity>2</quantity>
-    </item>
-  </items>
-  <shipping>
-    <street>123 Main St</street>
-    <city>Springfield</city>
-  </shipping>
-</order>
-```
-
-## Form Parser
-
-For traditional HTML forms:
+**File: `src/schemas/registration_schema.cr`.**
 
 ```crystal
-class CreateOrderFormSchema < Amber::Schema::Definition
+class RegistrationSchema < Amber::Schema::Definition
   content_type "application/x-www-form-urlencoded"
 
-  # Arrays use bracket notation: item_ids[]=1&item_ids[]=2
-  field :item_ids, Array(Int32), repeated: true
-  field :item_quantities, Array(Int32), repeated: true
-
-  # Nested objects use bracket notation
-  field :shipping_street, String, as: "shipping[street]"
-  field :shipping_city, String, as: "shipping[city]"
-  field :shipping_zip, String, as: "shipping[zip]"
-
-  validates_to OrderRequest, OrderValidationError
-
-  # Transform flat form data to nested structure
-  def transform
-    items = item_ids.zip(item_quantities).map do |id, qty|
-      OrderItem.new(product_id: id, quantity: qty)
-    end
-
-    self.items = items
-    self.shipping_address = Address.new(
-      street: shipping_street,
-      city: shipping_city,
-      zip: shipping_zip
-    )
-  end
+  field :name, String, required: true
+  field :email, String, required: true, format: "email"
+  field :age, Int32, min: 13
+  field :tags, Array(String)
 end
 ```
 
-## Multipart Parser
+**Example HTTP body:**
 
-For file uploads:
+```text
+name=Alex&email=alex%40example.com&age=28&tags[]=crystal&tags[]=amber
+```
+
+Amber reuses the router's cached form parse when method override or another
+request step has already inspected the body. It does not consume the form once
+for routing and then hand an empty stream to the schema.
+
+## Multipart forms and files
+
+**File: `src/schemas/photo_upload_schema.cr`.**
 
 ```crystal
-class UploadSchema < Amber::Schema::Definition
+class PhotoUploadSchema < Amber::Schema::Definition
   content_type "multipart/form-data"
 
   field :title, String, required: true
-  field :description, String
-  field :file, Amber::Schema::UploadedFile, required: true
-
-  # File validation
-  validates :file do
-    max_size 10.megabytes
-    allowed_types ["image/jpeg", "image/png", "application/pdf"]
-  end
-
-  validates_to UploadRequest, UploadValidationError
+  field :photo, Hash(String, JSON::Any),
+    required: true,
+    max_size: 5_000_000,
+    allowed_types: ["image/jpeg", "image/png", "image/webp"],
+    allowed_extensions: ["jpg", "jpeg", "png", "webp"]
 end
 ```
 
-### Multiple Files
+The multipart parser exposes uploaded-file metadata to the schema and reuses
+Amber's cached multipart fields and files. Validation at this layer is an
+admission check; use the [uploads guide](../uploads/) for storage ownership,
+image processing, and serving policy.
+
+## XML
+
+**File: `src/schemas/create_event_schema.cr`.**
 
 ```crystal
-class GalleryUploadSchema < Amber::Schema::Definition
-  content_type "multipart/form-data"
+class CreateEventSchema < Amber::Schema::Definition
+  content_type "application/xml"
 
-  field :album_name, String, required: true
-  field :images, Array(Amber::Schema::UploadedFile), max_items: 20
-
-  validates :images do
-    each do
-      max_size 5.megabytes
-      allowed_types ["image/jpeg", "image/png", "image/webp"]
-    end
-  end
-end
-```
-
-## CSV Parser
-
-For bulk operations:
-
-```crystal
-class BulkImportSchema < Amber::Schema::Definition
-  content_type "text/csv"
-
-  # Define expected columns
-  csv_columns do
-    column :email, String, required: true, format: :email
-    column :name, String, required: true
-    column :role, String, enum: ["admin", "user"]
-  end
-
-  # Row validation
-  max_rows 1000
-  skip_invalid_rows false
-
-  validates_to BulkImportRequest, BulkImportError
-end
-```
-
-## Multiple Content Types
-
-Support multiple formats for the same endpoint:
-
-```crystal
-class CreateUserController < ApplicationController
-  # Select schema based on content type
-  SCHEMAS = {
-    "application/json" => CreateUserJSONSchema,
-    "application/xml" => CreateUserXMLSchema,
-    "application/x-www-form-urlencoded" => CreateUserFormSchema
-  }
-
-  def create
-    content_type = request.headers["Content-Type"]
-    schema_class = SCHEMAS[content_type]?
-
-    unless schema_class
-      return respond_with 415, {error: "Unsupported content type"}.to_json
-    end
-
-    case result = schema_class.validate(request)
-    when Amber::Schema::Success
-      user = User.create!(result.data)
-      respond_with 201, user.to_json
-    when Amber::Schema::Failure
-      respond_with 400, result.error.to_response.to_json
-    end
-  end
-end
-```
-
-## Content Negotiation
-
-Automatic schema selection:
-
-```crystal
-class UserSchema < Amber::Schema::Definition
-  # Define multiple content types
-  accepts "application/json", "application/xml", "application/x-www-form-urlencoded"
-
-  field :email, String, required: true
   field :name, String, required: true
-
-  validates_to UserRequest, UserValidationError
+  field :starts_at, Time, required: true
 end
 ```
 
-The parser will automatically handle the request based on the `Content-Type` header.
+**Example HTTP body:**
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<event>
+  <name>Amber meetup</name>
+  <starts_at>2026-09-01T18:00:00Z</starts_at>
+</event>
+```
+
+XML is available for inbound schema parsing. The schema-aware `respond_with`
+encoder currently emits JSON, CBOR, or COSE; do not declare automatic XML
+response encoding unless the controller implements and tests that response
+path explicitly.
+
+## Deterministic CBOR
+
+`application/cbor` carries the JSON-compatible contract in a compact binary
+form. Amber's decoder is bounded to:
+
+- 1 MiB per document;
+- 32 levels of nesting; and
+- 16,384 collection items.
+
+It rejects indefinite lengths, duplicate map keys, invalid UTF-8, trailing
+bytes, byte strings where a JSON-compatible value is required, and non-finite
+numbers. Typed schema validation runs after decoding exactly as it does for
+JSON.
+
+## Authenticated COSE Encrypt0
+
+`application/cose` carries that deterministic CBOR object in a tagged COSE
+Encrypt0 envelope using ChaCha20-Poly1305. Amber authenticates and decrypts the
+request, validates the object, then can encode, authenticate, and encrypt the
+response with a fresh 96-bit nonce.
+
+There is no built-in development key.
+
+### 1. Generate a 32-byte deployment key
+
+**Run from: the application root.**
+
+```bash
+openssl rand -base64 32
+```
+
+Store the result in the deployment secret manager as `AMBER_WIRE_KEY`. Store a
+non-empty identifier such as `2026-08` as `AMBER_WIRE_KEY_ID`. Do not commit
+either value.
+
+### 2. Configure the provider
+
+**File: `config/wire_format.cr` — create this file.**
+
+```crystal
+Amber::Schema::COSE.configure(
+  Amber::Schema::COSE::KeyProvider.from_env!
+)
+```
+
+**File: `config/application.cr` — require it after Amber and before controller
+files.**
+
+```crystal
+require "amber"
+require "./wire_format"
+require "../src/controllers/application_controller"
+require "../src/controllers/**"
+require "./routes"
+```
+
+The key provider selects keys by COSE key ID and can retain a grace key during
+rotation. A COSE request without configuration returns 503. Authentication,
+unknown-key, malformed-envelope, and replay-policy behavior should be covered
+by application tests before production use.
+
+## Response negotiation
+
+Declare formats on the response schema too:
+
+```crystal
+class PetResponseSchema < Amber::Schema::Definition
+  content_type "application/json", "application/cbor", "application/cose"
+
+  field :id, Int64, required: true
+  field :name, String, required: true
+end
+```
+
+- `Accept: application/json` returns JSON.
+- `Accept: application/cbor` returns deterministic CBOR.
+- `Accept: application/cose` returns authenticated COSE Encrypt0 containing
+  deterministic CBOR.
+- An undeclared representation returns 406.
+
+The `X-Amber-Wire-Format` header describes Amber's selected COSE profile. It is
+informational and never replaces client-side authentication of the message.

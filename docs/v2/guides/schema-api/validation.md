@@ -1,262 +1,235 @@
 ---
-title: "Validation"
+title: "Validation and Migration"
 section: "guides/schema-api"
 order: 20
-description: "Built-in validators and custom validation in Amber 2.0"
+description: "Automatic schema enforcement, response contracts, and gradual V1 migration"
 ---
 
-# Validation
+# Validation and migration
+
+> **Release candidate:** automatic action enforcement and the HTML failure hook
+> are under review for the next V2 beta in
+> [Amber PR #1408](https://github.com/amberframework/amber/pull/1408), not the
+> already-tagged beta.4. The deprecated validator remains functional in both.
+
+A schema bound with `schema :action, SchemaClass` runs before user callbacks and
+before the controller action. Application code does not call a manual
+`SchemaClass.validate(request)` method, and no extra route keyword is required.
+
+This distinction matters: the same declarations that generate documentation
+are the declarations Amber enforces at runtime.
 
 ## Where the examples go
 
-Built-in validation options, conditions, custom validator methods, validator
-classes, contexts, and messages belong under `src/schemas/`. Most blocks on
-this page are fragments to place inside the schema class they describe. Calls
-that validate a request and serialize errors belong in the receiving controller
-under `src/controllers/`, with its route in `config/routes.cr`.
+- Put reusable contracts under `src/schemas/`.
+- Put action bindings, `validated_as` or `validated_params` reads, response
+  declarations, and the HTML failure hook inside the matching controller under
+  `src/controllers/`.
+- The short typed-value and closed-contract fragments on this page belong
+  inside those schema or controller files; they are not terminal commands.
+- Put request-level acceptance examples under `spec/controllers/` and isolated
+  contract examples under `spec/schemas/`.
 
-Schema fields can enforce presence, length, format, numeric bounds, and custom
-rules before application code receives a typed value.
+## Request enforcement
 
-## Built-in Validators
-
-### Required
-
-```crystal
-field :email, String, required: true
-field :age, Int32, required: true
-field :bio, String?  # Optional by default
-```
-
-### String Validators
-
-#### Length
+**File: `src/controllers/pets_controller.cr`.**
 
 ```crystal
-field :username, String, min_length: 3, max_length: 20
-field :password, String, min_length: 8
-field :bio, String, max_length: 500
-field :zip_code, String, length: 5  # Exact length
-```
+class PetsController < ApplicationController
+  schema :create, CreatePetSchema
 
-#### Format
+  def create
+    input = validated_as(CreatePetSchema)
 
-```crystal
-field :email, String, format: :email
-field :url, String, format: :url
-field :phone, String, format: :phone_number
-field :ssn, String, format: /^\d{3}-\d{2}-\d{4}$/  # Custom regex
-```
-
-#### Predefined Formats
-
-```crystal
-:email          # Valid email address
-:url            # Valid URL (http/https)
-:uri            # Valid URI
-:uuid           # Valid UUID v4
-:phone_number   # International phone format
-:ip_address     # IPv4 or IPv6
-:ipv4           # IPv4 only
-:ipv6           # IPv6 only
-:credit_card    # Credit card number (Luhn check)
-:slug           # URL-safe slug
-:alpha          # Letters only
-:numeric        # Numbers only
-:alphanumeric   # Letters and numbers
-```
-
-### Numeric Validators
-
-```crystal
-field :age, Int32, min: 18, max: 120
-field :price, Float64, min: 0.01, max: 999999.99
-field :quantity, Int32, min: 1
-field :percentage, Float64, min: 0.0, max: 100.0
-```
-
-### Enum Validators
-
-```crystal
-field :status, String, enum: ["active", "inactive", "pending"]
-field :role, String, enum: UserRoles::ALL
-field :priority, Int32, enum: [1, 2, 3, 4, 5]
-```
-
-### Array Validators
-
-```crystal
-field :tags, Array(String), min_items: 1, max_items: 10
-field :categories, Array(Int32), unique: true
-field :emails, Array(String), each: {format: :email}
-```
-
-## Conditional Validations
-
-### When Field Has Value
-
-```crystal
-class OrderSchema < Amber::Schema::Definition
-  field :payment_method, String, enum: ["card", "paypal", "bitcoin"]
-
-  # Only validate card fields when payment is "card"
-  when_field :payment_method, "card" do
-    field :card_number, String, required: true, format: :credit_card
-    field :cvv, String, required: true, length: 3..4
-    field :expiry, String, required: true, format: /^\d{2}\/\d{2}$/
-  end
-
-  when_field :payment_method, "paypal" do
-    field :paypal_email, String, required: true, format: :email
+    Pet.create!(
+      name: input.name.not_nil!,
+      species: input.species.not_nil!,
+      age: input.age
+    )
   end
 end
 ```
 
-### When Field Present
+Amber performs this request-local sequence before `create` runs:
+
+1. verify the request media type against the schema;
+2. parse the body and collect declared path, query, header, and cookie values;
+3. coerce each declared value once;
+4. apply required, range, length, enum, format, pattern, nested, conditional,
+   and cross-field rules;
+5. expose the same normalized values to constraints, typed getters, and the
+   controller action.
+
+If validation fails, the action does not run. Amber writes the structured error
+response and stops the controller callback path.
+
+## Keep HTML form failures as HTML
+
+The default failure body is JSON because controller schemas commonly protect
+API boundaries. A server-rendered controller can override one hook without
+giving up automatic enforcement.
+
+**File: `src/controllers/pets_controller.cr` — add this inside
+`PetsController`.**
 
 ```crystal
-when_present :coupon_code do
-  validate :valid_coupon
-  validate :not_expired
-end
-```
+protected def handle_schema_validation_failure(
+  action : Symbol,
+  result : Amber::Schema::LegacyResult,
+) : Nil
+  @errors = result.errors
+  error = result.errors.first?
+  response.status_code = error.is_a?(Amber::Schema::RequestParseError) ? error.http_status : 422
+  response.content_type = "text/html"
 
-### Field Dependencies
-
-```crystal
-# All must be present together
-requires_together :address, :city, :state, :zip
-
-# Exactly one must be present
-requires_one_of :email, :phone, :username
-
-# At least one must be present
-requires_any_of :home_phone, :work_phone, :mobile_phone
-```
-
-## Custom Validators
-
-### Instance Method Validators
-
-```crystal
-class RegistrationSchema < Amber::Schema::Definition
-  field :password, String, required: true, min_length: 8
-  field :password_confirmation, String, required: true
-  field :age, Int32, required: true
-
-  validate :password_matches
-  validate :age_appropriate
-
-  private def password_matches
-    if password != password_confirmation
-      errors.add(:password_confirmation, "doesn't match password")
+  case action
+  when :create
+    @pet = Pet.new
+    context.content = render("new.ecr")
+  when :update
+    if pet = Pet.find(params[:id])
+      @pet = pet
+      context.content = render("edit.ecr")
+    else
+      redirect_to "/pets"
     end
-  end
-
-  private def age_appropriate
-    if age < 13
-      errors.add(:age, "must be 13 or older")
-    elsif age < 18
-      warnings.add(:age, "parental consent required")
-    end
+  else
+    super
   end
 end
 ```
 
-### Validator Classes
+Setting `context.content` gives Amber the complete rendered response and keeps
+the action from running. New CLI HTML scaffolds use this pattern so an invalid
+form returns an ECR page with its field errors; API controllers keep the JSON
+default.
 
-Create reusable validators:
+## Typed values and the normalized hash
 
 ```crystal
-class EmailUniquenessValidator < Amber::Schema::Validator
-  def validate(value : String, field : Field, schema : Schema)
-    if User.exists?(email: value)
-      schema.errors.add(field.name, "is already taken")
-    end
-  end
-end
+input = validated_as(CreatePetSchema)
+name = input.name.not_nil! # String
+age = input.age            # Int32?
 
-class SignupSchema < Amber::Schema::Definition
-  field :email, String, required: true, format: :email,
-        validator: EmailUniquenessValidator.new
-end
+values = validated_params.not_nil!
+raw_name = values["name"] # JSON::Any
 ```
 
-## Validation Contexts
+`validated_as` verifies that the request-local schema has the expected class.
+It never returns a schema object shared by another request. The field metadata
+is shared, while data, errors, and typed values remain request-local.
 
-Run different validations based on context:
+After a schema succeeds, the controller's existing `params` helper prioritizes
+the normalized schema values and falls back to raw params for undeclared keys.
+That bridge supports action-by-action migration without changing unrelated
+controller code.
 
-```crystal
-class UserSchema < Amber::Schema::Definition
-  field :email, String, required: true, format: :email
-  field :password, String, required: true, min_length: 8, on: :create
-  field :current_password, String, required: true, on: :update
+## Response enforcement
 
-  validate :password_complexity, on: :create
-  validate :current_password_correct, on: :update
-  validate :email_domain_allowed  # Runs in all contexts
-end
-
-# Usage
-schema = UserSchema.new(data, context: :create)
-schema = UserSchema.new(data, context: :update)
-```
-
-## Custom Error Messages
+**File: `src/controllers/pets_controller.cr` — declare the response above the
+action and use the schema-aware `respond_with` inside it.**
 
 ```crystal
-field :age, Int32,
-      required: {message: "is required for registration"},
-      min: {value: 18, message: "must be 18 or older to register"}
+response_schema :create,
+  PetResponseSchema,
+  status: 201,
+  description: "Pet created"
 
-field :email, String,
-      format: {value: :email, message: "doesn't look like a valid email"}
-```
-
-## Error Handling
-
-### Error Response Formatting
-
-```crystal
-class ValidationErrorResponse < Amber::Schema::Response
-  def initialize(error : Amber::Schema::ValidationError)
-    @errors = error.errors
-    @message = "Validation failed"
-  end
-
-  def to_json
-    {
-      message: @message,
-      errors: @errors,
-      error_code: "VALIDATION_ERROR"
-    }.to_json
-  end
-end
-```
-
-### In Controller
-
-```crystal
 def create
-  case result = CreateUserSchema.validate(request)
-  when Amber::Schema::Success
-    user = User.create!(result.data)
-    respond_with 201, user.to_json
-  when Amber::Schema::Failure
-    respond_with 400, {
-      message: "Validation failed",
-      errors: result.error.errors
-    }.to_json
-  end
+  input = validated_as(CreatePetSchema)
+  pet = Pet.create!(name: input.name.not_nil!)
+
+  respond_with({
+    "id"   => JSON::Any.new(pet.id),
+    "name" => JSON::Any.new(pet.name),
+  }, status: 201)
 end
 ```
 
-## Validation Flow
+Before serialization, Amber validates the response shape and exact declared
+status. A mismatch becomes a 500 contract error. If the client asks for a
+format the response schema does not declare, Amber returns 406.
 
-The validation process follows this order:
+Use the regular controller `respond_with` blocks for HTML, JSON, XML, text,
+JavaScript, or Markdown pages that do not use a response schema. The schema
+version accepts `Hash(String, JSON::Any)`, a named tuple, or `nil` so it can
+validate and encode the response contract.
 
-1. **Parse** - Extract data from request based on content type
-2. **Coerce** - Convert string values to proper types
-3. **Validate** - Run all validators in order
-4. **Transform** - Apply any transformations
-5. **Return** - Success with typed data or Failure with errors
+## Open and closed contracts
+
+Schemas accept undeclared fields by default for backwards compatibility.
+Choose a closed contract deliberately:
+
+```crystal
+class CreatePetSchema < Amber::Schema::Definition
+  additional_properties false
+
+  field :name, String, required: true
+end
+```
+
+With that line, an undeclared request-body field produces 422 and an
+undeclared response field produces the response-contract 500. Without it,
+undeclared fields remain available in the normalized data.
+
+## Failure statuses
+
+| Status | Contract boundary |
+|---|---|
+| `400` | Malformed JSON, CBOR, or COSE document |
+| `406` | Undeclared response representation |
+| `415` | Undeclared request representation |
+| `422` | Parsed values fail the request schema |
+| `500` | Response shape or status fails its schema |
+| `503` | COSE input is valid in principle, but no key provider is configured |
+
+The error response includes a stable code, the affected field when applicable,
+and validation details. Do not turn a malformed document into a 422 or a
+well-formed invalid document into a 400; the distinction helps clients correct
+the right layer.
+
+## Migrate the deprecated validator gradually
+
+Existing V1-style code continues to compile and run in Amber V2:
+
+**File: the existing action under `src/controllers/` — unchanged legacy code.**
+
+```crystal
+validation = params.validation do
+  required(:email) { |value| value.email? }
+end
+```
+
+The compiler emits a deprecation warning because new code should use an
+executable controller schema. The warning does not mean the API was removed in
+V2.0. Amber plans no removal before a later V2 minor such as 2.5, and the exact
+release will be announced separately.
+
+Use this order:
+
+1. change the Amber version and verify the existing application first;
+2. define one action's request schema under `src/schemas/`;
+3. bind it with `schema :action, SchemaClass`;
+4. replace reads with `validated_as(SchemaClass)` or `validated_params`;
+5. add `response_schema` to API actions whose output should be enforced;
+6. run the action's request specs and the complete application suite;
+7. repeat for the next action.
+
+The source-compatible `validate_schema` and `auto_validate` declarations may
+remain during the migration, but they no longer control enforcement: a bound
+schema always runs automatically.
+
+## Test both sides of the contract
+
+For every bound action, keep request specs that prove at least:
+
+- one valid request reaches the action;
+- malformed input returns 400;
+- an unsupported request content type returns 415;
+- valid syntax with invalid values returns 422;
+- each supported response media type is negotiated correctly;
+- an unsupported `Accept` value returns 406; and
+- a deliberately invalid response fails closed with 500.
+
+For COSE endpoints, also test a valid inbound envelope, authentication failure,
+an unknown key ID, key rotation, and behavior when configuration is absent.

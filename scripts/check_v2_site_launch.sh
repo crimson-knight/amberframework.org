@@ -13,9 +13,11 @@ test -s docs/v2/guides/web-template/index.md
 test -s docs/v2/guides/pet-tracker/index.md
 test -s docs/v2/guides/ai-assistants/index.md
 test -s blog/2026/08/13/amber-v2-router-on-a-four-dollar-droplet.md
+test -s blog/2026/08/13/amber-v2-executable-schema-contracts.md
 test -s public/benchmarks/amber-v2-router-digitalocean-2026-08-13-summary.json
 test -s public/benchmarks/amber-v2-router-digitalocean-2026-08-13-raw.jsonl
 test -s public/benchmarks/amber-v2-router-digitalocean-2026-08-13-machine.txt
+test -s public/benchmarks/amber-v2-schema-contract-round27-summary.json
 test -s src/views/home/showcase.ecr
 test -s src/views/home/sponsors.ecr
 
@@ -39,6 +41,11 @@ grep -F 'Web, ECR, and SQLite are the defaults' docs/v2/guides/web-template/inde
 grep -F 'respond_with' docs/v2/guides/views/index.md
 grep -F 'javascript_importmap_tag(' docs/v2/guides/assets/import-maps.md
 grep -F '21,795 requests/second' docs/v2/guides/performance.md
+grep -F '19,488 req/s' docs/v2/guides/performance.md
+grep -F 'All **7,974,608** measured requests returned HTTP 200.' docs/v2/guides/performance.md
+grep -F 'no earlier than a later minor release such as 2.5' docs/v2/guides/schema-api/index.md
+grep -F 'The old `params.validation` API is deprecated, not removed.' docs/v2/migration-guide/index.md
+grep -F 'Amber V2 Schemas Are Contracts the Framework Actually Enforces' blog/posts.yml
 grep -F 'overall_geometric_mean_speedup": 1.8857282238240094' public/benchmarks/amber-v2-router-digitalocean-2026-08-13-summary.json
 grep -F 'Amber V2 was faster in all 84 individual pairs.' blog/2026/08/13/amber-v2-router-on-a-four-dollar-droplet.md
 grep -F 'We have retired that number as' blog/2026/02/13/amber-2-alpha-the-road-to-a-unified-framework.md
@@ -59,6 +66,8 @@ grep -F 'get "/blog/feed.xml"' config/routes.cr
 grep -F 'post "/mcp"' config/routes.cr
 grep -F 'href="/performance"' src/views/home/index.ecr
 grep -F 'amber-v2-site-websocket-2026-08-11.json' src/views/home/performance.ecr
+grep -F 'amber-v2-schema-contract-round27-summary.json' src/views/home/performance.ecr
+grep -F '"median_requests_per_second": 19487.98071148698' public/benchmarks/amber-v2-schema-contract-round27-summary.json
 
 for sprite in productivity performance happiness humility respect trust; do
   test -s "app/assets/characters/way-sprites/${sprite}-a.webp"
@@ -111,6 +120,13 @@ fi
 
 if rg -n '^```ruby$' docs; then
   echo "Documentation code fences must identify Crystal examples as Crystal" >&2
+  exit 1
+fi
+
+if rg -n 'validates_to|Schema[A-Za-z0-9_:]*\.validate\(request\)|generate_from_schemas|OpenAPI\.configure|application/msgpack|x-protobuf|text/csv|schema:[[:space:]]*.*Schema|response_schema:' \
+  docs/v2/guides/schema-api \
+  | rg -v 'not part of Amber V2|Do not add fictional|no extra route keyword'; then
+  echo "Schema guides still contain an unsupported or fictional Amber V2 API" >&2
   exit 1
 fi
 

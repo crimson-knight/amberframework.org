@@ -1,3 +1,14 @@
+title: "Amber V2 Schemas Are Contracts the Framework Actually Enforces"
+file: blog/2026/08/13/amber-v2-executable-schema-contracts.md
+image: characters/amber-hero-original-studio.webp
+date: Aug 13, 2026
+author: Seth Tucker
+profile: https://github.com/crimson-knight
+category: Release
+character: Amber
+character_image: characters/amber-id-original-studio.webp
+summary: The next V2 beta keeps legacy validation working while adding automatic typed request and response contracts, OpenAPI 3.1, CBOR, COSE, and measured costs on a $4 server.
+---
 title: "We Reran Amber V2's Router on a $4 DigitalOcean Droplet"
 file: blog/2026/08/13/amber-v2-router-on-a-four-dollar-droplet.md
 image: characters/way-sprites/performance-b.webp

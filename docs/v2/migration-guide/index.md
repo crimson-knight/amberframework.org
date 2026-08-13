@@ -164,6 +164,42 @@ Schema API, jobs, mailers, adapters, and expanded testing helpers can be adopted
 independently. Add one application boundary, write or update its specs, and
 restore the complete build before moving to the next.
 
+## 7. Migrate request validation action by action
+
+The old `params.validation` API is deprecated, not removed. Existing blocks
+continue to compile and run after the V2 framework upgrade:
+
+**File: an existing action under `src/controllers/` — this code may remain
+unchanged during the first upgrade pass.**
+
+```crystal
+validation = params.validation do
+  required(:email) { |value| value.email? }
+end
+```
+
+Amber plans to retain that API throughout the initial V2 compatibility window
+and remove it no earlier than a later minor release such as 2.5. The exact
+removal release will be announced separately. A deprecation warning is a prompt
+for a gradual migration, not evidence that a V1 application must rewrite all
+controllers before adopting V2.
+
+For one action at a time:
+
+1. create its request contract under `src/schemas/`;
+2. bind it above the action with `schema :action, SchemaClass`;
+3. read typed values with `validated_as(SchemaClass)` or the normalized hash
+   with `validated_params`;
+4. add `response_schema` when the action returns a machine-readable API
+   contract; and
+5. prove valid, malformed, unsupported-media, invalid-value, and invalid-response
+   behavior before converting the next action.
+
+The declared schema runs automatically before the action. Do not replace the
+old validator with a manual `SchemaClass.validate(request)` call; that is not
+the V2 controller API. The complete [Schema guide](../guides/schema-api/)
+shows the executable request and response path with exact file locations.
+
 ## Verification gates
 
 Use observed behavior instead of an estimated migration timeline:

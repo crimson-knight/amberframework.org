@@ -187,6 +187,16 @@ The generated migration contains `-- +micrate Up` and `-- +micrate Down`
 sections. `amber database migrate` applies the development database; setting
 `AMBER_ENV=test` applies the separate test database.
 
+The coordinated next-beta CLI candidate updates the generated HTML schema to declare
+`application/x-www-form-urlencoded`. `PetController` binds it with
+`schema :create, PetSchema` and `schema :update, PetSchema`, then reads the
+request-local typed values through `validated_as(PetSchema)`. Invalid input is
+stopped before the action and re-renders the ECR form with field errors. The
+controller does not manually construct and validate a second schema object.
+That generator change depends on
+[Amber PR #1408](https://github.com/amberframework/amber/pull/1408) and is not
+part of the already-tagged CLI 2.0.5 and framework beta.4 pair.
+
 **Run from: the application root — useful database maintenance commands.**
 
 ```bash

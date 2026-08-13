@@ -1,122 +1,159 @@
 ---
-title: "Schema API"
+title: "Request and Response Schemas"
 section: "guides"
 order: 20
 is_section: true
-description: "Type-safe request handling with compile-time validation in Amber 2.0"
+description: "Executable request, response, and OpenAPI contracts in Amber V2"
 ---
 
-# Schema API
+# Request and response schemas
 
-The Schema API is the headline feature of Amber 2.0. It provides compile-time validated request parameters with automatic type coercion, replacing the traditional params hash with a type-safe, validated approach.
+> **Release candidate:** this guide documents the executable schema work under
+> review for the next Amber V2 beta in
+> [amberframework/amber#1408](https://github.com/amberframework/amber/pull/1408).
+> It is not part of the already-tagged `2.0.0-beta.4` release. Keep using the
+> deprecated validator on beta.4, or test the pull-request branch explicitly,
+> until the next beta is published.
 
-## Where the examples go
+Amber V2 schemas are executable controller contracts. One declaration controls
+request parsing, validation, typed values, response validation, content
+negotiation, and OpenAPI output. A declared controller schema runs automatically
+before the action; it cannot become documentation that the application forgets
+to enforce.
 
-- Schema definitions and their validated success/error types belong under
-  `src/schemas/`, grouped by resource or request flow.
-- Validation calls belong inside the controller action under `src/controllers/`
-  that receives the matching request.
-- Register the route for that action in `config/routes.cr`.
+The V1 `params.validation` API remains functional in the release candidate, but
+it is deprecated. Amber plans to keep it throughout the initial V2 compatibility
+window and remove it
+no earlier than a later minor release such as 2.5. The exact removal release
+will be announced separately. Upgrade the framework first, then migrate one
+action at a time.
 
-Blocks on this page use those destinations unless a closer label says
-otherwise.
+## Build a complete JSON endpoint
 
-## Why Schema API?
+This example creates a pet through `POST /pets`. Every block names the file
+where it belongs.
 
-Traditional web frameworks handle request parameters as loosely-typed hashes:
+### 1. Define the request and response contracts
 
-**File: a controller action under `src/controllers/` — this is the legacy
-pattern to replace, not recommended V2 code.**
-
-```crystal
-# Old way - runtime errors, no type safety
-def create
-  email = params[:email].as(String)  # Could fail at runtime
-  age = params[:age].to_i            # No validation
-end
-```
-
-**File: `src/schemas/create_user_schema.cr` — define the request contract here.**
-
-```crystal
-# New way - compile-time safety, automatic validation
-class CreateUserSchema < Amber::Schema::Definition
-  field :email, String, required: true, format: :email
-  field :age, Int32, min: 18
-
-  validates_to UserRequest, UserValidationError
-end
-```
-
-## Key Benefits
-
-- **Type Safety**: Crystal's type system catches errors at compile time
-- **Automatic Validation**: Built-in validators for common patterns
-- **Content Type Aware**: Different schemas for JSON, XML, form data
-- **Self-Documenting**: Schema definitions document your API
-- **OpenAPI Generation**: Automatic API spec generation
-
-## Quick Start
-
-### 1. Define a Schema
-
-**File: `src/schemas/create_post_schema.cr` — create this schema class.**
+**File: `src/schemas/pet_schemas.cr` — create this file.**
 
 ```crystal
-class CreatePostSchema < Amber::Schema::Definition
+class CreatePetSchema < Amber::Schema::Definition
   content_type "application/json"
+  additional_properties false
 
-  field :title, String, required: true, max_length: 200
-  field :body, String, required: true
-  field :published, Bool, default: false
-  field :tags, Array(String), max_items: 10
+  field :name, String, required: true, min_length: 1, max_length: 80
+  field :species, String, required: true, enum: ["cat", "dog", "other"]
+  field :age, Int32, min: 0, max: 50
+  field :request_id, String,
+    required: true,
+    source: Amber::Schema::ParamSource::Header,
+    source_name: "X-Request-ID"
+end
 
-  validates_to PostRequest, PostValidationError
+class PetResponseSchema < Amber::Schema::Definition
+  content_type "application/json"
+  additional_properties false
+
+  field :id, Int64, required: true
+  field :name, String, required: true
+  field :species, String, required: true
+  field :age, Int32
 end
 ```
 
-### 2. Define Success/Error Types
+`additional_properties false` closes the contract. An undeclared request-body
+or response field then fails validation. Omit that line while an existing API
+must continue accepting and carrying fields that are not yet declared.
 
-**File: `src/schemas/create_post_schema.cr` — keep these result types beside the
-schema, or split them under `src/schemas/posts/` when the resource grows.**
+### 2. Bind both contracts to the controller action
 
-```crystal
-class PostRequest < Amber::Schema::ValidatedRequest
-  getter title : String
-  getter body : String
-  getter published : Bool
-  getter tags : Array(String)
-end
-
-class PostValidationError < Amber::Schema::ValidationError
-  def to_response
-    {message: "Validation failed", errors: errors}
-  end
-end
-```
-
-### 3. Use in Controller
-
-**File: `src/controllers/posts_controller.cr` — add this `create` action inside
-`PostsController`, then register `POST /posts` in `config/routes.cr`.**
+**File: `src/controllers/pets_controller.cr` — add the declarations above the
+action and the action inside `PetsController`.**
 
 ```crystal
-class PostsController < ApplicationController
+require "../schemas/pet_schemas"
+
+class PetsController < ApplicationController
+  schema :create, CreatePetSchema
+  response_schema :create,
+    PetResponseSchema,
+    status: 201,
+    description: "Pet created"
+
   def create
-    case result = CreatePostSchema.validate(request)
-    when Amber::Schema::Success
-      post = Post.create!(result.data)
-      respond_with 201, post.to_json
-    when Amber::Schema::Failure
-      respond_with 400, result.error.to_response.to_json
-    end
+    input = validated_as(CreatePetSchema)
+    pet = Pet.create!(
+      name: input.name.not_nil!,
+      species: input.species.not_nil!,
+      age: input.age
+    )
+
+    payload = {
+      "id"      => JSON::Any.new(pet.id),
+      "name"    => JSON::Any.new(pet.name),
+      "species" => JSON::Any.new(pet.species),
+    }
+    payload["age"] = JSON::Any.new(pet.age.not_nil!) if pet.age
+
+    respond_with(payload, status: 201)
   end
 end
 ```
 
-## Documentation Sections
+Amber parses and validates the request before `create` runs. `validated_as`
+returns the request-local schema instance and its generated typed getters.
+Use `validated_params` when a `Hash(String, JSON::Any)` is more convenient.
 
-- [Basics](basics/) - Schema definition, field types, and options
-- [Validation](validation/) - Built-in validators and custom validation
-- [Parsers](parsers/) - Content type handling (JSON, XML, Forms, etc.)
-- [OpenAPI](openapi/) - Automatic API documentation generation
+`respond_with` validates the response object and status before writing bytes.
+If application code produces a shape or status outside `PetResponseSchema`,
+Amber returns a 500 contract error instead of silently serving an undocumented
+response.
+
+### 3. Add the route
+
+**File: `config/routes.cr` — add this inside the existing router block.**
+
+```crystal
+post "/pets", PetsController, :create
+```
+
+Schemas bind to controller actions, not to extra route keywords. The ordinary
+route also supplies the metadata used by OpenAPI generation.
+
+### 4. Exercise the contract
+
+**Run from: the application root while `amber watch` is running.**
+
+```bash
+curl --fail-with-body \
+  --request POST \
+  --header 'Content-Type: application/json' \
+  --header 'Accept: application/json' \
+  --header 'X-Request-ID: guide-1' \
+  --data '{"name":"Mochi","species":"cat","age":3}' \
+  http://127.0.0.1:3000/pets
+```
+
+## Automatic contract responses
+
+| Status | Meaning |
+|---|---|
+| `400` | The JSON, CBOR, or COSE body is malformed. |
+| `406` | The requested response media type is not declared by the response schema. |
+| `415` | The request `Content-Type` is not declared by the request schema. |
+| `422` | The document parsed, but its values do not satisfy the schema. |
+| `500` | Application code produced a response shape or status outside its declared contract. |
+| `503` | A COSE request arrived before a key provider was configured. |
+
+Actions without a declared schema retain their existing params behavior.
+
+## Continue from here
+
+- [Schema basics](basics/) covers field types, constraints, parameter sources,
+  nested objects, and conditional relationships.
+- [Validation and migration](validation/) explains enforcement, response
+  contracts, and the deprecated-validator compatibility bridge.
+- [Request formats](parsers/) covers JSON, forms, XML, CBOR, and encrypted COSE.
+- [OpenAPI](openapi/) serves an OpenAPI 3.1 document from the same registered
+  controller contracts.
