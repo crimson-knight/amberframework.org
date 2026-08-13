@@ -19,7 +19,7 @@ describe ReleaseCatalog do
     DocVersionConfig.reload
 
     DocVersionConfig.default.id.should eq("v1.5")
-    DocVersionConfig.find("v2").try(&.release_date).should eq("2026-08-12")
+    DocVersionConfig.find("v2").try(&.release_date).should eq("2026-08-13")
     DocVersionConfig.find("v1.5").try(&.release_date).should eq("2026-08-01")
     DocVersionConfig.find("v1.4.1").try(&.archived?).should be_true
     DocsScanner.find_page("v1.5", "guides/installation").try(&.content).to_s.should contain("git checkout v1.5.0")

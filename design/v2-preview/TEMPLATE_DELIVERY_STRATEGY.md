@@ -6,7 +6,7 @@ Updated: August 11, 2026
 
 ## Current behavior
 
-Amber CLI `2.0.5` generates web projects through inline writer methods in
+Amber CLI `2.0.6` generates web projects through inline writer methods in
 `AmberCLI::Commands::NewCommand`. The repository also contains an application
 template tree, but `NewCommand#create_project_structure` does not render that
 tree. The beta contract now checks the identifying dependencies, views, and

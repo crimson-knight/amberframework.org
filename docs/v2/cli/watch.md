@@ -45,7 +45,7 @@ command directly to get the complete compiler error.
 
 ## Asset-aware watch cycle
 
-CLI `2.0.5` runs the same build-time compiler as `amber assets build` before
+CLI `2.0.6` runs the same build-time compiler as `amber assets build` before
 application compilation. A deleted asset, missing CSS image/font reference,
 missing local JavaScript dependency, or invalid manifest entry therefore stops
 the rebuild instead of becoming a browser 404.

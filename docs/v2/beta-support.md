@@ -2,13 +2,13 @@
 title: "Beta Support"
 section: ""
 order: 20
-description: "Supported platforms and feature boundaries for Amber 2.0.0-beta.4"
+description: "Supported platforms and feature boundaries for Amber 2.0.0-beta.5"
 ---
 
 # Amber V2 Beta Support
 
-**Status checked August 12, 2026.** Amber Framework `2.0.0-beta.4` and Amber
-CLI `2.0.5` are the coordinated database-backed web beta. Amber `1.5.0`
+**Status checked August 13, 2026.** Amber Framework `2.0.0-beta.5` and Amber
+CLI `2.0.6` are the coordinated database-backed web beta. Amber `1.5.0`
 remains the stable framework line.
 
 “Beta” describes the V2 framework release, not an expectation that ordinary
@@ -35,7 +35,7 @@ One signal does not silently imply the others.
 
 ## Platform matrix
 
-| Platform | Database-backed web compile | CLI 2.0.5 install artifact | Beta release gate |
+| Platform | Database-backed web compile | CLI 2.0.6 install artifact | Beta release gate |
 |---|---|---|---|
 | Apple Silicon macOS | Verified | Homebrew and `darwin-arm64` archive | Yes |
 | x86-64 Linux | Verified | Homebrew or `linux-x86_64` archive | Yes |
@@ -43,11 +43,11 @@ One signal does not silently imply the others.
 | Windows x86-64 | Verified in GitHub Actions | None | No |
 | Intel macOS | Not currently verified | None | No |
 
-The [Amber CLI asset pull request](https://github.com/amberframework/amber_cli/pull/37)
+The [Amber CLI 2.0.6 pull request](https://github.com/amberframework/amber_cli/pull/38)
 is the current platform evidence stream. Windows installs the SQLite native library,
 builds the CLI, generates the same Grant application, applies the test
 migration, runs its specs, and compiles the executable. It remains outside the
-release gate only because CLI `2.0.5` does not publish a Windows archive.
+release gate only because CLI `2.0.6` does not publish a Windows archive.
 
 ## Application and generator matrix
 
@@ -90,11 +90,11 @@ must test against the server versions they deploy.
 
 ## Versions
 
-- Amber V2 framework beta: `2.0.0-beta.4` — published August 12, 2026
-- Amber CLI: `2.0.5` — published August 12, 2026
+- Amber V2 framework beta: `2.0.0-beta.5` — published August 13, 2026
+- Amber CLI: `2.0.6` — published August 13, 2026
 - Asset Pipeline: `0.37.0` — published August 12, 2026
-- Grant: reviewed commit pinned by Amber CLI `2.0.5`
-- Micrate: `0.16.0-beta.1`, embedded and pinned by Amber CLI `2.0.5`
+- Grant: reviewed commit pinned by Amber CLI `2.0.6`
+- Micrate: `0.16.0-beta.1`, embedded and pinned by Amber CLI `2.0.6`
 - Amber stable framework: `1.5.0` — published August 1, 2026
 - Crystal: `>= 1.20.0, < 2.0`
 

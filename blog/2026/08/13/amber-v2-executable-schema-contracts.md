@@ -10,10 +10,9 @@ request would succeed or fail because of it. That is exactly the kind of thing
 a beta is supposed to expose before people build production assumptions on
 top of it.
 
-The next Amber V2 beta candidate closes that gap. The work is currently under
-review in [Amber PR #1408](https://github.com/amberframework/amber/pull/1408),
-so this is a preview of the release candidate—not a claim that the already
-tagged beta.4 contains it.
+Amber `2.0.0-beta.5` closes that gap. The reviewed work landed in
+[Amber PR #1408](https://github.com/amberframework/amber/pull/1408), and the
+published prerelease tag points to that canonical merge commit.
 
 ## The compatibility promise comes first
 

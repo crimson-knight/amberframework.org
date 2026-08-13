@@ -12,7 +12,7 @@ JavaScript module. They do not require Node.js, npm, or a bundler. Asset
 Pipeline adds a production cache boundary by mapping logical source names to
 content-fingerprinted public URLs.
 
-> **Supported web path:** Amber CLI `2.0.5` generates one manifest-aware import
+> **Supported web path:** Amber CLI `2.0.6` generates one manifest-aware import
 > map for browser-ready local modules. External modules remain an application
 > choice with their own availability, privacy, and review boundary.
 

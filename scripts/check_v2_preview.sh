@@ -78,10 +78,10 @@ fi
 grep -F 'amber new my_app' src/views/home/index.ecr >/dev/null
 grep -F 'web is the default' src/views/home/index.ecr >/dev/null
 grep -F 'amber new field_app --type native' src/views/home/index.ecr >/dev/null
-grep -F 'Framework beta.4 · Aug 12, 2026 · CLI 2.0.5 · Aug 12, 2026' src/views/home/index.ecr >/dev/null
+grep -F 'Framework beta.5 · Aug 13, 2026 · CLI 2.0.6 · Aug 13, 2026' src/views/home/index.ecr >/dev/null
 grep -F 'image_tag("brand/crys-mascot.svg"' src/views/home/index.ecr >/dev/null
 grep -F 'Crystal</strong> 1.20+ · latest stable recommended' src/views/home/index.ecr >/dev/null
-grep -F 'amber_cli</strong> 2.0.5 · Aug 12' src/views/home/index.ecr >/dev/null
+grep -F 'amber_cli</strong> 2.0.6 · Aug 13' src/views/home/index.ecr >/dev/null
 grep -F 'Linux native UI bindings remain frontier work' src/views/home/index.ecr >/dev/null
 grep -F 'image_tag("characters/amber-hero-desk-transparent-higgsfield.webp"' src/views/home/index.ecr >/dev/null
 grep -F 'asset_path("characters/amber-hero-desk-desktop-higgsfield.webp")' src/views/home/index.ecr >/dev/null

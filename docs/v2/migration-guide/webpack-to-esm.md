@@ -12,7 +12,7 @@ server-rendered application can use browser-native ESM and import maps. Removing
 a working build tool is still a migration, not a prerequisite for upgrading the
 Amber runtime.
 
-> **Release boundary:** Amber `2.0.0-beta.4`, Amber CLI `2.0.5`, and
+> **Release boundary:** Amber `2.0.0-beta.5`, Amber CLI `2.0.6`, and
 > asset_pipeline `0.37.0` support the manifest contract below. Keep the existing
 > build whenever the application still needs Sass,
 > TypeScript, JSX, Vue single-file components, PostCSS, or another compiler.
@@ -96,7 +96,7 @@ Amber::Assets.configure(
 ```
 
 **File: `scripts/build_assets.cr` — create this complete file only when the
-build environment cannot run Amber CLI `2.0.5`.**
+build environment cannot run Amber CLI `2.0.6`.**
 
 ```crystal
 require "asset_pipeline/static_assets"
@@ -108,7 +108,7 @@ AssetPipeline::StaticAssets::Compiler.new(
 ).build
 ```
 
-Amber CLI `2.0.5` exposes the same compiler as `amber assets build` and verifies
+Amber CLI `2.0.6` exposes the same compiler as `amber assets build` and verifies
 its output with `amber assets check`. Do not load compiler construction from
 `config/assets.cr`; the running app needs the resolver, not build tooling.
 

@@ -1,7 +1,29 @@
 {
   "schema_version": 1,
-  "synced_at": "2026-08-12T04:36:17Z",
+  "synced_at": "2026-08-13T17:26:49Z",
   "releases": [
+    {
+      "project": "Amber CLI",
+      "repository": "amberframework/amber_cli",
+      "tag_name": "v2.0.6",
+      "name": "Amber CLI 2.0.6",
+      "published_at": "2026-08-13T17:23:04Z",
+      "published_on": "August 13, 2026",
+      "prerelease": false,
+      "url": "https://github.com/amberframework/amber_cli/releases/tag/v2.0.6",
+      "body": "# Amber CLI 2.0.6\n\nAmber CLI 2.0.6 is the coordinated generator release for Amber\n`2.0.0-beta.5`. Fresh web applications now use the framework's automatically\nenforced schema contracts instead of constructing and validating a second\nschema object inside each controller action.\n\n## Generate a complete web application\n\n```bash\namber new pet_tracker --type web\ncd pet_tracker\nshards install\namber assets check\namber generate scaffold Pet name:string:required species:string:required adopted:bool\namber database migrate\ncrystal spec\namber watch\n```\n\nThe generated project pins canonical Amber `2.0.0-beta.5`, uses ECR, Grant,\nSQLite, Micrate, local front-end assets, and a manifest-backed asset pipeline.\n\n## What changed\n\n- Resource scaffolds bind `PetSchema` automatically to `create` and `update`\n  and read typed request-local values with `validated_as(PetSchema)`.\n- HTML form schemas declare URL-encoded input and return the generated ECR form\n  with visible field errors and HTTP 422 when a well-formed request is invalid.\n- Malformed or unsupported form bodies preserve the framework's explicit 400\n  or 415 status instead of being flattened into a generic validation error.\n- Preview API generators bind the same executable schema contract for JSON\n  writes while retaining structured JSON failures.\n- `amber generate schema` teaches the executable controller declaration as the\n  primary application path; direct construction remains available for isolated\n  schema unit tests.\n- The Unix and Windows generated-app smoke harnesses can test an exact framework\n  repository and commit during coordinated development, while normal and\n  release CI now exercise the published beta emitted by the template.\n\n## Upgrade compatibility\n\nAmber's deprecated `params.validation` API remains functional. Existing Amber\napplications can update the framework first, verify their current behavior,\nand migrate validation one controller action at a time. CLI 2.0.6 changes new\ngenerators; it does not force an existing application to regenerate its\ncontrollers.\n\n## Release proof\n\n- 412 Amber CLI examples pass.\n- Apple Silicon macOS and x86_64 Linux release-style binaries generate, build,\n  migrate, run, and exercise the complete web application.\n- Linux ARM64 and Windows x86_64 compile and run the generated web application\n  in GitHub Actions.\n- The Pet Tracker smoke proves invalid HTML form input returns one HTML\n  document with status 422 and a visible field error before proving persisted\n  create and PATCH update behavior.\n- Fingerprinted CSS, JavaScript, SVG, and favicon responses retain integrity,\n  MIME, immutable caching, URL rewriting, and gzip checks.\n\nWindows remains a source-build compatibility path; this release publishes CLI\narchives for Apple Silicon macOS, x86_64 Linux, and ARM64 Linux.\n"
+    },
+    {
+      "project": "Amber Framework",
+      "repository": "amberframework/amber",
+      "tag_name": "v2.0.0-beta.5",
+      "name": "Amber 2.0.0-beta.5",
+      "published_at": "2026-08-13T17:04:24Z",
+      "published_on": "August 13, 2026",
+      "prerelease": true,
+      "url": "https://github.com/amberframework/amber/releases/tag/v2.0.0-beta.5",
+      "body": "# Amber 2.0.0-beta.5\n\nAmber 2.0.0-beta.5 turns the V2 schema API into a contract the framework\nactually enforces. A controller declaration now owns request parsing,\nvalidation, typed access, response validation, content negotiation, and\nOpenAPI 3.1 output. The release also brings the optimized router and request\npath onto the V2 release line.\n\n## Upgrade compatibility comes first\n\nThe existing `params.validation` API still compiles and runs. It is deprecated\nso new work can use executable controller schemas, but upgrading to beta.5 does\nnot require rewriting every controller. Applications can update Amber, run\ntheir existing tests, and then migrate one action at a time.\n\nAmber does not plan to remove the deprecated validator before a later V2 minor\nsuch as 2.5. The exact removal release will be announced separately.\n\n## Executable request and response contracts\n\n- `schema :action, SchemaClass` enforces the declared request before the action\n  runs.\n- `validated_as(SchemaClass)` exposes request-local typed values without\n  constructing and validating a second schema object.\n- Request fields can come from bodies, paths, query strings, headers, and\n  cookies.\n- `response_schema` verifies the declared status, content type, and response\n  shape before delivery.\n- OpenAPI 3.1 operations are generated from the same contracts the application\n  executes.\n- Server-rendered controllers can override the schema-failure hook to return an\n  ECR form with field errors and the correct 400, 415, or 422 status.\n\n## JSON, CBOR, and authenticated COSE\n\nAmber now supports JSON, XML, URL-encoded forms, multipart forms, and bounded\nCBOR request parsing. COSE Encrypt0 adds authenticated ChaCha20-Poly1305\nencryption in both directions: Amber decrypts and authenticates the inbound\nrequest, applies its schema, and can authenticate and encrypt the response with\na fresh nonce.\n\nThe request boundary fails explicitly for malformed documents, unsupported\nmedia, invalid values, unacceptable response formats, invalid declared\nresponses, and temporarily unavailable encryption configuration.\n\n## Measured performance\n\nThe release candidate was tested on a DigitalOcean Basic one-shared-vCPU,\n512-MB-class target with a separate load generator, 16 keep-alive connections,\nand seven rotating 15-second repetitions per scenario:\n\n| Complete HTTP request path | Median requests/second |\n|---|---:|\n| Generic JSON decode | 20,728 |\n| Schema-validated JSON | 19,488 |\n| Schema-validated CBOR | 21,742 |\n| Authenticated COSE request and response | 14,443 |\n\nAll 7,974,608 retained requests returned HTTP 200. This is a synthetic\nin-memory acknowledgement workload without a database, TLS termination,\nexternal services, or HTML rendering. It measures framework, codec, and schema\ncost under constrained hardware; it is not a capacity promise for an arbitrary\nproduction application.\n\nSee\n[`benchmarks/DIGITALOCEAN_SCHEMA_CONTRACT_ROUND27.md`](benchmarks/DIGITALOCEAN_SCHEMA_CONTRACT_ROUND27.md)\nfor the complete method, ranges, before-and-after comparison, and evidence\npaths.\n\n## Start a fresh web application\n\nAmber CLI 2.0.6 is the coordinated generator release for this beta:\n\n```bash\nbrew install amberframework/amber_cli/amber_cli\namber new pet_tracker --type web\ncd pet_tracker\nshards install\namber assets check\namber generate scaffold Pet name:string:required species:string:required adopted:bool\namber database migrate\ncrystal spec\namber watch\n```\n\nThe generated application uses ECR, Grant, SQLite, Micrate, local front-end\nassets, executable HTML form schemas, and Amber `2.0.0-beta.5`.\n\nSee the [beta installation guide](https://github.com/amberframework/amber/blob/v2.0.0-beta.5/docs/beta-installation.md),\n[migration guide](https://github.com/amberframework/amber/blob/v2.0.0-beta.5/docs/migration-guide.md),\nand [schema guide](https://github.com/amberframework/amber/blob/v2.0.0-beta.5/docs/guides/schema-api.md).\n"
+    },
     {
       "project": "Amber CLI",
       "repository": "amberframework/amber_cli",
@@ -102,17 +124,6 @@
       "body": "# Amber 2.0.0-beta.1\n\nAmber V2's first public beta establishes a tested, documented path for creating\nan ECR web application with the standalone Amber CLI.\n\nThis is a prerelease. Expect breaking changes before Amber 2.0.0 and do not use\nit for production workloads that cannot tolerate them.\n\n## Install and create a web app\n\nInstall Amber CLI 2.0.2 or newer:\n\n```bash\nbrew install amberframework/amber_cli/amber_cli\namber new my_app --type web\ncd my_app\ncrystal spec\namber watch\n```\n\nSee the [beta installation guide](https://github.com/amberframework/amber/blob/v2.0.0-beta.1/docs/beta-installation.md)\nfor direct archives, checksums, update/uninstall steps, and troubleshooting.\n\n## Release-gated surface\n\n- Apple Silicon macOS and x86_64 Linux\n- Homebrew and matching direct CLI archives\n- ECR web application generation\n- dependency installation, specs, application build, server start, homepage,\n  and static CSS\n- framework core, routing, typed configuration, Schema API, jobs, mailer,\n  WebSockets, adapters, and testing helpers\n\n## Major V2 changes\n\n- CLI and LSP extracted to `amberframework/amber_cli`\n- ECR is the only supported view engine; Kilt and Slang were removed\n- runtime shard dependencies removed from framework core\n- database drivers and ORM are explicit application choices\n- typed, sectioned YAML with environment-variable overrides\n- built-in jobs, mailer, Schema API, and adapter-backed infrastructure\n\nRead the [V1 to V2 migration guide](https://github.com/amberframework/amber/blob/v2.0.0-beta.1/docs/migration-guide.md)\nbefore upgrading an existing application.\n\n## Preview surfaces\n\nPersistence/auth/API-resource generators, Grant integration, Gemma attachments,\nthe separate Asset Pipeline, and native app generation are not part of the\ncore beta release gate. Intel macOS, Linux ARM64, and Windows do not have\nrelease-gated CLI archives in this beta.\n\nPlease report framework issues at\n<https://github.com/amberframework/amber/issues> and CLI/template/install issues\nat <https://github.com/amberframework/amber_cli/issues>.\n"
     },
     {
-      "project": "Amber CLI",
-      "repository": "amberframework/amber_cli",
-      "tag_name": "v2.0.1",
-      "name": "v2.0.1",
-      "published_at": "2026-06-10T19:33:02Z",
-      "published_on": "June 10, 2026",
-      "prerelease": false,
-      "url": "https://github.com/amberframework/amber_cli/releases/tag/v2.0.1",
-      "body": "## What's Changed\n* Add native scaffolding and Homebrew release path by @crimson-knight in https://github.com/amberframework/amber_cli/pull/20\n* Harden exec/encrypt editor invocation, fix Crystal 1.20 deprecations by @crimson-knight in https://github.com/amberframework/amber_cli/pull/22\n\n\n**Full Changelog**: https://github.com/amberframework/amber_cli/compare/v2.0.0...v2.0.1"
-    },
-    {
       "project": "Amber Framework",
       "repository": "amberframework/amber",
       "tag_name": "v1.4.1",
@@ -133,17 +144,6 @@
       "prerelease": false,
       "url": "https://github.com/amberframework/amber/releases/tag/v1.4.0",
       "body": "## What's Changed\r\n* feat!: remove webpack from dependencies by @drujensen in https://github.com/amberframework/amber/pull/1304\r\n* update exception_page to 0.3.0 by @timstapl in https://github.com/amberframework/amber/pull/1315\r\n* #1311 Replace json_mapping with JSON::Serializable by @schodevio in https://github.com/amberframework/amber/pull/1314\r\n* Shard updates, mysql uuid type, and api route bug fix by @kalinon in https://github.com/amberframework/amber/pull/1319\r\n* Explicitly declare the UTF-8 charset for json responses by @damianham in https://github.com/amberframework/amber/pull/1231\r\n* Update README.md by @crimson-knight in https://github.com/amberframework/amber/pull/1323\r\n* docs: update homebrew installation note by @chenrui333 in https://github.com/amberframework/amber/pull/1330\r\n* Updated Ameba to use v1.5 by @crimson-knight in https://github.com/amberframework/amber/pull/1332\r\n* Minor version bump by @crimson-knight in https://github.com/amberframework/amber/pull/1333\r\n\r\n## New Contributors\r\n* @timstapl made their first contribution in https://github.com/amberframework/amber/pull/1315\r\n* @schodevio made their first contribution in https://github.com/amberframework/amber/pull/1314\r\n* @kalinon made their first contribution in https://github.com/amberframework/amber/pull/1319\r\n* @chenrui333 made their first contribution in https://github.com/amberframework/amber/pull/1330\r\n\r\n**Full Changelog**: https://github.com/amberframework/amber/compare/v1.3.2...v1.4.0"
-    },
-    {
-      "project": "Amber Framework",
-      "repository": "amberframework/amber",
-      "tag_name": "v1.3.2",
-      "name": "v1.3.2",
-      "published_at": "2022-11-08T22:08:52Z",
-      "published_on": "November 8, 2022",
-      "prerelease": false,
-      "url": "https://github.com/amberframework/amber/releases/tag/v1.3.2",
-      "body": "## What's Changed\r\n* Improve new app creation experience by @crimson-knight in https://github.com/amberframework/amber/pull/1302\r\n* Compile binary with `--release` for the Amber CLI tool when installing with Homebrew or `make`\r\n\r\n\r\n**Full Changelog**: https://github.com/amberframework/amber/compare/v1.3.1...v1.3.2"
     }
   ]
 }

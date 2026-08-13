@@ -7,10 +7,9 @@ description: "Automatic schema enforcement, response contracts, and gradual V1 m
 
 # Validation and migration
 
-> **Release candidate:** automatic action enforcement and the HTML failure hook
-> are under review for the next V2 beta in
-> [Amber PR #1408](https://github.com/amberframework/amber/pull/1408), not the
-> already-tagged beta.4. The deprecated validator remains functional in both.
+> **Released in `2.0.0-beta.5`:** automatic action enforcement and the HTML
+> failure hook are available now. The deprecated validator remains functional
+> for backwards compatibility.
 
 A schema bound with `schema :action, SchemaClass` runs before user callbacks and
 before the controller action. Application code does not call a manual

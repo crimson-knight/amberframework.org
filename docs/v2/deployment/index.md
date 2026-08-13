@@ -32,7 +32,7 @@ crystal spec
 shards build my_app --release
 ```
 
-An existing application upgraded without CLI `2.0.5` can run
+An existing application without a compatible standalone CLI can run
 `crystal run scripts/build_assets.cr` and its verification wrapper as documented
 in [Asset Pipeline](../guides/assets/). Never start the web process to generate
 assets and never rely on a first request to populate `public/`.

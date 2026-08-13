@@ -4,7 +4,7 @@
 <div class="release-strip preview-strip">
   <div class="site-container">
     <span class="release-pill">V2 web beta</span>
-    <span>Framework beta.4 · Aug 12, 2026 · CLI 2.0.5 · Aug 12, 2026</span>
+    <span>Framework beta.5 · Aug 13, 2026 · CLI 2.0.6 · Aug 13, 2026</span>
     <a href="/releases">What shipped →</a>
   </div>
 </div>
@@ -30,8 +30,8 @@
       </div>
       <div class="hero-proof-row" aria-label="Preview support summary">
         <span><%= image_tag("brand/crys-mascot.svg", width: "26", height: "23", alt: "") %><span><strong>Crystal</strong> 1.20+ · latest stable recommended</span></span>
-        <span><%= image_tag("characters/amber-chibi-hero-mark-v2.webp", width: "26", height: "26", alt: "") %><span><strong>Amber</strong> 2.0.0-beta.4 · Aug 12</span></span>
-        <span><span class="hero-proof-symbol" aria-hidden="true">⌘</span><span><strong>amber_cli</strong> 2.0.5 · Aug 12</span></span>
+        <span><%= image_tag("characters/amber-chibi-hero-mark-v2.webp", width: "26", height: "26", alt: "") %><span><strong>Amber</strong> 2.0.0-beta.5 · Aug 13</span></span>
+        <span><span class="hero-proof-symbol" aria-hidden="true">⌘</span><span><strong>amber_cli</strong> 2.0.6 · Aug 13</span></span>
       </div>
     </div>
     <div class="hero-art hero-art-amber reveal" aria-label="Amber, the framework lead, building an application">
@@ -81,12 +81,12 @@
           </div>
           <div class="terminal-screen" aria-live="polite" data-terminal-screen>
             <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="brew install amberframework/amber_cli/amber_cli"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
-            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Installing amber_cli 2.0.5"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-muted" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Installing amber_cli 2.0.6"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-muted" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Installed amber and amber-lsp"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-success" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="amber --version"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
-            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Amber CLI v2.0.5"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-success" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Amber CLI v2.0.6"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-success" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="amber new my_app"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-comment"> # web is the default</span><span class="terminal-cursor" aria-hidden="true"></span></div>
-            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Created my_app · Amber beta.4 · Grant · SQLite · fingerprinted assets"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-accent" data-terminal-output></span></div>
+            <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Created my_app · Amber beta.5 · Grant · SQLite · fingerprinted assets"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-accent" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="cd my_app && amber generate scaffold Pet name:string:required species:string:required"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
             <div class="terminal-line terminal-line-output" data-terminal-line data-terminal-mode="system" data-terminal-text="Created Pet model · schema · controller · ECR views · migration · route"><span class="terminal-state" data-terminal-state>⠋</span> <span class="terminal-muted" data-terminal-output></span></div>
             <div class="terminal-line terminal-line-command" data-terminal-line data-terminal-mode="typed" data-terminal-text="amber database migrate && amber watch"><span class="terminal-prompt">❯</span> <span class="terminal-command" data-terminal-output></span><span class="terminal-cursor" aria-hidden="true"></span></div>
@@ -230,8 +230,8 @@
         <p>A separate mixed 1,000-route JSON workload on the same server class completed 18,728,053 successful responses across seven rotating repetitions with zero socket and non-2xx errors.</p>
       </div>
       <div class="framework-benchmark-secondary reveal">
-        <div><span>Executable schema release candidate · Aug 13, 2026</span><strong>19,488 <small>validated JSON req/s median</small></strong></div>
-        <p>The next-beta candidate parsed, routed, validated an eight-field request, ran the action, validated its response, and returned 7,974,608 successful responses across the four JSON, CBOR, and COSE scenarios.</p>
+        <div><span>Amber beta.5 schema contract · Aug 13, 2026</span><strong>19,488 <small>validated JSON req/s median</small></strong></div>
+        <p>The released path parsed, routed, validated an eight-field request, ran the action, validated its response, and returned 7,974,608 successful responses across the four JSON, CBOR, and COSE scenarios.</p>
       </div>
       <p class="benchmark-boundary reveal"><strong>Read both workloads before repeating the numbers.</strong> The 1,000-connection run used idle joined clients, and its sequential stages were noisy rather than a clean scaling curve. Neither result is a promise that every application, database, proxy, or traffic shape will perform the same way.</p>
       <div class="live-channel-proof reveal" data-live-proof data-state="connecting" role="status" aria-live="polite">

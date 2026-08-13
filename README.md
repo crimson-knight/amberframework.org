@@ -1,10 +1,10 @@
 # Amber Framework Website
 
-The Amber Framework website, running on Amber `2.0.0-beta.4` and ECR. The V2
+The Amber Framework website, running on Amber `2.0.0-beta.5` and ECR. The V2
 public-beta experience includes versioned documentation, the project blog, and
 the Amber brand system without a Node or Webpack runtime.
 
-Amber CLI `2.0.5` is the minimum version for the database-backed web starter demonstrated on
+Amber CLI `2.0.6` is the minimum version for the database-backed web starter demonstrated on
 the homepage and in the V2 guides.
 
 ## Local development
@@ -40,7 +40,7 @@ scripts/check_v2_preview.sh
 The production image compiles the site with Crystal 1.21 and runs the generated
 `bin/amberframework` binary. DigitalOcean App Platform deploys `master` through
 the root `Dockerfile`. Release evidence and the final gate status live in
-`design/v2-preview/RELEASE_PROOF_BETA4.md` and
+`design/v2-preview/RELEASE_PROOF_BETA5.md` and
 `design/v2-preview/RELEASE_GATES.md`.
 
 ```sh

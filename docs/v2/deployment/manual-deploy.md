@@ -12,7 +12,7 @@ paths, the service user, and the target name for your application.
 
 ## Build the release artifact
 
-Amber CLI `2.0.5` builds and checks application assets after installing shards
+Amber CLI `2.0.6` builds and checks application assets after installing shards
 and before compiling the binary. These are build-time commands; the running web
 process only reads the finished manifest and files.
 

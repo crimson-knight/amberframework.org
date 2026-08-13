@@ -3,13 +3,15 @@ title: "Amber 2.0 Beta"
 section: ""
 order: 10
 is_section: true
-description: "Install, verify, and evaluate Amber 2.0.0-beta.4"
+description: "Install, verify, and evaluate Amber 2.0.0-beta.5"
 ---
 
 # Amber 2.0 Beta
 
-Amber `2.0.0-beta.4` is available for evaluation. This is a prerelease: expect
-breaking changes and do not treat it as a production-support promise.
+Amber `2.0.0-beta.5` is available for evaluation. The V2 release train remains
+a prerelease, but the web path is deliberately backwards compatible and mostly
+additive. Pin the exact beta, test upgrades, and do not treat it as a formal
+production-support promise.
 
 The release-gated first-run path is a server-rendered ECR web application
 created by the standalone Amber CLI. It includes routing, controllers, typed

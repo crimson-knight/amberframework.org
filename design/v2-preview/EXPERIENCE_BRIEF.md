@@ -78,7 +78,7 @@ structure.
 
 ## Template delivery boundary
 
-Amber CLI `2.0.5` embeds the generated scaffold, so a template fix currently
+Amber CLI `2.0.6` embeds the generated scaffold, so a template fix currently
 requires a CLI patch release. The beta docs must say this plainly and must not
 promise remote template freshness. The signed remote-channel design in
 `TEMPLATE_DELIVERY_STRATEGY.md` remains proposed until its trust, caching,

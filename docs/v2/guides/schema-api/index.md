@@ -8,12 +8,9 @@ description: "Executable request, response, and OpenAPI contracts in Amber V2"
 
 # Request and response schemas
 
-> **Release candidate:** this guide documents the executable schema work under
-> review for the next Amber V2 beta in
-> [amberframework/amber#1408](https://github.com/amberframework/amber/pull/1408).
-> It is not part of the already-tagged `2.0.0-beta.4` release. Keep using the
-> deprecated validator on beta.4, or test the pull-request branch explicitly,
-> until the next beta is published.
+> **Released in `2.0.0-beta.5`:** the framework now enforces these request and
+> response contracts automatically. Amber CLI `2.0.6` generates controllers
+> that use this path by default.
 
 Amber V2 schemas are executable controller contracts. One declaration controls
 request parsing, validation, typed values, response validation, content
@@ -21,7 +18,7 @@ negotiation, and OpenAPI output. A declared controller schema runs automatically
 before the action; it cannot become documentation that the application forgets
 to enforce.
 
-The V1 `params.validation` API remains functional in the release candidate, but
+The V1 `params.validation` API remains functional in `2.0.0-beta.5`, but
 it is deprecated. Amber plans to keep it throughout the initial V2 compatibility
 window and remove it
 no earlier than a later minor release such as 2.5. The exact removal release

@@ -18,7 +18,7 @@ The standalone Amber CLI is independent from this runtime upgrade. Install or
 update it when you want V2 generators; an existing application can change its
 framework shard without being regenerated.
 
-> Amber `2.0.0-beta.4` release-gates the framework core and the new ECR web
+> Amber `2.0.0-beta.5` release-gates the framework core and the new ECR web
 > template with Grant, Micrate, and SQLite. Existing applications do not have
 > to replace a working ORM to adopt the framework beta. Gemma, Asset Pipeline,
 > generated auth/API resources, and native output remain separate previews.
@@ -31,7 +31,7 @@ framework shard without being regenerated.
 dependencies:
   amber:
     github: amberframework/amber
-    version: 2.0.0-beta.4
+    version: 2.0.0-beta.5
 ```
 
 Keep the rest of the application's dependencies unchanged for this first pass.
@@ -129,7 +129,7 @@ multi-process delivery before switching production traffic.
 
 ## 4. Keep an existing persistence migration separate
 
-Amber CLI `2.0.5` installs Grant and SQLite in a newly generated web
+Amber CLI `2.0.6` installs Grant and SQLite in a newly generated web
 application. That default does not require an existing Granite or Jennifer
 application to change ORM during the framework upgrade. Keep its current
 persistence layer for the first pass, then verify compatibility against the
@@ -144,7 +144,7 @@ transactions, migrations, and models is explicit. Review the
 
 ## 5. Preserve working assets before replacing tooling
 
-Released CLI `2.0.5` compiles browser-ready files from `app/assets/` into a
+Released CLI `2.0.6` compiles browser-ready files from `app/assets/` into a
 fingerprinted `public/assets/` manifest without requiring Node.js or a bundler.
 That does not require an existing application to remove a working Webpack
 pipeline during the framework upgrade.

@@ -7,10 +7,8 @@ description: "Field types, constraints, sources, and relationships in Amber V2 s
 
 # Schema basics
 
-> **Release candidate:** the automatically enforced controller contracts on
-> this page are under review for the next V2 beta in
-> [Amber PR #1408](https://github.com/amberframework/amber/pull/1408), not the
-> already-tagged beta.4.
+> **Released in `2.0.0-beta.5`:** controller schema declarations are enforced
+> automatically before the action runs.
 
 Schema classes live under `src/schemas/`. They declare the data an action
 accepts or returns; the controller binds those classes to actions with `schema`

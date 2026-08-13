@@ -35,7 +35,7 @@ directory labeled as generated output.
 ## Supported beta core
 
 - [Build a Pet Tracker](pet-tracker/) — the canonical first app, from routes to HTML, JSON, CSS, and browser-native JavaScript
-- [Web template](web-template/) — exact output of Amber CLI 2.0.5
+- [Web template](web-template/) — exact output of Amber CLI 2.0.6
 - [Asset Pipeline](assets/) — CSS, JavaScript, images, fonts, SRI, and immutable caching
 - [Grant](models/grant/) — the default relational model layer
 - [Migrations](models/grant/migrations/) — authored Micrate SQL and safe release workflow

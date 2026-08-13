@@ -46,9 +46,8 @@ additional application integration. Model, scaffold, and migration generators
 use the Grant, selected database driver, and Micrate tooling included in the
 supported database-backed web template.
 
-The coordinated next-beta generator candidate binds scaffold and API schemas
+Amber CLI `2.0.6` binds scaffold and API schemas
 directly to `create` and `update`, then reads request-local typed values with
 `validated_as`. HTML scaffolds re-render their ECR forms on validation failure;
-API resources use the framework's structured JSON failure. This change depends
-on [Amber PR #1408](https://github.com/amberframework/amber/pull/1408) and is
-not in the already-released CLI 2.0.5 plus framework beta.4 pair.
+API resources use the framework's structured JSON failure. This is the
+released generator path for Amber `2.0.0-beta.5`.

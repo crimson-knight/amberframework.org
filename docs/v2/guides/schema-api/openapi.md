@@ -7,10 +7,8 @@ description: "Generate OpenAPI 3.1 from Amber's enforced controller contracts"
 
 # OpenAPI 3.1
 
-> **Release candidate:** this generator documents the automatically enforced
-> controller contracts under review for the next V2 beta in
-> [Amber PR #1408](https://github.com/amberframework/amber/pull/1408), not the
-> already-tagged beta.4.
+> **Released in `2.0.0-beta.5`:** OpenAPI generation reads the same controller
+> contracts that Amber enforces at runtime.
 
 `Amber::Schema::OpenAPI.generate` builds an OpenAPI 3.1 document from the
 ordinary Amber router and the request and response schemas registered by

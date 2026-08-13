@@ -42,7 +42,7 @@ is the recommended first run; the explicit form is useful in automation.
 
 The generated web app contains:
 
-- `amberframework/amber` pinned to `2.0.0-beta.4`
+- `amberframework/amber` pinned to `2.0.0-beta.5`
 - Grant pinned to the reviewed V2 commit
 - SQLite by default, or the selected PostgreSQL/MySQL driver
 - `config/database.cr` and typed per-environment database URLs

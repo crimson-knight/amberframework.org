@@ -97,7 +97,7 @@ class PetSchema < Amber::Schema::Definition
 end
 ```
 
-The coordinated next-beta CLI candidate binds that schema automatically above
+Amber CLI `2.0.6` binds that schema automatically above
 the generated `create` and `update` actions:
 
 **File: `src/controllers/pet_controller.cr` — generated controller excerpt.**
@@ -121,9 +121,8 @@ end
 Amber validates browser input before the action assigns values to the Grant
 model. The generated HTML failure hook returns status 422 and re-renders
 `src/views/pet/new.ecr` or `src/views/pet/edit.ecr` with `@errors`; it does not
-turn the form into a JSON error. This coordinated generator work depends on
-[Amber PR #1408](https://github.com/amberframework/amber/pull/1408) and is not
-part of the already-released CLI 2.0.5 plus framework beta.4 pair.
+turn the form into a JSON error. This is the released CLI `2.0.6` and framework
+`2.0.0-beta.5` path.
 
 Database constraints remain in the migration; request validation does not
 replace them.

@@ -8,7 +8,7 @@ description: "Model-layer choices and release boundaries for Amber V2 applicatio
 
 # Models in Amber V2
 
-Amber CLI `2.0.5` installs Grant and the selected database driver in the
+Amber CLI `2.0.6` installs Grant and the selected database driver in the
 supported web template. SQLite is the zero-setup default; PostgreSQL and MySQL
 are selected with `amber new APP -d pg` or `-d mysql`.
 

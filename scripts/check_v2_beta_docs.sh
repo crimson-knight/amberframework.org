@@ -23,9 +23,9 @@ fi
 rg -F 'brew install amberframework/amber_cli/amber_cli' docs/v2/getting-started/installation.md
 rg -F 'amber new my_app' docs/v2/index.md
 rg -F 'not release-gated with the V2 web beta' docs/v2/guides/native-preview/index.md
-rg -F '2.0.0-beta.4' docs/v2/cli/new.md
+rg -F '2.0.0-beta.5' docs/v2/cli/new.md
 rg -F 'Amber CLI' docs/v2/cli/index.md
-rg -F '2.0.5' docs/v2/getting-started/installation.md
+rg -F '2.0.6' docs/v2/getting-started/installation.md
 rg -F 'asset_pipeline `0.37.0`' docs/v2/guides/assets/index.md
 rg -F 'amber assets check' docs/v2/getting-started/index.md
 rg -F 'use the latest stable Crystal release' docs/v2/getting-started/installation.md

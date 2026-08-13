@@ -63,12 +63,11 @@ The complete [website and WebSocket evidence](/benchmarks/amber-v2-site-websocke
 includes every throughput trial, response size, resource snapshot, executable
 fingerprint, method, and limitation.
 
-## Executable schema-contract release candidate
+## Executable schema-contract result
 
 On August 13, 2026, we measured the request and response schema implementation
-under review in
-[Amber PR #1408](https://github.com/amberframework/amber/pull/1408). This is
-release-candidate evidence, not a claim about the already-tagged beta.4.
+that shipped in Amber `2.0.0-beta.5`. The benchmark ran the reviewed release
+commit before the public tag was created; the tag points to that same commit.
 
 The target was the exact DigitalOcean `s-1vcpu-512mb-10gb` size: one shared
 vCPU, 512 MB advertised memory, a 10 GB disk, and $4/month at test time. A
@@ -100,7 +99,7 @@ seven 15-second measurements per scenario. After the integrated router,
 request, params, pipeline, and responder work, median throughput changed as
 follows:
 
-| Scenario | Previous round | Release candidate | Change |
+| Scenario | Previous round | Amber 2.0.0-beta.5 | Change |
 |---|---:|---:|---:|
 | Generic JSON | 13,889 req/s | 20,728 req/s | +49.2% |
 | Validated JSON | 12,987 req/s | 19,488 req/s | +50.1% |

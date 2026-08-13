@@ -7,7 +7,7 @@ description: "Create, apply, inspect, roll back, and ship Micrate SQL migrations
 
 # Database Migrations
 
-Amber CLI `2.0.5` ships Micrate inside the `amber` executable. A generated web
+Amber CLI `2.0.6` ships Micrate inside the `amber` executable. A generated web
 application does not need a second migration binary or a Micrate shard entry.
 Migration files belong under `db/migrations/` and database commands run from
 the application root.

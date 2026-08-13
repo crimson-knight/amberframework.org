@@ -8,7 +8,7 @@ description: "Build and serve fingerprinted Amber V2 assets with exact file and 
 
 # Asset Pipeline
 
-> **Supported web path:** Amber `2.0.0-beta.4`, Amber CLI `2.0.5`, and
+> **Supported web path:** Amber `2.0.0-beta.5`, Amber CLI `2.0.6`, and
 > asset_pipeline `0.37.0` are release-gated together. A new CLI web application
 > already contains every file and command shown below.
 
@@ -116,7 +116,7 @@ This command is the build boundary. Run it in development after authored assets
 change and in every release build. It emits the fingerprinted tree and
 `public/assets/manifest.json`; it does not wait for an HTTP request.
 
-Amber CLI `2.0.5` exposes this compiler as `amber assets build` and adds
+Amber CLI `2.0.6` exposes this compiler as `amber assets build` and adds
 `amber assets check` for strict manifest verification. Use those commands in a
 generated app. Keep the wrapper only when migrating an older app that cannot
 yet invoke the new CLI in its build environment.

@@ -8,7 +8,7 @@ description: "Standalone Amber V2 CLI installation and command reference"
 
 # Amber CLI
 
-Amber CLI `2.0.5` is the standalone project generator, development watcher,
+Amber CLI `2.0.6` is the standalone project generator, development watcher,
 generator suite, database tool, and diagnostics LSP for Amber V2.
 
 ```bash
@@ -53,7 +53,7 @@ syntax.
 
 ## Asset commands
 
-Run these from an Amber CLI `2.0.5` application root:
+Run these from an Amber CLI `2.0.6` application root:
 
 ```bash
 amber assets build

@@ -2,7 +2,7 @@
 title: "Installation"
 section: "getting-started"
 order: 10
-description: "Install Amber CLI 2.0.5 on supported macOS, x86-64 Linux, and ARM64 Linux systems"
+description: "Install Amber CLI 2.0.6 on supported macOS, x86-64 Linux, and ARM64 Linux systems"
 ---
 
 # Install Amber V2 Beta
@@ -64,14 +64,14 @@ amber --version
 ```
 
 The formula is `amber_cli`; the installed executable is `amber`. Expect Amber
-CLI `2.0.5` or newer.
+CLI `2.0.6` or newer.
 
 ## Direct archive
 
 Choose `darwin-arm64`, `linux-x86_64`, or `linux-arm64` for the current host.
 
 ```bash
-version=v2.0.5
+version=v2.0.6
 platform=darwin-arm64
 asset="amber_cli-${platform}.tar.gz"
 
@@ -106,7 +106,7 @@ amber watch
 
 Open <http://127.0.0.1:3000/>, then create a record at
 <http://127.0.0.1:3000/pets/new>. The generated `shard.yml` pins Amber
-`2.0.0-beta.4`, includes Grant and only the selected database driver, and does
+`2.0.0-beta.5`, includes Grant and only the selected database driver, and does
 not use a personal Amber fork or a moving framework branch.
 
 From another terminal:
@@ -129,7 +129,7 @@ For an existing Crystal application that only needs the runtime upgrade:
 dependencies:
   amber:
     github: amberframework/amber
-    version: 2.0.0-beta.4
+    version: 2.0.0-beta.5
 
 crystal: ">= 1.20.0, < 2.0"
 ```

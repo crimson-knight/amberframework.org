@@ -2,15 +2,15 @@
 title: "Granite to Grant Migration"
 section: "migration-guide"
 order: 20
-description: "Move an existing Granite model layer to the Grant version pinned by Amber CLI 2.0.5"
+description: "Move an existing Granite model layer to the Grant version pinned by Amber CLI 2.0.6"
 ---
 
 # Migrating from Granite to Grant
 
-Grant is the default model layer in new Amber CLI `2.0.5` web applications.
+Grant is the default model layer in new Amber CLI `2.0.6` web applications.
 That does not make an ORM replacement part of the Amber 1-to-2 framework
 upgrade. First prove that the existing application can run on Amber
-`2.0.0-beta.4` with its current persistence stack. Start this guide only when
+`2.0.0-beta.5` with its current persistence stack. Start this guide only when
 moving to Grant is an explicit second decision.
 
 ## Establish the safety boundary
@@ -32,7 +32,7 @@ before applying anything.
 ## Pin Grant and one driver
 
 **File: `shard.yml` — add the same reviewed Grant source used by a generated
-Amber CLI `2.0.5` application plus the application's database driver.**
+Amber CLI `2.0.6` application plus the application's database driver.**
 
 ```yaml
 dependencies:
@@ -45,7 +45,7 @@ dependencies:
 ```
 
 The example uses PostgreSQL. Use the SQLite or MySQL dependency from a freshly
-generated `2.0.5` app when that is the database being migrated. Do not add all
+generated `2.0.6` app when that is the database being migrated. Do not add all
 three drivers.
 
 ## Register the Grant connection

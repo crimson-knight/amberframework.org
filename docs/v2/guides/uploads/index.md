@@ -8,7 +8,7 @@ description: "File attachment toolkit for Crystal applications"
 
 # File Uploads with Gemma
 
-> **Preview ecosystem guide:** Gemma is not part of the Amber 2.0.0-beta.4
+> **Preview ecosystem guide:** Gemma is not part of the Amber 2.0.0-beta.5
 > core web-app release gate. Its package version, API, and platform support may
 > change independently. Confirm a compatible official release before adding it
 > to an application.

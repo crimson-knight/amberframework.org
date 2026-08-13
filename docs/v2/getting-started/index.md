@@ -29,7 +29,7 @@ Dependencies install automatically. If you used `--no-deps`, run `shards
 install` now.
 
 The generated project uses ECR, typed environment YAML, Grant, SQLite, and
-static routes. Its `shard.yml` pins Amber `2.0.0-beta.4` from
+static routes. Its `shard.yml` pins Amber `2.0.0-beta.5` from
 `amberframework/amber` and the reviewed Grant V2 commit.
 
 ## Prove the clean scaffold works
@@ -89,7 +89,7 @@ AMBER_SERVER_PORT=8080 amber watch
 
 ## Understand the asset boundary
 
-CLI `2.0.5` keeps authored browser files here:
+CLI `2.0.6` keeps authored browser files here:
 
 ```text
 app/assets/

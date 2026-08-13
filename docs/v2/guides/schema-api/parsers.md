@@ -7,10 +7,8 @@ description: "JSON, forms, XML, deterministic CBOR, and encrypted COSE requests"
 
 # Request formats
 
-> **Release candidate:** the bounded CBOR and bidirectional COSE paths on this
-> page are under review for the next V2 beta in
-> [Amber PR #1408](https://github.com/amberframework/amber/pull/1408), not the
-> already-tagged beta.4.
+> **Released in `2.0.0-beta.5`:** bounded CBOR and bidirectional authenticated
+> COSE are available as opt-in request and response formats.
 
 Declare every request representation an action actually accepts. Amber checks
 the incoming `Content-Type` before parsing and returns 415 when the media type
