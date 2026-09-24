@@ -41,7 +41,7 @@ crystal build src/my_app.cr -o bin/my_app
 amber watch
 ```
 
-Open <http://127.0.0.1:3000>, view its source, and follow the fingerprinted
+Open <http://localhost:3000>, view its source, and follow the fingerprinted
 stylesheet URL. This catches a manifest or static-route failure that a
 homepage-only status check would miss.
 
@@ -163,7 +163,7 @@ AMBER_ENV=test amber database migrate
 crystal spec
 ```
 
-Open <http://127.0.0.1:3000/pets/new>. The complete file map and create/update
+Open <http://localhost:3000/pets/new>. The complete file map and create/update
 journey are in [Build a Pet Tracker](../guides/pet-tracker/).
 
 ## Know the beta boundary
@@ -172,3 +172,12 @@ Model, scaffold, and migration generators are part of the supported web path.
 Generated API resources and authentication remain preview, and native
 generation has a separate platform matrix. Read [Beta support](../beta-support/)
 before using those surfaces.
+
+The multi-target template is a separate [Pet Tracker everywhere
+preview](../guides/pet-tracker-everywhere/). Its iOS and Android hosts remain
+Preview, and a macOS Pet Tracker host is Proposed.
+
+## Continue with the supported first app
+
+Follow the [Pet Tracker walkthrough](../guides/pet-tracker/) to build the
+supported web application with Grant, Micrate, ECR, and `respond_with`.

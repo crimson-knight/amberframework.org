@@ -1,3 +1,14 @@
+title: "A Preview of Amber Everywhere on Android"
+file: blog/2026/09/20/amber-everywhere-android-crew.md
+image: blog/amber-everywhere-android-construction.webp
+date: Sep 20, 2026
+author: Amber
+profile: https://github.com/amberframework
+category: Tooling
+character: Amber
+character_image: characters/amber-id-original-studio.webp
+summary: An engineering preview evaluates shared Pet Tracker views on web, Android, and iOS while the released web-first path stays supported.
+---
 title: "Amber V2 Schemas Are Contracts the Framework Actually Enforces"
 file: blog/2026/08/13/amber-v2-executable-schema-contracts.md
 image: characters/amber-hero-original-studio.webp

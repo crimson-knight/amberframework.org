@@ -21,6 +21,12 @@ The generated project uses Amber V2 application patterns without starting an
 HTTP server. Its interface layer is built around Asset Pipeline UI, with
 platform hosts and build scripts for desktop and mobile work.
 
+The supported [Build a Pet Tracker](../pet-tracker/) walkthrough is web-only.
+For the separate shared-view experiment on web, iOS, and Android, see the
+[Pet Tracker everywhere preview](../pet-tracker-everywhere/). Its macOS host
+remains proposed; the generic native template's macOS scaffold is a separate
+preview surface.
+
 ## Platform map
 
 | Target | Generated direction | Preview boundary |
@@ -58,3 +64,8 @@ amber watch
 
 Use native generation when you intend to evaluate the platform work and can
 report exact toolchain results. Do not interpret “generated” as “release-gated.”
+
+Start the shared-view preview with
+[Your first shared view](../pet-tracker-everywhere/first-shared-view/), then use
+[Testing and support](../pet-tracker-everywhere/testing-and-support/) to keep host,
+runtime, package, and device evidence separate.

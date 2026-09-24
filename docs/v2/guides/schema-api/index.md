@@ -65,7 +65,7 @@ must continue accepting and carrying fields that are not yet declared.
 
 ### 2. Bind both contracts to the controller action
 
-**File: `src/controllers/pets_controller.cr` — add the declarations above the
+**File: `src/controllers/pet_controller.cr` — add the declarations above the
 action and the action inside `PetsController`.**
 
 ```crystal
@@ -129,7 +129,7 @@ curl --fail-with-body \
   --header 'Accept: application/json' \
   --header 'X-Request-ID: guide-1' \
   --data '{"name":"Mochi","species":"cat","age":3}' \
-  http://127.0.0.1:3000/pets
+  http://localhost:3000/pets
 ```
 
 ## Automatic contract responses

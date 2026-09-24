@@ -1,6 +1,8 @@
 /doc/
 /lib/
 /.crystal/
+/.crystal-cache/
+/.claude/
 /.shards/
 /.vscode/
 /tmp/

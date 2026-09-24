@@ -2626,6 +2626,35 @@ pre {
   line-height: 1.45;
 }
 
+.docs-mcp-card {
+  display: grid;
+  gap: 4px;
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid var(--amber-300);
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--amber-100), var(--paper));
+  color: var(--amber-700);
+  text-decoration: none;
+}
+
+.docs-mcp-card:hover,
+.docs-mcp-card:focus-visible {
+  border-color: var(--amber-500);
+  box-shadow: 0 8px 24px rgba(89, 54, 20, .09);
+  outline: 0;
+}
+
+.docs-mcp-card > span {
+  font-size: .58rem;
+  font-weight: 850;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.docs-mcp-card strong { font-family: var(--serif); font-size: .88rem; }
+.docs-mcp-card code { color: var(--ink-soft); font-size: .59rem; overflow-wrap: anywhere; }
+
 .sidebar-heading {
   margin: 18px 8px 8px;
   color: var(--ink);
@@ -2730,6 +2759,8 @@ pre {
 .docs-action-button { display: inline-flex; min-height: 38px; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 9px; background: var(--paper); color: var(--ink-soft); font: inherit; font-size: .66rem; font-weight: 760; text-decoration: none; cursor: pointer; }
 .docs-action-button:hover, .docs-action-button:focus-visible { border-color: var(--amber-400); background: var(--amber-100); color: var(--amber-700); outline: 0; }
 .docs-action-button img { width: 18px; height: 18px; object-fit: contain; }
+.docs-action-button-primary { border-color: var(--amber-400); background: var(--amber-100); color: var(--amber-700); }
+.docs-mcp-icon { display: grid; min-width: 27px; height: 22px; place-items: center; border-radius: 5px; background: var(--amber-600); color: white; font-family: var(--mono); font-size: .48rem; font-weight: 900; }
 .docs-markdown-icon { display: grid; width: 22px; height: 22px; place-items: center; border: 1px solid var(--line-strong); border-radius: 5px; color: var(--amber-700); font-family: var(--mono); font-size: .54rem; font-weight: 900; }
 .openai-icon { display: grid; width: 22px; height: 22px; place-items: center; border-radius: 50%; background: #111; }
 .openai-icon img { width: 15px; height: 15px; filter: invert(1); }
@@ -2808,6 +2839,64 @@ pre {
 .docs-content h3 { margin: 2em 0 0.65em; font-size: 1.45rem; }
 .docs-content p, .docs-content ul, .docs-content ol { margin-block: 1em; }
 .docs-content li + li { margin-top: 0.32em; }
+
+.docs-content .pet-tracker-mockup {
+  margin: 1.8rem 0 2.1rem;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--paper);
+  box-shadow: var(--shadow-md);
+}
+
+.docs-content .pet-tracker-mockup img {
+  width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+.docs-content .pet-tracker-mockup figcaption {
+  padding: 12px 16px 14px;
+  border-top: 1px solid var(--line);
+  background: linear-gradient(135deg, var(--amber-50), var(--paper));
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.docs-content .pet-artwork-grid {
+  display: grid;
+  margin: 1.5rem 0 2rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.docs-content .pet-artwork-grid figure {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: linear-gradient(145deg, var(--amber-100), var(--paper));
+}
+
+.docs-content .pet-artwork-grid a { display: block; }
+
+.docs-content .pet-artwork-grid img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.docs-content .pet-artwork-grid figcaption {
+  display: flex;
+  padding: 10px 12px 12px;
+  border-top: 1px solid var(--line);
+  flex-direction: column;
+  line-height: 1.35;
+}
+
+.docs-content .pet-artwork-grid figcaption strong { color: var(--ink); }
+.docs-content .pet-artwork-grid figcaption span { color: var(--muted); font-size: 0.72rem; }
 
 .docs-content :not(pre) > code {
   padding: 0.16em 0.4em;
@@ -3602,6 +3691,7 @@ pre {
   .breadcrumbs { font-size: 0.65rem; }
   .copy-page { font-size: 0.62rem; }
   .docs-content { font-size: 0.9rem; }
+  .docs-content .pet-artwork-grid { grid-template-columns: 1fr; }
   .docs-content pre code, .post-article pre code { padding: 1rem; font-size: 0.74rem; }
   .prev-next-nav { grid-template-columns: 1fr; }
   .version-timeline { overflow-x: auto; }

@@ -34,8 +34,8 @@ directory labeled as generated output.
 
 ## Supported beta core
 
-- [Build a Pet Tracker](pet-tracker/) — the canonical first app, from routes to HTML, JSON, CSS, and browser-native JavaScript
 - [Web template](web-template/) — exact output of Amber CLI 2.0.6
+- [Build a Pet Tracker](pet-tracker/) — supported first application with Grant, ECR, request handling, and both HTML and JSON responses
 - [Asset Pipeline](assets/) — CSS, JavaScript, images, fonts, SRI, and immutable caching
 - [Grant](models/grant/) — the default relational model layer
 - [Migrations](models/grant/migrations/) — authored Micrate SQL and safe release workflow
@@ -46,7 +46,8 @@ directory labeled as generated output.
 
 ## Preview ecosystem material
 
-- [Native application template](native-preview/) — macOS, iOS, and Android preview
+- [Native application template](native-preview/) — macOS, iOS, and Android generator preview; Pet Tracker's macOS host remains proposed
+- [Preview: Pet Tracker everywhere](pet-tracker-everywhere/) — an evaluation of a shared view across web, iOS, and Android; macOS remains proposed
 - [Gemma](uploads/) — separate attachment project
 
 Preview pages describe work that can be evaluated, but they are not part of the
@@ -55,11 +56,12 @@ guarantee; add native and attachment projects deliberately.
 
 ## Use the docs with an assistant
 
-[AI assistants](ai-assistants/) explains how to give ChatGPT, Claude, or Gemini
-the current V2 source set. It also provides a single Markdown knowledge bundle
-and a tested Custom GPT instruction contract. The assistant should cite these
-pages, preserve exact file locations, and name beta boundaries rather than
-silently filling gaps from older Amber versions.
+[Connect the Amber documentation MCP](ai-assistants/mcp/) to let an MCP client
+search and read the current V2 source directly. [AI assistants](ai-assistants/)
+also provides page handoffs, a Markdown knowledge bundle, and a tested Custom
+GPT instruction contract. The assistant should cite these pages, preserve
+exact file locations, and name beta boundaries rather than silently filling
+gaps from older Amber versions.
 
 ## Maintaining a V1 application
 

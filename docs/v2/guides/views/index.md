@@ -16,6 +16,12 @@ convention is deliberately small:
 - the application layout owns the document shell and local assets;
 - `public/` owns files the browser requests directly.
 
+The supported [Build a Pet Tracker](../pet-tracker/) tutorial uses ECR for its
+released web application. The separate [Pet Tracker everywhere
+preview](../pet-tracker-everywhere/) evaluates a shared `UI::Screen` for web,
+iOS, and Android. Its `WebPetController` renders inline HTML; that preview
+template does not generate a Pet ECR view.
+
 ## Negotiate HTML and JSON in one action
 
 Use `respond_with` when one resource has more than one representation. The
@@ -154,3 +160,13 @@ and [Web template](../web-template/) for the exact generated project structure.
 The V2 CLI generator emits ECR only. Slang, Kilt, Mustache, and Temel examples
 on the V1 site remain maintenance references for old applications, not choices
 in the supported V2 web template.
+
+## Choose ECR or a shared view
+
+Use ECR for a browser-specific document, email-like page, or existing server
+route that does not need a native counterpart. Use a shared `UI::Screen` when
+the same screen structure, field identity, validation messages, and semantic
+actions belong in web and native builds. The supported Pet Tracker tutorial
+uses ECR. The separate preview stores its shared screen under
+`src/views/pet/pet_tracker_screen.cr`; its `WebPetController` renders inline
+HTML from `src/platform/web/pet_controller.cr`, with no Pet ECR file.

@@ -78,7 +78,7 @@ By default Amber accepts requests on port 3000. If we point our favorite web bro
 
 If your screen looks like the image above, congratulations!
 
-You now have a working Amber application. If you don’t see the page above, try accessing it via [http://127.0.0.1:3000](http://127.0.0.1:3000).
+You now have a working Amber application. If you don’t see the page above, try accessing it via [http://localhost:3000](http://localhost:3000).
 
 Locally, the application is running in a Crystal process. To stop it, we hit ctrl-c once, just as we would terminate the program normally.
 
@@ -86,6 +86,6 @@ Locally, the application is running in a Crystal process. To stop it, we hit ctr
 The `amber watch` command watches for any changes in your source files, recompiling automatically. If you don't want this, you can compile and run manually:  
 1. Build the app `shards build -v`  
 2. Run with `./[your_app]`  
-3. Visit [http://127.0.0.1:3000](http://127.0.0.1:3000)
+3. Visit [http://localhost:3000](http://localhost:3000)
 {% endhint %}
 

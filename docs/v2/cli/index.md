@@ -51,6 +51,11 @@ amber watch
 Use `amber --help` and `amber COMMAND --help` for the installed version's exact
 syntax.
 
+Amber CLI `2.0.6` supports the web commands above. The proposed native target
+commands and shared-view generator in the [Pet Tracker everywhere
+preview](../guides/pet-tracker-everywhere/) are not in the released CLI. None
+of those preview commands can run with the current release.
+
 ## Asset commands
 
 Run these from an Amber CLI `2.0.6` application root:

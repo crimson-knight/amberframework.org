@@ -8,17 +8,23 @@ description: "Create a documentation-grounded custom GPT and use Amber pages wit
 
 # Amber Docs Assistant
 
-Every V2 documentation page has a plain-Markdown source and one-click handoffs
-for ChatGPT, Claude, and Gemini. For repeat use, you can also create a custom
-GPT whose knowledge is the complete published Amber V2 documentation.
+The fastest reusable connection is Amber's public, read-only documentation MCP:
+
+```text
+https://amberframework.org/mcp
+```
+
+[Connect an MCP client](mcp.md) to search and read the published V2 source on
+demand. Every page also has a plain-Markdown source and one-click handoffs for
+ChatGPT, Claude, and Gemini. You can create a custom GPT whose knowledge is the
+complete published documentation when remote MCP is unavailable.
 
 The assistant is a reading and teaching layer. The documentation remains the
 source of truth, and platform support claims still come from the published beta
 matrix and its linked CI evidence.
 
-For tools that support remote MCP servers, use the live, read-only
-[Amber documentation MCP server](mcp.md). It searches the published V2 source
-without requiring a knowledge-file refresh.
+MCP searches the published V2 source without requiring a knowledge-file
+refresh. The endpoint needs no Amber API key and cannot modify an application.
 
 ## Download the knowledge file
 
@@ -91,9 +97,10 @@ You are the Amber Framework Guide for Amber V2 beta users.
 
 # Build workflow
 When a user wants to learn Amber through an app:
-1. Start with the Build a Pet Tracker guide.
-2. Keep HTML in ECR views, representation choice in controllers, routes in config/routes.cr, styles in app/assets/stylesheets, and browser modules in app/assets/javascript.
-3. End with crystal spec, a native crystal build, and the exact URL or curl request that proves the feature.
+1. Start with the supported web [Build a Pet Tracker](../pet-tracker/) walkthrough.
+2. Keep that example's `PetController` and ECR pages separate from the multi-target [Pet Tracker everywhere preview](../pet-tracker-everywhere/), which uses `PetTrackerScreen` under `src/views/pet/`.
+3. In the preview template, name `WebPetController` in `src/platform/web/pet_controller.cr`; it renders inline HTML. Do not invent a Pet ECR bridge or a `PetNativeController`.
+4. State whether a claim describes the supported web tutorial or preview-only native generation, and cite the matching page and beta boundary.
 
 # Uncertainty
 If the uploaded documentation does not establish an answer, say what is unknown and link the closest canonical page. Do not convert an assumption into beta support language.
@@ -104,8 +111,8 @@ If the uploaded documentation does not establish an answer, say what is unknown 
 **GPT configuration: add these as separate Conversation starters.**
 
 ```text
-Build the Pet Tracker with me, one verified file at a time.
-Show me where HTML, JSON, CSS, and JavaScript belong in an Amber V2 app.
+Build the supported web Pet Tracker with me, one verified file at a time.
+Explain the Pet Tracker everywhere preview and tell me which targets I can use today.
 Check whether a generator or platform is release-gated before I depend on it.
 Explain this Amber error and cite the guide that supports your answer.
 ```
@@ -115,14 +122,17 @@ Explain this Amber error and cite the guide that supports your answer.
 Use the GPT editor's Preview with questions that require retrieval rather than
 general Crystal knowledge:
 
-1. Ask it to start the Pet Tracker. It should name the parent directory for
-   `amber new pet_tracker` and then `src/models/pet.cr`.
-2. Ask for both HTML and JSON from one action. It should use `respond_with` and
-   name `src/controllers/pets_controller.cr`.
-3. Ask whether persistence and native generation are in the clean web compile
-   guarantee. It should say they are preview surfaces.
-4. Ask where CSS and JavaScript go. It should keep them local under `public/`
-   and preserve the generated import map.
+1. Ask it to start the Pet Tracker. It should point to the supported web
+   walkthrough and say that the multi-target generator is preview material.
+2. Ask where the Pet interface lives. It should keep the supported tutorial's
+   ECR files separate from the preview's `PetTrackerScreen` under `src/views/pet/`.
+3. Ask how Save works in the supported tutorial. It should follow the browser
+   POST through `PetController`, `respond_with`, and Grant. Then ask how a web
+   save works in the preview: it should name `WebPetController` and inline
+   HTML, and say the template has no Pet ECR view or `PetNativeController`.
+4. Ask which Pet Tracker targets are supported today. It should say web is
+   supported, iOS and Android are preview, and macOS is proposed, with links to
+   the supported tutorial and preview boundary.
 
 If an answer omits a file location, weakens the beta boundary, or cannot cite a
 canonical page, tighten the instructions before adding capabilities. Web search

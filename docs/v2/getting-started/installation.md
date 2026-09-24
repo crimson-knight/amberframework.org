@@ -104,16 +104,16 @@ crystal build src/amber_beta_smoke.cr -o bin/amber_beta_smoke
 amber watch
 ```
 
-Open <http://127.0.0.1:3000/>, then create a record at
-<http://127.0.0.1:3000/pets/new>. The generated `shard.yml` pins Amber
+Open <http://localhost:3000/>, then create a record at
+<http://localhost:3000/pets/new>. The generated `shard.yml` pins Amber
 `2.0.0-beta.5`, includes Grant and only the selected database driver, and does
 not use a personal Amber fork or a moving framework branch.
 
 From another terminal:
 
 ```bash
-curl --fail http://127.0.0.1:3000/
-curl --fail http://127.0.0.1:3000/pets/new
+curl --fail http://localhost:3000/
+curl --fail http://localhost:3000/pets/new
 ```
 
 View the homepage source and follow its fingerprinted `/assets/...` stylesheet

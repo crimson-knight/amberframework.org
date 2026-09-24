@@ -153,6 +153,47 @@ describe DocsScanner do
       authored_paths.each { |path| published_paths.should contain(path) }
     end
 
+    it "publishes the shared-view journey inside the Pet Tracker section" do
+      pages = DocsScanner.scan_version("v2")
+      paths = pages.map(&.url_path)
+
+      paths.should contain("v2/guides/pet-tracker-everywhere")
+      %w(
+        project-structure
+        first-shared-view
+        forms-and-actions
+        platform-services
+        platform-widgets
+        navigation-and-lifecycle
+        themes-layout-and-accessibility
+        images-and-resources
+        adding-targets
+        testing-and-support
+      ).each do |slug|
+        paths.should contain("v2/guides/pet-tracker-everywhere/#{slug}")
+      end
+      paths.should_not contain("v2/guides/cross-platform")
+    end
+
+    it "keeps the released first-app tutorial separate from the multi-target preview" do
+      supported_page = DocsScanner.find_page("v2", "guides/pet-tracker")
+      supported_page.should_not be_nil
+      if supported_page
+        supported_page.content.should contain("amber new pet_tracker --type web")
+        supported_page.content.should contain("respond_with")
+        supported_page.content.should_not contain("template-manifest")
+      end
+
+      preview_page = DocsScanner.find_page("v2", "guides/pet-tracker-everywhere")
+      preview_page.should_not be_nil
+      if preview_page
+        preview_page.content.should contain("Preview")
+        preview_page.content.should contain("amber_cli")
+        preview_page.content.should contain("2.0.0-beta.2+ab90eae910a4")
+        preview_page.content.should contain("asset_pipeline")
+      end
+    end
+
     it "does not carry known V1-only toolchain instructions into V2" do
       own_paths = DocsScanner.scan_version_only("v2").map(&.relative_path).to_set
       stale_pattern = /\b(granite|jennifer|webpack|node\.js|npm|yarn|amber encrypt|amber routes|amber exec|amber database|redis|slang|kilt|heroku|dokku|digitalocean|digital ocean)\b/i
@@ -164,18 +205,18 @@ describe DocsScanner do
 
     it "scans the complete resolved V2 corpus for retired asset and client APIs" do
       stale_patterns = {
-        /amber\.min\.js/i                          => "the retired bundled Amber JavaScript client",
-        %r{lib/amber/assets/js}i                   => "the retired framework asset directory",
-        %r{/public/amber(?:\.min)?\.js}i           => "the retired public Amber client URL",
-        %r{config/initializers/assets\.cr}i        => "the unloaded V1 asset initializer path",
-        /AssetPipeline::FrontLoader/               => "the request-time FrontLoader API",
-        /\bFRONT_LOADER\b/                         => "the request-time FrontLoader constant",
-        /clear_cache_upon_change/                  => "the obsolete runtime cache switch",
-        /render_stimulus_initialization_script/    => "the obsolete generated Stimulus bootstrap",
-        %r{public/javascript/}                     => "the obsolete runtime-generated JavaScript directory",
-        /AMBER_DATABASE_URL/                       => "the legacy database environment variable in V2 guidance",
-        %r{(?:app\.css|app\.js)\?v=}              => "a manually versioned starter asset",
-        /served directly\s*-\s*no build step/i     => "the obsolete no-build production claim",
+        /amber\.min\.js/i                       => "the retired bundled Amber JavaScript client",
+        %r{lib/amber/assets/js}i                => "the retired framework asset directory",
+        %r{/public/amber(?:\.min)?\.js}i        => "the retired public Amber client URL",
+        %r{config/initializers/assets\.cr}i     => "the unloaded V1 asset initializer path",
+        /AssetPipeline::FrontLoader/            => "the request-time FrontLoader API",
+        /\bFRONT_LOADER\b/                      => "the request-time FrontLoader constant",
+        /clear_cache_upon_change/               => "the obsolete runtime cache switch",
+        /render_stimulus_initialization_script/ => "the obsolete generated Stimulus bootstrap",
+        %r{public/javascript/}                  => "the obsolete runtime-generated JavaScript directory",
+        /AMBER_DATABASE_URL/                    => "the legacy database environment variable in V2 guidance",
+        %r{(?:app\.css|app\.js)\?v=}            => "a manually versioned starter asset",
+        /served directly\s*-\s*no build step/i  => "the obsolete no-build production claim",
       }
 
       DocsScanner.scan_version("v2").each do |page|
@@ -244,6 +285,36 @@ describe DocsScanner do
           "v2/cli/watch",
         ])
       end
+    end
+
+    it "v2 nav tree nests the shared-view preview pages in reading order" do
+      pending = DocsScanner.build_nav_tree_for_version("v2").dup
+      section : NavItem? = nil
+
+      until pending.empty?
+        item = pending.shift
+        section = item if item.path == "v2/guides/pet-tracker-everywhere"
+        pending.concat(item.children)
+      end
+
+      section.should_not be_nil
+      section.try(&.children.map(&.path)).should eq([
+        "v2/guides/pet-tracker-everywhere/project-structure",
+        "v2/guides/pet-tracker-everywhere/first-shared-view",
+        "v2/guides/pet-tracker-everywhere/forms-and-actions",
+        "v2/guides/pet-tracker-everywhere/platform-services",
+        "v2/guides/pet-tracker-everywhere/platform-widgets",
+        "v2/guides/pet-tracker-everywhere/navigation-and-lifecycle",
+        "v2/guides/pet-tracker-everywhere/themes-layout-and-accessibility",
+        "v2/guides/pet-tracker-everywhere/images-and-resources",
+        "v2/guides/pet-tracker-everywhere/adding-targets",
+        "v2/guides/pet-tracker-everywhere/testing-and-support",
+      ])
+    end
+
+    it "promotes the documentation MCP in desktop and mobile docs navigation" do
+      File.read("src/views/docs/show.ecr").should contain("Connect docs MCP")
+      File.read("src/views/docs/_sidebar.ecr").should contain("Connect Amber Docs MCP")
     end
 
     it "labels reviewed pages and leaves unchanged inherited pages unbadged" do

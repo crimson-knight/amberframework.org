@@ -63,6 +63,12 @@ native-app generation have useful code and documentation, but they are not part
 of the beta web-app release gate. Preview pages are labeled so new users do not
 mistake them for the supported path.
 
+The [Pet Tracker](guides/pet-tracker/) guide is the supported first web
+application, built with Grant, Micrate, ECR, and the released CLI. A separate
+[Pet Tracker everywhere preview](guides/pet-tracker-everywhere/) evaluates
+shared views on web, iOS, and Android. The native targets remain preview work,
+and a Pet Tracker macOS host is still proposed.
+
 See [Beta support](beta-support/) for the exact platform and generator matrix.
 
 ## Migrating

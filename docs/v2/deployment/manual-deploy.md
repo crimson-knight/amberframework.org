@@ -93,12 +93,12 @@ WantedBy=multi-user.target
 
 The environment file should be readable only by the service administrator and
 service account. Terminate TLS in a reverse proxy or managed ingress and proxy
-to `127.0.0.1:3000` when the proxy runs on the same host.
+to `localhost:3000` when the proxy runs on the same host.
 
 ## Verify before shifting traffic
 
 ```bash
-curl --fail --show-error http://127.0.0.1:3000/
+curl --fail --show-error http://localhost:3000/
 ```
 
 Confirm the expected page, logs, restart behavior, and any persistence or file

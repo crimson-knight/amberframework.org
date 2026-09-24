@@ -21,7 +21,7 @@ amber database migrate
 amber watch
 ```
 
-Open <http://127.0.0.1:3000/pets/new>. No database server is required: SQLite
+Open <http://localhost:3000/pets/new>. No database server is required: SQLite
 stores the development database under `db/`. Pass `-d pg` or `-d mysql` to
 `amber new` when the application should use a server database instead.
 

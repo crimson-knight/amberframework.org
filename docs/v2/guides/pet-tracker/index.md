@@ -20,6 +20,10 @@ path as the release test:
 - local CSS and browser-native JavaScript;
 - request specs and a compiled application binary.
 
+> **Supported web path:** This walkthrough uses Amber `2.0.0-beta.5` and
+> `amber_cli` `2.0.6`. The separate multi-target template is a [preview](../pet-tracker-everywhere/);
+> you do not need it to build this supported application.
+
 ## 1. Generate the application
 
 **Run from: the parent directory where `pet_tracker/` should be created.**
@@ -373,13 +377,13 @@ crystal build src/pet_tracker.cr -o bin/pet_tracker
 amber watch
 ```
 
-Open <http://127.0.0.1:3000/pets/new>, create a Pet, open its detail page, edit
+Open <http://localhost:3000/pets/new>, create a Pet, open its detail page, edit
 it, and return to the filtered index. Then request the second representation:
 
 **Run from: another terminal while `amber watch` is running.**
 
 ```bash
-curl -H 'Accept: application/json' http://127.0.0.1:3000/pets
+curl -H 'Accept: application/json' http://localhost:3000/pets
 ```
 
 Amber CLI's candidate release test automates this same database path: generate the Pet

@@ -4,6 +4,7 @@ set -euo pipefail
 files=(
   blog/2026/07/31/amber-2-beta-2.md
   blog/2026/08/10/amber-v2-public-beta.md
+  blog/2026/09/20/amber-everywhere-android-crew.md
 )
 
 while IFS= read -r file; do
@@ -27,6 +28,15 @@ rg -F '2.0.0-beta.5' docs/v2/cli/new.md
 rg -F 'Amber CLI' docs/v2/cli/index.md
 rg -F '2.0.6' docs/v2/getting-started/installation.md
 rg -F 'asset_pipeline `0.37.0`' docs/v2/guides/assets/index.md
+rg -F 'amber new pet_tracker --type web' docs/v2/guides/pet-tracker/index.md
+rg -F 'Hey, Amber here.' docs/v2/guides/pet-tracker-everywhere/index.md
+rg -F 'design/SITE_CONTENT_STANDARDS.md' AGENTS.md
+rg -F 'amber-chibi-hero-mark-v2.webp' design/SITE_CONTENT_STANDARDS.md
+rg -F '## Use one color schema' docs/v2/guides/pet-tracker-everywhere/images-and-resources.md
+rg -F 'mochi-cat.webp' docs/v2/guides/pet-tracker-everywhere/images-and-resources.md
+rg -F 'The evidence below was refreshed on **September 20, 2026**' docs/v2/guides/pet-tracker-everywhere/testing-and-support.md
+rg -F 'A future `--targets web,macos,ios,android` command is not part of CLI' docs/v2/cli/new.md
+rg -F 'Connect Amber Docs MCP' src/views/docs/_sidebar.ecr
 rg -F 'amber assets check' docs/v2/getting-started/index.md
 rg -F 'use the latest stable Crystal release' docs/v2/getting-started/installation.md
 rg -F '| ARM64 Linux | Verified on GitHub-hosted ARM64 Linux | `linux-arm64` archive | Yes |' docs/v2/beta-support.md
@@ -43,6 +53,7 @@ if rg -n '^```ruby$' docs; then
 fi
 
 rg -F 'Build a Pet Tracker' docs/v2/guides/pet-tracker/index.md
+rg -F 'Preview: Pet Tracker everywhere' docs/v2/guides/pet-tracker-everywhere/index.md
 rg -F 'Download the Amber V2 documentation knowledge bundle' docs/v2/guides/ai-assistants/index.md
 
 if rg -q '^- cli/(index|new|generate|watch)\.md$' docs/v2/_deleted.yml; then
@@ -54,6 +65,6 @@ fi
 # the source of truth for the complete resolved corpus, including pages that do
 # not physically live under docs/v2.
 CRYSTAL_CACHE_DIR="${CRYSTAL_CACHE_DIR:-/tmp/amberframework_site_crystal_cache}" \
-  crystal spec spec/services/docs_scanner_spec.cr
+  crystal-alpha spec spec/services/docs_scanner_spec.cr
 
 echo "Amber V2 beta onboarding documentation checks passed"

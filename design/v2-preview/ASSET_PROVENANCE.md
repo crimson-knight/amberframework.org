@@ -4,9 +4,7 @@ Status: **APPROVED FOR PUBLIC BETA**
 
 ## Character references
 
-The owner-provided visual references live outside the repository in:
-
-`/Users/crimsonknight/Documents/remote_sync_vault/amber_framework_brand_ideas`
+The owner-provided visual references remain outside this repository.
 
 The owner references establish the canonical studio: playful, low-key character
 acting with compact rounded faces, visible cheek blush, open smiles, simplified
@@ -99,9 +97,8 @@ correction uses versioned filenames rather than overwriting them.
 | `gemma-id-original-studio.webp` | `exec-aeff5a84-d2db-47ae-8639-45c27868f558.png` |
 | `amber-chibi-original-studio.webp` | `exec-b9e4843e-6d5c-4388-90a0-4a9d543348d4.png` |
 
-The generation source directory, including the inviting hero edit, is:
-
-`/Users/crimsonknight/.codex/generated_images/019fb8fe-b340-7f60-8fe6-b412352a3660/`
+The generation source files, including the inviting hero edit, remain in the
+private design workspace and are not part of this website repository.
 
 The original five prompts shared the canonical-studio constraints above and explicitly
 excluded glossy, sultry, stern, executive, tactical, and fashion-editorial
@@ -118,9 +115,8 @@ beckoning version.
 `public/assets/characters/amber-chibi-hero-mark-v2.webp` is the active primary
 character mark. Codex built-in image generation used
 `amber-chibi-original-studio.webp` and `amber-id-original-studio.webp` as the
-style and identity references. The generated source is:
-
-`/Users/crimsonknight/.codex/generated_images/019fb8fe-b340-7f60-8fe6-b412352a3660/exec-dc9b6888-9017-4000-84fe-f18cee888396.png`
+style and identity references. The generated source PNG remains in the private
+design workspace and is not part of this website repository.
 
 The prompt requested one full-body, playful original-studio Amber with large
 amber eyes, visible blush, a warm smile, her cream technical jacket, feet at
