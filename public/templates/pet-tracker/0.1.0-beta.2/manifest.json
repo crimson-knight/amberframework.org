@@ -1,0 +1,485 @@
+{
+  "amber_version": "2.0.0-beta.2+ab90eae910a4",
+  "archive_sha256": "20cbd90e6e9e619ba49a98e70ec818488d44d580a64f0c97b5d1d99a2b47b8bc",
+  "archive_size": 1044303,
+  "archive_url": "pet-tracker-0.1.0-beta.2.zip",
+  "files": [
+    {
+      "executable": false,
+      "path": "README.md",
+      "replace": true,
+      "scopes": [
+        "new"
+      ],
+      "sha256": "1137fcab71b584a28c38bf06ea38da446b69ee1d5b00b7fbb0558cd72c42db75",
+      "size": 847,
+      "targets": [],
+      "templated": true
+    },
+    {
+      "executable": false,
+      "path": "app/assets/images/pets/mochi-cat.webp",
+      "replace": false,
+      "scopes": [
+        "new"
+      ],
+      "sha256": "8cad23e7372629336ebdae208ff4574fab16e6a7a7f6938c12421bbd77ee20c0",
+      "size": 170996,
+      "targets": [],
+      "templated": false
+    },
+    {
+      "executable": false,
+      "path": "app/assets/images/pets/paw-mark.webp",
+      "replace": false,
+      "scopes": [
+        "new"
+      ],
+      "sha256": "1a58257d2bc514bce849a8b75bbd8dcf1a2fd33d174a17b1374ef6cfd85dcf85",
+      "size": 12908,
+      "targets": [],
+      "templated": false
+    },
+    {
+      "executable": false,
+      "path": "app/assets/images/pets/pip-rabbit.webp",
+      "replace": false,
+      "scopes": [
+        "new"
+      ],
+      "sha256": "b785d65a90c0319564b59956f51cac9e8ef94de05e528163bc2d4166bd62f1f9",
+      "size": 167614,
+      "targets": [],
+      "templated": false
+    },
+    {
+      "executable": false,
+      "path": "app/assets/images/pets/rocky-dog.webp",
+      "replace": false,
+      "scopes": [
+        "new"
+      ],
+      "sha256": "5ad177f936dfdb4434f816b22a55d192df196b99def8a1c2042ee7fb69623fc2",
+      "size": 161136,
+      "targets": [],
+      "templated": false
+    },
+    {
+      "executable": false,
+      "path": "app/assets/stylesheets/pet-tracker.css",
+      "replace": false,
+      "scopes": [
+        "new"
+      ],
+      "sha256": "1f32a7ec3bd930b9d5718df85c9b56b9c63b74709f679ec4909a90e084cab36e",
+      "size": 15219,
+      "targets": [
+        "web"
+      ],
+      "templated": false
+    },
+    {
+      "executable": false,
+      "path": "config/android_assets.yml",
+      "replace": true,
+      "scopes": [
+        "new",
+        "add"
+      ],
+      "sha256": "934acf5c2d8d0cb37392cf63638aa94728de57a22335da7cd18e8d960d50b2f2",
+      "size": 402,
+      "targets": [
+        "android"
+      ],
+      "templated": false
+    },
+    {
+      "executable": true,
+      "path": "mobile/android/android.sh",
+      "replace": true,
+      "scopes": [
+        "new",
+        "add"
+      ],
+      "sha256": "6ce97a0bc1e252378de20a3e1e9867132ee01f1379add51388d0709f638f1b27",
+      "size": 13388,
+      "targets": [
+        "android"
+      ],
+      "templated": false
+    },
+    {
+      "executable": false,
+      "path": "mobile/android/app/src/androidTest/java/dev/amber/generated/NativeApplicationTest.kt",
+      "replace": true,
+      "scopes": [
+        "new",
+        "add"
+      ],
+      "sha256": "5a2316822b4013e4eaef02968710f91e18e24e7401a138c78670581b247b2610",
+      "size": 2262,
+      "targets": [
+        "android"
+      ],
+      "templated": false
+    },
+    {
+      "executable": false,
+      "path": "mobile/android/app/src/androidTest/java/dev/amber/generated/NativeRestorationTest.kt",
+      "replace": true,
+      "scopes": [
+        "new",
+        "add"
+      ],
+      "sha256": "a2b11e56b71a3bdfa9985dc5106aaa5e0d736b517548a92c813beb02a725a58c",
+      "size": 1395,
+      "targets": [
+        "android"
+      ],
+      "templated": false
+    },
+    {
+      "executable": false,
+      "path": "public/assets/pet-tracker.css",
+      "replace": false,
+      "scopes": [
+        "new"
+      ],
+      "sha256": "1f32a7ec3bd930b9d5718df85c9b56b9c63b74709f679ec4909a90e084cab36e",
+      "size": 15219,
+      "targets": [
+        "web"
+      ],
+      "templated": false
+    },
+    {
+      "executable": false,
+      "path": "public/assets/pets/mochi-cat.webp",
+      "replace": false,
+      "scopes": [
+        "new"
+      ],
+      "sha256": "8cad23e7372629336ebdae208ff4574fab16e6a7a7f6938c12421bbd77ee20c0",
+      "size": 170996,
+      "targets": [
+        "web"
+      ],
+      "templated": false
+    },
+    {
+      "executable": false,
+      "path": "public/assets/pets/paw-mark.webp",
+      "replace": false,
+      "scopes": [
+        "new"
+      ],
+      "sha256": "1a58257d2bc514bce849a8b75bbd8dcf1a2fd33d174a17b1374ef6cfd85dcf85",
+      "size": 12908,
+      "targets": [
+        "web"
+      ],
+      "templated": false
+    },
+    {
+      "executable": false,
+      "path": "public/assets/pets/pip-rabbit.webp",
+      "replace": false,
+      "scopes": [
+        "new"
+      ],
+      "sha256": "b785d65a90c0319564b59956f51cac9e8ef94de05e528163bc2d4166bd62f1f9",
+      "size": 167614,
+      "targets": [
+        "web"
+      ],
+      "templated": false
+    },
+    {
+      "executable": false,
+      "path": "public/assets/pets/rocky-dog.webp",
+      "replace": false,
+      "scopes": [
+        "new"
+      ],
+      "sha256": "5ad177f936dfdb4434f816b22a55d192df196b99def8a1c2042ee7fb69623fc2",
+      "size": 161136,
+      "targets": [
+        "web"
+      ],
+      "templated": false
+    },
+    {
+      "executable": false,
+      "path": "shard.yml",
+      "replace": true,
+      "scopes": [
+        "new"
+      ],
+      "sha256": "cc2f09ded61f145d11e02628a5dfbd0eb9d014c1bbb990d83edbc4ab3a35aa65",
+      "size": 501,
+      "targets": [
+        "web"
+      ],
+      "templated": true
+    },
+    {
+      "executable": false,
+      "path": "spec/counter_spec.cr",
+      "replace": true,
+      "scopes": [
+        "new"
+      ],
+      "sha256": "375b6c7c41efc5dc5849114fbca9d587b10f0640daf867b994f80e39196d0809",
+      "size": 615,
+      "targets": [],
+      "templated": false
+    },
+    {
+      "executable": false,
+      "path": "src/app/pets/pet_store.cr",
+      "replace": false,
+      "scopes": [
+        "new"
+      ],
+      "sha256": "0e85bdab8f85d8201710b226efacd7bdab85b0dd91dfe1e0ae831f2bccb9e5d4",
+      "size": 2142,
+      "targets": [],
+      "templated": false
+    },
+    {
+      "executable": false,
+      "path": "src/platform/android/app.cr",
+      "replace": true,
+      "scopes": [
+        "new",
+        "add"
+      ],
+      "sha256": "75babe4573a5c6f658a386210822408aa9fc7c7f0508cac5bcb56c8e63b66936",
+      "size": 2883,
+      "targets": [
+        "android"
+      ],
+      "templated": false
+    },
+    {
+      "executable": false,
+      "path": "src/platform/web/pet_controller.cr",
+      "replace": false,
+      "scopes": [
+        "new"
+      ],
+      "sha256": "3bf28f594163439ea5ef32437fb3813b5133d94e05913c395df3e40667bcbe8e",
+      "size": 2597,
+      "targets": [
+        "web"
+      ],
+      "templated": true
+    },
+    {
+      "executable": false,
+      "path": "src/views/pet/pet_tracker_screen.cr",
+      "replace": false,
+      "scopes": [
+        "new"
+      ],
+      "sha256": "da4a18dce0fefedae6b4d50632d32d25ae6e5aa2e42d2f6d922631617f1d6c27",
+      "size": 13441,
+      "targets": [],
+      "templated": false
+    },
+    {
+      "executable": false,
+      "path": "src/{{app_name}}_web.cr",
+      "replace": true,
+      "scopes": [
+        "new"
+      ],
+      "sha256": "cb1be4f54998c606539ea6270676815cf64f8c790537d500dc76f77a3dc8e287",
+      "size": 807,
+      "targets": [
+        "web"
+      ],
+      "templated": true
+    }
+  ],
+  "id": "pet-tracker",
+  "maximum_cli_major": 2,
+  "minimum_cli_major": 2,
+  "remove": [
+    {
+      "path": "config/application.cr",
+      "scopes": [
+        "new"
+      ],
+      "targets": [
+        "web"
+      ]
+    },
+    {
+      "path": "config/environments/development.yml",
+      "scopes": [
+        "new"
+      ],
+      "targets": [
+        "web"
+      ]
+    },
+    {
+      "path": "config/environments/production.yml",
+      "scopes": [
+        "new"
+      ],
+      "targets": [
+        "web"
+      ]
+    },
+    {
+      "path": "config/environments/test.yml",
+      "scopes": [
+        "new"
+      ],
+      "targets": [
+        "web"
+      ]
+    },
+    {
+      "path": "config/routes.cr",
+      "scopes": [
+        "new"
+      ],
+      "targets": [
+        "web"
+      ]
+    },
+    {
+      "path": "db/seeds.cr",
+      "scopes": [
+        "new"
+      ],
+      "targets": [
+        "web"
+      ]
+    },
+    {
+      "path": "public/css/app.css",
+      "scopes": [
+        "new"
+      ],
+      "targets": [
+        "web"
+      ]
+    },
+    {
+      "path": "public/favicon.ico",
+      "scopes": [
+        "new"
+      ],
+      "targets": [
+        "web"
+      ]
+    },
+    {
+      "path": "public/js/app.js",
+      "scopes": [
+        "new"
+      ],
+      "targets": [
+        "web"
+      ]
+    },
+    {
+      "path": "public/robots.txt",
+      "scopes": [
+        "new"
+      ],
+      "targets": [
+        "web"
+      ]
+    },
+    {
+      "path": "spec/controllers/home_controller_spec.cr",
+      "scopes": [
+        "new"
+      ],
+      "targets": [
+        "web"
+      ]
+    },
+    {
+      "path": "spec/spec_helper.cr",
+      "scopes": [
+        "new"
+      ],
+      "targets": [
+        "web"
+      ]
+    },
+    {
+      "path": "src/app/counter.cr",
+      "scopes": [
+        "new"
+      ],
+      "targets": []
+    },
+    {
+      "path": "src/controllers/application_controller.cr",
+      "scopes": [
+        "new"
+      ],
+      "targets": [
+        "web"
+      ]
+    },
+    {
+      "path": "src/controllers/home_controller.cr",
+      "scopes": [
+        "new"
+      ],
+      "targets": [
+        "web"
+      ]
+    },
+    {
+      "path": "src/platform/web/counter_controller.cr",
+      "scopes": [
+        "new"
+      ],
+      "targets": [
+        "web"
+      ]
+    },
+    {
+      "path": "src/views/home/index.ecr",
+      "scopes": [
+        "new"
+      ],
+      "targets": [
+        "web"
+      ]
+    },
+    {
+      "path": "src/views/layouts/application.ecr",
+      "scopes": [
+        "new"
+      ],
+      "targets": [
+        "web"
+      ]
+    },
+    {
+      "path": "src/{{app_name}}.cr",
+      "scopes": [
+        "new"
+      ],
+      "targets": [
+        "web"
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "targets": [
+    "web",
+    "android"
+  ],
+  "version": "0.1.0-beta.2"
+}
