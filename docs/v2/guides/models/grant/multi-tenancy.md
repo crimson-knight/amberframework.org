@@ -8,14 +8,14 @@ description: "Row-level and PostgreSQL schema-per-tenant multi-tenancy in Grant,
 # Multi-tenancy
 
 > **Grant version:** The APIs on this page need Grant at commit
-> `c6b5e72c1e2663fe6b5cb6794a5beddd0c34f7a3` or later. Amber CLI `2.0.6` pins
+> `039b29468e3a1b853d9e16ba9d0738c12ea1ee23` or later. Amber CLI `2.0.6` pins
 > an earlier commit, so update the `grant` entry in `shard.yml` and run
 > `shards update grant`:
 >
 > ```yaml
 > grant:
 >   github: crimson-knight/grant
->   commit: c6b5e72c1e2663fe6b5cb6794a5beddd0c34f7a3
+>   commit: 039b29468e3a1b853d9e16ba9d0738c12ea1ee23
 > ```
 
 Grant supports two kinds of multi-tenancy. Pick the one that matches how your
@@ -60,7 +60,9 @@ end
 Wrap each unit of work in the current tenant:
 
 ```crystal
-Grant::Tenant.with(current_account.id) do
+tenant_id = 42_i64 # Use the non-nil ID from the trusted account lookup.
+
+Grant::Tenant.with(tenant_id) do
   Invoice.where(number: "INV-100").first # WHERE tenant_id = ? AND number = ?
   Invoice.count                          # counts this tenant's rows only
   Invoice.create!(number: "INV-101")     # tenant_id is filled in for you
@@ -102,8 +104,32 @@ Schema tenancy keeps each tenant in its own PostgreSQL schema, exactly like the
 `apartment` gem. Use it when you are migrating an Apartment app and do not want
 to restructure its data first.
 
-Tenant-owned models need no extra declaration. Models whose tables live in
-`public` for every tenant, such as users or plans, are marked excluded:
+Tenant-owned models need no extra declaration. Use separate model classes for
+row tenancy and schema tenancy: the row-scoped `Invoice` model above still
+requires a row tenant, while `TenantInvoice` belongs to the schema. Models
+whose tables live in `public` for every tenant, such as users or plans, are
+marked excluded:
+
+**File: `src/models/tenant_invoice.cr` and `src/models/payment.cr` — create
+these tenant-owned model classes.**
+
+```crystal
+class TenantInvoice < Grant::Base
+  connection primary
+  table tenant_invoices
+
+  column id : Int64, primary: true
+  column number : String
+end
+
+class Payment < Grant::Base
+  connection primary
+  table payments
+
+  column id : Int64, primary: true
+  column amount_cents : Int64
+end
+```
 
 **File: `src/models/plan.cr` — create this model class.**
 
@@ -124,8 +150,8 @@ with `public` second in the search path:
 
 ```crystal
 Grant::SchemaTenant.with("acme") do
-  Invoice.create!(number: "INV-100") # acme.invoices
-  Plan.where(code: "pro").first      # public.plans
+  TenantInvoice.create!(number: "INV-100") # acme.tenant_invoices
+  Plan.where(code: "pro").first             # public.plans
 end
 ```
 
@@ -146,62 +172,28 @@ blocks at the same time: each active block holds one connection.
 ### Tenant lifecycle
 
 ```crystal
-Grant::SchemaTenant.create_schema("acme")
-Grant::SchemaTenant.create_tables("acme", Invoice, Payment)
-Grant::SchemaTenant.list_schemas             # => ["acme", ...]
-Grant::SchemaTenant.drop_schema("acme", cascade: true)
+tenant_schema = "acme_demo"
+Grant::SchemaTenant.create_schema(tenant_schema)
+Grant::SchemaTenant.create_tables(tenant_schema, TenantInvoice, Payment)
+puts Grant::SchemaTenant.list_schemas.inspect
+Grant::SchemaTenant.drop_schema(tenant_schema, cascade: true)
 ```
 
 Create the tables for excluded models once, in `public`, with their migrator.
+The final call permanently deletes the named schema and its objects, so use a
+disposable schema when exercising it.
 
 ## Selecting the tenant per request
 
-Both modes use the same shape of Amber pipe: work out the tenant, then wrap the
-rest of the request in a tenant block. This example resolves the tenant from
-the subdomain, like Apartment's `Subdomain` elevator.
+Both modes use the same shape of Amber request pipe: look up the tenant from a
+trusted account record, then wrap `call_next(context)` in the corresponding
+tenant block. This matches Apartment's `Subdomain` elevator. Always look the
+subdomain up in your own table before entering a tenant, rather than trusting
+the hostname. Add the pipe to the pipeline that serves tenant routes.
 
-**File: `src/pipes/tenant_pipe.cr` — create this pipe.**
-
-```crystal
-class TenantPipe
-  include HTTP::Handler
-
-  def call(context : HTTP::Server::Context)
-    host = context.request.headers["Host"]?.try(&.split(':', 2).first)
-    subdomain = host.try { |value| value.split('.').first if value.count('.') >= 2 }
-
-    unless subdomain && (account = Account.find_by(subdomain: subdomain))
-      context.response.respond_with_status(:not_found)
-      return
-    end
-
-    # Row tenancy:
-    Grant::Tenant.with(account.id) { call_next(context) }
-
-    # Schema tenancy instead:
-    # Grant::SchemaTenant.with(account.schema_name) { call_next(context) }
-  end
-end
-```
-
-`Account` here is a global model: in schema tenancy it is marked
+`Account` is a global model: in schema tenancy it is marked
 `schema_tenant_excluded`, and in row tenancy it has no `multitenant`
-declaration. Always look the subdomain up in your own table before entering a
-tenant, rather than trusting the hostname.
-
-**File: `config/routes.cr` — add the pipe to the pipelines that serve tenant
-routes.**
-
-```crystal
-pipeline :web do
-  plug Amber::Pipe::Error.new
-  plug Amber::Pipe::Logger.new
-  plug Amber::Pipe::Session.new
-  plug Amber::Pipe::Flash.new
-  plug TenantPipe.new
-  plug Amber::Pipe::CSRF.new
-end
-```
+declaration.
 
 Background jobs run outside the request, so wrap each job's work in the same
 block with the tenant it was enqueued for. A fiber you `spawn` inside a tenant
@@ -214,7 +206,7 @@ block does **not** inherit the tenant; open a new block inside it.
 | `Apartment::Tenant.switch("acme") { ... }` | `Grant::SchemaTenant.with("acme") { ... }` |
 | `Apartment::Tenant.switch!("acme")` | Use a block. Grant always scopes a tenant to a bounded unit of work. |
 | `Apartment::Tenant.current` | `Grant::SchemaTenant.current_schema` |
-| `Apartment::Elevators::Subdomain` | The `TenantPipe` above |
+| `Apartment::Elevators::Subdomain` | An Amber request pipe that resolves the account, then wraps `call_next(context)` in `SchemaTenant.with` |
 | `config.excluded_models = ["User"]` | `schema_tenant_excluded` on each global model |
 | `Apartment::Tenant.create("acme")` | `create_schema("acme")`, then `create_tables("acme", ...)` |
 | `Apartment::Tenant.drop("acme")` | `drop_schema("acme", cascade: true)` |
@@ -240,6 +232,7 @@ move to UUID keys, and remap foreign keys with it. The Grant repository's
   `Grant::Querying::ScopedRawSqlError` unless you call them inside
   `Model.unscoped { ... }`; filter by tenant yourself with a bound parameter.
   `Model.connection` and `Grant.connection` (`exec_query`, `select_all`,
-  `select_value`, and so on) are always raw and never scoped.
+  `select_value`, and so on) are always raw and never scoped. See the
+  [Raw SQL guide](raw-sql/) for binding, results, and routing details.
 - In schema tenancy, raw SQL runs on the pinned connection, so unqualified
   tables resolve to the tenant's schema. Qualify global tables with `public.`.

@@ -364,3 +364,6 @@ posts.each { |post| puts post.author.name }
 posts = Post.includes(:author)
 posts.each { |post| puts post.author.name }
 ```
+
+For database-specific statements or results that do not hydrate as models, see
+the [Raw SQL guide](raw-sql/). It covers bound values, result rows, and routing.
