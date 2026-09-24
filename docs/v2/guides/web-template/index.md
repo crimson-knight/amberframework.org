@@ -139,7 +139,7 @@ without putting credentials in source control.
 name: my_app
 
 server:
-  host: 127.0.0.1
+  host: localhost
   port: 3000
   secret_key_base: "generated-development-secret"
 
@@ -319,8 +319,8 @@ crystal build src/my_app.cr -o bin/my_app
 amber watch
 ```
 
-Open <http://127.0.0.1:3000/> and
-<http://127.0.0.1:3000/pets/new>. The release test also submits that generated
+Open <http://localhost:3000/> and
+<http://localhost:3000/pets/new>. The release test also submits that generated
 form, reads the stored Pet, edits it through `_method=PATCH`, and verifies the
 updated record.
 

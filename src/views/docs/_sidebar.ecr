@@ -1,5 +1,12 @@
 <div class="docs-sidebar-inner">
   <%= render(partial: "docs/_version_selector.ecr") %>
+  <% if @version_id == "v2" %>
+    <a class="docs-mcp-card" href="/docs/v2/guides/ai-assistants/mcp">
+      <span>For coding tools</span>
+      <strong>Connect Amber Docs MCP</strong>
+      <code>amberframework.org/mcp</code>
+    </a>
+  <% end %>
   <nav class="sidebar-nav" aria-label="Documentation pages">
     <h2 class="sidebar-heading">Documentation</h2>
     <ul class="nav-tree">

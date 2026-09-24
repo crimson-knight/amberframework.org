@@ -31,7 +31,7 @@ are the declarations Amber enforces at runtime.
 
 ## Request enforcement
 
-**File: `src/controllers/pets_controller.cr`.**
+**File: `src/controllers/pet_controller.cr`.**
 
 ```crystal
 class PetsController < ApplicationController
@@ -68,7 +68,7 @@ The default failure body is JSON because controller schemas commonly protect
 API boundaries. A server-rendered controller can override one hook without
 giving up automatic enforcement.
 
-**File: `src/controllers/pets_controller.cr` — add this inside
+**File: `src/controllers/pet_controller.cr` — add this inside
 `PetsController`.**
 
 ```crystal
@@ -125,7 +125,7 @@ controller code.
 
 ## Response enforcement
 
-**File: `src/controllers/pets_controller.cr` — declare the response above the
+**File: `src/controllers/pet_controller.cr` — declare the response above the
 action and use the schema-aware `respond_with` inside it.**
 
 ```crystal

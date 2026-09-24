@@ -113,7 +113,7 @@ class ShowPetSchema < Amber::Schema::Definition
 end
 ```
 
-**File: `src/controllers/pets_controller.cr` — bind and use the schema inside
+**File: `src/controllers/pet_controller.cr` — bind and use the schema inside
 `PetsController`.**
 
 ```crystal

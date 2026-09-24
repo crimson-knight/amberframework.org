@@ -52,7 +52,7 @@ declared CBOR schema. It is not mislabeled as a plain JSON object.
 
 ## 1. Bind schemas to controller actions
 
-**File: `src/controllers/pets_controller.cr`.**
+**File: `src/controllers/pet_controller.cr`.**
 
 ```crystal
 require "../schemas/pet_schemas"
@@ -96,7 +96,7 @@ class OpenAPIController < ApplicationController
       title: "Pet Tracker API",
       version: "2.0.0",
       description: "The executable contract for the Pet Tracker API",
-      server_url: ENV["PUBLIC_URL"]? || "http://127.0.0.1:3000"
+      server_url: ENV["PUBLIC_URL"]? || "http://localhost:3000"
     )
   end
 end
@@ -113,7 +113,7 @@ get "/openapi.json", OpenAPIController, :show
 ```bash
 curl --fail-with-body \
   --header 'Accept: application/json' \
-  http://127.0.0.1:3000/openapi.json
+  http://localhost:3000/openapi.json
 ```
 
 The method returns formatted JSON. Store a generated copy under `public/` only
