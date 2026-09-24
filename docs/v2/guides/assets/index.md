@@ -21,6 +21,14 @@ records the result in `public/assets/manifest.json`.
 The important boundary is build time. A production process must never compile
 assets on its first request or require a writable application directory.
 
+The separate [Pet Tracker everywhere preview](../pet-tracker-everywhere/)
+evaluates a shared `UI::Screen` with native hosts. Browser asset fingerprinting
+and native view/resource packaging are related but different responsibilities.
+Its [Images, brand, and color](../pet-tracker-everywhere/images-and-resources/)
+page records the planned web, iOS, and Android packaging. The released
+`asset_pipeline` `0.37.0` guarantee on this page continues to describe the web
+asset pipeline; it does not include those native preview capabilities.
+
 ## Where the examples go
 
 Complete these steps from the application root, the directory containing

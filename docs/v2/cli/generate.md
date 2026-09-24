@@ -51,3 +51,9 @@ directly to `create` and `update`, then reads request-local typed values with
 `validated_as`. HTML scaffolds re-render their ECR forms on validation failure;
 API resources use the framework's structured JSON failure. This is the
 released generator path for Amber `2.0.0-beta.5`.
+
+`amber generate screen` is a proposed cross-platform generator, not an existing
+CLI 2.0.6 command. Its intended output is one shared `UI::Screen` plus reviewed
+target bindings, without copying the screen per platform. See
+[the Pet Tracker shared-view preview](../guides/pet-tracker-everywhere/first-shared-view/)
+for the source contract that generator must eventually produce.

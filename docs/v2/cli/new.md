@@ -90,3 +90,9 @@ not an asset-manifest verification.
 `--type native` remains available for contributors and early adopters, but it
 is not part of the Amber V2 beta install/build guarantee. Read the [native
 preview guide](../guides/native-preview/) before evaluating it.
+
+The [Pet Tracker everywhere preview](../guides/pet-tracker-everywhere/)
+explores one shared screen across web, iOS, and Android. Its macOS host remains
+proposed. A future `--targets web,macos,ios,android` command is not part of CLI
+2.0.6. See [the preview project structure](../guides/pet-tracker-everywhere/project-structure/)
+for the evaluated file and ownership model.

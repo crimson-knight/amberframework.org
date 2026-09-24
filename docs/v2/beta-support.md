@@ -103,3 +103,8 @@ with `v2-dev`, `master`, or a personal Amber fork when following the supported
 path. See the human-readable [release notes](/releases), the
 [Pet Tracker](guides/pet-tracker/) acceptance journey, and the
 [V1-to-V2 migration guide](migration-guide/) for the smallest safe upgrade.
+
+The multi-target Pet Tracker example is maintained on a separate
+[preview page](guides/pet-tracker-everywhere/). Its pre-release dependency pins
+are outside this supported path; the guide names the exact commits and open
+gates.
