@@ -73,9 +73,9 @@ by `render("show.ecr")`.**
 **Run from: the application root while `amber watch` is running.**
 
 ```bash
-curl -H 'Accept: application/json' http://127.0.0.1:3000/status
-curl http://127.0.0.1:3000/status.json
-curl http://127.0.0.1:3000/status.md
+curl -H 'Accept: application/json' http://localhost:3000/status
+curl http://localhost:3000/status.json
+curl http://localhost:3000/status.md
 ```
 
 Keep serialization explicit. For typed request parsing and structured API
