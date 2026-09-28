@@ -8,16 +8,16 @@ description: "Grant's ActiveRecord 8 feature tracker, PostgreSQL evidence, and c
 # ActiveRecord parity
 
 > **Tracker snapshot:** This page follows the generated Grant parity report
-> checked into source commit `039b29468e3a1b853d9e16ba9d0738c12ea1ee23`.
+> checked into source commit `70ac8beaa172f03c389bacaff06cd8f3c520805c`.
 > In that source snapshot, `Grant::VERSION` is `0.23.4`; the report's own
 > metadata says its evidence was generated for implementation commit
 > `38ce96160323c2cdc4488d03f1d9e14315c59847`. The counts below are that
-> committed report, not a new calculation for commit `039b294`.
+> committed report, not a new calculation for commit `70ac8be`.
 > The report records baseline score source commit `32b69d8`.
 
 Grant tracks how its public model API compares with Rails ActiveRecord 8. Each
 row names a feature, its status, and the evidence or remaining gap. The
-[generated `docs/PARITY.md` at commit `039b294`](https://github.com/crimson-knight/grant/blob/039b29468e3a1b853d9e16ba9d0738c12ea1ee23/docs/PARITY.md)
+[generated `docs/PARITY.md` at commit `70ac8be`](https://github.com/crimson-knight/grant/blob/70ac8beaa172f03c389bacaff06cd8f3c520805c/docs/PARITY.md)
 is the source of truth for this snapshot.
 
 ## How status is scored

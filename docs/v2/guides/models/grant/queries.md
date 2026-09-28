@@ -47,7 +47,7 @@ query = User.where(active: true).order(:name)
 # Execution happens here
 users = query.select     # Returns array of User
 first = query.first      # Returns User?
-count = query.count      # Returns Int32
+count = query.count      # Returns Int64
 exists = query.exists?   # Returns Bool
 ```
 

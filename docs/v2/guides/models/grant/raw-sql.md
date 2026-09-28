@@ -8,14 +8,14 @@ description: "Bound raw SQL, Grant result rows, and database connection routing"
 # Raw SQL
 
 > **Grant version:** The APIs on this page need Grant at commit
-> `039b29468e3a1b853d9e16ba9d0738c12ea1ee23` or later. Amber CLI `2.0.6` pins
+> `70ac8beaa172f03c389bacaff06cd8f3c520805c` or later. Amber CLI `2.0.6` pins
 > an earlier commit, so update the `grant` entry in `shard.yml` and run
 > `shards update grant`:
 >
 > ```yaml
 > grant:
 >   github: crimson-knight/grant
->   commit: 039b29468e3a1b853d9e16ba9d0738c12ea1ee23
+>   commit: 70ac8beaa172f03c389bacaff06cd8f3c520805c
 > ```
 
 Use Grant's query builder when it can express the operation. Use raw SQL for a
