@@ -43,12 +43,36 @@
                         <ul class="nav-children">
                           <li><a class="nav-overview <%= "active" if child.path == full_path %>" href="/docs/<%= child.path %>">Overview</a></li>
                           <% child.children.each do |grandchild| %>
-                            <% grandchild_active = grandchild.path == full_path %>
+                            <% grandchild_active = grandchild.path == full_path || full_path.starts_with?(grandchild.path + "/") %>
                             <li>
-                              <a class="<%= "active" if grandchild_active %>" href="/docs/<%= grandchild.path %>">
-                                <span><%= grandchild.title %></span>
-                                <% if badge = grandchild.badge %><span class="badge <%= grandchild.badge_class %>"><%= badge %></span><% end %>
-                              </a>
+                              <% if grandchild.children.empty? %>
+                                <a class="<%= "active" if grandchild_active %>" href="/docs/<%= grandchild.path %>">
+                                  <span><%= grandchild.title %></span>
+                                  <% if badge = grandchild.badge %><span class="badge <%= grandchild.badge_class %>"><%= badge %></span><% end %>
+                                </a>
+                              <% else %>
+                                <details class="nav-group nav-group-nested<%= " active-branch" if grandchild_active %>"<%= " open" if grandchild_active %>>
+                                  <summary>
+                                    <span><%= grandchild.title %></span>
+                                    <span class="nav-group-meta">
+                                      <% if badge = grandchild.badge %><span class="badge <%= grandchild.badge_class %>"><%= badge %></span><% end %>
+                                      <span class="nav-chevron" aria-hidden="true">›</span>
+                                    </span>
+                                  </summary>
+                                  <ul class="nav-children">
+                                    <li><a class="nav-overview <%= "active" if grandchild.path == full_path %>" href="/docs/<%= grandchild.path %>">Overview</a></li>
+                                    <% grandchild.children.each do |great_grandchild| %>
+                                      <% great_grandchild_active = great_grandchild.path == full_path %>
+                                      <li>
+                                        <a class="<%= "active" if great_grandchild_active %>" href="/docs/<%= great_grandchild.path %>">
+                                          <span><%= great_grandchild.title %></span>
+                                          <% if badge = great_grandchild.badge %><span class="badge <%= great_grandchild.badge_class %>"><%= badge %></span><% end %>
+                                        </a>
+                                      </li>
+                                    <% end %>
+                                  </ul>
+                                </details>
+                              <% end %>
                             </li>
                           <% end %>
                         </ul>
