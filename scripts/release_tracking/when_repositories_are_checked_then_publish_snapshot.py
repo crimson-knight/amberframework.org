@@ -212,7 +212,11 @@ class WhenRepositoriesAreCheckedThenPublishSnapshot:
 
     def publish_verified_snapshot(self):
         tracker_root = self.project_root / "public/release-tracker"
-        snapshot = {"schema_version": 1, "roster_sha256": self.roster_sha256, "template_sha256": resolve_sha256((self.project_root / "site_content/release-tracker.html").read_bytes()), "repositories": [asdict(record) for record in self.list_of_repository_records], "scope": "Published GitHub release metadata and resolved source refs; asset digests are GitHub-reported, not downloaded verification."}
+        template = (self.project_root / "site_content/release-tracker.html").read_text()
+        if "/publication/release-tracker.js" in template:
+            viewer_digest = resolve_sha256((self.project_root / "public/publication/release-tracker.js").read_bytes())
+            template = re.sub(r"/publication/release-tracker\.js(?:\?v=[0-9a-f]{64})?", "/publication/release-tracker.js?v=" + viewer_digest, template)
+        snapshot = {"schema_version": 1, "roster_sha256": self.roster_sha256, "template_sha256": resolve_sha256(template.encode()), "repositories": [asdict(record) for record in self.list_of_repository_records], "scope": "Published GitHub release metadata and resolved source refs; asset digests are GitHub-reported, not downloaded verification."}
         self.content_sha256 = resolve_sha256(canonical_bytes(snapshot))
         snapshot["content_sha256"] = self.content_sha256
         bundle_root = tracker_root / "bundles" / self.content_sha256
@@ -224,7 +228,6 @@ class WhenRepositoriesAreCheckedThenPublishSnapshot:
                 (staging_root / "snapshot.json").write_bytes(canonical_bytes(snapshot))
                 encoded = json.dumps(snapshot, ensure_ascii=False).replace("<", "\\u003c")
                 (staging_root / "snapshot.js").write_text("window.AmberReleaseSnapshot=" + encoded + ";\n")
-                template = (self.project_root / "site_content/release-tracker.html").read_text()
                 (staging_root / "index.html").write_text(template)
                 manifest = {name: resolve_sha256((staging_root / name).read_bytes()) for name in ["snapshot.json", "snapshot.js", "index.html"]}
                 (staging_root / "manifest.json").write_bytes(canonical_bytes(manifest))

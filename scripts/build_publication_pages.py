@@ -56,7 +56,7 @@ def wrap_page(fragment, title, slug):
 
 
 def add_release_summary(content):
-    summary = (SOURCE / "release-summary.html").read_text()
+    summary = version_release_viewer((SOURCE / "release-summary.html").read_text())
     if "</main>" in content:
         return content.replace("</main>", summary + "</main>", 1)
     return content + summary
@@ -69,6 +69,13 @@ def write_page(slug, content, title, markdown):
     (destination / "index.html").write_text(content)
     (destination / "index.md").write_text(markdown)
     (destination / "index.json").write_text(json.dumps({"schema_version": 1, "page_title": title, "canonical_url": "https://amberframework.org/" + slug + "/", "markdown_url": "/" + slug + ".md", "release_tracker_url": "/release-tracker.json", "contribution_repository": "https://github.com/amberframework/amber/issues", "discord_url": "https://discord.gg/vwvP5zakSn"}, indent=2) + "\n")
+
+
+def version_release_viewer(content):
+    if "/publication/release-tracker.js" in content:
+        digest = hashlib.sha256((PUBLIC / "publication/release-tracker.js").read_bytes()).hexdigest()
+        content = re.sub(r"/publication/release-tracker\.js(?:\?v=[0-9a-f]{64})?", "/publication/release-tracker.js?v=" + digest, content)
+    return content
 
 
 def require_public_links(content):
