@@ -96,6 +96,8 @@ def main():
     pioneers = pioneers.replace("app MCP and agent setup have open CLI PRs.", "Agent setup is included in CLI 2.0.7. App MCP has an open CLI PR.")
     pioneers = pioneers.replace("Grant and CLI source merged · starter release pending · app capacity unmeasured", "Grant source and CLI 2.0.7 available · tutorial and measured app profile in preparation")
     pioneers = pioneers.replace("Minecart's tools are distributed in the installed Shards Alpha build.", "Minecart and CLI 2.0.7 carry the available agent entry tools.")
+    pioneers = pioneers.replace("The issue-first policy is our direction; its shared public policy and required GitHub checks are being prepared.", "The issue-first policy is published in the project guides; required GitHub checks are being prepared.")
+    pioneers = pioneers.replace(" · New artwork created for Amber Pioneers", "")
     assert not re.search(r"<(?:form|input|textarea)\b", pioneers)
     pioneers = add_release_summary(pioneers)
     write_page("pioneers", wrap_page(pioneers, "Seek adventure · Amber Pioneers", "pioneers"), "Amber Pioneers", (SOURCE / "pioneers.md").read_text())
