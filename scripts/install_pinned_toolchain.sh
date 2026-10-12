@@ -23,12 +23,20 @@ printf '%s  %s\n' "$compiler_sha256" /tmp/crystal-alpha.tar.gz | sha256sum -c -
 mkdir -p /opt/crystal-alpha
 tar -xzf /tmp/crystal-alpha.tar.gz -C /opt/crystal-alpha --strip-components=1
 cd /opt/crystal-alpha
-LLVM_CONFIG=/usr/bin/llvm-config-18 CRYSTAL_CONFIG_BUILD_COMMIT=9c1e8ec64f6be6343e90d3979bc9536c4b050292 make crystal
+LLVM_CONFIG=/usr/bin/llvm-config-18 CRYSTAL_CONFIG_BUILD_COMMIT=9c1e8ec64f6be6343e90d3979bc9536c4b050292 make crystal FLAGS="--mcpu generic"
 test -x .build/crystal
 cat > /usr/local/bin/crystal-alpha <<'WRAPPER'
 #!/bin/sh
 export CRYSTAL_PATH="lib:/opt/crystal-alpha/src"
-exec /opt/crystal-alpha/.build/crystal "$@"
+# Hosted VMs can mask AVX-512; the released fork infers a CPU without its mask.
+case "${1:-}" in
+  build|run|spec)
+    compiler_command=$1
+    shift
+    exec /opt/crystal-alpha/.build/crystal "$compiler_command" --mcpu generic "$@"
+    ;;
+  *) exec /opt/crystal-alpha/.build/crystal "$@" ;;
+esac
 WRAPPER
 chmod +x /usr/local/bin/crystal-alpha
 crystal-alpha --version
@@ -46,5 +54,6 @@ ln -s /usr/local/bin/minecart /usr/local/bin/shards-alpha
 minecart --version
 mkdir -p /app/toolchain-receipts
 crystal-alpha --version > /app/toolchain-receipts/compiler.txt
+printf "generic\n" > /app/toolchain-receipts/cpu-target.txt
 sha256sum /opt/crystal-alpha/.build/crystal /usr/bin/crystal /usr/local/bin/minecart > /app/toolchain-receipts/binaries.sha256
 dpkg-query -W > /app/toolchain-receipts/system-packages.txt
