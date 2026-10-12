@@ -1,6 +1,14 @@
-(()=>{
- const snapshot=window.AmberReleaseSnapshot;
- const health=window.AmberReleaseHealth;
+(async()=>{
+ let snapshot,health;
+ try {
+  const responses=await Promise.all([
+   fetch('/release-tracker.json',{cache:'no-store'}),
+   fetch('/release-tracker/health.json',{cache:'no-store'})
+  ]);
+  if(responses.some(response=>!response.ok))throw new Error('Release metadata unavailable');
+  [snapshot,health]=await Promise.all(responses.map(response=>response.json()));
+  if(snapshot.schema_version!==1||!Array.isArray(snapshot.repositories))throw new Error('Release metadata schema unavailable');
+ }catch(error){snapshot=null;health=null;}
  const elements=document.querySelectorAll('[data-release-freshness]');
  if(!snapshot||!health){elements.forEach(el=>el.textContent='The last complete snapshot is available from the source links. Freshness information is unavailable.');return;}
  const hasMatchingIdentity=snapshot.content_sha256===health.content_sha256;
