@@ -6,7 +6,7 @@ import json
 import unittest
 from scripts.release_tracking.when_repositories_are_checked_then_publish_snapshot import (
     RepositoryDefinition, RepositoryRecord, PublishedRelease, InvalidSnapshot,
-    WhenRepositoriesAreCheckedThenPublishSnapshot, ReadGithubMetadata,
+    WhenRepositoriesAreCheckedThenPublishSnapshot, ReadGithubMetadata, resolve_release_body_links,
 )
 
 class SnapshotPublicationTest(unittest.TestCase):
@@ -101,6 +101,13 @@ class SnapshotPublicationTest(unittest.TestCase):
         with self.assertRaisesRegex(InvalidSnapshot, 'hash mismatch'):
             self.publish(checked_at='2026-10-12T13:00:00Z')
         self.assertEqual(health_path.read_bytes(), before)
+
+    def test_release_body_links_keep_their_released_source_context(self):
+        body = '[Report](benchmarks/report.md) [Public](https://example.com/report) [Anchor](#scope)'
+        result = resolve_release_body_links(body, 'owner/example', 'a' * 40)
+        self.assertIn('https://github.com/owner/example/blob/' + 'a' * 40 + '/benchmarks/report.md', result)
+        self.assertIn('[Public](https://example.com/report)', result)
+        self.assertIn('[Anchor](#scope)', result)
 
     def test_annotated_tag_resolves_to_commit(self):
         class AnnotatedGateway(ReadGithubMetadata):

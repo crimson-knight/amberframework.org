@@ -157,6 +157,17 @@ class ReadGithubMetadata:
         return RepositoryRecord(definition.project_title, repository, "https://github.com/" + repository, branch, source_commit, source_updated_at, metadata["has_issues"], metadata["archived"], latest_tag, latest_tag_commit, definition.list_of_roadmap_cards, list_of_releases)
 
 
+def resolve_release_body_links(release_body, repository, source_commit):
+    """Keep relative source references attached to their released repository."""
+    def replace_target(match):
+        target = match.group(2)
+        if re.match(r"[A-Za-z][A-Za-z0-9+.-]*:", target) or target.startswith(("#", "//")):
+            return match.group(0)
+        source_path = target.lstrip("./")
+        return match.group(1) + "https://github.com/" + repository + "/blob/" + source_commit + "/" + source_path + match.group(3)
+    return re.sub(r"(\]\()([^\s)]+)(\))", replace_target, release_body)
+
+
 def write_atomic_file(destination, content):
     destination.parent.mkdir(parents=True, exist_ok=True)
     temporary = destination.with_name(destination.name + ".pending")
@@ -242,7 +253,7 @@ class WhenRepositoriesAreCheckedThenPublishSnapshot:
         for record in self.list_of_repository_records:
             for release in record.list_of_releases:
                 publication_time = datetime.fromisoformat(release.published_at.replace("Z", "+00:00"))
-                list_of_legacy_releases.append({"project": record.project_title, "repository": record.repository, "tag_name": release.tag_name, "name": release.release_title, "published_at": release.published_at, "published_on": publication_time.strftime("%B %d, %Y").replace(" 0", " "), "prerelease": release.is_prerelease, "url": release.release_url, "body": release.release_body})
+                list_of_legacy_releases.append({"project": record.project_title, "repository": record.repository, "tag_name": release.tag_name, "name": release.release_title, "published_at": release.published_at, "published_on": publication_time.strftime("%B %d, %Y").replace(" 0", " "), "prerelease": release.is_prerelease, "url": release.release_url, "body": resolve_release_body_links(release.release_body, record.repository, release.source_commit)})
         list_of_legacy_releases.sort(key=lambda release: release["published_at"], reverse=True)
         write_atomic_file(self.project_root / "config/github_releases.json", canonical_bytes({"schema_version": 1, "synced_at": self.checked_at, "releases": list_of_legacy_releases}))
 
