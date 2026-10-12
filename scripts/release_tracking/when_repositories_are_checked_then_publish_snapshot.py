@@ -264,10 +264,16 @@ def load_repository_definitions(project_root):
     roster = (project_root / "config/release_repositories.json").read_bytes()
     document = json.loads(roster)
     require_valid(document["schema_version"] == 1 and document["refresh_interval_minutes"] == 60, "Unknown roster contract")
+    roadmap_source = (project_root / "site_content/roadmap.fragment.html").read_text()
+    known_card_ids = set(re.findall(r"\bid:\s*[\"']([^\"']+)[\"']", roadmap_source))
+    require_valid(len(known_card_ids) > 0, "Roadmap card identities missing")
     list_of_definitions = []
     for source in document["repositories"]:
         require_valid(re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", source["repository"]), "Repository identity malformed")
         require_valid(1 <= source["release_limit"] <= 100, "Release page bound invalid")
+        cards = source["roadmap_cards"]
+        require_valid(isinstance(cards, list) and all(isinstance(card, str) and card in known_card_ids for card in cards), "Unknown roadmap card association: " + source["repository"])
+        require_valid(len(set(cards)) == len(cards), "Duplicate roadmap card association")
         list_of_definitions.append(RepositoryDefinition(source["project_title"], source["repository"], source.get("branch", ""), source["release_limit"], source["roadmap_cards"]))
     return list_of_definitions, resolve_sha256(roster)
 

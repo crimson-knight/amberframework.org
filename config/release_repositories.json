@@ -29,7 +29,7 @@
       "release_limit": 5,
       "roadmap_cards": [
         "frontloader",
-        "components",
+        "ui",
         "native"
       ]
     },
@@ -38,7 +38,7 @@
       "repository": "crimson-knight/grant",
       "release_limit": 5,
       "roadmap_cards": [
-        "persistence"
+        "beta3"
       ]
     },
     {
@@ -46,7 +46,8 @@
       "repository": "crimson-knight/gemma",
       "release_limit": 5,
       "roadmap_cards": [
-        "gemma"
+        "ui",
+        "uigate"
       ]
     },
     {
@@ -63,7 +64,7 @@
       "repository": "amberframework/micrate",
       "release_limit": 5,
       "roadmap_cards": [
-        "persistence"
+        "beta3"
       ]
     },
     {
@@ -71,7 +72,7 @@
       "repository": "crimson-knight/crystal",
       "release_limit": 3,
       "roadmap_cards": [
-        "compiler"
+        "releasebundle"
       ],
       "branch": "incremental-compilation"
     },
