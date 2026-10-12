@@ -118,6 +118,18 @@ class SnapshotPublicationTest(unittest.TestCase):
             load_repository_definitions(self.root)
         self.assertFalse((self.root / 'public').exists())
 
+    def test_viewer_change_updates_html_version_and_bundle_identity(self):
+        (self.root / 'public/publication').mkdir(parents=True)
+        viewer = self.root / 'public/publication/release-tracker.js'
+        viewer.write_text('first viewer')
+        (self.root / 'site_content/release-tracker.html').write_text('<script src="/publication/release-tracker.js"></script>')
+        before = self.publish()
+        first_html = (self.root / 'public/release-tracker/index.html').read_text()
+        viewer.write_text('updated viewer')
+        self.assertNotEqual(self.publish(), before)
+        self.assertNotEqual((self.root / 'public/release-tracker/index.html').read_text(), first_html)
+        self.assertIn('/release-tracker.js?v=', first_html)
+
     def test_annotated_tag_resolves_to_commit(self):
         class AnnotatedGateway(ReadGithubMetadata):
             def _read_api_document(inner, path):
