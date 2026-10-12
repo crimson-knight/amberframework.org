@@ -228,6 +228,8 @@ class WhenRepositoriesAreCheckedThenPublishSnapshot:
                 (staging_root / "index.html").write_text(template)
                 manifest = {name: resolve_sha256((staging_root / name).read_bytes()) for name in ["snapshot.json", "snapshot.js", "index.html"]}
                 (staging_root / "manifest.json").write_bytes(canonical_bytes(manifest))
+                # Publication artifacts are readable by the website process and Git runner.
+                staging_root.chmod(0o755)
                 os.replace(staging_root, bundle_root)
             finally:
                 if staging_root.exists():
