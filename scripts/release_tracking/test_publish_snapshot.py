@@ -6,7 +6,7 @@ import json
 import unittest
 from scripts.release_tracking.when_repositories_are_checked_then_publish_snapshot import (
     RepositoryDefinition, RepositoryRecord, PublishedRelease, InvalidSnapshot,
-    WhenRepositoriesAreCheckedThenPublishSnapshot, ReadGithubMetadata, resolve_release_body_links,
+    WhenRepositoriesAreCheckedThenPublishSnapshot, ReadGithubMetadata, resolve_release_body_links, load_repository_definitions,
 )
 
 class SnapshotPublicationTest(unittest.TestCase):
@@ -108,6 +108,15 @@ class SnapshotPublicationTest(unittest.TestCase):
         self.assertIn('https://github.com/owner/example/blob/' + 'a' * 40 + '/benchmarks/report.md', result)
         self.assertIn('[Public](https://example.com/report)', result)
         self.assertIn('[Anchor](#scope)', result)
+
+    def test_unknown_roadmap_association_is_rejected_before_collection(self):
+        (self.root / 'config').mkdir()
+        (self.root / 'site_content/roadmap.fragment.html').write_text("{id:'core',title:'Foundation'}")
+        roster = {'schema_version':1,'refresh_interval_minutes':60,'repositories':[{'project_title':'Example','repository':'owner/example','release_limit':5,'roadmap_cards':['missing-card']}]}
+        (self.root / 'config/release_repositories.json').write_text(json.dumps(roster))
+        with self.assertRaisesRegex(InvalidSnapshot, 'Unknown roadmap card association'):
+            load_repository_definitions(self.root)
+        self.assertFalse((self.root / 'public').exists())
 
     def test_annotated_tag_resolves_to_commit(self):
         class AnnotatedGateway(ReadGithubMetadata):
