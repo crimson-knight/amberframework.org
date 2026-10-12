@@ -1,0 +1,1621 @@
+{
+  "metadata": {
+    "generated_at_utc": "2026-08-13T13:38:01Z",
+    "runner_source_commit": "f8fd6c2bd204ef458c1fd8a604b659e38daf7a84",
+    "binary_source_commit": "f8fd6c2bd204ef458c1fd8a604b659e38daf7a84",
+    "region": "nyc1",
+    "vpc_ip_range": "10.143.0.0/20",
+    "routes": 1000,
+    "route_mix": "45% static; 25% REST ID; 15% dynamic action; 5% nested; 5% constrained; 5% glob",
+    "method_mix": "65% GET; 20% POST; 8% PUT; 5% PATCH; 2% DELETE",
+    "sampled_methods": {
+      "GET": 2665,
+      "POST": 820,
+      "PUT": 328,
+      "PATCH": 203,
+      "DELETE": 80
+    },
+    "sampled_route_shapes": {
+      "static": 1844,
+      "restful": 1024,
+      "variable": 613,
+      "nested": 205,
+      "constrained": 205,
+      "glob": 205
+    },
+    "traffic_entries": 4096,
+    "traffic_locality": "70% selects the first 20% within each method-and-route-shape cell; 20% query strings",
+    "request_table_sha256": "8543042f1684cf2a42ca7759a4166c171af6aaf22678aa88dee7eab407cbe0f5",
+    "connections": [
+      16
+    ],
+    "threads": 4,
+    "duration": "15s",
+    "warmup": "5s",
+    "repetitions": 7,
+    "trial_schedule": "paired interleaving with rotating variant and connection order",
+    "scope": "separate DigitalOcean load generator and smallest target Droplet over a private VPC using HTTP/1.1 keep-alive",
+    "hardware": {
+      "target": {
+        "size": "s-1vcpu-512mb-10gb",
+        "cpu": "{\n   \"lscpu\": [\n      {\n         \"field\": \"Architecture:\",\n         \"data\": \"x86_64\"\n      },{\n         \"field\": \"CPU op-mode(s):\",\n         \"data\": \"32-bit, 64-bit\"\n      },{\n         \"field\": \"Address sizes:\",\n         \"data\": \"40 bits physical, 48 bits virtual\"\n      },{\n         \"field\": \"Byte Order:\",\n         \"data\": \"Little Endian\"\n      },{\n         \"field\": \"CPU(s):\",\n         \"data\": \"1\"\n      },{\n         \"field\": \"On-line CPU(s) list:\",\n         \"data\": \"0\"\n      },{\n         \"field\": \"Vendor ID:\",\n         \"data\": \"GenuineIntel\"\n      },{\n         \"field\": \"BIOS Vendor ID:\",\n         \"data\": \"QEMU\"\n      },{\n         \"field\": \"Model name:\",\n         \"data\": \"DO-Regular\"\n      },{\n         \"field\": \"BIOS Model name:\",\n         \"data\": \"pc-i440fx-6.1  CPU @ 2.0GHz\"\n      },{\n         \"field\": \"BIOS CPU family:\",\n         \"data\": \"1\"\n      },{\n         \"field\": \"CPU family:\",\n         \"data\": \"6\"\n      },{\n         \"field\": \"Model:\",\n         \"data\": \"79\"\n      },{\n         \"field\": \"Thread(s) per core:\",\n         \"data\": \"1\"\n      },{\n         \"field\": \"Core(s) per socket:\",\n         \"data\": \"1\"\n      },{\n         \"field\": \"Socket(s):\",\n         \"data\": \"1\"\n      },{\n         \"field\": \"Stepping:\",\n         \"data\": \"1\"\n      },{\n         \"field\": \"BogoMIPS:\",\n         \"data\": \"4988.28\"\n      },{\n         \"field\": \"Flags:\",\n         \"data\": \"fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx rdtscp lm constant_tsc rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault pti ssbd ibrs ibpb tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap xsaveopt arat vnmi md_clear\"\n      },{\n         \"field\": \"Virtualization:\",\n         \"data\": \"VT-x\"\n      },{\n         \"field\": \"Hypervisor vendor:\",\n         \"data\": \"KVM\"\n      },{\n         \"field\": \"Virtualization type:\",\n         \"data\": \"full\"\n      },{\n         \"field\": \"L1d cache:\",\n         \"data\": \"32 KiB (1 instance)\"\n      },{\n         \"field\": \"L1i cache:\",\n         \"data\": \"32 KiB (1 instance)\"\n      },{\n         \"field\": \"L2 cache:\",\n         \"data\": \"4 MiB (1 instance)\"\n      },{\n         \"field\": \"NUMA node(s):\",\n         \"data\": \"1\"\n      },{\n         \"field\": \"NUMA node0 CPU(s):\",\n         \"data\": \"0\"\n      },{\n         \"field\": \"Vulnerability Gather data sampling:\",\n         \"data\": \"Not affected\"\n      },{\n         \"field\": \"Vulnerability Indirect target selection:\",\n         \"data\": \"Mitigation; Aligned branch/return thunks\"\n      },{\n         \"field\": \"Vulnerability Itlb multihit:\",\n         \"data\": \"KVM: Mitigation: VMX disabled\"\n      },{\n         \"field\": \"Vulnerability L1tf:\",\n         \"data\": \"Mitigation; PTE Inversion; VMX conditional cache flushes, SMT disabled\"\n      },{\n         \"field\": \"Vulnerability Mds:\",\n         \"data\": \"Mitigation; Clear CPU buffers; SMT Host state unknown\"\n      },{\n         \"field\": \"Vulnerability Meltdown:\",\n         \"data\": \"Mitigation; PTI\"\n      },{\n         \"field\": \"Vulnerability Mmio stale data:\",\n         \"data\": \"Vulnerable: Clear CPU buffers attempted, no microcode; SMT Host state unknown\"\n      },{\n         \"field\": \"Vulnerability Reg file data sampling:\",\n         \"data\": \"Not affected\"\n      },{\n         \"field\": \"Vulnerability Retbleed:\",\n         \"data\": \"Not affected\"\n      },{\n         \"field\": \"Vulnerability Spec rstack overflow:\",\n         \"data\": \"Not affected\"\n      },{\n         \"field\": \"Vulnerability Spec store bypass:\",\n         \"data\": \"Mitigation; Speculative Store Bypass disabled via prctl\"\n      },{\n         \"field\": \"Vulnerability Spectre v1:\",\n         \"data\": \"Mitigation; usercopy/swapgs barriers and __user pointer sanitization\"\n      },{\n         \"field\": \"Vulnerability Spectre v2:\",\n         \"data\": \"Mitigation; Retpolines; IBPB conditional; IBRS_FW; STIBP disabled; RSB filling; PBRSB-eIBRS Not affected; BHI Retpoline\"\n      },{\n         \"field\": \"Vulnerability Srbds:\",\n         \"data\": \"Not affected\"\n      },{\n         \"field\": \"Vulnerability Tsa:\",\n         \"data\": \"Not affected\"\n      },{\n         \"field\": \"Vulnerability Tsx async abort:\",\n         \"data\": \"Not affected\"\n      },{\n         \"field\": \"Vulnerability Vmscape:\",\n         \"data\": \"Not affected\"\n      }\n   ]\n}\n",
+        "memory_bytes": 480497664,
+        "kernel": "Linux amber-cbor-r25-target 6.8.0-124-generic #124-Ubuntu SMP PREEMPT_DYNAMIC Tue May 26 13:00:45 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux"
+      },
+      "loadgen": {
+        "size": "c-4",
+        "cpu": "{\n   \"lscpu\": [\n      {\n         \"field\": \"Architecture:\",\n         \"data\": \"x86_64\"\n      },{\n         \"field\": \"CPU op-mode(s):\",\n         \"data\": \"32-bit, 64-bit\"\n      },{\n         \"field\": \"Address sizes:\",\n         \"data\": \"40 bits physical, 48 bits virtual\"\n      },{\n         \"field\": \"Byte Order:\",\n         \"data\": \"Little Endian\"\n      },{\n         \"field\": \"CPU(s):\",\n         \"data\": \"4\"\n      },{\n         \"field\": \"On-line CPU(s) list:\",\n         \"data\": \"0-3\"\n      },{\n         \"field\": \"Vendor ID:\",\n         \"data\": \"GenuineIntel\"\n      },{\n         \"field\": \"BIOS Vendor ID:\",\n         \"data\": \"QEMU\"\n      },{\n         \"field\": \"Model name:\",\n         \"data\": \"Intel(R) Xeon(R) Platinum 8168 CPU @ 2.70GHz\"\n      },{\n         \"field\": \"BIOS Model name:\",\n         \"data\": \"pc-i440fx-6.1  CPU @ 2.0GHz\"\n      },{\n         \"field\": \"BIOS CPU family:\",\n         \"data\": \"1\"\n      },{\n         \"field\": \"CPU family:\",\n         \"data\": \"6\"\n      },{\n         \"field\": \"Model:\",\n         \"data\": \"85\"\n      },{\n         \"field\": \"Thread(s) per core:\",\n         \"data\": \"1\"\n      },{\n         \"field\": \"Core(s) per socket:\",\n         \"data\": \"4\"\n      },{\n         \"field\": \"Socket(s):\",\n         \"data\": \"1\"\n      },{\n         \"field\": \"Stepping:\",\n         \"data\": \"4\"\n      },{\n         \"field\": \"BogoMIPS:\",\n         \"data\": \"5387.34\"\n      },{\n         \"field\": \"Flags:\",\n         \"data\": \"fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault pti ssbd ibrs ibpb tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap clflushopt clwb avx512cd avx512bw avx512vl xsaveopt xsavec xgetbv1 arat vnmi pku ospke md_clear\"\n      },{\n         \"field\": \"Virtualization:\",\n         \"data\": \"VT-x\"\n      },{\n         \"field\": \"Hypervisor vendor:\",\n         \"data\": \"KVM\"\n      },{\n         \"field\": \"Virtualization type:\",\n         \"data\": \"full\"\n      },{\n         \"field\": \"L1d cache:\",\n         \"data\": \"128 KiB (4 instances)\"\n      },{\n         \"field\": \"L1i cache:\",\n         \"data\": \"128 KiB (4 instances)\"\n      },{\n         \"field\": \"L2 cache:\",\n         \"data\": \"16 MiB (4 instances)\"\n      },{\n         \"field\": \"NUMA node(s):\",\n         \"data\": \"1\"\n      },{\n         \"field\": \"NUMA node0 CPU(s):\",\n         \"data\": \"0-3\"\n      },{\n         \"field\": \"Vulnerability Gather data sampling:\",\n         \"data\": \"Unknown: Dependent on hypervisor status\"\n      },{\n         \"field\": \"Vulnerability Indirect target selection:\",\n         \"data\": \"Mitigation; Aligned branch/return thunks\"\n      },{\n         \"field\": \"Vulnerability Itlb multihit:\",\n         \"data\": \"KVM: Mitigation: VMX disabled\"\n      },{\n         \"field\": \"Vulnerability L1tf:\",\n         \"data\": \"Mitigation; PTE Inversion; VMX conditional cache flushes, SMT disabled\"\n      },{\n         \"field\": \"Vulnerability Mds:\",\n         \"data\": \"Mitigation; Clear CPU buffers; SMT Host state unknown\"\n      },{\n         \"field\": \"Vulnerability Meltdown:\",\n         \"data\": \"Mitigation; PTI\"\n      },{\n         \"field\": \"Vulnerability Mmio stale data:\",\n         \"data\": \"Vulnerable: Clear CPU buffers attempted, no microcode; SMT Host state unknown\"\n      },{\n         \"field\": \"Vulnerability Reg file data sampling:\",\n         \"data\": \"Not affected\"\n      },{\n         \"field\": \"Vulnerability Retbleed:\",\n         \"data\": \"Mitigation; IBRS\"\n      },{\n         \"field\": \"Vulnerability Spec rstack overflow:\",\n         \"data\": \"Not affected\"\n      },{\n         \"field\": \"Vulnerability Spec store bypass:\",\n         \"data\": \"Mitigation; Speculative Store Bypass disabled via prctl\"\n      },{\n         \"field\": \"Vulnerability Spectre v1:\",\n         \"data\": \"Mitigation; usercopy/swapgs barriers and __user pointer sanitization\"\n      },{\n         \"field\": \"Vulnerability Spectre v2:\",\n         \"data\": \"Mitigation; IBRS; IBPB conditional; STIBP disabled; RSB filling; PBRSB-eIBRS Not affected; BHI SW loop, KVM SW loop\"\n      },{\n         \"field\": \"Vulnerability Srbds:\",\n         \"data\": \"Not affected\"\n      },{\n         \"field\": \"Vulnerability Tsa:\",\n         \"data\": \"Not affected\"\n      },{\n         \"field\": \"Vulnerability Tsx async abort:\",\n         \"data\": \"Not affected\"\n      },{\n         \"field\": \"Vulnerability Vmscape:\",\n         \"data\": \"Not affected\"\n      }\n   ]\n}\n",
+        "memory_bytes": 8326959104,
+        "kernel": "Linux amber-cbor-r25-loadgen 6.8.0-124-generic #124-Ubuntu SMP PREEMPT_DYNAMIC Tue May 26 13:00:45 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux",
+        "wrk": "wrk debian/4.1.0-4build2 [epoll] Copyright (C) 2012 Will Glozer"
+      }
+    },
+    "binaries": [
+      {
+        "name": "json",
+        "remote_filename": "stock_json_optimized",
+        "bytes": 2774640,
+        "sha256": "45796648343ae0012d1538366e946d3bc9df62546a204720f50e33724111415a",
+        "wrk_script_bytes": 282943,
+        "wrk_script_sha256": "95e2ea7e135f7357576eb274844c447c7c5da77f427592cd4658b95c3c459d9d"
+      },
+      {
+        "name": "typed_json",
+        "remote_filename": "stock_typed_json",
+        "bytes": 2786360,
+        "sha256": "a541d70751aaf5471ff745158645f716e5fb25ed62869a54887e378330f64b6d",
+        "wrk_script_bytes": 282943,
+        "wrk_script_sha256": "95e2ea7e135f7357576eb274844c447c7c5da77f427592cd4658b95c3c459d9d"
+      },
+      {
+        "name": "msgpack_map",
+        "remote_filename": "stock_msgpack_map",
+        "bytes": 2806632,
+        "sha256": "27ed1a251b5e094489045f8f1c8147d50f9542a119e62205627ef404b6f17309",
+        "wrk_script_bytes": 282795,
+        "wrk_script_sha256": "d62b93f0915d1162faded17b8910be9116855b12fdaa828b054c7e2906c48944"
+      },
+      {
+        "name": "msgpack_array",
+        "remote_filename": "stock_msgpack_array",
+        "bytes": 2803864,
+        "sha256": "9e71a324a00fce3e7d6ac7586d42ca8951b21a71a3149d5b3de808f63af9b39e",
+        "wrk_script_bytes": 282543,
+        "wrk_script_sha256": "e5d466b5d180b2590f69de669110e785f28b8607cbcd7b581d19e9b446dda0db"
+      },
+      {
+        "name": "cbor_map",
+        "remote_filename": "stock_cbor_map",
+        "bytes": 2779416,
+        "sha256": "fd06923a565098e7226953aab14e01b80fe6f2efb45bd507a8247d1b70f1e4e4",
+        "wrk_script_bytes": 282792,
+        "wrk_script_sha256": "aa44b7c0604068d450a693accd4e7f5b30559b3c71acf0b6d5af17acae19c66a"
+      },
+      {
+        "name": "cbor_array",
+        "remote_filename": "stock_cbor_array",
+        "bytes": 2777416,
+        "sha256": "4a957663f2fd8a3b85d9cc21b41cd45d9360bb3cb2454f189ec0b1e9b9583460",
+        "wrk_script_bytes": 282540,
+        "wrk_script_sha256": "bfefd1c54cbda2b72a1b9e041dfdf313f04f71154a270ab316638c9f663d3f99"
+      }
+    ]
+  },
+  "aggregates": {
+    "16": {
+      "json": {
+        "requests_per_second": {
+          "count": 7,
+          "min": 18522.8,
+          "median": 24504.57,
+          "mean": 23709.672857142858,
+          "max": 25720.62,
+          "stddev": 2238.9830567834283,
+          "coefficient_of_variation": 0.09443331716442914
+        },
+        "p50_seconds": {
+          "count": 7,
+          "min": 0.000538,
+          "median": 0.000561,
+          "mean": 0.0005842857142857143,
+          "max": 0.000728,
+          "stddev": 6.0789365342759684e-05,
+          "coefficient_of_variation": 0.10404047858174029
+        },
+        "p99_seconds": {
+          "count": 7,
+          "min": 0.00335,
+          "median": 0.0035499999999999998,
+          "mean": 0.003717142857142857,
+          "max": 0.00477,
+          "stddev": 0.0004551833001491749,
+          "coefficient_of_variation": 0.12245515376803323
+        },
+        "server_cpu_cores": {
+          "count": 7,
+          "min": 0.9220868124585818,
+          "median": 0.9638844267726971,
+          "mean": 0.9569037943264412,
+          "max": 0.9657817097415506,
+          "stddev": 0.014747300752402322,
+          "coefficient_of_variation": 0.01541147693199697
+        },
+        "requests_per_cpu_second": {
+          "count": 7,
+          "min": 20087.91336101231,
+          "median": 25438.232358636917,
+          "mean": 24747.057421556205,
+          "max": 26646.24046731892,
+          "stddev": 2017.839790364105,
+          "coefficient_of_variation": 0.08153857470773243
+        },
+        "server_memory_peak_bytes": {
+          "count": 7,
+          "min": 11956224,
+          "median": 12099584,
+          "mean": 12221293,
+          "max": 13127680,
+          "stddev": 375121.75524621335,
+          "coefficient_of_variation": 0.03069411356443327
+        },
+        "median_rps_ratio_vs_first_variant": 1.0
+      },
+      "typed_json": {
+        "requests_per_second": {
+          "count": 7,
+          "min": 21841.86,
+          "median": 25620.57,
+          "mean": 25357.7,
+          "max": 27148.62,
+          "stddev": 1610.5652163936552,
+          "coefficient_of_variation": 0.0635138524548226
+        },
+        "p50_seconds": {
+          "count": 7,
+          "min": 0.000506,
+          "median": 0.000545,
+          "mean": 0.0005474285714285714,
+          "max": 0.000626,
+          "stddev": 3.676899758864075e-05,
+          "coefficient_of_variation": 0.06716674924856086
+        },
+        "p99_seconds": {
+          "count": 7,
+          "min": 0.00318,
+          "median": 0.0036,
+          "mean": 0.0036285714285714285,
+          "max": 0.00418,
+          "stddev": 0.00028367126705942914,
+          "coefficient_of_variation": 0.07817712084314976
+        },
+        "server_cpu_cores": {
+          "count": 7,
+          "min": 0.9021369118621604,
+          "median": 0.9468512922465209,
+          "mean": 0.9410079344745153,
+          "max": 0.9573307947019868,
+          "stddev": 0.016505622894781396,
+          "coefficient_of_variation": 0.017540365272263714
+        },
+        "requests_per_cpu_second": {
+          "count": 7,
+          "min": 24211.24744238075,
+          "median": 27021.387352275582,
+          "mean": 26926.27414754556,
+          "max": 28358.661551727535,
+          "stddev": 1293.4069460232151,
+          "coefficient_of_variation": 0.048035125057995245
+        },
+        "server_memory_peak_bytes": {
+          "count": 7,
+          "min": 11698176,
+          "median": 12042240,
+          "mean": 11947446,
+          "max": 12181504,
+          "stddev": 177158.22096081232,
+          "coefficient_of_variation": 0.014828124852860797
+        },
+        "median_rps_ratio_vs_first_variant": 1.0455425253330297
+      },
+      "msgpack_map": {
+        "requests_per_second": {
+          "count": 7,
+          "min": 25544.49,
+          "median": 30020.27,
+          "mean": 29386.78857142857,
+          "max": 31891.05,
+          "stddev": 2400.6532087355395,
+          "coefficient_of_variation": 0.08169158065368139
+        },
+        "p50_seconds": {
+          "count": 7,
+          "min": 0.000437,
+          "median": 0.000467,
+          "mean": 0.0004764285714285715,
+          "max": 0.000543,
+          "stddev": 4.1056953971133264e-05,
+          "coefficient_of_variation": 0.08617651508183892
+        },
+        "p99_seconds": {
+          "count": 7,
+          "min": 0.00276,
+          "median": 0.00299,
+          "mean": 0.0030785714285714283,
+          "max": 0.0035800000000000003,
+          "stddev": 0.0003067539065499795,
+          "coefficient_of_variation": 0.09964164017864764
+        },
+        "server_cpu_cores": {
+          "count": 7,
+          "min": 0.9118277483443709,
+          "median": 0.9572308609271524,
+          "mean": 0.9504469805199081,
+          "max": 0.9696856858846918,
+          "stddev": 0.020809472938443183,
+          "coefficient_of_variation": 0.02189440691058864
+        },
+        "requests_per_cpu_second": {
+          "count": 7,
+          "min": 28014.600396162314,
+          "median": 31361.57767722098,
+          "mean": 30878.66759399097,
+          "max": 32888.02801178222,
+          "stddev": 1892.1022471742635,
+          "coefficient_of_variation": 0.061275385066889
+        },
+        "server_memory_peak_bytes": {
+          "count": 7,
+          "min": 11276288,
+          "median": 11522048,
+          "mean": 11476992,
+          "max": 11685888,
+          "stddev": 157180.3070743915,
+          "coefficient_of_variation": 0.013695252821853625
+        },
+        "median_rps_ratio_vs_first_variant": 1.2250886263256202
+      },
+      "msgpack_array": {
+        "requests_per_second": {
+          "count": 7,
+          "min": 21466.5,
+          "median": 30453.14,
+          "mean": 28873.22,
+          "max": 33439.1,
+          "stddev": 3823.0011396470773,
+          "coefficient_of_variation": 0.13240647006627862
+        },
+        "p50_seconds": {
+          "count": 7,
+          "min": 0.000414,
+          "median": 0.000455,
+          "mean": 0.0004868571428571429,
+          "max": 0.000623,
+          "stddev": 6.635925723219153e-05,
+          "coefficient_of_variation": 0.13630129126330418
+        },
+        "p99_seconds": {
+          "count": 7,
+          "min": 0.0025800000000000003,
+          "median": 0.0029500000000000004,
+          "mean": 0.003278571428571429,
+          "max": 0.00475,
+          "stddev": 0.0007035101496156575,
+          "coefficient_of_variation": 0.2145782591420306
+        },
+        "server_cpu_cores": {
+          "count": 7,
+          "min": 0.8916025165562914,
+          "median": 0.9605400265076209,
+          "mean": 0.9466901616726634,
+          "max": 0.9708789927104042,
+          "stddev": 0.025803514378873144,
+          "coefficient_of_variation": 0.027256557027361624
+        },
+        "requests_per_cpu_second": {
+          "count": 7,
+          "min": 24076.311586593318,
+          "median": 31704.186353090394,
+          "mean": 30411.604819771037,
+          "max": 34442.088304586774,
+          "stddev": 3306.100569836893,
+          "coefficient_of_variation": 0.10871180884500867
+        },
+        "server_memory_peak_bytes": {
+          "count": 7,
+          "min": 11821056,
+          "median": 11968512,
+          "mean": 11932233,
+          "max": 12009472,
+          "stddev": 69595.11147343612,
+          "coefficient_of_variation": 0.005832530379974655
+        },
+        "median_rps_ratio_vs_first_variant": 1.2427534945522407
+      },
+      "cbor_map": {
+        "requests_per_second": {
+          "count": 7,
+          "min": 21474.19,
+          "median": 26288.1,
+          "mean": 25688.140000000003,
+          "max": 29604.95,
+          "stddev": 2876.513493877118,
+          "coefficient_of_variation": 0.11197827066798599
+        },
+        "p50_seconds": {
+          "count": 7,
+          "min": 0.000469,
+          "median": 0.000522,
+          "mean": 0.0005352857142857143,
+          "max": 0.000615,
+          "stddev": 5.2581132644743215e-05,
+          "coefficient_of_variation": 0.09823003162882372
+        },
+        "p99_seconds": {
+          "count": 7,
+          "min": 0.00318,
+          "median": 0.0040999999999999995,
+          "mean": 0.004234285714285714,
+          "max": 0.00619,
+          "stddev": 0.0009258487556654958,
+          "coefficient_of_variation": 0.21865523919225613
+        },
+        "server_cpu_cores": {
+          "count": 7,
+          "min": 0.8874297548045063,
+          "median": 0.9262386754966887,
+          "mean": 0.9231429309478981,
+          "max": 0.9572049039098741,
+          "stddev": 0.0221632410393662,
+          "coefficient_of_variation": 0.024008460982968938
+        },
+        "requests_per_cpu_second": {
+          "count": 7,
+          "min": 24198.185697222416,
+          "median": 28158.717146740673,
+          "mean": 27771.016357858898,
+          "max": 30928.53983412883,
+          "stddev": 2503.1320298248747,
+          "coefficient_of_variation": 0.09013469285997217
+        },
+        "server_memory_peak_bytes": {
+          "count": 7,
+          "min": 11714560,
+          "median": 12050432,
+          "mean": 11990747,
+          "max": 12136448,
+          "stddev": 139673.97996047797,
+          "coefficient_of_variation": 0.011648480279041662
+        },
+        "median_rps_ratio_vs_first_variant": 1.0727835664939234
+      },
+      "cbor_array": {
+        "requests_per_second": {
+          "count": 7,
+          "min": 26239.43,
+          "median": 31593.57,
+          "mean": 30273.052857142855,
+          "max": 32064.74,
+          "stddev": 2081.24204053194,
+          "coefficient_of_variation": 0.06874899767635677
+        },
+        "p50_seconds": {
+          "count": 7,
+          "min": 0.000432,
+          "median": 0.000439,
+          "mean": 0.0004597142857142857,
+          "max": 0.000525,
+          "stddev": 3.267027607436934e-05,
+          "coefficient_of_variation": 0.07106647996289167
+        },
+        "p99_seconds": {
+          "count": 7,
+          "min": 0.00271,
+          "median": 0.00282,
+          "mean": 0.002984285714285714,
+          "max": 0.0035800000000000003,
+          "stddev": 0.0003028840958356911,
+          "coefficient_of_variation": 0.10149299525370216
+        },
+        "server_cpu_cores": {
+          "count": 7,
+          "min": 0.9145659377070908,
+          "median": 0.9557336646785951,
+          "mean": 0.9523600230065477,
+          "max": 0.9682787135278514,
+          "stddev": 0.01689327132653348,
+          "coefficient_of_variation": 0.017738324707501224
+        },
+        "requests_per_cpu_second": {
+          "count": 7,
+          "min": 28690.583060402296,
+          "median": 32954.04763672611,
+          "mean": 31760.30149474687,
+          "max": 33307.012068895485,
+          "stddev": 1690.5666145929715,
+          "coefficient_of_variation": 0.05322892211437571
+        },
+        "server_memory_peak_bytes": {
+          "count": 7,
+          "min": 11784192,
+          "median": 12058624,
+          "mean": 12051017,
+          "max": 12308480,
+          "stddev": 160416.67683255379,
+          "coefficient_of_variation": 0.01331146382355562
+        },
+        "median_rps_ratio_vs_first_variant": 1.2892929767794334
+      }
+    }
+  },
+  "paired_comparisons_vs_first_variant": {
+    "16": {
+      "typed_json": {
+        "baseline": "json",
+        "rps_ratio": {
+          "count": 7,
+          "min": 0.8783493264551249,
+          "median": 1.0732803594505307,
+          "mean": 1.0824870134229252,
+          "max": 1.405059170319822,
+          "stddev": 0.15142922766992312,
+          "coefficient_of_variation": 0.13989011026662548
+        },
+        "requests_per_cpu_second_ratio": {
+          "count": 7,
+          "min": 0.9384686802015488,
+          "median": 1.093390031413871,
+          "mean": 1.097548706027424,
+          "max": 1.3683104646791646,
+          "stddev": 0.12617990538079912,
+          "coefficient_of_variation": 0.11496519898192684
+        },
+        "rps_wins": 5,
+        "pair_count": 7
+      },
+      "msgpack_map": {
+        "baseline": "json",
+        "rps_ratio": {
+          "count": 7,
+          "min": 1.0480855304271455,
+          "median": 1.228155075577494,
+          "mean": 1.2541391274255387,
+          "max": 1.6207198695661564,
+          "stddev": 0.18421416642698565,
+          "coefficient_of_variation": 0.146884952712651
+        },
+        "requests_per_cpu_second_ratio": {
+          "count": 7,
+          "min": 1.0908231780669104,
+          "median": 1.2229308003935226,
+          "mean": 1.2582022042725518,
+          "max": 1.5612162952718223,
+          "stddev": 0.14847409799531627,
+          "coefficient_of_variation": 0.11800495778113723
+        },
+        "rps_wins": 7,
+        "pair_count": 7
+      },
+      "msgpack_array": {
+        "baseline": "json",
+        "rps_ratio": {
+          "count": 7,
+          "min": 0.8760202688722961,
+          "median": 1.2518000220326972,
+          "mean": 1.2334044408224882,
+          "max": 1.6588301984581166,
+          "stddev": 0.22864120981621405,
+          "coefficient_of_variation": 0.1853740770251695
+        },
+        "requests_per_cpu_second_ratio": {
+          "count": 7,
+          "min": 0.9464616584657781,
+          "median": 1.2586311160075923,
+          "mean": 1.2399651991033716,
+          "max": 1.5849920018606551,
+          "stddev": 0.18852682354417744,
+          "coefficient_of_variation": 0.15204202801861105
+        },
+        "rps_wins": 6,
+        "pair_count": 7
+      },
+      "cbor_map": {
+        "baseline": "json",
+        "rps_ratio": {
+          "count": 7,
+          "min": 0.9289683368827968,
+          "median": 1.1237722875106435,
+          "mean": 1.0854462761215593,
+          "max": 1.1938616191936424,
+          "stddev": 0.08621738574811205,
+          "coefficient_of_variation": 0.07943035748961982
+        },
+        "requests_per_cpu_second_ratio": {
+          "count": 7,
+          "min": 0.9980197712432844,
+          "median": 1.1607093267833437,
+          "mean": 1.1239859299351245,
+          "max": 1.2224633738814412,
+          "stddev": 0.07163884166244008,
+          "coefficient_of_variation": 0.06373642209789496
+        },
+        "rps_wins": 6,
+        "pair_count": 7
+      },
+      "cbor_array": {
+        "baseline": "json",
+        "rps_ratio": {
+          "count": 7,
+          "min": 1.1351114825682629,
+          "median": 1.2872685637756116,
+          "mean": 1.2851263677444642,
+          "max": 1.541244304316842,
+          "stddev": 0.11733953462896683,
+          "coefficient_of_variation": 0.09130583386512442
+        },
+        "requests_per_cpu_second_ratio": {
+          "count": 7,
+          "min": 1.1833023145229387,
+          "median": 1.2824052275833737,
+          "mean": 1.2893584849587405,
+          "max": 1.4971012873631173,
+          "stddev": 0.09239610680349526,
+          "coefficient_of_variation": 0.07166052566556146
+        },
+        "rps_wins": 7,
+        "pair_count": 7
+      }
+    }
+  },
+  "trials": [
+    {
+      "requests_per_second": 24909.13,
+      "total_requests": 376118,
+      "elapsed_seconds": 15.1,
+      "p50_seconds": 0.000558,
+      "p99_seconds": 0.0033799999999999998,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "json",
+      "repetition": 1,
+      "connections": 16,
+      "trial_sequence": 1,
+      "server_cpu_cores": 0.9646205298013245,
+      "requests_per_cpu_second": 25822.724304997264,
+      "server_memory_current_bytes": 12779520,
+      "server_memory_peak_bytes": 13127680,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 95.0,
+      "loadgen_max_rss_bytes": 15859712,
+      "raw_result": "round25_digitalocean_cbor_http_raw/json_r1_c16.txt",
+      "server_log": [
+        "Aug 13 13:21:19 amber-cbor-r25-target systemd[1]: Started amber-framework-json-r1-c16.service - /opt/amber-router/bin/stock_json_optimized --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:21:19 amber-cbor-r25-target stock_json_optimized[8676]: READY 10.143.0.2:41019 routes=1000 codec=legacy_json_params_streaming"
+      ]
+    },
+    {
+      "requests_per_second": 26734.48,
+      "total_requests": 403462,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000506,
+      "p99_seconds": 0.0037099999999999998,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "typed_json",
+      "repetition": 1,
+      "connections": 16,
+      "trial_sequence": 2,
+      "server_cpu_cores": 0.9468791915175613,
+      "requests_per_cpu_second": 28234.309339032687,
+      "server_memory_current_bytes": 11718656,
+      "server_memory_peak_bytes": 12066816,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 106.0,
+      "loadgen_max_rss_bytes": 15953920,
+      "raw_result": "round25_digitalocean_cbor_http_raw/typed_json_r1_c16.txt",
+      "server_log": [
+        "Aug 13 13:21:42 amber-cbor-r25-target systemd[1]: Started amber-framework-typed-json-r1-c16.service - /opt/amber-router/bin/stock_typed_json --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:21:42 amber-cbor-r25-target stock_typed_json[8929]: READY 10.143.0.2:41019 routes=1000 codec=typed_json_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 31118.26,
+      "total_requests": 469650,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.00044,
+      "p99_seconds": 0.0028799999999999997,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "msgpack_map",
+      "repetition": 1,
+      "connections": 16,
+      "trial_sequence": 3,
+      "server_cpu_cores": 0.961830815109344,
+      "requests_per_cpu_second": 32353.15349764748,
+      "server_memory_current_bytes": 11272192,
+      "server_memory_peak_bytes": 11620352,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 125.0,
+      "loadgen_max_rss_bytes": 15970304,
+      "raw_result": "round25_digitalocean_cbor_http_raw/msgpack_map_r1_c16.txt",
+      "server_log": [
+        "Aug 13 13:22:06 amber-cbor-r25-target systemd[1]: Started amber-framework-msgpack-map-r1-c16.service - /opt/amber-router/bin/stock_msgpack_map --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:22:06 amber-cbor-r25-target stock_msgpack_map[9182]: READY 10.143.0.2:41019 routes=1000 codec=msgpack_map_streaming"
+      ]
+    },
+    {
+      "requests_per_second": 33439.1,
+      "total_requests": 504634,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000414,
+      "p99_seconds": 0.0025800000000000003,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "msgpack_array",
+      "repetition": 1,
+      "connections": 16,
+      "trial_sequence": 4,
+      "server_cpu_cores": 0.9708789927104042,
+      "requests_per_cpu_second": 34442.088304586774,
+      "server_memory_current_bytes": 11636736,
+      "server_memory_peak_bytes": 11984896,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 137.0,
+      "loadgen_max_rss_bytes": 15859712,
+      "raw_result": "round25_digitalocean_cbor_http_raw/msgpack_array_r1_c16.txt",
+      "server_log": [
+        "Aug 13 13:22:30 amber-cbor-r25-target systemd[1]: Started amber-framework-msgpack-array-r1-c16.service - /opt/amber-router/bin/stock_msgpack_array --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:22:30 amber-cbor-r25-target stock_msgpack_array[9444]: READY 10.143.0.2:41019 routes=1000 codec=msgpack_array_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 27992.19,
+      "total_requests": 422667,
+      "elapsed_seconds": 15.1,
+      "p50_seconds": 0.000487,
+      "p99_seconds": 0.0036,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "cbor_map",
+      "repetition": 1,
+      "connections": 16,
+      "trial_sequence": 5,
+      "server_cpu_cores": 0.9262386754966887,
+      "requests_per_cpu_second": 30221.357346139095,
+      "server_memory_current_bytes": 11542528,
+      "server_memory_peak_bytes": 11894784,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 115.0,
+      "loadgen_max_rss_bytes": 17035264,
+      "raw_result": "round25_digitalocean_cbor_http_raw/cbor_map_r1_c16.txt",
+      "server_log": [
+        "Aug 13 13:22:54 amber-cbor-r25-target systemd[1]: Started amber-framework-cbor-map-r1-c16.service - /opt/amber-router/bin/stock_cbor_map --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:22:54 amber-cbor-r25-target stock_cbor_map[9697]: READY 10.143.0.2:41019 routes=1000 codec=cbor_map_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 32064.74,
+      "total_requests": 483674,
+      "elapsed_seconds": 15.08,
+      "p50_seconds": 0.000432,
+      "p99_seconds": 0.00273,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "cbor_array",
+      "repetition": 1,
+      "connections": 16,
+      "trial_sequence": 6,
+      "server_cpu_cores": 0.9682787135278514,
+      "requests_per_cpu_second": 33115.19663917273,
+      "server_memory_current_bytes": 11841536,
+      "server_memory_peak_bytes": 12193792,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 129.0,
+      "loadgen_max_rss_bytes": 15958016,
+      "raw_result": "round25_digitalocean_cbor_http_raw/cbor_array_r1_c16.txt",
+      "server_log": [
+        "Aug 13 13:23:18 amber-cbor-r25-target systemd[1]: Started amber-framework-cbor-array-r1-c16.service - /opt/amber-router/bin/stock_cbor_array --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:23:18 amber-cbor-r25-target stock_cbor_array[9961]: READY 10.143.0.2:41019 routes=1000 codec=cbor_array_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 26025.63,
+      "total_requests": 392746,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.00053,
+      "p99_seconds": 0.00346,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "typed_json",
+      "repetition": 2,
+      "connections": 16,
+      "trial_sequence": 7,
+      "server_cpu_cores": 0.9468512922465209,
+      "requests_per_cpu_second": 27486.502065441553,
+      "server_memory_current_bytes": 11833344,
+      "server_memory_peak_bytes": 12181504,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 103.0,
+      "loadgen_max_rss_bytes": 17133568,
+      "raw_result": "round25_digitalocean_cbor_http_raw/typed_json_r2_c16.txt",
+      "server_log": [
+        "Aug 13 13:23:41 amber-cbor-r25-target systemd[1]: Started amber-framework-typed-json-r2-c16.service - /opt/amber-router/bin/stock_typed_json --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:23:42 amber-cbor-r25-target stock_typed_json[10215]: READY 10.143.0.2:41019 routes=1000 codec=typed_json_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 30020.27,
+      "total_requests": 453310,
+      "elapsed_seconds": 15.1,
+      "p50_seconds": 0.000467,
+      "p99_seconds": 0.00299,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "msgpack_map",
+      "repetition": 2,
+      "connections": 16,
+      "trial_sequence": 8,
+      "server_cpu_cores": 0.9572308609271524,
+      "requests_per_cpu_second": 31361.57767722098,
+      "server_memory_current_bytes": 10981376,
+      "server_memory_peak_bytes": 11329536,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 114.0,
+      "loadgen_max_rss_bytes": 15904768,
+      "raw_result": "round25_digitalocean_cbor_http_raw/msgpack_map_r2_c16.txt",
+      "server_log": [
+        "Aug 13 13:24:05 amber-cbor-r25-target systemd[1]: Started amber-framework-msgpack-map-r2-c16.service - /opt/amber-router/bin/stock_msgpack_map --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:24:05 amber-cbor-r25-target stock_msgpack_map[10469]: READY 10.143.0.2:41019 routes=1000 codec=msgpack_map_streaming"
+      ]
+    },
+    {
+      "requests_per_second": 30726.18,
+      "total_requests": 463635,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000453,
+      "p99_seconds": 0.00283,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "msgpack_array",
+      "repetition": 2,
+      "connections": 16,
+      "trial_sequence": 9,
+      "server_cpu_cores": 0.9650430086149768,
+      "requests_per_cpu_second": 31839.1820112743,
+      "server_memory_current_bytes": 11649024,
+      "server_memory_peak_bytes": 11997184,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 123.0,
+      "loadgen_max_rss_bytes": 15859712,
+      "raw_result": "round25_digitalocean_cbor_http_raw/msgpack_array_r2_c16.txt",
+      "server_log": [
+        "Aug 13 13:24:29 amber-cbor-r25-target systemd[1]: Started amber-framework-msgpack-array-r2-c16.service - /opt/amber-router/bin/stock_msgpack_array --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:24:29 amber-cbor-r25-target stock_msgpack_array[10732]: READY 10.143.0.2:41019 routes=1000 codec=msgpack_array_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 22113.66,
+      "total_requests": 333913,
+      "elapsed_seconds": 15.1,
+      "p50_seconds": 0.000601,
+      "p99_seconds": 0.00447,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "cbor_map",
+      "repetition": 2,
+      "connections": 16,
+      "trial_sequence": 10,
+      "server_cpu_cores": 0.9005129139072847,
+      "requests_per_cpu_second": 24556.73834154119,
+      "server_memory_current_bytes": 11603968,
+      "server_memory_peak_bytes": 11952128,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 88.0,
+      "loadgen_max_rss_bytes": 15876096,
+      "raw_result": "round25_digitalocean_cbor_http_raw/cbor_map_r2_c16.txt",
+      "server_log": [
+        "Aug 13 13:24:53 amber-cbor-r25-target systemd[1]: Started amber-framework-cbor-map-r2-c16.service - /opt/amber-router/bin/stock_cbor_map --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:24:53 amber-cbor-r25-target stock_cbor_map[10985]: READY 10.143.0.2:41019 routes=1000 codec=cbor_map_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 28548.16,
+      "total_requests": 430883,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000487,
+      "p99_seconds": 0.00319,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "cbor_array",
+      "repetition": 2,
+      "connections": 16,
+      "trial_sequence": 11,
+      "server_cpu_cores": 0.9492751491053678,
+      "requests_per_cpu_second": 30073.640953210295,
+      "server_memory_current_bytes": 11587584,
+      "server_memory_peak_bytes": 11935744,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 114.0,
+      "loadgen_max_rss_bytes": 15859712,
+      "raw_result": "round25_digitalocean_cbor_http_raw/cbor_array_r2_c16.txt",
+      "server_log": [
+        "Aug 13 13:25:16 amber-cbor-r25-target systemd[1]: Started amber-framework-cbor-array-r2-c16.service - /opt/amber-router/bin/stock_cbor_array --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:25:16 amber-cbor-r25-target stock_cbor_array[11241]: READY 10.143.0.2:41019 routes=1000 codec=cbor_array_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 18522.8,
+      "total_requests": 279524,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000728,
+      "p99_seconds": 0.00477,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "json",
+      "repetition": 2,
+      "connections": 16,
+      "trial_sequence": 12,
+      "server_cpu_cores": 0.9220868124585818,
+      "requests_per_cpu_second": 20087.91336101231,
+      "server_memory_current_bytes": 11689984,
+      "server_memory_peak_bytes": 12038144,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 69.0,
+      "loadgen_max_rss_bytes": 16089088,
+      "raw_result": "round25_digitalocean_cbor_http_raw/json_r2_c16.txt",
+      "server_log": [
+        "Aug 13 13:25:41 amber-cbor-r25-target systemd[1]: Started amber-framework-json-r2-c16.service - /opt/amber-router/bin/stock_json_optimized --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:25:41 amber-cbor-r25-target stock_json_optimized[11503]: READY 10.143.0.2:41019 routes=1000 codec=legacy_json_params_streaming"
+      ]
+    },
+    {
+      "requests_per_second": 25544.49,
+      "total_requests": 385722,
+      "elapsed_seconds": 15.1,
+      "p50_seconds": 0.000543,
+      "p99_seconds": 0.0035800000000000003,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "msgpack_map",
+      "repetition": 3,
+      "connections": 16,
+      "trial_sequence": 13,
+      "server_cpu_cores": 0.9118277483443709,
+      "requests_per_cpu_second": 28014.600396162314,
+      "server_memory_current_bytes": 10952704,
+      "server_memory_peak_bytes": 11304960,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 101.0,
+      "loadgen_max_rss_bytes": 15990784,
+      "raw_result": "round25_digitalocean_cbor_http_raw/msgpack_map_r3_c16.txt",
+      "server_log": [
+        "Aug 13 13:26:05 amber-cbor-r25-target systemd[1]: Started amber-framework-msgpack-map-r3-c16.service - /opt/amber-router/bin/stock_msgpack_map --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:26:05 amber-cbor-r25-target stock_msgpack_map[11756]: READY 10.143.0.2:41019 routes=1000 codec=msgpack_map_streaming"
+      ]
+    },
+    {
+      "requests_per_second": 30453.14,
+      "total_requests": 459612,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000455,
+      "p99_seconds": 0.0029500000000000004,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "msgpack_array",
+      "repetition": 3,
+      "connections": 16,
+      "trial_sequence": 14,
+      "server_cpu_cores": 0.9605400265076209,
+      "requests_per_cpu_second": 31704.186353090394,
+      "server_memory_current_bytes": 11472896,
+      "server_memory_peak_bytes": 11821056,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 122.0,
+      "loadgen_max_rss_bytes": 15937536,
+      "raw_result": "round25_digitalocean_cbor_http_raw/msgpack_array_r3_c16.txt",
+      "server_log": [
+        "Aug 13 13:26:28 amber-cbor-r25-target systemd[1]: Started amber-framework-msgpack-array-r3-c16.service - /opt/amber-router/bin/stock_msgpack_array --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:26:28 amber-cbor-r25-target stock_msgpack_array[12009]: READY 10.143.0.2:41019 routes=1000 codec=msgpack_array_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 24453.24,
+      "total_requests": 369031,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000555,
+      "p99_seconds": 0.0040999999999999995,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "cbor_map",
+      "repetition": 3,
+      "connections": 16,
+      "trial_sequence": 15,
+      "server_cpu_cores": 0.9159821736249172,
+      "requests_per_cpu_second": 26696.196393460912,
+      "server_memory_current_bytes": 11702272,
+      "server_memory_peak_bytes": 12050432,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 98.0,
+      "loadgen_max_rss_bytes": 15859712,
+      "raw_result": "round25_digitalocean_cbor_http_raw/cbor_map_r3_c16.txt",
+      "server_log": [
+        "Aug 13 13:26:52 amber-cbor-r25-target systemd[1]: Started amber-framework-cbor-map-r3-c16.service - /opt/amber-router/bin/stock_cbor_map --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:26:52 amber-cbor-r25-target stock_cbor_map[12290]: READY 10.143.0.2:41019 routes=1000 codec=cbor_map_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 29571.69,
+      "total_requests": 446250,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000465,
+      "p99_seconds": 0.00312,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "cbor_array",
+      "repetition": 3,
+      "connections": 16,
+      "trial_sequence": 16,
+      "server_cpu_cores": 0.9501019880715705,
+      "requests_per_cpu_second": 31124.75331203326,
+      "server_memory_current_bytes": 11436032,
+      "server_memory_peak_bytes": 11784192,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 118.0,
+      "loadgen_max_rss_bytes": 15859712,
+      "raw_result": "round25_digitalocean_cbor_http_raw/cbor_array_r3_c16.txt",
+      "server_log": [
+        "Aug 13 13:27:16 amber-cbor-r25-target systemd[1]: Started amber-framework-cbor-array-r3-c16.service - /opt/amber-router/bin/stock_cbor_array --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:27:16 amber-cbor-r25-target stock_cbor_array[12578]: READY 10.143.0.2:41019 routes=1000 codec=cbor_array_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 24327.48,
+      "total_requests": 367013,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000565,
+      "p99_seconds": 0.00361,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "json",
+      "repetition": 3,
+      "connections": 16,
+      "trial_sequence": 17,
+      "server_cpu_cores": 0.9657817097415506,
+      "requests_per_cpu_second": 25189.418845496864,
+      "server_memory_current_bytes": 11808768,
+      "server_memory_peak_bytes": 12156928,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 93.0,
+      "loadgen_max_rss_bytes": 15945728,
+      "raw_result": "round25_digitalocean_cbor_http_raw/json_r3_c16.txt",
+      "server_log": [
+        "Aug 13 13:27:40 amber-cbor-r25-target systemd[1]: Started amber-framework-json-r3-c16.service - /opt/amber-router/bin/stock_json_optimized --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:27:40 amber-cbor-r25-target stock_json_optimized[12840]: READY 10.143.0.2:41019 routes=1000 codec=legacy_json_params_streaming"
+      ]
+    },
+    {
+      "requests_per_second": 27148.62,
+      "total_requests": 409938,
+      "elapsed_seconds": 15.1,
+      "p50_seconds": 0.000515,
+      "p99_seconds": 0.00318,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "typed_json",
+      "repetition": 3,
+      "connections": 16,
+      "trial_sequence": 18,
+      "server_cpu_cores": 0.9573307947019868,
+      "requests_per_cpu_second": 28358.661551727535,
+      "server_memory_current_bytes": 11743232,
+      "server_memory_peak_bytes": 12091392,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 107.0,
+      "loadgen_max_rss_bytes": 15970304,
+      "raw_result": "round25_digitalocean_cbor_http_raw/typed_json_r3_c16.txt",
+      "server_log": [
+        "Aug 13 13:28:03 amber-cbor-r25-target systemd[1]: Started amber-framework-typed-json-r3-c16.service - /opt/amber-router/bin/stock_typed_json --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:28:03 amber-cbor-r25-target stock_typed_json[13093]: READY 10.143.0.2:41019 routes=1000 codec=typed_json_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 32373.23,
+      "total_requests": 488833,
+      "elapsed_seconds": 15.1,
+      "p50_seconds": 0.000431,
+      "p99_seconds": 0.0027400000000000002,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "msgpack_array",
+      "repetition": 4,
+      "connections": 16,
+      "trial_sequence": 19,
+      "server_cpu_cores": 0.9641858278145695,
+      "requests_per_cpu_second": 33575.71649168231,
+      "server_memory_current_bytes": 11517952,
+      "server_memory_peak_bytes": 11866112,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 124.0,
+      "loadgen_max_rss_bytes": 15953920,
+      "raw_result": "round25_digitalocean_cbor_http_raw/msgpack_array_r4_c16.txt",
+      "server_log": [
+        "Aug 13 13:28:28 amber-cbor-r25-target systemd[1]: Started amber-framework-msgpack-array-r4-c16.service - /opt/amber-router/bin/stock_msgpack_array --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:28:28 amber-cbor-r25-target stock_msgpack_array[13355]: READY 10.143.0.2:41019 routes=1000 codec=msgpack_array_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 26288.1,
+      "total_requests": 396940,
+      "elapsed_seconds": 15.1,
+      "p50_seconds": 0.000522,
+      "p99_seconds": 0.00354,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "cbor_map",
+      "repetition": 4,
+      "connections": 16,
+      "trial_sequence": 20,
+      "server_cpu_cores": 0.9335688079470199,
+      "requests_per_cpu_second": 28158.717146740673,
+      "server_memory_current_bytes": 11788288,
+      "server_memory_peak_bytes": 12136448,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 103.0,
+      "loadgen_max_rss_bytes": 15859712,
+      "raw_result": "round25_digitalocean_cbor_http_raw/cbor_map_r4_c16.txt",
+      "server_log": [
+        "Aug 13 13:28:51 amber-cbor-r25-target systemd[1]: Started amber-framework-cbor-map-r4-c16.service - /opt/amber-router/bin/stock_cbor_map --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:28:51 amber-cbor-r25-target stock_cbor_map[13609]: READY 10.143.0.2:41019 routes=1000 codec=cbor_map_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 32061.63,
+      "total_requests": 483653,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000432,
+      "p99_seconds": 0.00282,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "cbor_array",
+      "repetition": 4,
+      "connections": 16,
+      "trial_sequence": 21,
+      "server_cpu_cores": 0.96260901259112,
+      "requests_per_cpu_second": 33307.012068895485,
+      "server_memory_current_bytes": 11710464,
+      "server_memory_peak_bytes": 12058624,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 128.0,
+      "loadgen_max_rss_bytes": 16039936,
+      "raw_result": "round25_digitalocean_cbor_http_raw/cbor_array_r4_c16.txt",
+      "server_log": [
+        "Aug 13 13:29:15 amber-cbor-r25-target systemd[1]: Started amber-framework-cbor-array-r4-c16.service - /opt/amber-router/bin/stock_cbor_array --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:29:15 amber-cbor-r25-target stock_cbor_array[13864]: READY 10.143.0.2:41019 routes=1000 codec=cbor_array_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 24866.94,
+      "total_requests": 375325,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000547,
+      "p99_seconds": 0.00352,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "json",
+      "repetition": 4,
+      "connections": 16,
+      "trial_sequence": 22,
+      "server_cpu_cores": 0.9638844267726971,
+      "requests_per_cpu_second": 25798.67389626797,
+      "server_memory_current_bytes": 11608064,
+      "server_memory_peak_bytes": 11956224,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 97.0,
+      "loadgen_max_rss_bytes": 16007168,
+      "raw_result": "round25_digitalocean_cbor_http_raw/json_r4_c16.txt",
+      "server_log": [
+        "Aug 13 13:29:39 amber-cbor-r25-target systemd[1]: Started amber-framework-json-r4-c16.service - /opt/amber-router/bin/stock_json_optimized --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:29:39 amber-cbor-r25-target stock_json_optimized[14126]: READY 10.143.0.2:41019 routes=1000 codec=legacy_json_params_streaming"
+      ]
+    },
+    {
+      "requests_per_second": 21841.86,
+      "total_requests": 329549,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000626,
+      "p99_seconds": 0.00418,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "typed_json",
+      "repetition": 4,
+      "connections": 16,
+      "trial_sequence": 23,
+      "server_cpu_cores": 0.9021369118621604,
+      "requests_per_cpu_second": 24211.24744238075,
+      "server_memory_current_bytes": 11350016,
+      "server_memory_peak_bytes": 11698176,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 85.0,
+      "loadgen_max_rss_bytes": 15859712,
+      "raw_result": "round25_digitalocean_cbor_http_raw/typed_json_r4_c16.txt",
+      "server_log": [
+        "Aug 13 13:30:04 amber-cbor-r25-target systemd[1]: Started amber-framework-typed-json-r4-c16.service - /opt/amber-router/bin/stock_typed_json --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:30:04 amber-cbor-r25-target stock_typed_json[14381]: READY 10.143.0.2:41019 routes=1000 codec=typed_json_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 26062.68,
+      "total_requests": 393382,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000533,
+      "p99_seconds": 0.00349,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "msgpack_map",
+      "repetition": 4,
+      "connections": 16,
+      "trial_sequence": 24,
+      "server_cpu_cores": 0.9261201457919152,
+      "requests_per_cpu_second": 28141.79144943887,
+      "server_memory_current_bytes": 10924032,
+      "server_memory_peak_bytes": 11276288,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 105.0,
+      "loadgen_max_rss_bytes": 16019456,
+      "raw_result": "round25_digitalocean_cbor_http_raw/msgpack_map_r4_c16.txt",
+      "server_log": [
+        "Aug 13 13:30:28 amber-cbor-r25-target systemd[1]: Started amber-framework-msgpack-map-r4-c16.service - /opt/amber-router/bin/stock_msgpack_map --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:30:28 amber-cbor-r25-target stock_msgpack_map[14634]: READY 10.143.0.2:41019 routes=1000 codec=msgpack_map_streaming"
+      ]
+    },
+    {
+      "requests_per_second": 21474.19,
+      "total_requests": 324066,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000615,
+      "p99_seconds": 0.00456,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "cbor_map",
+      "repetition": 5,
+      "connections": 16,
+      "trial_sequence": 25,
+      "server_cpu_cores": 0.8874297548045063,
+      "requests_per_cpu_second": 24198.185697222416,
+      "server_memory_current_bytes": 11362304,
+      "server_memory_peak_bytes": 11714560,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 84.0,
+      "loadgen_max_rss_bytes": 16138240,
+      "raw_result": "round25_digitalocean_cbor_http_raw/cbor_map_r5_c16.txt",
+      "server_log": [
+        "Aug 13 13:30:52 amber-cbor-r25-target systemd[1]: Started amber-framework-cbor-map-r5-c16.service - /opt/amber-router/bin/stock_cbor_map --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:30:52 amber-cbor-r25-target stock_cbor_map[14896]: READY 10.143.0.2:41019 routes=1000 codec=cbor_map_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 26239.43,
+      "total_requests": 395988,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000525,
+      "p99_seconds": 0.0035800000000000003,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "cbor_array",
+      "repetition": 5,
+      "connections": 16,
+      "trial_sequence": 26,
+      "server_cpu_cores": 0.9145659377070908,
+      "requests_per_cpu_second": 28690.583060402296,
+      "server_memory_current_bytes": 11620352,
+      "server_memory_peak_bytes": 11972608,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 102.0,
+      "loadgen_max_rss_bytes": 15859712,
+      "raw_result": "round25_digitalocean_cbor_http_raw/cbor_array_r5_c16.txt",
+      "server_log": [
+        "Aug 13 13:31:16 amber-cbor-r25-target systemd[1]: Started amber-framework-cbor-array-r5-c16.service - /opt/amber-router/bin/stock_cbor_array --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:31:16 amber-cbor-r25-target stock_cbor_array[15149]: READY 10.143.0.2:41019 routes=1000 codec=cbor_array_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 23116.17,
+      "total_requests": 348765,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000593,
+      "p99_seconds": 0.0038399999999999997,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "json",
+      "repetition": 5,
+      "connections": 16,
+      "trial_sequence": 27,
+      "server_cpu_cores": 0.9533935719019218,
+      "requests_per_cpu_second": 24246.19871716318,
+      "server_memory_current_bytes": 11780096,
+      "server_memory_peak_bytes": 12128256,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 93.0,
+      "loadgen_max_rss_bytes": 16150528,
+      "raw_result": "round25_digitalocean_cbor_http_raw/json_r5_c16.txt",
+      "server_log": [
+        "Aug 13 13:31:39 amber-cbor-r25-target systemd[1]: Started amber-framework-json-r5-c16.service - /opt/amber-router/bin/stock_json_optimized --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:31:39 amber-cbor-r25-target stock_json_optimized[15402]: READY 10.143.0.2:41019 routes=1000 codec=legacy_json_params_streaming"
+      ]
+    },
+    {
+      "requests_per_second": 25131.24,
+      "total_requests": 379397,
+      "elapsed_seconds": 15.1,
+      "p50_seconds": 0.000548,
+      "p99_seconds": 0.0037400000000000003,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "typed_json",
+      "repetition": 5,
+      "connections": 16,
+      "trial_sequence": 28,
+      "server_cpu_cores": 0.9415996026490067,
+      "requests_per_cpu_second": 26689.94329362307,
+      "server_memory_current_bytes": 11431936,
+      "server_memory_peak_bytes": 11780096,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 96.0,
+      "loadgen_max_rss_bytes": 15962112,
+      "raw_result": "round25_digitalocean_cbor_http_raw/typed_json_r5_c16.txt",
+      "server_log": [
+        "Aug 13 13:32:04 amber-cbor-r25-target systemd[1]: Started amber-framework-typed-json-r5-c16.service - /opt/amber-router/bin/stock_typed_json --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:32:04 amber-cbor-r25-target stock_typed_json[15665]: READY 10.143.0.2:41019 routes=1000 codec=typed_json_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 31891.05,
+      "total_requests": 481170,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000437,
+      "p99_seconds": 0.00278,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "msgpack_map",
+      "repetition": 5,
+      "connections": 16,
+      "trial_sequence": 29,
+      "server_cpu_cores": 0.9696856858846918,
+      "requests_per_cpu_second": 32888.02801178222,
+      "server_memory_current_bytes": 11337728,
+      "server_memory_peak_bytes": 11685888,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 127.0,
+      "loadgen_max_rss_bytes": 15720448,
+      "raw_result": "round25_digitalocean_cbor_http_raw/msgpack_map_r5_c16.txt",
+      "server_log": [
+        "Aug 13 13:32:27 amber-cbor-r25-target systemd[1]: Started amber-framework-msgpack-map-r5-c16.service - /opt/amber-router/bin/stock_msgpack_map --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:32:27 amber-cbor-r25-target stock_msgpack_map[15919]: READY 10.143.0.2:41019 routes=1000 codec=msgpack_map_streaming"
+      ]
+    },
+    {
+      "requests_per_second": 26671.49,
+      "total_requests": 402565,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000517,
+      "p99_seconds": 0.00373,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "msgpack_array",
+      "repetition": 5,
+      "connections": 16,
+      "trial_sequence": 30,
+      "server_cpu_cores": 0.9334468522200132,
+      "requests_per_cpu_second": 28573.12115474737,
+      "server_memory_current_bytes": 11530240,
+      "server_memory_peak_bytes": 11878400,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 104.0,
+      "loadgen_max_rss_bytes": 15990784,
+      "raw_result": "round25_digitalocean_cbor_http_raw/msgpack_array_r5_c16.txt",
+      "server_log": [
+        "Aug 13 13:32:51 amber-cbor-r25-target systemd[1]: Started amber-framework-msgpack-array-r5-c16.service - /opt/amber-router/bin/stock_msgpack_array --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:32:51 amber-cbor-r25-target stock_msgpack_array[16172]: READY 10.143.0.2:41019 routes=1000 codec=msgpack_array_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 31832.15,
+      "total_requests": 480666,
+      "elapsed_seconds": 15.1,
+      "p50_seconds": 0.000438,
+      "p99_seconds": 0.00271,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "cbor_array",
+      "repetition": 6,
+      "connections": 16,
+      "trial_sequence": 31,
+      "server_cpu_cores": 0.9659556953642384,
+      "requests_per_cpu_second": 32954.04763672611,
+      "server_memory_current_bytes": 11755520,
+      "server_memory_peak_bytes": 12103680,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 127.0,
+      "loadgen_max_rss_bytes": 15859712,
+      "raw_result": "round25_digitalocean_cbor_http_raw/cbor_array_r6_c16.txt",
+      "server_log": [
+        "Aug 13 13:33:15 amber-cbor-r25-target systemd[1]: Started amber-framework-cbor-array-r6-c16.service - /opt/amber-router/bin/stock_cbor_array --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:33:15 amber-cbor-r25-target stock_cbor_array[16437]: READY 10.143.0.2:41019 routes=1000 codec=cbor_array_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 24504.57,
+      "total_requests": 369760,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000561,
+      "p99_seconds": 0.0035499999999999998,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "json",
+      "repetition": 6,
+      "connections": 16,
+      "trial_sequence": 32,
+      "server_cpu_cores": 0.9632968853545394,
+      "requests_per_cpu_second": 25438.232358636917,
+      "server_memory_current_bytes": 11694080,
+      "server_memory_peak_bytes": 12042240,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 98.0,
+      "loadgen_max_rss_bytes": 15974400,
+      "raw_result": "round25_digitalocean_cbor_http_raw/json_r6_c16.txt",
+      "server_log": [
+        "Aug 13 13:33:38 amber-cbor-r25-target systemd[1]: Started amber-framework-json-r6-c16.service - /opt/amber-router/bin/stock_json_optimized --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:33:38 amber-cbor-r25-target stock_json_optimized[16690]: READY 10.143.0.2:41019 routes=1000 codec=legacy_json_params_streaming"
+      ]
+    },
+    {
+      "requests_per_second": 25620.57,
+      "total_requests": 386861,
+      "elapsed_seconds": 15.1,
+      "p50_seconds": 0.000545,
+      "p99_seconds": 0.0035299999999999997,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "typed_json",
+      "repetition": 6,
+      "connections": 16,
+      "trial_sequence": 33,
+      "server_cpu_cores": 0.948158940397351,
+      "requests_per_cpu_second": 27021.387352275582,
+      "server_memory_current_bytes": 11423744,
+      "server_memory_peak_bytes": 11771904,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 100.0,
+      "loadgen_max_rss_bytes": 15859712,
+      "raw_result": "round25_digitalocean_cbor_http_raw/typed_json_r6_c16.txt",
+      "server_log": [
+        "Aug 13 13:34:02 amber-cbor-r25-target systemd[1]: Started amber-framework-typed-json-r6-c16.service - /opt/amber-router/bin/stock_typed_json --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:34:02 amber-cbor-r25-target stock_typed_json[16944]: READY 10.143.0.2:41019 routes=1000 codec=typed_json_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 29481.86,
+      "total_requests": 444960,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000473,
+      "p99_seconds": 0.00307,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "msgpack_map",
+      "repetition": 6,
+      "connections": 16,
+      "trial_sequence": 34,
+      "server_cpu_cores": 0.9570474486414844,
+      "requests_per_cpu_second": 30805.013943508333,
+      "server_memory_current_bytes": 11251712,
+      "server_memory_peak_bytes": 11599872,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 116.0,
+      "loadgen_max_rss_bytes": 15888384,
+      "raw_result": "round25_digitalocean_cbor_http_raw/msgpack_map_r6_c16.txt",
+      "server_log": [
+        "Aug 13 13:34:27 amber-cbor-r25-target systemd[1]: Started amber-framework-msgpack-map-r6-c16.service - /opt/amber-router/bin/stock_msgpack_map --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:34:27 amber-cbor-r25-target stock_msgpack_map[17208]: READY 10.143.0.2:41019 routes=1000 codec=msgpack_map_streaming"
+      ]
+    },
+    {
+      "requests_per_second": 21466.5,
+      "total_requests": 324044,
+      "elapsed_seconds": 15.1,
+      "p50_seconds": 0.000623,
+      "p99_seconds": 0.00475,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "msgpack_array",
+      "repetition": 6,
+      "connections": 16,
+      "trial_sequence": 35,
+      "server_cpu_cores": 0.8916025165562914,
+      "requests_per_cpu_second": 24076.311586593318,
+      "server_memory_current_bytes": 11657216,
+      "server_memory_peak_bytes": 12009472,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 82.0,
+      "loadgen_max_rss_bytes": 15859712,
+      "raw_result": "round25_digitalocean_cbor_http_raw/msgpack_array_r6_c16.txt",
+      "server_log": [
+        "Aug 13 13:34:50 amber-cbor-r25-target systemd[1]: Started amber-framework-msgpack-array-r6-c16.service - /opt/amber-router/bin/stock_msgpack_array --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:34:50 amber-cbor-r25-target stock_msgpack_array[17461]: READY 10.143.0.2:41019 routes=1000 codec=msgpack_array_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 27890.65,
+      "total_requests": 420912,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000498,
+      "p99_seconds": 0.00619,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "cbor_map",
+      "repetition": 6,
+      "connections": 16,
+      "trial_sequence": 36,
+      "server_cpu_cores": 0.9410632869449966,
+      "requests_per_cpu_second": 29637.379745779155,
+      "server_memory_current_bytes": 11702272,
+      "server_memory_peak_bytes": 12050432,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 115.0,
+      "loadgen_max_rss_bytes": 16646144,
+      "raw_result": "round25_digitalocean_cbor_http_raw/cbor_map_r6_c16.txt",
+      "server_log": [
+        "Aug 13 13:35:14 amber-cbor-r25-target systemd[1]: Started amber-framework-cbor-map-r6-c16.service - /opt/amber-router/bin/stock_cbor_map --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:35:14 amber-cbor-r25-target stock_cbor_map[17717]: READY 10.143.0.2:41019 routes=1000 codec=cbor_map_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 25720.62,
+      "total_requests": 388098,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000538,
+      "p99_seconds": 0.00335,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "json",
+      "repetition": 7,
+      "connections": 16,
+      "trial_sequence": 37,
+      "server_cpu_cores": 0.9652626242544732,
+      "requests_per_cpu_second": 26646.24046731892,
+      "server_memory_current_bytes": 11751424,
+      "server_memory_peak_bytes": 12099584,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 100.0,
+      "loadgen_max_rss_bytes": 16093184,
+      "raw_result": "round25_digitalocean_cbor_http_raw/json_r7_c16.txt",
+      "server_log": [
+        "Aug 13 13:35:38 amber-cbor-r25-target systemd[1]: Started amber-framework-json-r7-c16.service - /opt/amber-router/bin/stock_json_optimized --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:35:38 amber-cbor-r25-target stock_json_optimized[17979]: READY 10.143.0.2:41019 routes=1000 codec=legacy_json_params_streaming"
+      ]
+    },
+    {
+      "requests_per_second": 25001.5,
+      "total_requests": 377521,
+      "elapsed_seconds": 15.1,
+      "p50_seconds": 0.000562,
+      "p99_seconds": 0.0036,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "typed_json",
+      "repetition": 7,
+      "connections": 16,
+      "trial_sequence": 38,
+      "server_cpu_cores": 0.9440988079470198,
+      "requests_per_cpu_second": 26481.867988337734,
+      "server_memory_current_bytes": 11694080,
+      "server_memory_peak_bytes": 12042240,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 94.0,
+      "loadgen_max_rss_bytes": 15949824,
+      "raw_result": "round25_digitalocean_cbor_http_raw/typed_json_r7_c16.txt",
+      "server_log": [
+        "Aug 13 13:36:02 amber-cbor-r25-target systemd[1]: Started amber-framework-typed-json-r7-c16.service - /opt/amber-router/bin/stock_typed_json --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:36:02 amber-cbor-r25-target stock_typed_json[18232]: READY 10.143.0.2:41019 routes=1000 codec=typed_json_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 31588.91,
+      "total_requests": 476977,
+      "elapsed_seconds": 15.1,
+      "p50_seconds": 0.000442,
+      "p99_seconds": 0.00276,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "msgpack_map",
+      "repetition": 7,
+      "connections": 16,
+      "trial_sequence": 39,
+      "server_cpu_cores": 0.9693861589403974,
+      "requests_per_cpu_second": 32586.508182176596,
+      "server_memory_current_bytes": 11169792,
+      "server_memory_peak_bytes": 11522048,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 130.0,
+      "loadgen_max_rss_bytes": 15859712,
+      "raw_result": "round25_digitalocean_cbor_http_raw/msgpack_map_r7_c16.txt",
+      "server_log": [
+        "Aug 13 13:36:25 amber-cbor-r25-target systemd[1]: Started amber-framework-msgpack-map-r7-c16.service - /opt/amber-router/bin/stock_msgpack_map --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:36:25 amber-cbor-r25-target stock_msgpack_map[18485]: READY 10.143.0.2:41019 routes=1000 codec=msgpack_map_streaming"
+      ]
+    },
+    {
+      "requests_per_second": 26982.9,
+      "total_requests": 407436,
+      "elapsed_seconds": 15.1,
+      "p50_seconds": 0.000515,
+      "p99_seconds": 0.00337,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "msgpack_array",
+      "repetition": 7,
+      "connections": 16,
+      "trial_sequence": 40,
+      "server_cpu_cores": 0.9411339072847682,
+      "requests_per_cpu_second": 28670.62783642277,
+      "server_memory_current_bytes": 11620352,
+      "server_memory_peak_bytes": 11968512,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 106.0,
+      "loadgen_max_rss_bytes": 15990784,
+      "raw_result": "round25_digitalocean_cbor_http_raw/msgpack_array_r7_c16.txt",
+      "server_log": [
+        "Aug 13 13:36:50 amber-cbor-r25-target systemd[1]: Started amber-framework-msgpack-array-r7-c16.service - /opt/amber-router/bin/stock_msgpack_array --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:36:50 amber-cbor-r25-target stock_msgpack_array[18747]: READY 10.143.0.2:41019 routes=1000 codec=msgpack_array_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 29604.95,
+      "total_requests": 446783,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000469,
+      "p99_seconds": 0.00318,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "cbor_map",
+      "repetition": 7,
+      "connections": 16,
+      "trial_sequence": 41,
+      "server_cpu_cores": 0.9572049039098741,
+      "requests_per_cpu_second": 30928.53983412883,
+      "server_memory_current_bytes": 11788288,
+      "server_memory_peak_bytes": 12136448,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 116.0,
+      "loadgen_max_rss_bytes": 15859712,
+      "raw_result": "round25_digitalocean_cbor_http_raw/cbor_map_r7_c16.txt",
+      "server_log": [
+        "Aug 13 13:37:13 amber-cbor-r25-target systemd[1]: Started amber-framework-cbor-map-r7-c16.service - /opt/amber-router/bin/stock_cbor_map --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:37:13 amber-cbor-r25-target stock_cbor_map[19000]: READY 10.143.0.2:41019 routes=1000 codec=cbor_map_buffered"
+      ]
+    },
+    {
+      "requests_per_second": 31593.57,
+      "total_requests": 476707,
+      "elapsed_seconds": 15.09,
+      "p50_seconds": 0.000439,
+      "p99_seconds": 0.0027400000000000002,
+      "socket_errors": 0,
+      "non_2xx_responses": 0,
+      "strategy": "cbor_array",
+      "repetition": 7,
+      "connections": 16,
+      "trial_sequence": 42,
+      "server_cpu_cores": 0.9557336646785951,
+      "requests_per_cpu_second": 33056.876792787916,
+      "server_memory_current_bytes": 11960320,
+      "server_memory_peak_bytes": 12308480,
+      "server_tasks": 2,
+      "loadgen_cpu_percent": 128.0,
+      "loadgen_max_rss_bytes": 15941632,
+      "raw_result": "round25_digitalocean_cbor_http_raw/cbor_array_r7_c16.txt",
+      "server_log": [
+        "Aug 13 13:37:37 amber-cbor-r25-target systemd[1]: Started amber-framework-cbor-array-r7-c16.service - /opt/amber-router/bin/stock_cbor_array --server --host=10.143.0.2 --port=41019 --routes=1000.",
+        "Aug 13 13:37:37 amber-cbor-r25-target stock_cbor_array[19253]: READY 10.143.0.2:41019 routes=1000 codec=cbor_array_buffered"
+      ]
+    }
+  ]
+}

@@ -2,13 +2,16 @@ version: 2.0
 shards:
   amber:
     git: https://github.com/amberframework/amber.git
-    version: 2.0.0-beta.5
+    version: 2.0.0-beta.5+git.commit.76954f0e2edc10d568e7ffcea3faa94b2aa476d2
+    checksum: git-tree:1d80477a31811b987d2f1f6be2f4f89b9d9f4b19
 
   asset_pipeline:
     git: https://github.com/amberframework/asset_pipeline.git
-    version: 0.37.0
+    version: 0.37.0+git.commit.9f54be45515324d43f5ea02cdf745a7e2c344137
+    checksum: git-tree:47c884c51cc63e62d04056bc160ab6c329e1946c
 
   markd:
     git: https://github.com/icyleaf/markd.git
-    version: 0.6.0
+    version: 0.6.0+git.commit.9db69c0aba807d6186903a0b5fcadc1450bc2be4
+    checksum: git-tree:826f602c7e861887313da11fedd03ffe62a9eaeb
 

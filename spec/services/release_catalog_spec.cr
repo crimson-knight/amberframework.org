@@ -11,7 +11,7 @@ describe ReleaseCatalog do
 
     snapshot.releases.each do |release|
       release.published_on.should_not be_empty
-      release.url.should start_with("https://github.com/amberframework/")
+      release.url.should start_with("https://github.com/#{release.repository}/releases/")
     end
   end
 

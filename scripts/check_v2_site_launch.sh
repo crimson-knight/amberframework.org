@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+./scripts/check_amber_artwork.sh
+
 test -s app/assets/brand/amber-crystal.svg
 test -s app/assets/characters/amber-hero-desk-transparent-higgsfield.webp
-test -s app/assets/characters/amber-frontier-higgsfield.webp
 test -s app/assets/characters/amber-id-original-studio.webp
 test -s app/assets/characters/amber-chibi-hero-mark-v2.webp
 test -s app/assets/css/amber-brand.css
@@ -21,7 +22,7 @@ test -s public/benchmarks/amber-v2-schema-contract-round27-summary.json
 test -s src/views/home/showcase.ecr
 test -s src/views/home/sponsors.ecr
 
-grep -F 'version: 2.0.0-beta.5' shard.yml
+grep -F 'commit: 76954f0e2edc10d568e7ffcea3faa94b2aa476d2' shard.yml
 grep -F '2.0.0-beta.5' docs/v2/getting-started/installation.md
 grep -F 'brew install amberframework/amber_cli/amber_cli' src/views/home/index.ecr
 grep -F 'Installed amber and amber-lsp' src/views/home/index.ecr

@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "page_title": "Amber Pioneers",
+  "canonical_url": "https://amberframework.org/pioneers/",
+  "markdown_url": "/pioneers.md",
+  "release_tracker_url": "/release-tracker.json",
+  "contribution_repository": "https://github.com/amberframework/amber/issues",
+  "discord_url": "https://discord.gg/vwvP5zakSn"
+}

@@ -1,0 +1,215 @@
+{
+  "checked_at": "2026-10-05",
+  "scope": "Retained historical measurements; current measurements require a new benchmark run",
+  "comparisons": {
+    "corebench": [
+      {
+        "title": "Matcher throughput",
+        "before": 1.63,
+        "after": 5.75,
+        "unit": "million matches/s",
+        "direction": "higher",
+        "scope": "Round 19 \u00b7 1,000 routes \u00b7 consumed parameters \u00b7 stock compiler",
+        "availability": "Measured matcher in beta.5",
+        "source": "/research/ROUTER_PERFORMANCE_ROUND19.md",
+        "summary": "3.53\u00d7 matcher throughput \u00b7 rounded report values",
+        "before_label": "Before",
+        "after_label": "After",
+        "measured_at": "July 16, 2026"
+      },
+      {
+        "title": "Allocation per match",
+        "before": 871,
+        "after": 130,
+        "unit": "bytes/match",
+        "direction": "lower",
+        "scope": "Same round-19 matcher workload",
+        "availability": "Measured matcher in beta.5",
+        "source": "/research/ROUTER_PERFORMANCE_ROUND19.md",
+        "summary": "85.1% lower allocation per match",
+        "before_label": "Before",
+        "after_label": "After",
+        "measured_at": "July 16, 2026"
+      },
+      {
+        "title": "Complete HTTP throughput",
+        "before": 77480,
+        "after": 86915,
+        "unit": "requests/s",
+        "direction": "higher",
+        "scope": "Localhost TCP \u00b7 respond_with JSON \u00b7 50 connections",
+        "availability": "Historical request benchmark",
+        "source": "/research/ROUTER_PERFORMANCE_ROUND19.md",
+        "summary": "12.2% higher HTTP throughput",
+        "before_label": "Before",
+        "after_label": "After",
+        "measured_at": "July 16, 2026"
+      }
+    ],
+    "core": [
+      {
+        "title": "Direct runtime shards",
+        "before": 16,
+        "after": 0,
+        "unit": "dependencies",
+        "direction": "lower",
+        "scope": "Framework package manifests \u00b7 V1 bundled the CLI",
+        "availability": "Released package boundary",
+        "source": "/research/amber-v2.0.0-beta.5-shard.yml",
+        "summary": "16 \u2192 0 direct runtime shards in the core",
+        "before_label": "Amber 1.5.0",
+        "after_label": "V2 beta.5",
+        "measured_at": "Released manifest comparison"
+      }
+    ],
+    "codecs": [
+      {
+        "title": "Hosted HTTP throughput",
+        "before": 24504.57,
+        "after": 31593.57,
+        "unit": "requests/s",
+        "direction": "higher",
+        "scope": "Round 25 \u00b7 one shared vCPU \u00b7 1,000 mixed routes \u00b7 seven paired repetitions",
+        "availability": "Local codec research prototype",
+        "source": "/research/round25_digitalocean_cbor_http.json",
+        "summary": "28.7% median paired gain \u00b7 7/7 wins",
+        "before_label": "Generic JSON",
+        "after_label": "CBOR array",
+        "measured_at": "August 13, 2026"
+      }
+    ],
+    "perf": [
+      {
+        "title": "Page-state p95 CPU",
+        "before": 52.162,
+        "after": 0.3486600000000001,
+        "unit": "\u00b5s/operation",
+        "direction": "lower",
+        "scope": "10,000 records \u00b7 50 visible \u00b7 21 recorded batches per version",
+        "availability": "Local application measurement",
+        "source": "/research/model-cpu-after.jsonl",
+        "summary": "99.3% lower page-state p95 CPU",
+        "before_label": "Full snapshot",
+        "after_label": "50-record page",
+        "measured_at": "September 2026"
+      },
+      {
+        "title": "Page-state allocation",
+        "before": 320049.856,
+        "after": 2080.0016,
+        "unit": "bytes/operation",
+        "direction": "lower",
+        "scope": "Same page-state workload \u00b7 median allocation per batch",
+        "availability": "Local application measurement",
+        "source": "/research/model-cpu-after.jsonl",
+        "summary": "99.4% lower page-state allocation",
+        "before_label": "Before",
+        "after_label": "After",
+        "measured_at": "September 2026"
+      },
+      {
+        "title": "Full-render median CPU",
+        "before": 2670.05,
+        "after": 1830.0499999999997,
+        "unit": "\u00b5s/render",
+        "direction": "lower",
+        "scope": "10,000 records \u00b7 50 cards \u00b7 21 alternating pairs \u00b7 identical HTML",
+        "availability": "Local patch \u00b7 release inclusion unverified",
+        "source": "/research/renderer-ab.jsonl",
+        "summary": "31.6% lower median paired CPU",
+        "before_label": "Base renderer",
+        "after_label": "Cached regex",
+        "measured_at": "September 2026"
+      }
+    ]
+  },
+  "dependency_snapshots": [
+    {
+      "repository": "amber",
+      "revision": "v1.5.0",
+      "commit": "97b4523b893c559a989423f7238b35fe67939546",
+      "manifest_sha256": "f851bef70e31021d43e34230779e40dcf9f102e84bcb421e2de4734ede4cb5e0",
+      "manifest_file": "amber-v1.5.0-shard.yml",
+      "runtime_dependencies": [
+        "amber_router",
+        "cli",
+        "compiled_license",
+        "exception_page",
+        "inflector",
+        "kilt",
+        "liquid",
+        "micrate",
+        "mysql",
+        "pg",
+        "redis",
+        "shell-table",
+        "slang",
+        "sqlite3",
+        "teeplate",
+        "yaml_mapping"
+      ],
+      "runtime_count": 16,
+      "development_dependencies": [
+        "ameba"
+      ],
+      "development_count": 1
+    },
+    {
+      "repository": "amber",
+      "revision": "v2.0.0-beta.5",
+      "commit": "76954f0e2edc10d568e7ffcea3faa94b2aa476d2",
+      "manifest_sha256": "40a29bfb628c8b33ef5b81d051cc09ec197d93a844a8679a8fe9af6235b2c806",
+      "manifest_file": "amber-v2.0.0-beta.5-shard.yml",
+      "runtime_dependencies": [],
+      "runtime_count": 0,
+      "development_dependencies": [
+        "ameba"
+      ],
+      "development_count": 1
+    },
+    {
+      "repository": "amber_cli",
+      "revision": "v2.0.6",
+      "commit": "1cba58bdfad27ce1731e73a55002460594958571",
+      "manifest_sha256": "9d836447f12fe8bbb866e8812fd4d060821ed6a6303150f581549422b5675f2c",
+      "manifest_file": "amber_cli-v2.0.6-shard.yml",
+      "runtime_dependencies": [
+        "asset_pipeline",
+        "compiled_license",
+        "exception_page",
+        "micrate",
+        "mysql",
+        "pg",
+        "sqlite3"
+      ],
+      "runtime_count": 7,
+      "development_dependencies": [
+        "ameba"
+      ],
+      "development_count": 1
+    }
+  ],
+  "application_template": {
+    "commit": "1cba58bdfad27ce1731e73a55002460594958571",
+    "source_path": "src/amber_cli/templates/app/shard.yml.ecr",
+    "sha256": "0eb5ba9d726c6b0736c83d7b0be3da39a673a837b7060ac55575df32421f6a60",
+    "snapshot_file": "amber-cli-v2.0.6-app-shard.yml.ecr",
+    "common_dependencies": [
+      "amber",
+      "grant",
+      "asset_pipeline"
+    ],
+    "database_choices": [
+      "pg",
+      "mysql",
+      "sqlite3"
+    ],
+    "direct_count_with_one_adapter": 4
+  },
+  "dependency_boundary": "Direct runtime shard declarations only. Crystal standard library, system libraries, transitive dependencies, development tools, CLI, and applications are separate inventories.",
+  "component_request_outcome": "The page-state change did not improve full rendering or measured HTTP. PGO had no stable p95 gain.",
+  "sources": {
+    "evidence.json": "2dd19eb21f969223d748352d72605ffa11a0ae4154f9b80062556a7c416dc01a",
+    "round19_report": "3177192dd4781075ae26455cf7bc9aa4719d14c47f7aa0874ad5f276bdb86ab1"
+  }
+}
