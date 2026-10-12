@@ -1,0 +1,388 @@
+{
+  "audited_on": "2026-10-05",
+  "measurement_status": "Retained measurements reconciled; cloud benchmarks were not rerun",
+  "cloud": {
+    "22": {
+      "observed_at": "2026-07-17T12:57:13Z",
+      "binary_source_commit": "deccb9358fd378a8d4e060cd13a19a35c609197e",
+      "trial_count": 49,
+      "successful_responses": 18728053,
+      "variants": {
+        "stock_json_legacy": {
+          "median_rps": 21795.0,
+          "trial_count": 7
+        },
+        "stock_json_optimized": {
+          "median_rps": 21607.04,
+          "trial_count": 7,
+          "paired_percent_change": -0.8623996329433337,
+          "paired_wins": 2
+        },
+        "stock_typed_json": {
+          "median_rps": 25071.59,
+          "trial_count": 7,
+          "paired_percent_change": 14.110713466391367,
+          "paired_wins": 7
+        },
+        "stock_msgpack_map": {
+          "median_rps": 28602.44,
+          "trial_count": 7,
+          "paired_percent_change": 31.233952741454463,
+          "paired_wins": 7
+        },
+        "stock_msgpack_array": {
+          "median_rps": 29296.77,
+          "trial_count": 7,
+          "paired_percent_change": 36.99724707501719,
+          "paired_wins": 7
+        },
+        "acrystal_json_optimized": {
+          "median_rps": 24444.61,
+          "trial_count": 7,
+          "paired_percent_change": 14.393158305864517,
+          "paired_wins": 5
+        },
+        "acrystal_msgpack_map": {
+          "median_rps": 28409.7,
+          "trial_count": 7,
+          "paired_percent_change": 25.34602192444828,
+          "paired_wins": 7
+        }
+      }
+    },
+    "25": {
+      "observed_at": "2026-08-13T13:38:01Z",
+      "binary_source_commit": "f8fd6c2bd204ef458c1fd8a604b659e38daf7a84",
+      "trial_count": 42,
+      "successful_responses": 17252140,
+      "variants": {
+        "json": {
+          "median_rps": 24504.57,
+          "trial_count": 7
+        },
+        "typed_json": {
+          "median_rps": 25620.57,
+          "trial_count": 7,
+          "paired_percent_change": 7.3280359450530685,
+          "paired_wins": 5
+        },
+        "msgpack_map": {
+          "median_rps": 30020.27,
+          "trial_count": 7,
+          "paired_percent_change": 22.81550755774939,
+          "paired_wins": 7
+        },
+        "msgpack_array": {
+          "median_rps": 30453.14,
+          "trial_count": 7,
+          "paired_percent_change": 25.180002203269723,
+          "paired_wins": 6
+        },
+        "cbor_map": {
+          "median_rps": 26288.1,
+          "trial_count": 7,
+          "paired_percent_change": 12.37722875106435,
+          "paired_wins": 6
+        },
+        "cbor_array": {
+          "median_rps": 31593.57,
+          "trial_count": 7,
+          "paired_percent_change": 28.726856377561163,
+          "paired_wins": 7
+        }
+      }
+    }
+  },
+  "application": {
+    "scope": "Retained local application model and renderer experiments; release inclusion unverified",
+    "page_state_10000_records": {
+      "before": {
+        "p95_cpu_us": 52.162,
+        "median_allocated_bytes": 320049.856,
+        "batch_count": 21,
+        "metadata": {
+          "app_source_dirty": false,
+          "binary_sha256": "e28809a8756281e165ae32fe736c3dbef60737c2d7e31acd649a6393795bcc8c",
+          "budget_sha256": "27797dedce83ad477899263d638e1185b536fd1dc5cc2972055681210dd4701d",
+          "cpu_measure": "Process.times user plus system time, microsecond-scale getrusage values; batch average",
+          "crystal_version": "Crystal 1.21.0 [9c1e8ec64] (2026-07-20)\n\nLLVM: 21.1.8\nDefault target: aarch64-apple-darwin25.5.0",
+          "cycle_measure": "not available in this in-process probe; requires a separate hardware trace",
+          "git_commit": "efaf451e05f7982c2338e55ab7afef38620b9791",
+          "kind": "metadata",
+          "machine": "arm64",
+          "samples": 21,
+          "shard_lock_sha256": "716f2544f018401d2a9593846cd4a9ac8ae0ae82ab68afb85bd59cbdf3e0fa2a",
+          "system": "macOS-26.5.2-arm64-arm-64bit"
+        }
+      },
+      "after": {
+        "p95_cpu_us": 0.3486600000000001,
+        "median_allocated_bytes": 2080.0016,
+        "batch_count": 21,
+        "metadata": {
+          "app_source_dirty": false,
+          "binary_sha256": "89f99c593ac557d33dc337631e35cff7d6b4aa420a3fdd6ef61a4ae79dd84103",
+          "budget_sha256": "27797dedce83ad477899263d638e1185b536fd1dc5cc2972055681210dd4701d",
+          "cpu_measure": "Process.times user plus system time, microsecond-scale getrusage values; batch average",
+          "crystal_version": "Crystal 1.21.0 [9c1e8ec64] (2026-07-20)\n\nLLVM: 21.1.8\nDefault target: aarch64-apple-darwin25.5.0",
+          "cycle_measure": "not available in this in-process probe; requires a separate hardware trace",
+          "git_commit": "84860101e52cc536b8d1ca752956aaf7ee6b496a",
+          "kind": "metadata",
+          "machine": "arm64",
+          "samples": 21,
+          "shard_lock_sha256": "716f2544f018401d2a9593846cd4a9ac8ae0ae82ab68afb85bd59cbdf3e0fa2a",
+          "system": "macOS-26.5.2-arm64-arm-64bit"
+        }
+      }
+    },
+    "renderer": {
+      "50": {
+        "paired_cpu_percent_change": -31.719371641852266,
+        "pair_count": 21,
+        "html_sha256": "87e57517a14e1bdb6177b7f21501fd087a845649ffec4bad53c4a377f6cdb580"
+      },
+      "1000": {
+        "paired_cpu_percent_change": -23.73558538940752,
+        "pair_count": 21,
+        "html_sha256": "4555670ec41537165448187632ee77c12574931e07c6f171680b7827990fbdbc"
+      },
+      "10000": {
+        "paired_cpu_percent_change": -31.611747292981253,
+        "pair_count": 21,
+        "html_sha256": "6422bacf7e66d42cb027c31e393d5ace5eff1de622b0a43b540e45b223689606"
+      }
+    },
+    "renderer_metadata": {
+      "binary_sha256": {
+        "base": "0c29a23f827590ba99241f689d869db311da0a174fa08566670d9c39a214f527",
+        "cached_touch_regex": "10ce58519675ff58976fb5654ba53cbf98299eb343d3911c55da1d22a4d9feda"
+      },
+      "crystal_version": "Crystal 1.21.0 [9c1e8ec64] (2026-07-20)\n\nLLVM: 21.1.8\nDefault target: aarch64-apple-darwin25.5.0",
+      "git_commit": "84860101e52cc536b8d1ca752956aaf7ee6b496a",
+      "html_sha256": {
+        "50": {
+          "base": "87e57517a14e1bdb6177b7f21501fd087a845649ffec4bad53c4a377f6cdb580",
+          "cached_touch_regex": "87e57517a14e1bdb6177b7f21501fd087a845649ffec4bad53c4a377f6cdb580"
+        },
+        "1000": {
+          "base": "4555670ec41537165448187632ee77c12574931e07c6f171680b7827990fbdbc",
+          "cached_touch_regex": "4555670ec41537165448187632ee77c12574931e07c6f171680b7827990fbdbc"
+        },
+        "10000": {
+          "base": "6422bacf7e66d42cb027c31e393d5ace5eff1de622b0a43b540e45b223689606",
+          "cached_touch_regex": "6422bacf7e66d42cb027c31e393d5ace5eff1de622b0a43b540e45b223689606"
+        }
+      },
+      "kind": "metadata",
+      "machine": "arm64",
+      "override_sha256": "23869393fab55a65749df0a0e54e4bbdaa13c5dfa241f4e362e07487ad750912",
+      "pairs": 21,
+      "probe_sha256": "fff7f5a72b0dcb699a695843c83634a6cb121bb06627b28d2da9ca8b20d60f32",
+      "scope": "full Pet Tracker 50-card Crystal tree and web HTML render; alternating process launches, timed batch excludes launch",
+      "shard_lock_sha256": "716f2544f018401d2a9593846cd4a9ac8ae0ae82ab68afb85bd59cbdf3e0fa2a",
+      "system": "macOS-26.5.2-arm64-arm-64bit"
+    },
+    "whole_process_cycle_percent_change": -26.417975942690262
+  },
+  "component_audits": {
+    "static-audit": {
+      "passed": true,
+      "failure_count": 0,
+      "failure_examples": [],
+      "case_count": 0,
+      "page_count": 7
+    },
+    "static-manifest-audit": {
+      "passed": true,
+      "failure_count": 0,
+      "failure_examples": [],
+      "case_count": 0,
+      "page_count": 7
+    },
+    "browser-audit": {
+      "passed": false,
+      "failure_count": 100,
+      "failure_examples": [
+        "desktop-light common audit failed: theme CSS variables did not change",
+        "desktop-dark common audit failed: theme CSS variables did not change",
+        "mobile-light common audit failed: theme CSS variables did not change"
+      ],
+      "case_count": 0,
+      "page_count": 0
+    },
+    "axe-audit": {
+      "passed": true,
+      "failure_count": 0,
+      "failure_examples": [],
+      "case_count": 0,
+      "page_count": 7
+    },
+    "ibm-equal-access-audit": {
+      "passed": true,
+      "failure_count": 0,
+      "failure_examples": [],
+      "case_count": 0,
+      "page_count": 7
+    },
+    "reduced-motion-report": {
+      "passed": true,
+      "failure_count": 0,
+      "failure_examples": [],
+      "case_count": 8,
+      "page_count": 0
+    },
+    "accessibility-tree-report": {
+      "passed": true,
+      "failure_count": 0,
+      "failure_examples": [],
+      "case_count": 92,
+      "page_count": 0
+    }
+  },
+  "framework_release": "76954f0e2edc10d568e7ffcea3faa94b2aa476d2",
+  "released_router_blob_matches_round19": "2e781e999fba040b403bfd35c2e05715e8cbabab",
+  "asset_pipeline_release": "9f54be45515324d43f5ea02cdf745a7e2c344137",
+  "sources": [
+    {
+      "path": "asset_pipeline/src/asset_pipeline.cr",
+      "sha256": "7d699a81f9ce9e427342e92f1dc50887f5f1b47e07fd9ec949e7e612cb7d9558",
+      "bytes": 17811
+    },
+    {
+      "path": "asset_pipeline/src/components/design_system/primitives.cr",
+      "sha256": "29824352d584d66eb6849197aea4a5d47b276689460be882c3e6ce853fdb1a17",
+      "bytes": 65711
+    },
+    {
+      "path": "asset_pipeline/src/components/design_system/promoted_components.cr",
+      "sha256": "4a005113b8d2240ea38fefef18e4cd70478538528998603e17331e25210e1eda",
+      "bytes": 1461
+    },
+    {
+      "path": "asset_pipeline/docs/web-design-system/README.md",
+      "sha256": "a50cccff96f7cd0ff4f4354b67822a65f0244a50d6f0c0fd222d2817e164b6b3",
+      "bytes": 12575
+    },
+    {
+      "path": "asset_pipeline/docs/web-design-system/component-api.md",
+      "sha256": "2fd9936c8574bc24a8daf6e77e16bc7d28c9a3b830e4e686115ccbd7b52c8068",
+      "bytes": 28813
+    },
+    {
+      "path": "asset_pipeline/docs/web-design-system/phase-notes.md",
+      "sha256": "38a49caaf14f54b5a34e074382177b68072f72bd065ca8ef83c169bcd63fa40f",
+      "bytes": 236040
+    },
+    {
+      "path": "asset_pipeline/docs/web-design-system/evidence.md",
+      "sha256": "e91d3c9f15c10da583b8f0d97dddb354f3a47de567f3cf7d1ff345c26cb6ef5e",
+      "bytes": 5350
+    },
+    {
+      "path": "asset_pipeline/test-results/web-design-system/desktop-light.png",
+      "sha256": "1b0d54059a04479830fff536ea875032398ccea0ebafa5f29c9e220dd2e7d707",
+      "bytes": 639854
+    },
+    {
+      "path": "asset_pipeline-v2-static-assets/src/asset_pipeline/static_assets.cr",
+      "sha256": "54a808e51b8dba2c6aade2f694207f4f4835621cef2a06b2dde543872a706a36",
+      "bytes": 38038
+    },
+    {
+      "path": "amber-perf-cbor-round25/benchmarks/ROUTER_PERFORMANCE_ROUND19.md",
+      "sha256": "3177192dd4781075ae26455cf7bc9aa4719d14c47f7aa0874ad5f276bdb86ab1",
+      "bytes": 14864
+    },
+    {
+      "path": "amber-perf-cbor-round25/benchmarks/DIGITALOCEAN_FRAMEWORK_ROUND22.md",
+      "sha256": "64049290156280f9eb8be616abe1ba32579b5d4fb51628015952d5ab8eefc418",
+      "bytes": 14905
+    },
+    {
+      "path": "amber-perf-cbor-round25/benchmarks/DIGITALOCEAN_CBOR_ROUND25.md",
+      "sha256": "7d02c8e8e8806957561d137c998fd583d10d0583d79df4c63b70eb21781473a3",
+      "bytes": 7022
+    },
+    {
+      "path": "amber-perf-cbor-round25/docs/publications/amber-request-path-performance-blog.md",
+      "sha256": "13fd316181104e13742b28eb294fd0abb5ae5f5d55ae9090a974ee5cf57b772d",
+      "bytes": 11827
+    },
+    {
+      "path": "amber_cli/docs/performance-findings-2026-09-28.md",
+      "sha256": "c82eb160a3a2997bd7d5550142aef78c14a2fc02c8f32469fed35a85c2a0ed8d",
+      "bytes": 5510
+    },
+    {
+      "path": "pet_tracker_performance_lab/docs/PET_TRACKER_PERFORMANCE_RESEARCH.md",
+      "sha256": "e30042ae0b1229eb103d61298a3b461dda6491b32b98aa22ca3d63ab4da24de3",
+      "bytes": 33185
+    },
+    {
+      "path": "pet_tracker_performance_lab/bench/results/model-cpu-before.jsonl",
+      "sha256": "531ce01ea388aa21cf365ad31eccd3b7d799600503a575f73fca6afa61f10ef9",
+      "bytes": 56881
+    },
+    {
+      "path": "pet_tracker_performance_lab/bench/results/model-cpu-after.jsonl",
+      "sha256": "60b130ca3113d2337c77a3fe21ff551132fae73cbdefd8374e0cee005869541d",
+      "bytes": 57650
+    },
+    {
+      "path": "pet_tracker_performance_lab/bench/results/renderer-ab.jsonl",
+      "sha256": "374a6aff38cbacfae32cb3d6b40e01ed41b665ba19de409d09460230d76cd635",
+      "bytes": 33549
+    },
+    {
+      "path": "pet_tracker_performance_lab/bench/results/renderer-cpu-counters.json",
+      "sha256": "5d16f5013668352fa84cec240cac820ef10aa965f75c0694e4026dfbdf7a2f77",
+      "bytes": 1664
+    },
+    {
+      "path": "amber-perf-cbor-round25/benchmarks/results/round22_digitalocean_framework_workload.json",
+      "sha256": "33a947cf4538a37b6db80f579d5656a44d727509d7befaf4071b94b1c9af89d8",
+      "bytes": 90446
+    },
+    {
+      "path": "amber-perf-cbor-round25/benchmarks/results/round25_digitalocean_cbor_http.json",
+      "sha256": "17f68f6d2227f0876057aa09a9226439f4d921884b71b7949e0ceb666ff72093",
+      "bytes": 74846
+    },
+    {
+      "path": "asset_pipeline/test-results/web-design-system/static-audit.json",
+      "sha256": "71fe36738ad9309b79a890c8550eb858b16ea954f71dd94ea982c7923ecae115",
+      "bytes": 1944
+    },
+    {
+      "path": "asset_pipeline/test-results/web-design-system/static-manifest-audit.json",
+      "sha256": "a4893d11ea752c18c45f28dab83cea87ee6af76e49a3862322f11143f6f4a311",
+      "bytes": 3615
+    },
+    {
+      "path": "asset_pipeline/test-results/web-design-system/browser-audit.json",
+      "sha256": "21756304df4ee2b664f568bf37418138c5048f36fe3260acafca6bfed3b0f376",
+      "bytes": 24386
+    },
+    {
+      "path": "asset_pipeline/test-results/web-design-system/axe-audit.json",
+      "sha256": "a5169a3ea58d3c04e915380dbbc94f179ae5f3c3210abdb1c75573109c418eb8",
+      "bytes": 6157
+    },
+    {
+      "path": "asset_pipeline/test-results/web-design-system/ibm-equal-access-audit.json",
+      "sha256": "cf903d49b85154f0bf3ac8c59d389bff7c5aecba7024341d7a4738e1e0624f1c",
+      "bytes": 114301
+    },
+    {
+      "path": "asset_pipeline/test-results/web-design-system/reduced-motion-report.json",
+      "sha256": "d293fb308f9f7c3871484595e8f7ce380e279bdd60dbf22dda099d57c121dee5",
+      "bytes": 6296
+    },
+    {
+      "path": "asset_pipeline/test-results/web-design-system/accessibility-tree-report.json",
+      "sha256": "c013062857b6e49170cc2eb7e811c9b7c53f44b6210a02cc110a7bc7d73439db",
+      "bytes": 1313282
+    }
+  ],
+  "negative_aggregate_probe_detected": true
+}

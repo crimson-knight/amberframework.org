@@ -46,8 +46,8 @@ wired into the site.
 The retired native-application frontier image came from Higgsfield job
 `7a9e57d6-ddfd-4cb3-9ce2-ff4335500c25`, encoded as
 `amber-frontier-higgsfield.webp`. Its prompt placed Amber, Grant, and Gemma at
-the edge of a warm, expansive, unexplored landscape. It is retained for
-provenance but is not wired into the website: the scene did not fit the brand
+the edge of a warm, expansive, unexplored landscape. The source file is removed from the
+app asset set; Git history retains its provenance. It is retired from the website: the scene did not fit the brand
 closely enough, so the native hover and focus state uses a six-part code-native
 platform map instead.
 
@@ -65,7 +65,7 @@ expressing uploads, S3-compatible storage, and delivery.
 
 All three scene sources were exported from Higgsfield, visually inspected, and
 encoded as local quality WebP assets. Only the Grant and Gemma warehouse scenes
-are active at runtime; the retired frontier image introduces no browser request.
+are active at runtime; the retired frontier image is excluded from source and generated deliverables by the artwork gate.
 
 ## Prior inviting hero refinement (retained source)
 

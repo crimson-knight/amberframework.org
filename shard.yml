@@ -2,7 +2,10 @@ name: amberframework
 version: 2.0.0-beta.5
 
 authors:
-  - Amber <amberframework.org>
+  - Seth Tucker
+
+description: Amber Framework website, versioned documentation, and release tracker
+repository: https://github.com/crimson-knight/amberframework.org
 
 crystal: ">= 1.20.0, < 2.0"
 
@@ -15,9 +18,10 @@ targets:
 dependencies:
   amber:
     github: amberframework/amber
-    version: 2.0.0-beta.5
+    commit: 76954f0e2edc10d568e7ffcea3faa94b2aa476d2
   asset_pipeline:
     github: amberframework/asset_pipeline
-    version: ~> 0.37.0
+    commit: 9f54be45515324d43f5ea02cdf745a7e2c344137
   markd:
     github: icyleaf/markd
+    commit: 9db69c0aba807d6186903a0b5fcadc1450bc2be4

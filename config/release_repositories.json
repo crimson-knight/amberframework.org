@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "refresh_interval_minutes": 60,
+  "repositories": [
+    {
+      "project_title": "Amber Framework",
+      "repository": "amberframework/amber",
+      "branch": "v2-dev",
+      "release_limit": 8,
+      "roadmap_cards": [
+        "core",
+        "schemas",
+        "codecs"
+      ]
+    },
+    {
+      "project_title": "Amber CLI",
+      "repository": "amberframework/amber_cli",
+      "release_limit": 5,
+      "roadmap_cards": [
+        "onboard",
+        "mcpapps",
+        "budgets"
+      ]
+    },
+    {
+      "project_title": "Asset Pipeline",
+      "repository": "amberframework/asset_pipeline",
+      "release_limit": 5,
+      "roadmap_cards": [
+        "frontloader",
+        "components",
+        "native"
+      ]
+    },
+    {
+      "project_title": "Grant",
+      "repository": "crimson-knight/grant",
+      "release_limit": 5,
+      "roadmap_cards": [
+        "persistence"
+      ]
+    },
+    {
+      "project_title": "Gemma",
+      "repository": "crimson-knight/gemma",
+      "release_limit": 5,
+      "roadmap_cards": [
+        "gemma"
+      ]
+    },
+    {
+      "project_title": "Minecart",
+      "repository": "crimson-knight/shards",
+      "release_limit": 5,
+      "roadmap_cards": [
+        "minecart",
+        "docsmcp"
+      ]
+    },
+    {
+      "project_title": "Micrate",
+      "repository": "amberframework/micrate",
+      "release_limit": 5,
+      "roadmap_cards": [
+        "persistence"
+      ]
+    },
+    {
+      "project_title": "Crystal Alpha",
+      "repository": "crimson-knight/crystal",
+      "release_limit": 3,
+      "roadmap_cards": [
+        "compiler"
+      ],
+      "branch": "incremental-compilation"
+    },
+    {
+      "project_title": "Amber Website",
+      "repository": "crimson-knight/amberframework.org",
+      "release_limit": 3,
+      "roadmap_cards": [
+        "releasebundle"
+      ]
+    }
+  ]
+}

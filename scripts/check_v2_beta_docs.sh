@@ -54,6 +54,6 @@ fi
 # the source of truth for the complete resolved corpus, including pages that do
 # not physically live under docs/v2.
 CRYSTAL_CACHE_DIR="${CRYSTAL_CACHE_DIR:-/tmp/amberframework_site_crystal_cache}" \
-  crystal spec spec/services/docs_scanner_spec.cr
+  crystal-alpha spec spec/services/docs_scanner_spec.cr
 
 echo "Amber V2 beta onboarding documentation checks passed"

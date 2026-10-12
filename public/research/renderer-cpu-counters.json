@@ -1,0 +1,41 @@
+{
+  "tool": "/Applications/Xcode.app/Contents/Developer/usr/bin/xctrace",
+  "tool_sha256": "fd06ae7423492f221ae9527b13dc5c963a8281ed5740b0f939958735ea00b5b4",
+  "scope": "whole traced process for 600 full render operations; includes startup, setup, GC and stdout, so normalized cycles are upper bounds, not a per-method p95",
+  "counter_mode": "CPU Bottlenecks, high-frequency sampling disabled",
+  "variants": [
+    "base",
+    "cached_touch_regex"
+  ],
+  "results": [
+    {
+      "trace": "bench/traces/base-touch-cycles.trace",
+      "source_commit": "84860101e52cc536b8d1ca752956aaf7ee6b496a",
+      "binary_sha256": "0c29a23f827590ba99241f689d869db311da0a174fa08566670d9c39a214f527",
+      "instrument_version": "16.0 (17F113)",
+      "template": "CPU Counters",
+      "recording_mode": "Deferred",
+      "process_duration_seconds": 2.460721,
+      "operations": 600,
+      "process_cycles": 4613452759,
+      "cycles_per_requested_operation_upper_bound": 7689087.931666667,
+      "precise_rows": 1552,
+      "imprecise_rows": 156
+    },
+    {
+      "trace": "bench/traces/cached-touch-cycles.trace",
+      "source_commit": "84860101e52cc536b8d1ca752956aaf7ee6b496a",
+      "binary_sha256": "10ce58519675ff58976fb5654ba53cbf98299eb343d3911c55da1d22a4d9feda",
+      "instrument_version": "16.0 (17F113)",
+      "template": "CPU Counters",
+      "recording_mode": "Deferred",
+      "process_duration_seconds": 2.171844,
+      "operations": 600,
+      "process_cycles": 3394671919,
+      "cycles_per_requested_operation_upper_bound": 5657786.531666666,
+      "precise_rows": 1140,
+      "imprecise_rows": 115
+    }
+  ],
+  "change_percent": -26.417975942690262
+}

@@ -13,6 +13,9 @@
 .encryption_key
 .DS_Store
 .directory
+/.minecart/
+/.amber-lsp-probe-*/
+**/__pycache__/
 
 amberframework
 amberframework.dwarf

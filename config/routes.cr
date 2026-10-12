@@ -21,6 +21,14 @@ Amber::Server.configure do |app|
   end
 
   routes :web do
+    get "/pioneers", Publication::ServePublicPageController, :pioneers
+    get "/pioneers.md", Publication::ServePublicPageController, :pioneers
+    get "/roadmap", Publication::ServePublicPageController, :roadmap
+    get "/roadmap.md", Publication::ServePublicPageController, :roadmap
+    get "/research", Publication::ServePublicPageController, :research
+    get "/research.md", Publication::ServePublicPageController, :research
+    get "/release-tracker", Publication::ServePublicPageController, :release_tracker
+    get "/release-tracker.md", Publication::ServePublicPageController, :release_tracker
     websocket "/ws", SiteSocket
     get "/index.md", HomeController, :page_markdown
     get "/media.md", HomeController, :page_markdown

@@ -112,12 +112,6 @@ class HomeController < ApplicationController
     return machine_page("releases", "/releases", markdown: false) if request.path.ends_with?(".json")
     return machine_page("releases", "/releases", markdown: true) if request.path.ends_with?(".md")
 
-    snapshot = ReleaseCatalog.load
-    framework_releases = ReleaseCatalog.for_project(snapshot, "Amber Framework")
-    cli_releases = ReleaseCatalog.for_project(snapshot, "Amber CLI")
-    stable_release = ReleaseCatalog.find(snapshot, "amberframework/amber", "v1.5.0")
-    beta_release = ReleaseCatalog.find(snapshot, "amberframework/amber", "v2.0.0-beta.5")
-    cli_release = ReleaseCatalog.find(snapshot, "amberframework/amber_cli", "v2.0.6")
     render("releases.ecr")
   end
 

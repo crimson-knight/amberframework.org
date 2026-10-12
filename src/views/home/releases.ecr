@@ -1,5 +1,11 @@
 <% @title = "Amber releases — dated framework and CLI notes" %>
 <% @meta = "Current Amber Framework and Amber CLI releases, dates, beta boundaries, and notes synchronized from GitHub." %>
+<% snapshot = ReleaseCatalog.load %>
+<% framework_releases = ReleaseCatalog.for_project(snapshot, "Amber Framework") %>
+<% cli_releases = ReleaseCatalog.for_project(snapshot, "Amber CLI") %>
+<% stable_release = ReleaseCatalog.find(snapshot, "amberframework/amber", "v1.5.0") %>
+<% beta_release = ReleaseCatalog.find(snapshot, "amberframework/amber", "v2.0.0-beta.5") %>
+<% cli_release = cli_releases.first? %>
 
 <header class="page-hero release-page-hero">
   <div class="site-container page-hero-grid">
@@ -11,7 +17,7 @@
     <div class="release-sync-card">
       <span>Last synchronized</span>
       <strong><%= snapshot.synced_at == "Unavailable" ? snapshot.synced_at : Time.parse_rfc3339(snapshot.synced_at).to_s("%B %d, %Y at %H:%M UTC").gsub(" 0", " ") %></strong>
-      <small>Automatic check every six hours</small>
+      <small>Automatic check every hour · <a href="/release-tracker">All project repositories</a></small>
     </div>
   </div>
 </header>
@@ -80,15 +86,15 @@
         <% [{"Amber Framework", framework_releases}, {"Amber CLI", cli_releases}].each do |stream| %>
           <section class="release-stream">
             <h3><%= stream[0] %></h3>
-            <% stream[1].each do |release| %>
+            <% stream[1].each do |historical_release| %>
               <details class="release-note">
                 <summary>
-                  <span><strong><%= release.tag_name %></strong><small><%= release.name %></small></span>
-                  <time datetime="<%= release.published_at %>"><%= release.published_on %></time>
+                  <span><strong><%= historical_release.tag_name %></strong><small><%= historical_release.name %></small></span>
+                  <time datetime="<%= historical_release.published_at %>"><%= historical_release.published_on %></time>
                 </summary>
                 <div class="release-note-body">
-                  <% unless release.body.empty? %><%= MarkdownPreprocessor.render(release.body, preprocess: false, safe: true) %><% end %>
-                  <a href="<%= release.url %>" target="_blank" rel="noopener">Open the source release on GitHub →</a>
+                  <% unless historical_release.body.empty? %><%= MarkdownPreprocessor.render(historical_release.body, preprocess: false, safe: true) %><% end %>
+                  <a href="<%= historical_release.url %>" target="_blank" rel="noopener">Open the source release on GitHub →</a>
                 </div>
               </details>
             <% end %>

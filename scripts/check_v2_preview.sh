@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+./scripts/check_amber_artwork.sh
+
 fail() {
   echo "Amber V2 preview check failed: $1" >&2
   exit 1
@@ -22,7 +24,6 @@ for asset in \
   app/assets/characters/amber-hero-desk-transparent-higgsfield.webp \
   app/assets/characters/amber-hero-desk-desktop-higgsfield.webp \
   app/assets/characters/amber-hero-desk-mobile-higgsfield.webp \
-  app/assets/characters/amber-frontier-higgsfield.webp \
   app/assets/characters/grant-records-warehouse-higgsfield.webp \
   app/assets/characters/gemma-file-logistics-higgsfield.webp \
   app/assets/characters/amber-id-original-studio.webp \
