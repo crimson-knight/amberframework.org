@@ -42,7 +42,12 @@ def source_guide():
 
 
 def fetch(base_url, path, payload=None):
-    headers = {"Accept": "application/json, text/markdown, text/html", "User-Agent": "AmberDocumentationContract/1.0"}
+    accept = "text/html"
+    if path.endswith(".md"):
+        accept = "text/markdown"
+    elif path.endswith(".json") or payload is not None:
+        accept = "application/json"
+    headers = {"Accept": accept, "User-Agent": "AmberDocumentationContract/1.0"}
     data = None
     if payload is not None:
         headers.update({"Content-Type": "application/json", "Mcp-Method": payload["method"]})
@@ -96,7 +101,7 @@ def collect(base_url):
 def verify(expected, observed):
     body = expected["body"]
     html = observed["html"]
-    require(html["content_type"] == "text/html", "Guide HTML needs HTML content type")
+    require(html["content_type"] == "text/html", "Guide HTML content type differs: " + html["content_type"])
     require(expected["title"] in html["body"] and 'href="' + GUIDE_PATH + '"' in html["body"], "Guide HTML title or navigation is missing")
     markdown = observed["markdown"]
     require(markdown["content_type"] == "text/markdown", "Guide Markdown content type differs")
