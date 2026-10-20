@@ -1,0 +1,13 @@
+{
+  "image": "mcr.microsoft.com/playwright:v1.64.0-noble@sha256:bc72a8df40831ded821e3cbc79c318c21b44d6e51dff9fd89ace7a8249c5b462",
+  "package_version": "1.64.0",
+  "package_url": "https://registry.npmjs.org/playwright-core/-/playwright-core-1.64.0.tgz",
+  "package_bytes": 3171930,
+  "package_sha256": "90c8b6b19da0a1b1e9a004cd6ff3e49e82668a0856e01efcc0e2d9c2b4466bb6",
+  "package_integrity": "sha512-T9r+MZkTECl2+oUcZ26YgZzTrYidTsIhYYkJix+6iDOymOb1FB2RLLSOxRGnZGv5DStt+aduIVbt+E8WygXYpg==",
+  "guide_sha256": "f643b9234c3a0e7c17ddf8e90994d7b28f9c05dbe9451b75672538f9f7068531",
+  "references": [
+    "https://playwright.dev/docs/docker",
+    "https://playwright.dev/docs/screenshots"
+  ]
+}
