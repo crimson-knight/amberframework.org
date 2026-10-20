@@ -75,6 +75,7 @@ async function main() {
   };
   let browser;
   let packageDirectory;
+  let primaryError;
   try {
     result.sourceSha256 = hash(fs.readFileSync(source));
     need(result.sourceSha256 === pins.guide_sha256, 'Exact reviewed guide source is required');
@@ -152,6 +153,7 @@ async function main() {
     need(hash(fs.readFileSync(executable)) === browserSha256, 'Browser provider must remain exact through rendering');
     result.passed = true;
   } catch (error) {
+    primaryError = error;
     result.error = String(error).slice(0, 2048);
     throw error;
   } finally {
@@ -179,7 +181,12 @@ async function main() {
       result.passed = false;
       process.exitCode = 1;
     }
-    write('RENDER_RESULT.json', result);
+    try { write('RENDER_RESULT.json', result); }
+    catch (error) {
+      process.exitCode = 1;
+      console.error('Render proof result output failure: ' + String(error));
+      throw primaryError || error;
+    }
   }
 }
 
