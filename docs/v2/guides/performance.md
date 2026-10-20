@@ -11,6 +11,11 @@ Amber treats performance as an architectural property and a documentation
 obligation. Every published number should travel with its workload, hardware,
 protocol, duration, errors, and limits.
 
+To turn a memory requirement into an executable spec and CI check, read
+[Memory budget contracts](/docs/v2/guides/memory-contracts). The guide covers
+measurement scope, functional assertions, deliberate regressions, and the
+prerelease SDK's installation and platform boundaries.
+
 ## Hosted Amber V2 result
 
 On July 17, 2026, the Amber V2 performance lab measured a mature mixed
