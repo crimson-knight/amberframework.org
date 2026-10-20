@@ -13,12 +13,12 @@ stay within a declared allocation allowance. The functional result and the
 memory result belong to the same scenario.
 
 The MemoryBudget SDK is a prerelease source candidate. The references below
-are pinned to commit `22ce320b61bb4b9ed7bab311adb6c00c46ccf28e`.
-Its [capability reference](https://github.com/amberframework/memory_budget/blob/22ce320b61bb4b9ed7bab311adb6c00c46ccf28e/docs/0.1.1/capabilities.md)
+are pinned to commit `58c20acfed71e27cbcf207014f29d7c7b53dab18`.
+Its [capability reference](https://github.com/amberframework/memory_budget/blob/58c20acfed71e27cbcf207014f29d7c7b53dab18/docs/0.1.1/capabilities.md)
 records the admitted profiles and remaining qualification work. Ordinary
 installation, real Linux native loading, clean-account use, and additional
 devices retain their own acceptance gates. Check the
-[candidate PR](https://github.com/amberframework/memory_budget/pull/1)
+[candidate PR](https://github.com/amberframework/memory_budget/pull/3)
 for the current release state before adopting it.
 
 ## Start with the owner and window
@@ -55,7 +55,7 @@ and compiler flags remain part of the test environment. Package dependencies
 belong in `shard.yml`; application budget values belong to the performance
 policy and the SDK's configuration API.
 
-The [one-record executable example](https://github.com/amberframework/memory_budget/blob/22ce320b61bb4b9ed7bab311adb6c00c46ccf28e/docs/0.1.1/examples/fiber_budget_spec.cr)
+The [one-record executable example](https://github.com/amberframework/memory_budget/blob/58c20acfed71e27cbcf207014f29d7c7b53dab18/docs/0.1.1/examples/fiber_budget_spec.cr)
 shows the smallest useful contract: construct the policy and collection
 outside the window, create a record inside it, and assert the record's value.
 Its regression switch adds an actual buffer allocation to that operation.
@@ -117,12 +117,12 @@ used incompatible cold SQLite scopes, and three lost the original source
 frame for optimized CoreFoundation frees. These locate limits in the
 comparison method. The supported checks use matching cold scopes, verified
 connection cache counters, and allocation-owned release records. Read the
-[capability reference](https://github.com/amberframework/memory_budget/blob/22ce320b61bb4b9ed7bab311adb6c00c46ccf28e/docs/0.1.1/capabilities.md)
+[capability reference](https://github.com/amberframework/memory_budget/blob/58c20acfed71e27cbcf207014f29d7c7b53dab18/docs/0.1.1/capabilities.md)
 before selecting a measurement for a new app or platform.
 
 ## Validate each installation layer
 
-Use the [installation checklist](https://github.com/amberframework/memory_budget/blob/22ce320b61bb4b9ed7bab311adb6c00c46ccf28e/skills/crystal-memory-budgets/references/installation-validation.md)
+Use the [installation checklist](https://github.com/amberframework/memory_budget/blob/58c20acfed71e27cbcf207014f29d7c7b53dab18/skills/crystal-memory-budgets/references/installation-validation.md)
 with the selected SDK and toolchain identities. Record the result of each
 layer so a successful dependency install leads to an executable, useful
 consumer check.
@@ -141,16 +141,16 @@ qualification. Select an existing compiler profile when its admitted bytes
 match the installation. Read the actual installed Amber command help and
 the project entrypoint before choosing a candidate CLI command.
 
-The packaged skill has completed an installed-agent evidence-triage task:
-a fresh agent distinguished the recorded macOS SDK pass, expected budget
-rejection, and Ubuntu loader failure. Code-authoring tasks, new application
+The installed-agent evidence-triage task used SDK commit
+`22ce320b61bb4b9ed7bab311adb6c00c46ccf28e`: a fresh agent distinguished the
+recorded macOS SDK pass, expected budget rejection, and Ubuntu loader failure. Code-authoring tasks, new application
 journeys, native profiles, supported release installation, and other devices
 require their corresponding execution evidence.
 
 ## Carry the same contract into CI
 
-Use the [CI integration guide](https://github.com/amberframework/memory_budget/blob/22ce320b61bb4b9ed7bab311adb6c00c46ccf28e/docs/0.1.1/ci.md)
-and [workflow template](https://github.com/amberframework/memory_budget/blob/22ce320b61bb4b9ed7bab311adb6c00c46ccf28e/templates/memory-budgets.yml)
+Use the [CI integration guide](https://github.com/amberframework/memory_budget/blob/58c20acfed71e27cbcf207014f29d7c7b53dab18/docs/0.1.1/ci.md)
+and [workflow template](https://github.com/amberframework/memory_budget/blob/58c20acfed71e27cbcf207014f29d7c7b53dab18/templates/memory-budgets.yml)
 with the matching installed kit. The template identifies a qualified
 self-hosted runner; each new runner needs its own admitted toolchain,
 standard library, native libraries, and measurement profile. Keep required
@@ -169,7 +169,7 @@ Search for `memory budget contracts`, then read
 `guides/memory-contracts`. The page's Markdown, JSON, and knowledge-bundle
 forms carry the same guidance for tools that consume documentation directly.
 
-The [versioned agent skill](https://github.com/amberframework/memory_budget/blob/22ce320b61bb4b9ed7bab311adb6c00c46ccf28e/skills/crystal-memory-budgets/SKILL.md)
+The [versioned agent skill](https://github.com/amberframework/memory_budget/blob/58c20acfed71e27cbcf207014f29d7c7b53dab18/skills/crystal-memory-budgets/SKILL.md)
 guides an agent through choosing a scope, preserving the project's setup,
 adding functional assertions, and diagnosing an actual budget failure.
 Record the installed skill and SDK identities, then evaluate an agent on a
