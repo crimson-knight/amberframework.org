@@ -196,7 +196,7 @@ async function verifyMobileTables(page, context, proof, browserErrors) {
       let touch = reset;
       for (let count = 0; count < 3 && !touch.atRightEnd; count += 1) {
         const gesture = { x: touch.clipRight - 24, y: touch.gestureY,
-          xDistance: -Math.min(touch.maximumLeft + 32, touch.clipRight - touch.clipLeft - 48),
+          xDistance: Math.min(touch.maximumLeft + 32, touch.clipRight - touch.clipLeft - 48),
           yDistance: 0, speed: 600, preventFling: true, gestureSourceType: 'touch' };
         need(gesture.x > touch.clipLeft + 24 && gesture.y >= 76 && gesture.y <= page.viewportSize().height - 24,
           'The touch gesture must begin inside the visible table');
