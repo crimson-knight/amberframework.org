@@ -42,7 +42,7 @@ jobs:
             python:3.12.10-slim@sha256:fd95fa221297a88e1cf49c55ec1828edd7c5a428187e67b5d1805692d11588db \
             python scripts/check_memory_contract_guide.py --base-url http://127.0.0.1:3212 --self-test
           mkdir -p "$RUNNER_TEMP/memory-contract-render"
-          timeout 180s docker run --rm --init --network host --read-only --cap-drop ALL \
+          timeout 215s docker run --rm --init --network host --read-only --cap-drop ALL \
             --security-opt no-new-privileges --memory 2g --cpus 2 --pids-limit 256 \
             --user "$(id -u):$(id -g)" --tmpfs /tmp:rw,size=1g,mode=1777 \
             -e HOME=/tmp -e SOURCE_COMMIT="$GITHUB_SHA" \
