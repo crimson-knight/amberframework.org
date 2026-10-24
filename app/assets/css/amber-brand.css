@@ -45,6 +45,9 @@
   --violet: #8051a7;
   --violet-dark: #63407d;
   --violet-soft: #f0e9f7;
+  --mica: #a9c3e0;
+  --mica-dark: #24446e;
+  --mica-soft: #e6eef7;
   --terminal: #171311;
   --terminal-raised: #211b18;
   --green: #64c488;
@@ -1559,7 +1562,7 @@ pre {
 }
 
 .crew-roster {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .personnel-card {
@@ -1578,6 +1581,7 @@ pre {
 
 .personnel-grant { color: var(--teal-dark); }
 .personnel-gemma { color: var(--violet-dark); }
+.personnel-mica { color: var(--mica-dark); }
 
 .personnel-photo {
   position: relative;
@@ -1588,6 +1592,7 @@ pre {
 
 .personnel-grant .personnel-photo { background: var(--teal-soft); }
 .personnel-gemma .personnel-photo { background: var(--violet-soft); }
+.personnel-mica .personnel-photo { background: var(--mica-soft); }
 
 .personnel-photo img {
   width: 100%;
@@ -1780,6 +1785,7 @@ pre {
 .character-amber .character-profile-hero { background: linear-gradient(120deg, var(--amber-100), var(--amber-25)); }
 .character-grant .character-profile-hero { background: linear-gradient(120deg, var(--teal-soft), var(--amber-25)); }
 .character-gemma .character-profile-hero { background: linear-gradient(120deg, var(--violet-soft), var(--amber-25)); }
+.character-mica .character-profile-hero { background: linear-gradient(120deg, var(--mica-soft), var(--amber-25)); }
 
 .character-profile-grid {
   display: grid;
@@ -1814,6 +1820,7 @@ pre {
 
 .character-grant .character-portrait-frame { color: var(--teal-dark); transform: rotate(-1.2deg); }
 .character-gemma .character-portrait-frame { color: var(--violet-dark); }
+.character-mica .character-portrait-frame { color: var(--mica-dark); transform: rotate(-1deg); }
 
 .character-portrait-frame img {
   aspect-ratio: 1;
@@ -1919,6 +1926,9 @@ pre {
 .role-analogy-gemma { border-color: #cdbada; }
 .role-analogy-gemma .role-analogy-scene { border-color: #cdbada; background: var(--violet-soft); }
 .role-analogy-gemma .role-analogy-scene img { object-position: 15% center; }
+.role-analogy-mica { border-color: var(--mica); }
+.role-analogy-mica .role-analogy-scene { border-color: var(--mica); background: var(--mica-soft); }
+.role-analogy-mica .role-analogy-scene img { object-position: 24% center; }
 
 .role-analogy-copy {
   align-self: center;
@@ -1993,11 +2003,12 @@ pre {
 .crew-next-section { padding-top: 20px; }
 .crew-next-heading { display: flex; align-items: end; justify-content: space-between; gap: 28px; margin-bottom: 24px; }
 .crew-next-heading h2 { margin: 0; font-family: var(--serif); font-size: clamp(2.4rem, 4vw, 4.1rem); letter-spacing: -.04em; line-height: 1; }
-.crew-next-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.crew-next-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .crew-next-card { display: grid; min-height: 220px; overflow: hidden; grid-template-columns: 190px 1fr; border: 1px solid currentColor; border-radius: var(--radius-md); background: var(--paper); color: var(--amber-700); text-decoration: none; box-shadow: var(--shadow-sm); transition: transform 180ms ease, box-shadow 180ms ease; }
 .crew-next-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
 .crew-next-grant { color: var(--teal-dark); }
 .crew-next-gemma { color: var(--violet-dark); }
+.crew-next-mica { color: var(--mica-dark); }
 .crew-next-card img { width: 100%; height: 100%; border-right: 1px solid currentColor; object-fit: cover; }
 .crew-next-card > span { display: flex; min-width: 0; flex-direction: column; justify-content: center; padding: 24px; }
 .crew-next-card small { font-size: .61rem; font-style: normal; font-weight: 850; letter-spacing: .07em; text-transform: uppercase; }
@@ -3091,7 +3102,7 @@ pre {
 .type-specimen { min-height: 440px; }
 .display-sample { margin: 30px 0; font-family: var(--serif); font-size: clamp(3rem, 5vw, 5.3rem); letter-spacing: -.05em; line-height: .96; }
 .display-sample em { color: var(--amber-600); }
-.swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 26px; }
+.swatches { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 26px; }
 .swatch { min-height: 110px; padding: 10px; border: 1px solid rgba(50, 30, 20, 0.16); border-radius: 9px; font-family: var(--mono); font-size: 0.61rem; }
 .component-shelf { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .component-demo { min-height: 180px; padding: 25px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); }
