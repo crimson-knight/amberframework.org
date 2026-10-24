@@ -173,8 +173,15 @@ alternates, and the command log live in the Amberverse repository under
 
 | Local asset | Built-in generation source | Encoding |
 |---|---|---|
-| `mica-id-original-studio.webp` | `/Users/crimsonknight/.codex/generated_images/01a16f6c-f265-70d3-9705-289cd816bc25/exec-d4437834-ef37-4b29-b079-75a0bd1ddc8b.png` | resized from 1254 to 800 by 800; quality-84 WebP |
-| `mica-reading-room-codex.webp` | `/Users/crimsonknight/.codex/generated_images/01a16fb5-4ea3-78c0-8557-a7d3125e6401/exec-30832310-7700-4a84-bda2-3857ec802d2b.png` | 1678 by 937 as generated (the crew scenes' 1.79 ratio); quality-84 WebP |
+| `mica-id-original-studio.webp` | `/Users/crimsonknight/.codex/generated_images/01a17004-43ee-7aa2-8ecc-7fd8fb76895f/exec-384c5b67-3d0b-4a36-993f-19205b6b8f4a.png` | resized from 1254 to 800 by 800; quality-84 WebP |
+| `mica-reading-room-codex.webp` | `/Users/crimsonknight/.codex/generated_images/01a17004-439d-7973-abfb-8a76a2f6e962/exec-37408954-ee0d-4f4f-984e-72da00dfa457.png` | 1678 by 937 as generated (the crew scenes' 1.79 ratio); quality-84 WebP |
+
+On 2026-10-24 both files were replaced in place by Codex precise-object
+edits of the same images that change only Mica's glasses, from brass to
+heliodor gold (`#FFF01F`), the signature color of her crewmate Beryl. Every other
+pixel was requested unchanged; the earlier sources were
+`exec-d4437834-ef37-4b29-b079-75a0bd1ddc8b.png` (portrait) and
+`exec-30832310-7700-4a84-bda2-3857ec802d2b.png` (scene).
 
 ## Third-party identity assets
 
