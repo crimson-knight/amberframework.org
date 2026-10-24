@@ -1,0 +1,2652 @@
+[
+ {
+  "method": "GET",
+  "path": "/pioneers",
+  "source": "routes.cr Publication::ServePublicPageController#pioneers"
+ },
+ {
+  "method": "GET",
+  "path": "/pioneers.md",
+  "source": "routes.cr Publication::ServePublicPageController#pioneers"
+ },
+ {
+  "method": "GET",
+  "path": "/roadmap",
+  "source": "routes.cr Publication::ServePublicPageController#roadmap"
+ },
+ {
+  "method": "GET",
+  "path": "/roadmap.md",
+  "source": "routes.cr Publication::ServePublicPageController#roadmap"
+ },
+ {
+  "method": "GET",
+  "path": "/research",
+  "source": "routes.cr Publication::ServePublicPageController#research"
+ },
+ {
+  "method": "GET",
+  "path": "/research.md",
+  "source": "routes.cr Publication::ServePublicPageController#research"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker",
+  "source": "routes.cr Publication::ServePublicPageController#release_tracker"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker.md",
+  "source": "routes.cr Publication::ServePublicPageController#release_tracker"
+ },
+ {
+  "method": "GET",
+  "path": "/index.md",
+  "source": "routes.cr HomeController#page_markdown"
+ },
+ {
+  "method": "GET",
+  "path": "/media.md",
+  "source": "routes.cr HomeController#page_markdown"
+ },
+ {
+  "method": "GET",
+  "path": "/characters.md",
+  "source": "routes.cr HomeController#page_markdown"
+ },
+ {
+  "method": "GET",
+  "path": "/showcase.md",
+  "source": "routes.cr HomeController#page_markdown"
+ },
+ {
+  "method": "GET",
+  "path": "/sponsors.md",
+  "source": "routes.cr HomeController#page_markdown"
+ },
+ {
+  "method": "GET",
+  "path": "/releases.md",
+  "source": "routes.cr HomeController#page_markdown"
+ },
+ {
+  "method": "GET",
+  "path": "/performance.md",
+  "source": "routes.cr HomeController#page_markdown"
+ },
+ {
+  "method": "GET",
+  "path": "/amber-way.md",
+  "source": "routes.cr HomeController#page_markdown"
+ },
+ {
+  "method": "GET",
+  "path": "/privacy.md",
+  "source": "routes.cr HomeController#page_markdown"
+ },
+ {
+  "method": "GET",
+  "path": "/blog.md",
+  "source": "routes.cr BlogController#index_markdown"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/feed",
+  "source": "routes.cr BlogController#feed"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/feed.xml",
+  "source": "routes.cr BlogController#feed"
+ },
+ {
+  "method": "GET",
+  "path": "/rss",
+  "source": "routes.cr BlogController#feed"
+ },
+ {
+  "method": "GET",
+  "path": "/",
+  "source": "routes.cr HomeController#index"
+ },
+ {
+  "method": "GET",
+  "path": "/index",
+  "source": "routes.cr HomeController#index"
+ },
+ {
+  "method": "GET",
+  "path": "/index.json",
+  "source": "routes.cr HomeController#index (json extension)"
+ },
+ {
+  "method": "GET",
+  "path": "/media",
+  "source": "routes.cr HomeController#media"
+ },
+ {
+  "method": "GET",
+  "path": "/media.json",
+  "source": "routes.cr HomeController#media (json extension)"
+ },
+ {
+  "method": "GET",
+  "path": "/characters",
+  "source": "routes.cr HomeController#characters"
+ },
+ {
+  "method": "GET",
+  "path": "/characters.json",
+  "source": "routes.cr HomeController#characters (json extension)"
+ },
+ {
+  "method": "GET",
+  "path": "/showcase",
+  "source": "routes.cr HomeController#showcase"
+ },
+ {
+  "method": "GET",
+  "path": "/showcase.json",
+  "source": "routes.cr HomeController#showcase (json extension)"
+ },
+ {
+  "method": "GET",
+  "path": "/sponsors",
+  "source": "routes.cr HomeController#sponsors"
+ },
+ {
+  "method": "GET",
+  "path": "/sponsors.json",
+  "source": "routes.cr HomeController#sponsors (json extension)"
+ },
+ {
+  "method": "GET",
+  "path": "/releases",
+  "source": "routes.cr HomeController#releases"
+ },
+ {
+  "method": "GET",
+  "path": "/releases.json",
+  "source": "routes.cr HomeController#releases (json extension)"
+ },
+ {
+  "method": "GET",
+  "path": "/performance",
+  "source": "routes.cr HomeController#performance"
+ },
+ {
+  "method": "GET",
+  "path": "/performance.json",
+  "source": "routes.cr HomeController#performance (json extension)"
+ },
+ {
+  "method": "GET",
+  "path": "/amber-way",
+  "source": "routes.cr HomeController#amber_way"
+ },
+ {
+  "method": "GET",
+  "path": "/amber-way.json",
+  "source": "routes.cr HomeController#amber_way (json extension)"
+ },
+ {
+  "method": "GET",
+  "path": "/privacy",
+  "source": "routes.cr HomeController#privacy"
+ },
+ {
+  "method": "GET",
+  "path": "/privacy.json",
+  "source": "routes.cr HomeController#privacy (json extension)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog",
+  "source": "routes.cr BlogController#index"
+ },
+ {
+  "method": "GET",
+  "path": "/docs",
+  "source": "routes.cr DocsController#index"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/knowledge.md",
+  "source": "routes.cr DocsController#knowledge"
+ },
+ {
+  "method": "GET",
+  "path": "/mcp",
+  "source": "routes.cr McpController#show"
+ },
+ {
+  "method": "GET",
+  "path": "/characters/amber",
+  "source": "routes.cr /characters/:id"
+ },
+ {
+  "method": "GET",
+  "path": "/characters/amber.md",
+  "source": "routes.cr /characters/:id"
+ },
+ {
+  "method": "GET",
+  "path": "/characters/amber.json",
+  "source": "routes.cr /characters/:id"
+ },
+ {
+  "method": "GET",
+  "path": "/characters/grant",
+  "source": "routes.cr /characters/:id"
+ },
+ {
+  "method": "GET",
+  "path": "/characters/grant.md",
+  "source": "routes.cr /characters/:id"
+ },
+ {
+  "method": "GET",
+  "path": "/characters/grant.json",
+  "source": "routes.cr /characters/:id"
+ },
+ {
+  "method": "GET",
+  "path": "/characters/gemma",
+  "source": "routes.cr /characters/:id"
+ },
+ {
+  "method": "GET",
+  "path": "/characters/gemma.md",
+  "source": "routes.cr /characters/:id"
+ },
+ {
+  "method": "GET",
+  "path": "/characters/gemma.json",
+  "source": "routes.cr /characters/:id"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2026/08/13/amber-v2-executable-schema-contracts",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2026/08/13/amber-v2-executable-schema-contracts.md",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2026/08/13/amber-v2-router-on-a-four-dollar-droplet",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2026/08/13/amber-v2-router-on-a-four-dollar-droplet.md",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2026/08/11/amber-v2-persistence-by-default",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2026/08/11/amber-v2-persistence-by-default.md",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2026/08/11/meet-amber-and-the-new-website",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2026/08/11/meet-amber-and-the-new-website.md",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2026/08/10/amber-v2-public-beta",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2026/08/10/amber-v2-public-beta.md",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2026/07/31/amber-2-beta-2",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2026/07/31/amber-2-beta-2.md",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2026/02/16/shards-alpha-supply-chain-compliance-and-ai-tooling-for-crystal",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2026/02/16/shards-alpha-supply-chain-compliance-and-ai-tooling-for-crystal.md",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2023/04/24/amber-2.0-roadmap",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2023/04/24/amber-2.0-roadmap.md",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2023/03/10/state-of-amber-2023",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2023/03/10/state-of-amber-2023.md",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2018/01/08/amber-new-releases-new-year",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2018/01/08/amber-new-releases-new-year.md",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2017/10/18/amber-0.3.0-has-been-released-including-enhancements-and-bug-fixes",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2017/10/18/amber-0.3.0-has-been-released-including-enhancements-and-bug-fixes.md",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2017/10/11/amber-0.2.7-has-been-released-including-enhancements-and-bug-fixes",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2017/10/11/amber-0.2.7-has-been-released-including-enhancements-and-bug-fixes.md",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2017/10/07/new-website-for-amber-framework",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/blog/2017/10/07/new-website-for-amber-framework.md",
+  "source": "routes.cr /blog/:year/:month/:day/:id (blog/posts.yml)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/SUMMARY",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/SUMMARY.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli/database",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli/database.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli/encrypt",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli/encrypt.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli/exec",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli/exec.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli/generate",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli/generate.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli/new",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli/new.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli/plugins",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli/plugins.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli/recipes",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli/recipes.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli/routes",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli/routes.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli/watch",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cli/watch.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/code-of-conduct",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/code-of-conduct.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/contributing",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/contributing.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/authenticate",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/authenticate.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/cookies",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/cookies.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/cors",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/cors.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/file-download",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/file-download.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/file-upload",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/file-upload.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/from-scratch",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/from-scratch.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/hello-world",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/hello-world.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/json-api",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/json-api.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/json-mapping",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/json-mapping.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/websocket-chat",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/cookbook/websocket-chat.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/deployment/digital-ocean",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/deployment/digital-ocean.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/deployment/dokku",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/deployment/dokku.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/deployment/heroku",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/deployment/heroku.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/deployment",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/deployment.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/deployment/manual-deploy",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/deployment/manual-deploy.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/examples/amber-auth",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/examples/amber-auth.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/examples/crystal-debug",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/examples/crystal-debug.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/examples",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/examples.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/examples/json-api-full-crud",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/examples/json-api-full-crud.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/examples/minimal-configuration",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/examples/minimal-configuration.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/getting-started",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/getting-started.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/configuration",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/configuration.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/cookies",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/cookies.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/csrf",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/csrf.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/filters",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/filters.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/flash",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/flash.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/halt",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/halt.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/params",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/params.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/redirection",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/redirection.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/request-and-response-objects",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/request-and-response-objects.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/respond-with",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/respond-with.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/sessions",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/controllers/sessions.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/create-new-app",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/create-new-app.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/directory-structure",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/directory-structure.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/docker",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/docker.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/installation",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/installation.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/mailers",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/mailers.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/granite/associations",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/granite/associations.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/granite/bulk-insertions",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/granite/bulk-insertions.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/granite/callbacks",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/granite/callbacks.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/granite",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/granite.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/granite/migrations",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/granite/migrations.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/granite/querying",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/granite/querying.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/granite/validations",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/granite/validations.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/jennifer",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/jennifer.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/jennifer/migrations",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/jennifer/migrations.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/jennifer/models",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/models/jennifer/models.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/overview",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/overview.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/routing",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/routing.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/routing/pipelines",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/routing/pipelines.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/routing/routes",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/routing/routes.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/ssl",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/ssl.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/testing",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/testing.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/testing/system-tests",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/testing/system-tests.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/views/basic-view-helpers",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/views/basic-view-helpers.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/views/form-builder",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/views/form-builder.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/views",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/views.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/websockets/channels",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/websockets/channels.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/websockets",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/websockets.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/websockets/javascript-client",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/websockets/javascript-client.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/websockets/sockets",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/guides/websockets/sockets.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/in-production",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/in-production.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/troubleshooting",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.4.1/troubleshooting.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.5/getting-started",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.5/getting-started.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.5/guides/installation",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.5/guides/installation.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/beta-support",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/beta-support.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/cli/generate",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/cli/generate.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/cli",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/cli.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/cli/new",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/cli/new.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/cli/watch",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/cli/watch.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/contributing",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/contributing.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/deployment",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/deployment.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/deployment/manual-deploy",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/deployment/manual-deploy.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/getting-started",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/getting-started.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/getting-started/installation",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/getting-started/installation.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/adapters",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/adapters.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/adapters/pubsub",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/adapters/pubsub.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/adapters/sessions",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/adapters/sessions.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/ai-assistants",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/ai-assistants.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/ai-assistants/mcp",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/ai-assistants/mcp.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/assets/configuration",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/assets/configuration.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/assets/import-maps",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/assets/import-maps.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/assets",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/assets.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/assets/stimulus",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/assets/stimulus.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/background-jobs",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/background-jobs.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/controllers/halt",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/controllers/halt.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/controllers",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/controllers.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/controllers/request-and-response-objects",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/controllers/request-and-response-objects.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/controllers/respond-with",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/controllers/respond-with.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/controllers/sessions",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/controllers/sessions.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/mailers",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/mailers.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models/grant/associations",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models/grant/associations.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models/grant/basics",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models/grant/basics.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models/grant/callbacks",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models/grant/callbacks.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models/grant",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models/grant.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models/grant/migrations",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models/grant/migrations.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models/grant/queries",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models/grant/queries.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models/grant/security",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models/grant/security.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models/grant/transactions",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models/grant/transactions.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models/grant/validations",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models/grant/validations.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/models.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/native-preview",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/native-preview.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/performance",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/performance.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/pet-tracker",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/pet-tracker.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/routing",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/routing.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/routing/pipelines",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/routing/pipelines.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/routing/routes",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/routing/routes.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/schema-api/basics",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/schema-api/basics.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/schema-api",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/schema-api.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/schema-api/openapi",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/schema-api/openapi.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/schema-api/parsers",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/schema-api/parsers.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/schema-api/validation",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/schema-api/validation.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/uploads/attachments",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/uploads/attachments.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/uploads",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/uploads.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/uploads/storage",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/uploads/storage.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/uploads/validation",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/uploads/validation.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/views",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/views.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/web-template",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/web-template.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/websockets",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/websockets.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/websockets/sockets",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/guides/websockets/sockets.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/migration-guide/granite-to-grant",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/migration-guide/granite-to-grant.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/migration-guide",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/migration-guide.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/migration-guide/redis-to-adapters",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/migration-guide/redis-to-adapters.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/migration-guide/webpack-to-esm",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/migration-guide/webpack-to-esm.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/project/business-templates",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/project/business-templates.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/project/contributing-with-your-assistant",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/project/contributing-with-your-assistant.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/project/governance",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/project/governance.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/project",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/project.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/project/release-contract",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/project/release-contract.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/project/research-standard",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/project/research-standard.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/project/tenancy-paths",
+  "source": "routes.cr /docs/*path (docs/)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/project/tenancy-paths.md",
+  "source": "routes.cr /docs/*path (docs/, markdown)"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/latest",
+  "source": "routes.cr redirect/api/error probe"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v1.5",
+  "source": "routes.cr redirect/api/error probe"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/raw/v2/index",
+  "source": "routes.cr redirect/api/error probe"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/raw/v2/cli/new",
+  "source": "routes.cr redirect/api/error probe"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/getting-started.json",
+  "source": "routes.cr redirect/api/error probe"
+ },
+ {
+  "method": "GET",
+  "path": "/api/docs/changes/v2",
+  "source": "routes.cr redirect/api/error probe"
+ },
+ {
+  "method": "GET",
+  "path": "/api/docs/changes/nope",
+  "source": "routes.cr redirect/api/error probe"
+ },
+ {
+  "method": "GET",
+  "path": "/guides/getting-started",
+  "source": "routes.cr redirect/api/error probe"
+ },
+ {
+  "method": "GET",
+  "path": "/guides",
+  "source": "routes.cr redirect/api/error probe"
+ },
+ {
+  "method": "GET",
+  "path": "/amber/guides/routing",
+  "source": "routes.cr redirect/api/error probe"
+ },
+ {
+  "method": "GET",
+  "path": "/granite/x",
+  "source": "routes.cr redirect/api/error probe"
+ },
+ {
+  "method": "GET",
+  "path": "/recipes/x",
+  "source": "routes.cr redirect/api/error probe"
+ },
+ {
+  "method": "GET",
+  "path": "/getting-started/x",
+  "source": "routes.cr redirect/api/error probe"
+ },
+ {
+  "method": "GET",
+  "path": "/this-route-does-not-exist",
+  "source": "routes.cr redirect/api/error probe"
+ },
+ {
+  "method": "GET",
+  "path": "/docs/v2/this-page-does-not-exist",
+  "source": "routes.cr redirect/api/error probe"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/blog/amber-new-website-character-2026-105d6ec8ff96d333dacbc76acd5563db.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/brand/amber-crystal-d7bb414ba231426fa6317715ca0adb73.svg",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/brand/amber-crystal-d7bb414ba231426fa6317715ca0adb73.svg.gz",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/brand/amber-grant-gemma-hero-bf24ea6827ed85ac63413902f3604996.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/brand/claude-icon-rounded-059e22f525d67c6258c4f64514f0b0e7.svg",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/brand/claude-icon-rounded-059e22f525d67c6258c4f64514f0b0e7.svg.gz",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/brand/crys-mascot-54d1ce7ce44a081a60f0d9614918d79f.svg",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/brand/crys-mascot-54d1ce7ce44a081a60f0d9614918d79f.svg.gz",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/brand/openai-symbol-2025-06acc78615f14cb7dc2d44a7e3df9069.svg",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/brand/openai-symbol-2025-06acc78615f14cb7dc2d44a7e3df9069.svg.gz",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/amber-chibi-cd28e3023aeea78a34df9e00aec9c292.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/amber-chibi-hero-mark-v2-16048f5601f3c5688e54824f1cf9007a.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/amber-chibi-original-studio-14624d3e68747111a8ed036f3e543853.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/amber-hero-desk-desktop-higgsfield-4a791e4a34474660c22809c7e26a151c.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/amber-hero-desk-mobile-higgsfield-05d91f2bbd714924a64c17c5c01037c5.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/amber-hero-desk-transparent-higgsfield-6bc94885aa071d061333d81c9676edcb.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/amber-hero-inviting-studio-189ea92e68e1edb4d459ce3c62394b43.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/amber-hero-original-studio-9664a92e5af8767af84ceab3f1c79f34.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/amber-id-fa54766df49a0b6ab82440c082c84df8.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/amber-id-original-studio-d36112195cebe91202e04971ab599227.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/amber-laptop-hero-63e28c0498817ffa6f5fa0be029333f5.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/amber-pioneers-crystal-trail-v1-b5f1c250d0278cce8adb1dca646ecc23.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/gemma-file-logistics-higgsfield-eadf7dea58c1f050eac18411bb807be1.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/gemma-id-e818b6f3a58f55f3ec4179a0dcc4553c.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/gemma-id-original-studio-ddafae62b50092562c7316e29a37e7ff.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/grant-id-ee1405218bb339bd6535f709be09f003.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/grant-id-original-studio-8ab5dc9124c421ce96e9fb92537b65ae.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/grant-records-warehouse-higgsfield-15eba71da83e0ab79e600def5476faf2.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/way-sprites/happiness-a-47d39cd82780e5238ac8e031b211aed7.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/way-sprites/happiness-b-eb90792924783fda1e5fb89cf190b987.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/way-sprites/humility-a-9953a42ad40dc9786b65973f53a2be25.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/way-sprites/humility-b-b36633d6ebb907fb736b18eab943121c.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/way-sprites/performance-a-1e2649a26947d33665bd8515da0599f9.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/way-sprites/performance-b-2a42ada333648e98882981886a50b7c9.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/way-sprites/productivity-a-013a4b56bb06edbd13f1aa415544f1bb.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/way-sprites/productivity-b-420028d6542020a2f83e5c8ef3873c12.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/way-sprites/respect-a-dd6165736e83ae686555390b948021c5.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/way-sprites/respect-b-8696400bc846402409fdec0a5fc8f919.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/way-sprites/trust-a-3cb2631ccbc50738e5d97a3c1c5a614c.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/characters/way-sprites/trust-b-03ecdcd31d19af68328f809ced25e70b.webp",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/css/amber-brand-501919c313c87385941cbce742b7584f.css",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/css/amber-brand-501919c313c87385941cbce742b7584f.css.gz",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/fonts/Fraunces-Italic-Variable-cbdd5fdc03c4123e4df122b47f37ed7f.woff2",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/fonts/Fraunces-Variable-e169df7559440091b2d3499a0d40f9f3.woff2",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/fonts/Manrope-Variable-52ecbc78831e7ae0431b4a5cbe4aaaae.woff2",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/fonts/OFL-Fraunces-6732d6cc72c5d09292ff754dc1f39d9e.txt",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/fonts/OFL-Fraunces-6732d6cc72c5d09292ff754dc1f39d9e.txt.gz",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/fonts/OFL-Manrope-f612090fb72b6dca3e807e66fa0d2b5d.txt",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/fonts/OFL-Manrope-f612090fb72b6dca3e807e66fa0d2b5d.txt.gz",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/amber-2.0-blog-header-61f485e6a9d5e8aecda398ce6882597a.jpg",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/amber-black-a3008dd55aa998a01c9d6a947e6e3869.png",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/amber-f1f5c7d0ebb25e35d447a25cd3cf87ef.png",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/amber-logo-small-white-4f2fc6aecc817df1bfeea2e3714a12fc.png",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/amber-logo-t-bg-0be295c14796d54b40f21a0fef979b25.png",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/amber-white-5612120dc694cb4f840cee063fe884cd.png",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/amber-white-bg-64f52b213787ce1c1e5ac07ff62d4c4e.png",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/bootstrap-github-1-c08aa6a727df88711a1dc44714b3f705.png",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/cta-a9b408754ca351721ef3cc94a5e3a49f.png",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/et-line-663d8ece1e27d7e8c1a007d3d44b42b4.svg",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/et-line-663d8ece1e27d7e8c1a007d3d44b42b4.svg.gz",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/fontawesome-webfont-ad6157926c1622ba4e1d03d478f15413.svg",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/fontawesome-webfont-ad6157926c1622ba4e1d03d478f15413.svg.gz",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/header-699c8f23beab75fd9a30f4a14ac0fc35.jpg",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/local-brewery-423f01d117139b2ac319b47d28403d06.jpg",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/minimo-b8f9c1a5fe02c90572264f47f0579b51.png",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/powederd-by-digitalocean-5cc48d2e48963bb740fcaadc2dfe93bb.png",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/powederd-by-digitalocean-blue-becf86c4c4a4974686be4a68db313a12.png",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/snow-canyon-isaac-sloan-tiny-36a2be8c0ebd5c54235745700c99ce2a.png",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/themify-f7af2e096c85c2ed6f68bb086f792c67.svg",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/img/themify-f7af2e096c85c2ed6f68bb086f792c67.svg.gz",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/js/amber-site-f1311d1b7e67a08902667a9c5743b231.js",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/js/amber-site-f1311d1b7e67a08902667a9c5743b231.js.gz",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/assets/manifest.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/benchmarks/amber-v2-round22-summary.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/benchmarks/amber-v2-router-digitalocean-2026-08-13-machine.txt",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/benchmarks/amber-v2-router-digitalocean-2026-08-13-raw.jsonl",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/benchmarks/amber-v2-router-digitalocean-2026-08-13-summary.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/benchmarks/amber-v2-schema-contract-round27-summary.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/benchmarks/amber-v2-site-websocket-2026-08-11.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/crossdomain.xml",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/favicon.ico",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/favicon.png",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/google015c8f62f396c8ee.html",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/llms.txt",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/pioneers/index.html",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/pioneers/index.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/pioneers/index.md",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/pioneers/release-contract.html",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/publication/release-tracker.js",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/496986fd4a64152a103710e5f83092fdd3fd46ea5d7303dfbb01c6550fc67b87/index.html",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/496986fd4a64152a103710e5f83092fdd3fd46ea5d7303dfbb01c6550fc67b87/manifest.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/496986fd4a64152a103710e5f83092fdd3fd46ea5d7303dfbb01c6550fc67b87/snapshot.js",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/496986fd4a64152a103710e5f83092fdd3fd46ea5d7303dfbb01c6550fc67b87/snapshot.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/4a459d53bd50d7a1c619c4904f159788c21915517f63a212ba157c10e1e5f9e5/index.html",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/4a459d53bd50d7a1c619c4904f159788c21915517f63a212ba157c10e1e5f9e5/manifest.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/4a459d53bd50d7a1c619c4904f159788c21915517f63a212ba157c10e1e5f9e5/snapshot.js",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/4a459d53bd50d7a1c619c4904f159788c21915517f63a212ba157c10e1e5f9e5/snapshot.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/5bda29cc00fdae833eee1576a885c1a2f85bc3287045360160d5ccf7055c826b/index.html",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/5bda29cc00fdae833eee1576a885c1a2f85bc3287045360160d5ccf7055c826b/manifest.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/5bda29cc00fdae833eee1576a885c1a2f85bc3287045360160d5ccf7055c826b/snapshot.js",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/5bda29cc00fdae833eee1576a885c1a2f85bc3287045360160d5ccf7055c826b/snapshot.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/9cb7f50cc6fc407ac93488aaee11e27f6e856e6ee86bfa80c863a4716cd89fc4/index.html",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/9cb7f50cc6fc407ac93488aaee11e27f6e856e6ee86bfa80c863a4716cd89fc4/manifest.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/9cb7f50cc6fc407ac93488aaee11e27f6e856e6ee86bfa80c863a4716cd89fc4/snapshot.js",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/9cb7f50cc6fc407ac93488aaee11e27f6e856e6ee86bfa80c863a4716cd89fc4/snapshot.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/f7cd174fac10763c343836873228b0fe34d08af12a7af3cf5d98b652b87c9966/index.html",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/f7cd174fac10763c343836873228b0fe34d08af12a7af3cf5d98b652b87c9966/manifest.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/f7cd174fac10763c343836873228b0fe34d08af12a7af3cf5d98b652b87c9966/snapshot.js",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/bundles/f7cd174fac10763c343836873228b0fe34d08af12a7af3cf5d98b652b87c9966/snapshot.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/health.js",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/health.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/index.html",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/index.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/release-tracker/index.md",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/research/RESEARCH_OVERVIEW.md",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/research/RESEARCH_STANDARD.md",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/research/ROUTER_PERFORMANCE_ROUND19.md",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/research/evidence.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/research/frontloader-studio.png",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/research/index.html",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/research/index.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/research/index.md",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/research/model-cpu-after.jsonl",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/research/model-cpu-before.jsonl",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/research/progress-data.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/research/renderer-ab.jsonl",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/research/renderer-cpu-counters.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/research/round22_digitalocean_framework_workload.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/research/round25_digitalocean_cbor_http.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/roadmap/index.html",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/roadmap/index.json",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/roadmap/index.md",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/robots.txt",
+  "source": "routes.cr static /* (public/)"
+ },
+ {
+  "method": "GET",
+  "path": "/sitemap.xml",
+  "source": "routes.cr static /* (public/)"
+ }
+]
