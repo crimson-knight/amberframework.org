@@ -131,6 +131,14 @@ trust the original filename as a safe path.
 
 Store files in Amazon S3 or S3-compatible services (DigitalOcean Spaces, MinIO, etc.).
 
+> **Pending change, in review:** a Gemma pull request replaces `awscr-s3`
+> with Gemma's own S3 client,
+> `Gemma::Storage::S3::Client`. It signs requests with stdlib OpenSSL and
+> parses no XML, so S3 storage stops linking libxml2. The constructor arguments
+> stay the same; after it merges, swap `Awscr::S3::Client.new` for
+> `Gemma::Storage::S3::Client.new` and remove `awscr-s3` from `shard.yml`.
+> The examples below use the current `awscr-s3` client.
+
 ### Basic Configuration
 
 ```crystal

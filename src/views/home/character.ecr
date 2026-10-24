@@ -1,4 +1,5 @@
 <% character_id = params["id"] %>
+<% character_why : String? = nil %>
 <% if character_id == "grant" %>
   <% character_name = "Grant" %>
   <% character_number = "AF-014" %>
@@ -49,8 +50,9 @@
   <% character_image = "characters/mica-id-original-studio.webp" %>
   <% character_docs = "/docs/v2/guides/schema-api/parsers" %>
   <% character_summary = "Mica is the crew's reader. A parser reads anything, so Mica reads every language the crew brings in: request bodies, documents, and data formats, in order, with nothing guessed." %>
-  <% character_personality = "Calm, exact, and patient, with a warm smile under the precision. Mica reads only what she was handed, leaves anything a document points to closed and labeled, and when a document breaks, she names the exact place it stopped reading clean." %>
-  <% character_responsibilities = ["Request body formats", "Content-type contracts", "Strict, bounded parsing", "The Mica parsing library (in development)"] %>
+  <% character_why = "The Amberverse should rely on something entirely its own. Mica carries the knowledge that published standards define and the hard-won lessons of real-world CVEs and security testing, so every format the crew takes in is read with an experienced professional's steady hand." %>
+  <% character_personality = "Calm, exact, and patient, with a warm smile under the precision: the steadfast, experienced professional the crew relies on. Mica reads only what she was handed, leaves anything a document points to closed and labeled, and when a document breaks, she names the exact place it stopped reading clean." %>
+  <% character_responsibilities = ["Request body formats and content-type contracts", "Strict, bounded parsing with the exact line and column", "The Mica XML library (in development)", "Planned: HTTP messages, URLs, signed tokens, text, output escaping, archives, and patterns"] %>
   <% character_line = "Mica reads it right, or shows you exactly where it isn't." %>
   <% character_scene = "characters/mica-reading-room-codex.webp" %>
   <% character_scene_width = 1678 %>
@@ -94,6 +96,7 @@
 
 <% @title = "#{character_name} — Amber Framework character" %>
 <% @meta = "Meet #{character_name}, #{character_role.downcase} in the Amber Framework ecosystem." %>
+<% @image = character_image %>
 
 <main class="character-profile character-<%= character_class %>">
   <section class="character-profile-hero">
@@ -103,6 +106,9 @@
         <p class="eyebrow"><%= character_number %> · <%= character_role %></p>
         <h1><%= character_name %></h1>
         <p class="character-deck"><%= character_summary %></p>
+        <% if why = character_why %>
+          <p class="character-why"><strong>Why <%= character_name %> exists.</strong> <%= why %></p>
+        <% end %>
         <div class="hero-actions">
           <a class="button button-primary" href="<%= character_docs %>">Read <%= character_name %>'s docs</a>
           <a class="button button-secondary" href="/amber-way">Learn Amber's Way</a>

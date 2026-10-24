@@ -16,6 +16,41 @@
     <priority>0.20</priority>
   </url>
   <url>
+    <loc>https://amberframework.org/characters</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://amberframework.org/characters/amber</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://amberframework.org/characters/grant</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://amberframework.org/characters/gemma</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://amberframework.org/characters/mica</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://amberframework.org/blog/2026/10/24/meet-mica-the-crews-reader</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://amberframework.org/blog/2026/08/11/meet-amber-and-the-new-website</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
     <loc>https://amberframework.org/showcase</loc>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>

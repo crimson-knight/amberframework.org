@@ -1807,6 +1807,20 @@ pre {
   font-size: 1.16rem;
 }
 
+.character-why {
+  max-width: 670px;
+  margin: 18px 0 0;
+  padding: 14px 18px;
+  border-left: 4px solid currentColor;
+  border-radius: 0 12px 12px 0;
+  background: rgba(255, 253, 249, 0.72);
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.character-why strong { color: var(--ink); }
+.character-mica .character-why { border-left-color: var(--mica-dark); }
+
 .character-portrait-frame {
   position: relative;
   padding: 14px;

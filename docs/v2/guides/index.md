@@ -53,6 +53,12 @@ Preview pages describe work that can be evaluated, but they are not part of the
 clean web-template compile guarantee. The Asset Pipeline is part of that
 guarantee; add native and attachment projects deliberately.
 
+## In development
+
+- [Mica](/characters/mica) — the crew's pure-Crystal parsing library, starting
+  with XML 1.0 and Namespaces 1.0. It has no release and no guides yet;
+  [Request formats](schema-api/parsers/) describes the parsing Amber ships today.
+
 ## Use the docs with an assistant
 
 [AI assistants](ai-assistants/) explains how to give ChatGPT, Claude, or Gemini

@@ -1,3 +1,14 @@
+title: "Meet Mica: The Crew's Reader"
+file: blog/2026/10/24/meet-mica-the-crews-reader.md
+image: characters/mica-reading-room-codex.webp
+date: Oct 24, 2026
+author: The Amber team
+profile: https://github.com/amberframework
+category: Crew
+character: Mica
+character_image: characters/mica-id-original-studio.webp
+summary: Mica joins the Amber crew as its reader, so the Amberverse can rely on a parser that is entirely its own, built on published standards and the lessons of real-world CVEs.
+---
 title: "Amber V2 Schemas Are Contracts the Framework Actually Enforces"
 file: blog/2026/08/13/amber-v2-executable-schema-contracts.md
 image: characters/amber-hero-original-studio.webp
