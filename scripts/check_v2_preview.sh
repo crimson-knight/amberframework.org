@@ -31,6 +31,7 @@ for asset in \
   app/assets/characters/gemma-id-original-studio.webp \
   app/assets/characters/mica-id-original-studio.webp \
   app/assets/characters/mica-reading-room-codex.webp \
+  app/assets/characters/beryl-rooftop-seal-check-codex.webp \
   app/assets/characters/amber-chibi-original-studio.webp \
   app/assets/characters/amber-chibi-hero-mark-v2.webp \
   app/assets/blog/amber-new-website-character-2026.webp \
@@ -41,6 +42,13 @@ for asset in \
   app/assets/fonts/OFL-Fraunces.txt; do
   test -s "$asset" || fail "missing local asset: $asset"
 done
+
+# Blog Markdown cannot call asset_path, so an inline figure names its
+# fingerprinted file. Fail if the post and the built manifest disagree.
+mica_security_post=blog/2026/10/25/mica-parsing-untrusted-input-safely-and-fast.md
+beryl_figure=$(grep -o '/assets/characters/beryl-rooftop-seal-check-codex-[0-9a-f]*\.webp' "$mica_security_post")
+grep -F "\"$beryl_figure\"" public/assets/manifest.json >/dev/null \
+  || fail "the Mica security post's Beryl figure does not match the built asset manifest"
 
 grep -F '@font-face' app/assets/css/amber-brand.css >/dev/null
 grep -F '../fonts/Manrope-Variable.woff2' app/assets/css/amber-brand.css >/dev/null
