@@ -29,6 +29,7 @@ module SiteContent
         "## Amber\nThe framework lead owns routing, controllers, ECR views, configuration, schemas, WebSockets, jobs, and application structure.",
         "## Grant\nThe records specialist names Amber V2's default relational persistence path.",
         "## Gemma\nThe files specialist names the optional attachment validation, storage, and delivery path.",
+        "## Mica\nThe reader names the request-format parsing boundary and the Mica parsing library, which is in development.",
       ],
     },
     "showcase" => {
@@ -95,6 +96,11 @@ module SiteContent
       title:       "Gemma — files",
       description: "Gemma personifies attachment validation, storage, metadata, and delivery.",
       sections:    ["## Release boundary\nGemma is an optional ecosystem preview, not a dependency of the supported clean web template."],
+    },
+    "mica" => {
+      title:       "Mica — parsing",
+      description: "Mica personifies request-format parsing: reading JSON, form, XML, CBOR, and COSE bodies strictly and in order.",
+      sections:    ["## Release boundary\nAmber V2's request formats ship in the schema API today. The Mica library, a pure-Crystal XML parser, is in development and not yet released."],
     },
   } of String => Page
 
