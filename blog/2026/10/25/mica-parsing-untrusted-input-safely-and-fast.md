@@ -26,7 +26,7 @@ and the crewmate who keeps her supply chain honest.
 
 ## Why Mica exists
 
-Seth, Amber's maintainer, put it this way:
+Seth Tucker, Amber's maintainer, put it this way:
 
 > "I wanted something entirely part of the Amberverse to be what we rely on.
 > Mica represents a collection of necessary knowledge and tools that have
