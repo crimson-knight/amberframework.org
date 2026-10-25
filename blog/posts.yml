@@ -1,3 +1,14 @@
+title: "Mica: Parsing Untrusted Input Safely, and Fast"
+file: blog/2026/10/25/mica-parsing-untrusted-input-safely-and-fast.md
+image: characters/mica-reading-room-codex.webp
+date: Oct 25, 2026
+author: The Amber team
+profile: https://github.com/amberframework
+category: Security
+character: Mica
+character_image: characters/mica-id-original-studio.webp
+summary: Mica, the crew's pure-Crystal parser, outruns libxml2 on every XML workload we measured, builds documents in less than half the memory, and closes the parser attacks behind years of real-world CVEs. Meet Beryl, too, who keeps the supply chain honest.
+---
 title: "Meet Mica: The Crew's Reader"
 file: blog/2026/10/24/meet-mica-the-crews-reader.md
 image: characters/mica-reading-room-codex.webp

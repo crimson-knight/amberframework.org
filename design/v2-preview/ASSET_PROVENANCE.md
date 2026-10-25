@@ -183,6 +183,18 @@ pixel was requested unchanged; the earlier sources were
 `exec-d4437834-ef37-4b29-b079-75a0bd1ddc8b.png` (portrait) and
 `exec-30832310-7700-4a84-bda2-3857ec802d2b.png` (scene).
 
+## Beryl, in the Mica security post
+
+`beryl-rooftop-seal-check-codex.webp` is the inline figure in the post
+"Mica: Parsing Untrusted Input Safely, and Fast". It is Beryl's round-2 rooftop
+scene from the crew's Codex `image_gen` pipeline, selected in the roadmap repo
+on branch `character/beryl` (commit `0d17605`) as
+`research/beryl_concepts/codex/selected/beryl-rooftop-motorcycle-scene.png`.
+
+| Local asset | Built-in generation source | Encoding |
+|---|---|---|
+| `beryl-rooftop-seal-check-codex.webp` | `/Users/crimsonknight/.codex/generated_images/01a17016-7af2-7ac1-9f54-bbb170893d23/exec-80522f7b-7c4a-4261-9c06-db92ab756c00.png` (selected PNG sha256 `2ae642ba7d9be4c8e49a93774a0997e96d55e9743937ed255e62c361d15ffc47`) | 1672 by 941 as generated; quality-84 WebP (cwebp 1.6.0) |
+
 ## Third-party identity assets
 
 These marks are stored locally and used only to identify the tools or services

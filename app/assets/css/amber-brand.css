@@ -2999,6 +2999,15 @@ pre {
 .docs-content th { background: var(--amber-100); color: var(--ink); font-size: 0.7rem; letter-spacing: 0.04em; text-transform: uppercase; }
 .docs-content tbody tr:nth-child(even) { background: rgba(255, 240, 215, 0.32); }
 
+/* Blog tables share the documentation table look, sized for a narrow article. */
+.post-article table { width: 100%; margin: 0; border-spacing: 0; border-collapse: collapse; font-size: 0.8rem; }
+.post-article th, .post-article td { padding: 10px 13px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.post-article th[align="right"], .post-article td[align="right"] { text-align: right; font-variant-numeric: tabular-nums; }
+.post-article tr:last-child td { border-bottom: 0; }
+.post-article th:last-child, .post-article td:last-child { border-right: 0; }
+.post-article th { background: var(--amber-100); color: var(--ink); font-size: 0.7rem; letter-spacing: 0.04em; text-transform: uppercase; }
+.post-article tbody tr:nth-child(even) { background: rgba(255, 240, 215, 0.32); }
+
 .page-ref { margin: 1.5em 0; padding: 15px 18px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
 
 .version-timeline { margin: 0 0 28px; padding: 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); }
@@ -3095,6 +3104,9 @@ pre {
 
 .post-cover { overflow: hidden; margin: 0 0 46px; border: 1px solid var(--line-strong); border-radius: 16px; background: var(--amber-100); box-shadow: var(--shadow-sm); }
 .post-cover img { width: 100%; max-height: 520px; object-fit: cover; }
+.post-figure { margin: 28px 0 34px; }
+.post-figure img { height: auto; }
+.post-figure figcaption { padding: 10px 16px 12px; border-top: 1px solid var(--line); background: var(--paper); color: var(--muted); font-size: .8rem; }
 
 .post-article { color: var(--ink-soft); }
 .post-article h1, .post-article h2, .post-article h3 { color: var(--ink); font-family: var(--serif); }
