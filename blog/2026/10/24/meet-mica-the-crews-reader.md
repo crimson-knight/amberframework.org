@@ -47,10 +47,9 @@ She has a place with each of the crew. Amber hands her the messy envelopes that
 arrive at the front office, and Mica returns clean rows to route. Grant files
 the rows Mica sorts; between the crew's two precise people, nothing is wasted.
 When Gemma pops open a crate of S3 storage listings, Mica catches the XML on
-her open page before it touches the ground. Micrate brings its numbered
-migration slats so she can read them in order. And Crys, the Crystal
-language's crow, likes to perch on the top edge of her book, because Mica is
-Crystal all the way down.
+her open page before it touches the ground. And Crys, the Crystal language's
+crow, likes to perch on the top edge of her book, because Mica is Crystal all
+the way down.
 
 ## A concrete example: the last C library on the request path
 
