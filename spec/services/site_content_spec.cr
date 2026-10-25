@@ -15,6 +15,16 @@ describe SiteContent do
     end
   end
 
+  it "states why Mica exists before her release boundary" do
+    markdown = SiteContent.markdown("mica", "/characters/mica") || raise "Mica has no machine page"
+
+    why_index = markdown.index("## Why Mica exists") || raise "Mica's machine page has no why section"
+    boundary_index = markdown.index("## Release boundary") || raise "Mica's machine page has no release boundary"
+    why_index.should be < boundary_index
+    markdown.should contain("entirely its own")
+    markdown.should contain("in development and not yet released")
+  end
+
   it "does not invent content for an unknown page" do
     SiteContent.markdown("missing", "/missing").should be_nil
     SiteContent.json("missing", "/missing").should be_nil

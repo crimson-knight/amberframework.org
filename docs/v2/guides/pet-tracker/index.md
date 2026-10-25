@@ -395,6 +395,9 @@ read the updated record back.
   callbacks, transactions, and security.
 - [Migrations](../models/grant/migrations/) covers authored Micrate changes and
   release-safe database workflows.
+- [Request formats](../schema-api/parsers/) covers every body a schema can
+  accept: forms like this one, JSON, CBOR, and COSE. In the crew, that parsing
+  boundary belongs to [Mica](/characters/mica).
 - [Views](../views/) expands the controller, ECR, partial, and layout boundary.
 - [Import Maps](../assets/import-maps/) shows how to split local browser code.
 - [Beta Support](../../beta-support/) separates the supported web path from

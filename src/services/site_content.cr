@@ -29,7 +29,7 @@ module SiteContent
         "## Amber\nThe framework lead owns routing, controllers, ECR views, configuration, schemas, WebSockets, jobs, and application structure.",
         "## Grant\nThe records specialist names Amber V2's default relational persistence path.",
         "## Gemma\nThe files specialist names the optional attachment validation, storage, and delivery path.",
-        "## Mica\nThe reader names the request-format parsing boundary and the Mica parsing library, which is in development.",
+        "## Mica\nThe reader names the request-format parsing boundary and the Mica parsing library, which is in development. She stands for standards-defined knowledge plus security lessons, owned by the Amberverse.",
       ],
     },
     "showcase" => {
@@ -100,7 +100,11 @@ module SiteContent
     "mica" => {
       title:       "Mica — parsing",
       description: "Mica personifies request-format parsing: reading JSON, form, XML, CBOR, and COSE bodies strictly and in order.",
-      sections:    ["## Release boundary\nAmber V2's request formats ship in the schema API today. The Mica library, a pure-Crystal XML parser, is in development and not yet released."],
+      sections:    [
+        "## Why Mica exists\nThe Amberverse should rely on something entirely its own. Mica carries the knowledge that published standards define and the hard-won lessons of real-world CVEs and security testing: the reading of knowledge, with the steadfast reliability of an experienced professional.",
+        "## Role\nMica reads and verifies untrusted input exactly as published standards define it, carrying the CVE lessons behind each check. Planned areas, none built yet beyond XML: HTTP messages (chunked framing, cookies, multipart, headers, content types, request limits), URLs and hostnames, signed and encoded tokens (JOSE, COSE, PEM, ASN.1 DER, X.509), text (UTF-8, normalization, confusables), output escaping and sanitizing, archives and media headers, the linear-time Mica::Regex, and the conformance suites and fuzz corpora behind them. Amber, Grant, and Gemma decide what to do with the data.",
+        "## Release boundary\nAmber V2's request formats ship in the schema API today. The Mica library, a pure-Crystal XML 1.0 and Namespaces 1.0 parser, is in development and not yet released.",
+      ],
     },
   } of String => Page
 

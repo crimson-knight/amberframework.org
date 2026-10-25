@@ -2,7 +2,7 @@
 title: "Request Formats"
 section: "guides/schema-api"
 order: 30
-description: "JSON, forms, XML, deterministic CBOR, and encrypted COSE requests"
+description: "JSON, forms, XML, deterministic CBOR, and encrypted COSE requests at the parsing boundary Mica reads"
 ---
 
 # Request formats
@@ -153,6 +153,38 @@ XML is available for inbound schema parsing. The schema-aware `respond_with`
 encoder currently emits JSON, CBOR, or COSE; do not declare automatic XML
 response encoding unless the controller implements and tests that response
 path explicitly.
+
+> **Pending change, not in `2.0.0-beta.5`:** draft pull request
+> [amberframework/amber#1414](https://github.com/amberframework/amber/pull/1414)
+> removes the built-in XML parser, which links libxml2 into every application.
+> Once it lands, an `application/xml`, `text/xml`, or `+xml` body is answered
+> with 415 unless the application opts in by registering a parser at boot:
+>
+> ```crystal
+> # config/initializers/request_body_parsers.cr
+> Amber::Schema::Parser::ParserRegistry.register_body_parser("application/xml") do |body|
+>   MyXMLReader.read_fields(body) # => Hash(String, JSON::Any)
+> end
+> ```
+>
+> The schema still lists `application/xml` in `content_type`, and a parser that
+> raises answers `400 invalid_request_body`.
+
+## Who reads the request
+
+Every format on this page sits on one boundary: turning the bytes a client sent
+into fields a schema can validate. In the Amber crew, that boundary belongs to
+[Mica](/characters/mica), the crew's reader: she reads and verifies untrusted
+input exactly as the published standards define it. Amber, Grant, and Gemma
+decide what to do with the data afterward.
+
+Mica is also the name of a pure-Crystal parsing library, **in development and
+not yet released**. Its first format is XML 1.0 and Namespaces 1.0, with a
+streaming reader, a DOM, a builder, and XPath 1.0. It links no C library,
+fetches nothing from the network or disk while parsing, and stops at the first
+malformed byte with its exact line and column. When it ships, it is the planned
+XML parser for the `register_body_parser` hook above. Until then, the media
+types in the table at the top of this page are the ones Amber parses.
 
 ## Deterministic CBOR
 
