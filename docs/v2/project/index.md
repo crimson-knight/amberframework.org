@@ -14,6 +14,7 @@ Bring a real web app, a coding assistant, and one useful discovery. Your experie
 
 - [Contribute with your assistant](/docs/v2/project/contributing-with-your-assistant)
 - [Governance](/docs/v2/project/governance)
+- [How Amber releases work](/docs/v2/project/how-amber-releases-work)
 - [The release contract](/docs/v2/project/release-contract)
 - [The business-template promise](/docs/v2/project/business-templates)
 - [Choosing a tenancy path](/docs/v2/project/tenancy-paths)
