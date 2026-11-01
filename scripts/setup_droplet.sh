@@ -29,6 +29,17 @@ set -euo pipefail
 id site_amberframework >/dev/null 2>&1 \
   || useradd --system --no-create-home --home-dir /srv/site/amberframework --shell /usr/sbin/nologin site_amberframework
 install -d -o root -g site_amberframework -m 750 /srv/site/amberframework /srv/site/amberframework/releases
+# The binary links libgc.so.1 (the crystallang base image ships it). Install Ubuntu noble's
+# libgc1 at an exact version, checked against the sha256 in the signed noble main index.
+if [[ "$(dpkg-query -W -f '${Version}' libgc1 2>/dev/null || true)" != "1:8.2.6-1build1" ]]; then
+  work="$(mktemp -d)"; chmod 755 "$work"; cd "$work"
+  apt-get download -q libgc1=1:8.2.6-1build1 >/dev/null 2>&1
+  mv libgc1_*_amd64.deb libgc1.deb
+  echo "67d4d83f1c7f3bc240d44f4d9133e08d0da3e5069e50e6dd15ea998af7bccd06  libgc1.deb" | sha256sum -c -
+  DEBIAN_FRONTEND=noninteractive apt-get install -y -q --no-install-recommends ./libgc1.deb
+  apt-mark hold libgc1
+  cd /; rm -rf "$work"
+fi
 REMOTE
 
 echo "2. systemd unit"
