@@ -35,8 +35,8 @@ jobs:
           python scripts/release_tracking/when_repositories_are_checked_then_publish_snapshot.py
       - name: Publish the successful check
         run: |
-          git config user.name "Seth Tucker"
-          git config user.email "crimsonknightstudios@gmail.com"
+          git config user.name "AgentC Consulting"
+          git config user.email "agent_c@agentc.consulting"
           git add config/github_releases.json public/release-tracker
           bundle=$(readlink public/release-tracker/current)
           git ls-files --error-unmatch \
