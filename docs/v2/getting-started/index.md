@@ -30,7 +30,8 @@ install` now.
 
 The generated project uses ECR, typed environment YAML, Grant, SQLite, and
 static routes. Its `shard.yml` pins Amber `2.0.0-beta.5` from
-`amberframework/amber` and the reviewed Grant V2 commit.
+`amberframework/amber` and the reviewed Grant V2 commit. The latest release is
+[`2.0.0-beta.6`](https://github.com/amberframework/amber/releases/tag/v2.0.0-beta.6); change the pin to `2.0.0-beta.6` to use it.
 
 ## Prove the clean scaffold works
 

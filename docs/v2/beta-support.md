@@ -2,13 +2,16 @@
 title: "Beta Support"
 section: ""
 order: 20
-description: "Supported platforms and feature boundaries for Amber 2.0.0-beta.5"
+description: "Supported platforms and feature boundaries for Amber 2.0.0-beta.6"
 ---
 
 # Amber V2 Beta Support
 
-**Status checked August 13, 2026.** Amber Framework `2.0.0-beta.5` and Amber
-CLI `2.0.6` are the coordinated database-backed web beta. Amber `1.5.0`
+**Status checked November 1, 2026.** Amber Framework
+[`2.0.0-beta.6`](https://github.com/amberframework/amber/releases/tag/v2.0.0-beta.6) is the latest V2 framework release. It removes
+libxml2 from every V2 application; XML request bodies are opt-in through
+Mica. Amber CLI `2.0.7` generates applications pinned to `2.0.0-beta.5`;
+change that pin to `2.0.0-beta.6` to run the latest beta. Amber `1.5.0`
 remains the stable framework line.
 
 “Beta” describes the V2 framework release, not an expectation that ordinary
@@ -90,8 +93,9 @@ must test against the server versions they deploy.
 
 ## Versions
 
-- Amber V2 framework beta: `2.0.0-beta.5` — published August 13, 2026
-- Amber CLI: `2.0.6` — published August 13, 2026
+- Amber V2 framework beta: [`2.0.0-beta.6`](https://github.com/amberframework/amber/releases/tag/v2.0.0-beta.6) — published November 1, 2026
+- Amber V2 framework beta.5: `2.0.0-beta.5` — published August 13, 2026, and the version Amber CLI `2.0.7` pins in new applications
+- Amber CLI: `2.0.7` — published October 6, 2026
 - Asset Pipeline: `0.37.0` — published August 12, 2026
 - Grant: reviewed commit pinned by Amber CLI `2.0.6`
 - Micrate: `0.16.0-beta.1`, embedded and pinned by Amber CLI `2.0.6`

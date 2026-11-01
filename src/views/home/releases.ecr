@@ -4,7 +4,7 @@
 <% framework_releases = ReleaseCatalog.for_project(snapshot, "Amber Framework") %>
 <% cli_releases = ReleaseCatalog.for_project(snapshot, "Amber CLI") %>
 <% stable_release = ReleaseCatalog.find(snapshot, "amberframework/amber", "v1.5.0") %>
-<% beta_release = ReleaseCatalog.find(snapshot, "amberframework/amber", "v2.0.0-beta.5") %>
+<% beta_release = ReleaseCatalog.find(snapshot, "amberframework/amber", "v2.0.0-beta.6") %>
 <% cli_release = cli_releases.first? %>
 
 <header class="page-hero release-page-hero">
@@ -45,6 +45,7 @@
             <h3><%= release.tag_name %></h3>
             <time datetime="<%= release.published_at %>"><%= release.published_on %></time>
             <p>The current V2 framework tag and release-gated ECR web path. It is a prerelease, but it is not a promise of a difficult rewrite before stable.</p>
+            <a href="<%= release.url %>" target="_blank" rel="noopener">Read the official GitHub release →</a>
             <a href="/docs/v2/getting-started/installation">Test the supported web path →</a>
           </article>
         <% end %>
