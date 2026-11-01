@@ -38,8 +38,10 @@ scripts/check_v2_preview.sh
 ## Production boundary
 
 The production image compiles the site with Crystal 1.21 and runs the generated
-`bin/amberframework` binary. DigitalOcean App Platform deploys `master` through
-the root `Dockerfile`. Release evidence and the final gate status live in
+`bin/amberframework` binary. The live site runs on the agentc-agency-01 droplet
+and deploys only from release tags (`site-YYYY.MM.N`): `master` is never live.
+The branches, tagging, deploy and rollback are in [RELEASING.md](RELEASING.md).
+Release evidence and the final gate status live in
 `design/v2-preview/RELEASE_PROOF_BETA5.md` and
 `design/v2-preview/RELEASE_GATES.md`.
 

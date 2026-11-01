@@ -1,0 +1,50 @@
+# /etc/systemd/system/site-amberframework.service on agentc-agency-01
+[Unit]
+# amberframework.org: the CI-built deployment-image bundle, never compiled here.
+Description=Amber framework site (amberframework.org)
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=site_amberframework
+Group=site_amberframework
+WorkingDirectory=/srv/site/amberframework/current
+Environment=AMBER_ENV=production
+Environment=HOST=127.0.0.1
+Environment=PORT=43104
+ExecStart=/srv/site/amberframework/current/bin/amberframework
+Restart=on-failure
+RestartSec=3
+TimeoutStartSec=30
+MemoryMax=300M
+
+ProtectSystem=strict
+ReadWritePaths=/srv/site/amberframework
+PrivateTmp=true
+ProtectHome=true
+PrivateDevices=true
+NoNewPrivileges=true
+CapabilityBoundingSet=
+AmbientCapabilities=
+RestrictSUIDSGID=true
+RestrictRealtime=true
+RestrictNamespaces=true
+LockPersonality=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHostname=true
+ProtectProc=invisible
+SystemCallFilter=@system-service
+SystemCallErrorNumber=EPERM
+SystemCallArchitectures=native
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
