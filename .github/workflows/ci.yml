@@ -2,7 +2,10 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [master]
+    branches: [master, release/next]
+    # A release tag (RELEASING.md) builds, tests and publishes the bundle that
+    # scripts/deploy_droplet.sh deploys. Only tags deploy.
+    tags: ["site-*"]
 permissions:
   contents: read
 jobs:
@@ -71,4 +74,51 @@ jobs:
             amberframework-bundle.tar.gz
             release-manifest.json
           if-no-files-found: error
-          retention-days: 30
+          # Tag builds are kept long enough to roll back to; the GitHub Release
+          # published below keeps them for good.
+          retention-days: ${{ startsWith(github.ref, 'refs/tags/site-') && 90 || 30 }}
+
+  # On a release tag, publish the tested bundle as the tag's GitHub Release with
+  # SHA256SUMS, the manifest, and the commit hash and sha256 values in the notes.
+  # This is the only source scripts/deploy_droplet.sh deploys from.
+  release:
+    name: Publish the tagged site release
+    needs: test
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/site-')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: amberframework-${{ github.sha }}
+          path: release
+      - name: Check the bundle against its manifest and publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        working-directory: release
+        run: |
+          set -euo pipefail
+          [[ "$TAG" =~ ^site-[0-9]{4}\.(0[1-9]|1[0-2])\.[0-9]+(-[0-9A-Za-z.]+)?$ ]] \
+            || { echo "$TAG is not a site-YYYY.MM.N tag" >&2; exit 1; }
+          [[ "$(jq -r .git_sha release-manifest.json)" == "$GITHUB_SHA" ]] || { echo "manifest commit differs" >&2; exit 1; }
+          [[ "$(jq -r .git_ref release-manifest.json)" == "$GITHUB_REF" ]] || { echo "manifest ref differs" >&2; exit 1; }
+          bundle_sha256=$(sha256sum amberframework-bundle.tar.gz | cut -d' ' -f1)
+          [[ "$bundle_sha256" == "$(jq -r .bundle_sha256 release-manifest.json)" ]] || { echo "bundle sha256 differs" >&2; exit 1; }
+          sha256sum amberframework-bundle.tar.gz release-manifest.json > SHA256SUMS
+          {
+            echo "amberframework.org site release \`$TAG\`."
+            echo
+            echo "- Commit: \`$GITHUB_SHA\`"
+            echo "- Bundle sha256 (amberframework-bundle.tar.gz): \`$bundle_sha256\`"
+            echo "- Binary sha256 (bin/amberframework): \`$(jq -r .binary_sha256 release-manifest.json)\`"
+            echo "- Built and tested by CI run $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo
+            echo "Deploy with \`scripts/deploy_droplet.sh $TAG\`. See RELEASING.md."
+          } > notes.md
+          prerelease=()
+          [[ "$TAG" =~ ^site-[0-9.]+$ ]] || prerelease=(--prerelease)
+          gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --verify-tag --title "$TAG" \
+            --notes-file notes.md ${prerelease[@]+"${prerelease[@]}"} \
+            amberframework-bundle.tar.gz release-manifest.json SHA256SUMS
