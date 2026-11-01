@@ -18,7 +18,7 @@ targets:
 dependencies:
   amber:
     github: amberframework/amber
-    commit: a61cb0e436d3cffbc1feb381187b03c25e45f743
+    commit: 21deeec92b9253e9fc7252f994fc3465da0ffd4f # v2.0.0-beta.7
   asset_pipeline:
     github: amberframework/asset_pipeline
     commit: 9f54be45515324d43f5ea02cdf745a7e2c344137
