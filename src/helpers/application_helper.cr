@@ -5,6 +5,6 @@ module ApplicationHelper
   @image = "characters/amber-hero-original-studio.webp"
   @development : Bool? = Amber.env.development?
 
-  @latest_amber_version = "2.0.0-beta.5"
-  @latest_amber_release_date = "July 31, 2026"
+  @latest_amber_version = "2.0.0-beta.6"
+  @latest_amber_release_date = "November 1, 2026"
 end

@@ -1,6 +1,6 @@
 # Amber Framework Website
 
-The Amber Framework website, running on Amber `2.0.0-beta.5` and ECR. The V2
+The Amber Framework website, running on Amber `2.0.0-beta.6` and ECR. The V2
 public-beta experience includes versioned documentation, the project blog, and
 the Amber brand system without a Node or Webpack runtime.
 
