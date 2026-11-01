@@ -2,8 +2,8 @@ version: 2.0
 shards:
   amber:
     git: https://github.com/amberframework/amber.git
-    version: 2.0.0-beta.5+git.commit.76954f0e2edc10d568e7ffcea3faa94b2aa476d2
-    checksum: git-tree:1d80477a31811b987d2f1f6be2f4f89b9d9f4b19
+    version: 2.0.0-beta.6+git.commit.a61cb0e436d3cffbc1feb381187b03c25e45f743
+    checksum: git-tree:aef5979f5a1beec1c825a05ef83d8942583b5e38
 
   asset_pipeline:
     git: https://github.com/amberframework/asset_pipeline.git
