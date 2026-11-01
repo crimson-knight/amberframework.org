@@ -49,10 +49,10 @@ openssl req -new -newkey rsa:2048 -nodes -keyout "$dir/$name.key.new" \
 cat "$dir/$name.csr"
 REMOTE
 )"
-  request="$(/usr/bin/ruby -rjson -e 'puts JSON.generate(hostnames: ["amberframework.org", "*.amberframework.org"], requested_validity: 5475, request_type: "origin-rsa", csr: ARGV[0])' "$csr")"
+  request="$(/usr/bin/ruby -rjson -e 'puts JSON.generate(hostnames: ["amberframework.org", "*.amberframework.org"], requested_validity: 5475, request_type: "origin-rsa", csr: ARGV[0])' -- "$csr")"
   response="$(curl -s -X POST https://api.cloudflare.com/client/v4/certificates \
     -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json" --data "$request")"
-  certificate="$(/usr/bin/ruby -rjson -e 'r = JSON.parse(ARGV[0]); abort(r["errors"].inspect) unless r["success"]; puts r["result"]["certificate"]' "$response")"
+  certificate="$(/usr/bin/ruby -rjson -e 'r = JSON.parse(ARGV[0]); abort(r["errors"].inspect) unless r["success"]; puts r["result"]["certificate"]' -- "$response")"
   printf '%s\n' "$certificate" | remote "cat > $CERT_DIR/$CERT_NAME.pem.new"
   remote bash -s -- "$CERT_DIR" "$CERT_NAME" << 'REMOTE'
 set -euo pipefail
@@ -75,12 +75,20 @@ remote bash -s << 'REMOTE'
 set -euo pipefail
 sites=/etc/caddy/sites
 if [[ -f "$sites/amberframework.caddy" ]] && cmp -s "$sites/amberframework.caddy.new" "$sites/amberframework.caddy"; then
-  rm "$sites/amberframework.caddy.new"; echo "   unchanged"; exit 0
+  rm "$sites/amberframework.caddy.new"; echo "   site file unchanged; validating and reloading anyway"
+else
+  previous=""
+  [[ -f "$sites/amberframework.caddy" ]] && { cp "$sites/amberframework.caddy" /root/amberframework.caddy.previous; previous=1; }
+  mv "$sites/amberframework.caddy.new" "$sites/amberframework.caddy"
 fi
-previous=""
-[[ -f "$sites/amberframework.caddy" ]] && { cp "$sites/amberframework.caddy" /root/amberframework.caddy.previous; previous=1; }
-mv "$sites/amberframework.caddy.new" "$sites/amberframework.caddy"
+previous="${previous:-}"
 chmod 644 "$sites/amberframework.caddy"
+# `caddy validate` runs as root and opens the access log; create it as caddy first,
+# or the running caddy user cannot open it and the reload is rejected.
+install -o caddy -g caddy -m 600 /dev/null /var/log/caddy/amberframework.access.log.new
+[[ -e /var/log/caddy/amberframework.access.log ]] || mv /var/log/caddy/amberframework.access.log.new /var/log/caddy/amberframework.access.log
+rm -f /var/log/caddy/amberframework.access.log.new
+chown caddy:caddy /var/log/caddy/amberframework.access.log
 if ! caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile; then
   if [[ -n "$previous" ]]; then mv /root/amberframework.caddy.previous "$sites/amberframework.caddy"; else rm "$sites/amberframework.caddy"; fi
   echo "server: caddy validate failed; the site file was not applied" >&2; exit 1
