@@ -51,7 +51,7 @@ module SiteContent
       title:       "Amber releases",
       description: "Dated Amber Framework and Amber CLI releases synchronized from GitHub, with the V2 web beta boundary explained in plain language.",
       sections:    [
-        "## Current choices\nAmber Framework 1.5.0 is the stable maintenance line, Amber Framework 2.0.0-beta.5 is the current V2 web-framework beta, and Amber CLI 2.0.6 is the current standalone application generator.",
+        "## Current choices\nAmber Framework 1.5.0 is the stable maintenance line, Amber Framework 2.0.0-beta.6 is the current V2 web-framework beta, and Amber CLI 2.0.7 is the current standalone application generator.",
         "## What beta means\nThe V2 tag is a prerelease while its web path is tested in public. The release-gated path includes Grant, Micrate, SQLite, and fingerprinted authored assets; attachments, generated auth/API resources, and native output keep separate preview labels.",
         "## Source of truth\nGitHub Releases remains the source of truth. The human page is refreshed from the Amber Framework and Amber CLI repositories every six hours and links every entry back to its original release.",
       ],

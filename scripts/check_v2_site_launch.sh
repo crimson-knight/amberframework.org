@@ -22,7 +22,7 @@ test -s public/benchmarks/amber-v2-schema-contract-round27-summary.json
 test -s src/views/home/showcase.ecr
 test -s src/views/home/sponsors.ecr
 
-grep -F 'commit: 76954f0e2edc10d568e7ffcea3faa94b2aa476d2' shard.yml
+grep -F 'commit: a61cb0e436d3cffbc1feb381187b03c25e45f743' shard.yml
 grep -F '2.0.0-beta.5' docs/v2/getting-started/installation.md
 grep -F 'brew install amberframework/amber_cli/amber_cli' src/views/home/index.ecr
 grep -F 'Installed amber and amber-lsp' src/views/home/index.ecr

@@ -107,7 +107,9 @@ amber watch
 Open <http://127.0.0.1:3000/>, then create a record at
 <http://127.0.0.1:3000/pets/new>. The generated `shard.yml` pins Amber
 `2.0.0-beta.5`, includes Grant and only the selected database driver, and does
-not use a personal Amber fork or a moving framework branch.
+not use a personal Amber fork or a moving framework branch. The latest release
+is [`2.0.0-beta.6`](https://github.com/amberframework/amber/releases/tag/v2.0.0-beta.6); change the `version:` line to `2.0.0-beta.6` and
+run `shards update amber` to move to it.
 
 From another terminal:
 
@@ -129,7 +131,7 @@ For an existing Crystal application that only needs the runtime upgrade:
 dependencies:
   amber:
     github: amberframework/amber
-    version: 2.0.0-beta.5
+    version: 2.0.0-beta.6
 
 crystal: ">= 1.20.0, < 2.0"
 ```
