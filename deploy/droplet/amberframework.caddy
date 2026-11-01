@@ -1,0 +1,24 @@
+# /etc/caddy/sites/amberframework.caddy on agentc-agency-01
+# amberframework.org, proxied by Cloudflare with SSL mode Full (strict).
+# TLS: Cloudflare Origin CA certificate for amberframework.org and *.amberframework.org,
+# the same pattern agentc-consulting.caddy uses.
+amberframework.org, www.amberframework.org {
+	tls /etc/caddy/origin/amberframework-origin.pem /etc/caddy/origin/amberframework-origin.key
+	encode zstd gzip
+	log {
+		output file /var/log/caddy/amberframework.access.log {
+			roll_size 50MiB
+			roll_keep 10
+		}
+		format json
+	}
+	reverse_proxy 127.0.0.1:43104 {
+		header_up X-Forwarded-Proto https
+		header_up X-Forwarded-For {remote_host}
+	}
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		-Server
+	}
+}

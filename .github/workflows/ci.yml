@@ -35,3 +35,40 @@ jobs:
             curl --fail --silent --show-error "http://127.0.0.1:3212$path" >/dev/null
           done
           curl --fail --silent http://127.0.0.1:3212/pioneers | grep -F 'amber-pioneers-crystal-trail-v1-'
+      # The droplet (agentc-agency-01) never compiles. It runs this exact image's /app,
+      # shipped by scripts/deploy_droplet.sh, which checks both sha256 values below
+      # on the operator's machine and again on the server before `current` moves.
+      - name: Export the droplet bundle from the deployment image
+        env:
+          SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          SOURCE_REF: ${{ github.event_name == 'pull_request' && format('refs/heads/{0}', github.head_ref) || github.ref }}
+        run: |
+          set -euo pipefail
+          container=$(docker create amberframework-site:test)
+          mkdir bundle
+          docker cp "$container:/app/." bundle/
+          docker rm "$container"
+          docker run --rm --entrypoint ldd amberframework-site:test /app/bin/amberframework | tee bundle-ldd.txt
+          if grep -q 'not found' bundle-ldd.txt; then echo "binary has an unresolved library" >&2; exit 1; fi
+          tar -czf amberframework-bundle.tar.gz -C bundle .
+          base_image=$(sed -n 's/^FROM \([^ ]*\) AS production$/\1/p' Dockerfile)
+          jq -n \
+            --arg git_sha "$SOURCE_SHA" \
+            --arg git_ref "$SOURCE_REF" \
+            --arg event "$GITHUB_EVENT_NAME" \
+            --arg run_id "$GITHUB_RUN_ID" \
+            --arg base_image "$base_image" \
+            --arg binary_sha256 "$(sha256sum bundle/bin/amberframework | cut -d' ' -f1)" \
+            --arg bundle_sha256 "$(sha256sum amberframework-bundle.tar.gz | cut -d' ' -f1)" \
+            --arg shard_lock_sha256 "$(sha256sum shard.lock | cut -d' ' -f1)" \
+            --arg linked_libraries "$(awk '{print $1}' bundle-ldd.txt | sort -u | paste -sd' ' -)" \
+            '$ARGS.named' > release-manifest.json
+          cat release-manifest.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: amberframework-${{ github.event.pull_request.head.sha || github.sha }}
+          path: |
+            amberframework-bundle.tar.gz
+            release-manifest.json
+          if-no-files-found: error
+          retention-days: 30
