@@ -1,0 +1,77 @@
+# Supply-chain checks for the locked shards (security baseline SC-3 and VM-1).
+#
+#   - VM-1: `shards-alpha audit` queries OSV for every shard in shard.lock and
+#     fails the job on any known vulnerability. It runs on every pull request,
+#     every push to master, and every Monday at 06:00 UTC so new advisories
+#     against an unchanged lock still surface within a week.
+#   - SC-3: `shards-alpha sbom` writes a CycloneDX bill of materials for the
+#     locked shards and uploads it as a workflow artifact, so every master build
+#     and every release tag has one.
+#
+# Minecart (shards-alpha) is the same release binary, URL and sha256 that
+# scripts/install_pinned_toolchain.sh installs into the Dockerfile toolchain
+# stage; it runs inside the same digest-pinned Crystal image.
+name: Supply chain
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+    tags: ["site-*"]
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  # Keep identical to the toolchain stage in Dockerfile.
+  CRYSTAL_IMAGE: crystallang/crystal:1.21.0@sha256:32b7b908a8c3625ebd629053daf48b6f469deaf74aeb71ad101895096b1665fa
+
+jobs:
+  audit:
+    name: Vulnerability audit and sbom
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Install minecart from its sha256-verified release
+        run: |
+          set -eu
+          grep -qF "FROM ${CRYSTAL_IMAGE} AS toolchain" Dockerfile
+          minecart_url=https://github.com/crimson-knight/shards/releases/download/v2025.11.25.8/minecart-linux-x86_64.tar.gz
+          minecart_sha256=60e01c2c0839b158eab3450a7c952cf66658c0dff97e30df63ae1f3bad12882d
+          grep -qF "minecart_sha256=${minecart_sha256}" scripts/install_pinned_toolchain.sh
+          curl --fail --location --retry 3 "$minecart_url" --output "$RUNNER_TEMP/minecart.tar.gz"
+          printf '%s  %s\n' "$minecart_sha256" "$RUNNER_TEMP/minecart.tar.gz" | sha256sum -c -
+          mkdir -p "$RUNNER_TEMP/minecart"
+          tar -xzf "$RUNNER_TEMP/minecart.tar.gz" -C "$RUNNER_TEMP/minecart"
+          binary=$(find "$RUNNER_TEMP/minecart" -type f -name minecart | head -1)
+          test -n "$binary"
+          mkdir -p "$RUNNER_TEMP/bin"
+          install -m 755 "$binary" "$RUNNER_TEMP/bin/minecart"
+          ln -s minecart "$RUNNER_TEMP/bin/shards-alpha"
+          docker run --rm -v "$RUNNER_TEMP/bin:/opt/minecart/bin:ro" "$CRYSTAL_IMAGE" /opt/minecart/bin/shards-alpha --version
+
+      - name: Audit locked shards for known vulnerabilities (OSV)
+        run: >-
+          docker run --rm --user "$(id -u):$(id -g)" -e HOME=/tmp
+          -v "$RUNNER_TEMP/bin:/opt/minecart/bin:ro" -v "$PWD:/app" -w /app
+          "$CRYSTAL_IMAGE" /opt/minecart/bin/shards-alpha audit
+
+      - name: Generate CycloneDX sbom
+        run: |
+          docker run --rm --user "$(id -u):$(id -g)" -e HOME=/tmp \
+            -v "$RUNNER_TEMP/bin:/opt/minecart/bin:ro" -v "$PWD:/app" -w /app \
+            "$CRYSTAL_IMAGE" /opt/minecart/bin/shards-alpha sbom --format=cyclonedx --output=sbom.cdx.json
+          test -s sbom.cdx.json
+          sha256sum sbom.cdx.json
+
+      - name: Upload sbom
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: sbom-${{ github.event.pull_request.head.sha || github.sha }}
+          path: sbom.cdx.json
+          if-no-files-found: error
+          retention-days: ${{ startsWith(github.ref, 'refs/tags/site-') && 90 || 30 }}
