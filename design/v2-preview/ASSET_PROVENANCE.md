@@ -160,6 +160,22 @@ beside the fonts. The official TTF sources were converted to the checked-in
 WOFF2 files and then removed as redundant runtime copies. The production
 website must not call Google Fonts.
 
+## Mica, the fourth crew member
+
+Mica (parsing and formats) was added on 2026-10-24 through the same Codex
+built-in image generation pipeline as the original-studio crew portraits:
+the `image_gen__imagegen` tool with referenced images and the same structured
+prompt, so she reads as drawn by the same artist. Her identity portrait used
+the Gemma, Amber, and Grant identity sources above as references; her scene used
+her identity portrait plus the Grant and Gemma warehouse scenes. Prompts, takes,
+alternates, and the command log live in the Amberverse repository under
+`research/mica_concepts/codex/`.
+
+| Local asset | Built-in generation source | Encoding |
+|---|---|---|
+| `mica-id-original-studio.webp` | `/Users/crimsonknight/.codex/generated_images/01a16f6c-f265-70d3-9705-289cd816bc25/exec-d4437834-ef37-4b29-b079-75a0bd1ddc8b.png` | resized from 1254 to 800 by 800; quality-84 WebP |
+| `mica-reading-room-codex.webp` | `/Users/crimsonknight/.codex/generated_images/01a16fb5-4ea3-78c0-8557-a7d3125e6401/exec-30832310-7700-4a84-bda2-3857ec802d2b.png` | 1678 by 937 as generated (the crew scenes' 1.79 ratio); quality-84 WebP |
+
 ## Third-party identity assets
 
 These marks are stored locally and used only to identify the tools or services

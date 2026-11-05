@@ -29,6 +29,8 @@ for asset in \
   app/assets/characters/amber-id-original-studio.webp \
   app/assets/characters/grant-id-original-studio.webp \
   app/assets/characters/gemma-id-original-studio.webp \
+  app/assets/characters/mica-id-original-studio.webp \
+  app/assets/characters/mica-reading-room-codex.webp \
   app/assets/characters/amber-chibi-original-studio.webp \
   app/assets/characters/amber-chibi-hero-mark-v2.webp \
   app/assets/blog/amber-new-website-character-2026.webp \
@@ -100,6 +102,7 @@ grep -F '/docs/v2/guides/models/grant' src/views/home/index.ecr >/dev/null
 grep -F 'image_tag("characters/amber-id-original-studio.webp"' src/views/home/characters.ecr >/dev/null
 grep -F 'image_tag("characters/grant-id-original-studio.webp"' src/views/home/characters.ecr >/dev/null
 grep -F 'image_tag("characters/gemma-id-original-studio.webp"' src/views/home/characters.ecr >/dev/null
+grep -F 'image_tag("characters/mica-id-original-studio.webp"' src/views/home/characters.ecr >/dev/null
 grep -F 'image_tag("characters/amber-chibi-hero-mark-v2.webp"' src/views/docs/show.ecr >/dev/null
 grep -F 'image_tag("brand/claude-icon-rounded.svg"' src/views/docs/show.ecr >/dev/null
 grep -F 'image_tag("brand/openai-symbol-2025.svg"' src/views/docs/show.ecr >/dev/null

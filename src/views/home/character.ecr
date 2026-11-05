@@ -41,6 +41,27 @@
     {id: "phoenix", label: "Phoenix", title: "Plug.Upload and LiveView uploads", copy: "Gemma is the closest Amber responsibility to Phoenix upload handling: temporary upload intake, limits and validation, durable storage handoff, streaming, and delivery.", chips: ["Plug.Upload", "LiveView uploads", "Durable storage handoff"]},
     {id: "laravel", label: "Laravel", title: "UploadedFile and Filesystem", copy: "Gemma covers the work Laravel developers recognize across uploaded files and the Filesystem abstraction: validation, storage selection, object movement, and delivery.", chips: ["UploadedFile", "Filesystem", "Validation and delivery"]}
   ] %>
+<% elsif character_id == "mica" %>
+  <% character_name = "Mica" %>
+  <% character_number = "AF-031" %>
+  <% character_role = "Parsing and formats" %>
+  <% character_class = "mica" %>
+  <% character_image = "characters/mica-id-original-studio.webp" %>
+  <% character_docs = "/docs/v2/guides/schema-api/parsers" %>
+  <% character_summary = "Mica is the crew's reader. A parser reads anything, so Mica reads every language the crew brings in: request bodies, documents, and data formats, in order, with nothing guessed." %>
+  <% character_personality = "Calm, exact, and patient, with a warm smile under the precision. Mica reads only what she was handed, leaves anything a document points to closed and labeled, and when a document breaks, she names the exact place it stopped reading clean." %>
+  <% character_responsibilities = ["Request body formats", "Content-type contracts", "Strict, bounded parsing", "The Mica parsing library (in development)"] %>
+  <% character_line = "Mica reads it right, or shows you exactly where it isn't." %>
+  <% character_scene = "characters/mica-reading-room-codex.webp" %>
+  <% character_scene_width = 1678 %>
+  <% character_scene_height = 937 %>
+  <% character_scene_alt = "Mica reading at a lectern in a sunlit archive reading room as glyph tiles rise from her open book" %>
+  <% character_translations = [
+    {id: "rails", label: "Ruby on Rails", title: "Action Dispatch parameter parsing and Nokogiri", copy: "Mica covers the work Rails splits between Action Dispatch's request parameter parsing for JSON and form bodies and XML libraries such as Nokogiri: turning what arrives into structured data, strictly and in order.", chips: ["Parameter parsing", "Request body formats", "XML documents"]},
+    {id: "django", label: "Django", title: "Request parsing and DRF parsers", copy: "Mica is the closest Amber responsibility to Django's request parsing (request.POST, request.FILES, and the raw body) together with Django REST framework's parser classes and XML libraries such as lxml.", chips: ["HttpRequest parsing", "DRF parsers", "XML documents"]},
+    {id: "phoenix", label: "Phoenix", title: "Plug.Parsers", copy: "Mica occupies the boundary Phoenix developers configure with Plug.Parsers: matching each request's content type to a parser for URL-encoded, multipart, and JSON bodies, with XML read through libraries such as SweetXml.", chips: ["Plug.Parsers", "Content-type matching", "XML documents"]},
+    {id: "laravel", label: "Laravel", title: "Request input and JSON bodies", copy: "Mica covers the work Laravel developers see in the Request object's input handling for form and JSON bodies, with XML read through PHP's SimpleXML or DOM extensions.", chips: ["Request input", "JSON bodies", "XML documents"]}
+  ] %>
 <% else %>
   <% character_name = "Amber" %>
   <% character_number = "AF-001" %>
@@ -67,7 +88,8 @@
 <% crew_profiles = [
   {id: "amber", name: "Amber", role: "Framework lead", image: "characters/amber-id-original-studio.webp"},
   {id: "grant", name: "Grant", role: "Records and persistence", image: "characters/grant-id-original-studio.webp"},
-  {id: "gemma", name: "Gemma", role: "Files and fulfillment", image: "characters/gemma-id-original-studio.webp"}
+  {id: "gemma", name: "Gemma", role: "Files and fulfillment", image: "characters/gemma-id-original-studio.webp"},
+  {id: "mica", name: "Mica", role: "Parsing and formats", image: "characters/mica-id-original-studio.webp"}
 ] %>
 
 <% @title = "#{character_name} — Amber Framework character" %>

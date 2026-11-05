@@ -3,7 +3,7 @@ require "../spec_helper"
 describe SiteContent do
   it "publishes Markdown and JSON for every registered public page" do
     SiteContent::PAGES.each_key do |slug|
-      canonical_path = slug == "index" ? "/" : (slug.in?({"amber", "grant", "gemma"}) ? "/characters/#{slug}" : "/#{slug}")
+      canonical_path = slug == "index" ? "/" : (slug.in?({"amber", "grant", "gemma", "mica"}) ? "/characters/#{slug}" : "/#{slug}")
 
       markdown = SiteContent.markdown(slug, canonical_path).not_nil!
       markdown.should start_with("# ")

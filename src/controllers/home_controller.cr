@@ -126,7 +126,7 @@ class HomeController < ApplicationController
     return machine_page(slug, "/characters/#{slug}", markdown: false) if request.path.ends_with?(".json")
     return machine_page(slug, "/characters/#{slug}", markdown: true) if request.path.ends_with?(".md")
 
-    unless {"amber", "grant", "gemma"}.includes?(slug)
+    unless {"amber", "grant", "gemma", "mica"}.includes?(slug)
       raise Amber::Exceptions::RouteNotFound.new(request)
     end
 
