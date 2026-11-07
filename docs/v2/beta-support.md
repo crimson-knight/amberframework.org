@@ -2,17 +2,16 @@
 title: "Beta Support"
 section: ""
 order: 20
-description: "Supported platforms and feature boundaries for Amber 2.0.0-beta.6"
+description: "Supported platforms and feature boundaries for Amber 2.0.0-beta.10"
 ---
 
 # Amber V2 Beta Support
 
-**Status checked November 1, 2026.** Amber Framework
-[`2.0.0-beta.6`](https://github.com/amberframework/amber/releases/tag/v2.0.0-beta.6) is the latest V2 framework release. It removes
-libxml2 from every V2 application; XML request bodies are opt-in through
-Mica. Amber CLI `2.0.7` generates applications pinned to `2.0.0-beta.5`;
-change that pin to `2.0.0-beta.6` to run the latest beta. Amber `1.5.0`
-remains the stable framework line.
+**Status checked November 7, 2026.** Amber Framework
+[`2.0.0-beta.10`](https://github.com/amberframework/amber/releases/tag/v2.0.0-beta.10) is the latest V2 framework release. Its
+request path uses no regex engine, so a JSON API built on it links no PCRE2. XML
+request bodies are opt-in through Mica. Amber CLI `2.0.10` generates applications
+pinned to `2.0.0-beta.10`. Amber `1.5.0` remains the stable framework line.
 
 “Beta” describes the V2 framework release, not an expectation that ordinary
 web applications will be repeatedly rewritten. The supported path includes
@@ -93,14 +92,17 @@ must test against the server versions they deploy.
 
 ## Versions
 
-- Amber V2 framework beta: [`2.0.0-beta.6`](https://github.com/amberframework/amber/releases/tag/v2.0.0-beta.6) — published November 1, 2026
-- Amber V2 framework beta.5: `2.0.0-beta.5` — published August 13, 2026, and the version Amber CLI `2.0.7` pins in new applications
-- Amber CLI: `2.0.7` — published October 6, 2026
-- Asset Pipeline: `0.37.0` — published August 12, 2026
-- Grant: reviewed commit pinned by Amber CLI `2.0.6`
-- Micrate: `0.16.0-beta.1`, embedded and pinned by Amber CLI `2.0.6`
+- Amber V2 framework beta: [`2.0.0-beta.10`](https://github.com/amberframework/amber/releases/tag/v2.0.0-beta.10) — published November 7, 2026, and the version Amber CLI `2.0.10` pins in new applications
+- Amber CLI: `2.0.10` — published November 7, 2026
+- Minecart: `2025.11.25.9` — published November 7, 2026
+- Asset Pipeline: `0.37.1` — published November 6, 2026
+- Grant: `0.23.4`, pinned by commit by Amber CLI `2.0.10`
+- Micrate: `0.16.0-beta.1`, embedded and pinned by Amber CLI `2.0.10`
 - Amber stable framework: `1.5.0` — published August 1, 2026
 - Crystal: `>= 1.20.0, < 2.0`
+
+A `shard.lock` written on Windows records different checksums from one written
+on macOS or Linux, so a team on both needs a lock for each.
 
 Generated applications pin the framework prerelease exactly. Do not replace it
 with `v2-dev`, `master`, or a personal Amber fork when following the supported

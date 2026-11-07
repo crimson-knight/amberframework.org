@@ -18,7 +18,7 @@ The standalone Amber CLI is independent from this runtime upgrade. Install or
 update it when you want V2 generators; an existing application can change its
 framework shard without being regenerated.
 
-> Amber [`2.0.0-beta.6`](https://github.com/amberframework/amber/releases/tag/v2.0.0-beta.6) is the latest framework release. Since
+> Amber [`2.0.0-beta.10`](https://github.com/amberframework/amber/releases/tag/v2.0.0-beta.10) is the latest framework release. Since
 > `2.0.0-beta.5` the framework core and the new ECR web template are
 > release-gated with Grant, Micrate, and SQLite. Existing applications do not have
 > to replace a working ORM to adopt the framework beta. Gemma, Asset Pipeline,
@@ -32,7 +32,7 @@ framework shard without being regenerated.
 dependencies:
   amber:
     github: amberframework/amber
-    version: 2.0.0-beta.6
+    commit: d291e0930dd22b14a2d10f75a9de063abb0e64e4 # v2.0.0-beta.10
 ```
 
 Keep the rest of the application's dependencies unchanged for this first pass.

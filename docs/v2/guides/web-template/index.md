@@ -94,16 +94,16 @@ crystal: ">= 1.20.0, < 2.0"
 dependencies:
   amber:
     github: amberframework/amber
-    version: 2.0.0-beta.5
+    commit: d291e0930dd22b14a2d10f75a9de063abb0e64e4 # v2.0.0-beta.10
   grant:
     github: crimson-knight/grant
-    commit: 2665a978b43ac608c68cde9243821f8f8f053372
+    commit: 6c9da3c8180e612f76ff9ad9c76242a0402ce6d9
   asset_pipeline:
     github: amberframework/asset_pipeline
-    version: 0.37.0
+    version: 0.37.1
   sqlite3:
     github: crystal-lang/crystal-sqlite3
-    version: ~> 0.23.0
+    version: 0.23.0
 ```
 
 The exact Grant commit is intentional while its V2 release is finalized. Amber
@@ -193,7 +193,7 @@ Amber CLI `2.0.6` generates an HTML schema that declares
 request-local typed values through `validated_as(PetSchema)`. Invalid input is
 stopped before the action and re-renders the ECR form with field errors. The
 controller does not manually construct and validate a second schema object.
-This is the released CLI `2.0.6` and framework `2.0.0-beta.5` path.
+This is the released CLI `2.0.10` and framework `2.0.0-beta.10` path.
 
 **Run from: the application root — useful database maintenance commands.**
 
