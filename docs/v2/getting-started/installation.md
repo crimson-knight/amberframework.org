@@ -2,168 +2,206 @@
 title: "Installation"
 section: "getting-started"
 order: 10
-description: "Install Amber CLI 2.0.6 on supported macOS, x86-64 Linux, and ARM64 Linux systems"
+description: "Install Amber CLI 2.0.9, Minecart and the rules for Amber 2.0.0-beta.9 on Apple Silicon macOS and Linux"
 ---
 
-# Install Amber V2 Beta
+# Install Amber V2
 
-The supported onboarding path uses the standalone Amber CLI. The framework is
-an exact shard dependency generated into each application.
+This page takes a new developer from a bare machine to an Amber V2 app with
+checksum-verified dependencies, and with editor and coding-assistant rules active
+from the first edit. It covers Amber CLI 2.0.9, Amber 2.0.0-beta.9 and Minecart
+2025.11.25.8 on Apple Silicon macOS and Linux.
 
-## Supported systems
+## What you get
 
-- Apple Silicon macOS — release-gated; Homebrew and `darwin-arm64` archive
-- x86-64 Linux — release-gated; Homebrew and `linux-x86_64` archive
-- ARM64 Linux — release-gated; `linux-arm64` archive
-- Windows x86-64 — generated database-backed app compile-verified in CI; no CLI
-  release archive yet
+| Tool | What it does | How it arrives |
+|---|---|---|
+| `amber` | Generates, runs and migrates apps | Homebrew formula |
+| `amber-lsp` | Language server, API lookup and rule checks | Same formula |
+| `minecart` | Installs dependencies and verifies their checksums | Dependency of the formula |
+| Crystal | Compiles the app | Dependency of the formula |
+| Amber 2.0.0-beta.9 | The framework, its rule pack and its guides | Pinned in each new app |
+| Grant | The ORM and its tenancy rule pack | Pinned in each new app |
+| Asset Pipeline | CSS, JavaScript and image assets | Pinned in each new app |
+| micrate | Database migrations | Built into `amber database` |
+| Mica | XML request bodies | Add it when an app accepts XML |
 
-Intel macOS is not currently verified. Windows is not a release gate until it
-has a supported installation artifact, but its CI job installs SQLite, builds
-the CLI, generates the web app, applies its development and test migrations,
-runs the generated specs, and compiles the application. Follow [Beta Support](../beta-support/)
-rather than treating a successful Crystal installation as the complete support
-claim.
+## 1. Install the tools
 
-## Prerequisites
-
-Install Crystal 1.20 or newer, but earlier than 2.0, using the
-[official Crystal instructions](https://crystal-lang.org/install/). You also
-need Git, `shards`, and SQLite development headers because the default web app
-compiles the SQLite driver.
-
-For a new application, use the latest stable Crystal release that satisfies
-that range.
-
-On Debian or Ubuntu Linux:
+You need [Homebrew](https://brew.sh) 7 or newer and Git. This pins the tap to the
+reviewed formula commit, so everyone on the team builds the same versions:
 
 ```bash
-sudo apt-get update
-sudo apt-get install -y libsqlite3-dev
+brew tap amberframework/amber_cli
+brew trust --tap amberframework/amber_cli
+tap_path="$(brew --repo amberframework/amber_cli)"
+git -C "$tap_path" fetch origin
+git -C "$tap_path" checkout --detach 018819c6340135c7b0d5b9767640e8ff9ad23491
+HOMEBREW_NO_AUTO_UPDATE=1 brew install amberframework/amber_cli/amber_cli
 ```
 
-Then verify the toolchain:
+Check the result:
 
 ```bash
-crystal --version
-shards --version
-git --version
+amber --version      # Amber CLI v2.0.9
+amber-lsp --version  # amber-lsp 1.0.0 (amber_cli 2.0.9, ...)
+minecart --version   # Minecart 2025.11.25.8
 ```
 
-SQLite needs no running database server. Choose PostgreSQL or MySQL only when
-the application needs one of those servers.
+### Optional: the Crystal Alpha compiler
 
-## Homebrew on macOS or Linux
-
-The tap and formula use an underscore. Install the official formula with its
-fully qualified name, then verify the `amber` executable:
+Crystal Alpha adds incremental compilation and `crystal-alpha watch`. `amber-lsp`
+and the assistant hooks use it when it is installed.
 
 ```bash
-brew install amberframework/amber_cli/amber_cli
-amber --version
+brew tap crimson-knight/agent-crystal
+brew trust --tap crimson-knight/agent-crystal
+HOMEBREW_NO_AUTO_UPDATE=1 brew install crimson-knight/agent-crystal/agent-crystal
+crystal-alpha --version
 ```
 
-The formula is `amber_cli`; the installed executable is `amber`. Expect Amber
-CLI `2.0.6` or newer.
-
-## Direct archive
-
-Choose `darwin-arm64`, `linux-x86_64`, or `linux-arm64` for the current host.
+## 2. Create an app
 
 ```bash
-version=v2.0.6
-platform=darwin-arm64
-asset="amber_cli-${platform}.tar.gz"
-
-curl -fLO "https://github.com/amberframework/amber_cli/releases/download/${version}/${asset}"
-curl -fLO "https://github.com/amberframework/amber_cli/releases/download/${version}/${asset}.sha256"
-shasum -a 256 -c "${asset}.sha256"
-tar -xzf "${asset}"
-install -m 0755 amber amber-lsp /usr/local/bin/
-amber --version
+amber new my_app --type web -y
+cd my_app
+amber doctor
 ```
 
-On Linux, set `platform` to the matching value and use `sha256sum -c`. Prefix
-only the `install` command with `sudo` when `/usr/local/bin` is not writable.
-Never run a differently named architecture archive through emulation and call
-that native support.
+`amber new` pins every dependency, writes a `shard.lock` with Git tree checksums,
+installs the assistant guides and connects Claude Code and Codex to `amber-lsp`.
+SQLite is the default database, and it needs no server. Pass `-d pg` or `-d mysql`
+to choose another.
 
-## Verify a database-backed application
+Commit everything it generated, including `shard.lock`, `.minecart-policy.yml`,
+`.amber/`, `.claude/` and `.codex/`, so every clone gets the same setup.
 
-**Run from: a parent directory where `amber_beta_smoke/` can be created.**
+`amber doctor` ends with exit 0 when the project is ready. It names the fix for
+each item it reports. On a new project it asks you to open it once in Claude Code
+and accept the trust prompt. For Codex, trust `.codex/hooks.json`.
+
+## 3. Run it
 
 ```bash
-amber new amber_beta_smoke --type web
-cd amber_beta_smoke
-amber assets check
 amber generate scaffold Pet name:string:required species:string:required adopted:bool
 amber database migrate
 AMBER_ENV=test amber database migrate
 crystal spec
-crystal build src/amber_beta_smoke.cr -o bin/amber_beta_smoke
 amber watch
 ```
 
-Open <http://127.0.0.1:3000/>, then create a record at
-<http://127.0.0.1:3000/pets/new>. The generated `shard.yml` pins Amber
-`2.0.0-beta.5`, includes Grant and only the selected database driver, and does
-not use a personal Amber fork or a moving framework branch. The latest release
-is [`2.0.0-beta.6`](https://github.com/amberframework/amber/releases/tag/v2.0.0-beta.6); change the `version:` line to `2.0.0-beta.6` and
-run `shards update amber` to move to it.
+Open <http://127.0.0.1:3000/pets/new>.
 
-From another terminal:
+Teammates who clone the app run one command to install exactly what the lock says:
 
 ```bash
-curl --fail http://127.0.0.1:3000/
-curl --fail http://127.0.0.1:3000/pets/new
+minecart install --frozen
 ```
 
-View the homepage source and follow its fingerprinted `/assets/...` stylesheet
-URL. Confirm the stylesheet and JavaScript module tags include
-`integrity="sha256-..."`; a raw `/css/app.css` request is not the V2 asset
-contract.
+## 4. See the rules work
 
-## Manual framework dependency
+Amber ships its rules with the framework, and they apply with no setup. Print the
+rules for your project:
 
-For an existing Crystal application that only needs the runtime upgrade:
+```bash
+amber-lsp context
+```
+
+Check a file by hand:
+
+```bash
+amber-lsp --check src/controllers/pet_controller.cr
+```
+
+| Rule | Severity | What it asks for |
+|---|---|---|
+| `amber/models-inherit-grant` | Error | Models inherit from `Grant::Base` |
+| `amber/security-headers-pipe` | Error | `Amber::Pipe::SecurityHeaders` |
+| `amber/views-are-ecr` | Error | ECR views |
+| `amber/json-perimeter` | Warning | Payloads parsed into `JSON::Serializable` types |
+| `amber/narrow-nil` | Warning | `if value = maybe`, or a named error |
+| `amber/output-through-log` | Warning | `Log.info { "message" }` |
+| `grant/*` | Error or warning | Tenant-scoped queries, when the app uses tenancy |
+
+These sit alongside the built-in checks for controllers, routes, schemas, jobs,
+mailers, sockets, file names and type signatures. Turn off a rule or change its
+severity in `.amber-lsp.yml`.
+
+Before calling a library method, look it up. The answer comes from the source your
+project actually compiles against:
+
+```bash
+amber-lsp lookup 'Grant::Base.where'
+amber-lsp lookup 'String#split'
+```
+
+### In Claude Code and Codex
+
+The generated hooks do this for you. Each session starts with the rules, each
+Crystal edit is formatted and checked, and the project builds when the assistant
+stops. Each dependency's guides are in `.claude/skills/`.
+
+### In another editor
+
+Point your editor's language server client at the `amber-lsp` command for `.cr`
+files; it speaks LSP over standard input and output. It provides diagnostics, hover,
+go-to-definition and workspace symbols. It has no autocomplete yet.
+
+## 5. Accept XML with Mica
+
+Amber links no XML library and answers XML requests with `415` until an app opts in.
+Add Mica to `shard.yml`:
+
+```yaml
+dependencies:
+  mica:
+    github: amberframework/mica
+    commit: 80f4b7a4d3f3365fadda160554bf68001b394a82 # v0.1.1
+```
+
+```bash
+minecart update mica
+```
+
+Then register it in `config/initializers/request_body_parsers.cr`:
+
+```crystal
+require "mica/xml/fields"
+
+{"application/xml", "text/xml"}.each do |media_type|
+  Amber::Schema::Parser::ParserRegistry.register_body_parser(media_type) do |body|
+    Mica::XML::Fields.read(body)
+  end
+end
+```
+
+## 6. Before production
+
+- Build with `crystal build src/my_app.cr --release -o bin/my_app`.
+- Behind a load balancer or reverse proxy, list it in `server.trusted_proxies`.
+  Amber reads the client address and scheme only from listed proxies.
+- New apps plug `Amber::Pipe::SecurityHeaders` into the web, static and API
+  pipelines. Tune it in the `security_headers` settings section.
+- Set `AMBER_ENV=production` and run `amber database migrate` as a release step.
+- Amber V2 is a beta. See [Beta Support](../beta-support/) for which
+  generators are release-gated and which are previews.
+
+## Upgrade an existing app
+
+Pin the release's commit and move the lock:
 
 ```yaml
 dependencies:
   amber:
     github: amberframework/amber
-    version: 2.0.0-beta.6
-
-crystal: ">= 1.20.0, < 2.0"
+    commit: 34a93352eaa89501d24e2b9ff90b058209a22720 # v2.0.0-beta.9
 ```
-
-Do not replace an existing application's working persistence stack merely to
-upgrade the framework. Read the [V1-to-V2 migration guide](../migration-guide/)
-and keep the first upgrade bounded.
-
-## Update or remove
 
 ```bash
-brew update
-brew upgrade amberframework/amber_cli/amber_cli
-# or
-brew uninstall amberframework/amber_cli/amber_cli
-brew untap amberframework/amber_cli
+minecart update amber
+grep -A2 '^  amber:' shard.lock   # checksum: git-tree:f1e7332d02229aec58ab5303ade7fc6c9d14fcee
+amber setup:agent
 ```
 
-## Troubleshooting
-
-If the wrong executable runs, inspect every match:
-
-```bash
-type -a amber
-amber --version
-```
-
-Remove or rename an old Amber V1 executable, or put Homebrew earlier in `PATH`.
-On macOS, the beta binary must not require `openssl@1.1`; include
-`otool -L "$(command -v amber)"` in an install issue.
-
-For generated-app failures, include the operating system and architecture,
-`crystal --version`, `amber --version`, the exact command, and complete output.
-Framework behavior belongs in the Amber issue tracker; CLI, generator,
-migration-command, and install behavior belongs in Amber CLI.
+Then read the
+[beta.9 release notes](https://github.com/amberframework/amber/blob/v2.0.0-beta.9/RELEASE_NOTES_V2_BETA9.md).
