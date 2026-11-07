@@ -1,5 +1,7 @@
 <% @title = "#{post["title"]} — Amber Framework" %>
 <% @meta = (post["summary"]? || "An Amber Framework release and community update.").to_s %>
+<% @og_type = "article" %>
+<% @published_on = post_iso_date(post) %>
 <script type="application/ld+json"><%= structured_data %></script>
 
 <header class="page-hero post-page-hero">

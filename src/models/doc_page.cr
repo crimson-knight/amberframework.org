@@ -9,6 +9,11 @@ class DocPage
   property description : String = ""
   property is_section : Bool = false
 
+  # Optional `last_updated: 2026-11-07` front matter. The deployment image
+  # carries no git history, so this is the only trustworthy edit date a page
+  # can offer; the sitemap leaves `lastmod` out when a page does not declare it.
+  property last_updated : Time? = nil
+
   # Runtime properties (not from YAML)
   @[YAML::Field(ignore: true)]
   property file_path : String = ""

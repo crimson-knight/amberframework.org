@@ -98,8 +98,18 @@ module SiteContent
     },
   } of String => Page
 
+  # Registered pages served under /characters/ instead of the site root.
+  LIST_OF_CHARACTER_SLUGS = {"amber", "grant", "gemma"}
+
   def find(slug : String) : Page?
     PAGES[slug]?
+  end
+
+  # Returns the HTML address a registered page is served from.
+  def canonical_path(slug : String) : String
+    return "/" if slug == "index"
+
+    LIST_OF_CHARACTER_SLUGS.includes?(slug) ? "/characters/#{slug}" : "/#{slug}"
   end
 
   def markdown(slug : String, canonical_path : String) : String?

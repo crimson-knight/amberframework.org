@@ -28,7 +28,9 @@ class BlogController < ApplicationController
     post = find_post(filepath)
     if post
       @image = post["image"].to_s
-      structured_data = blog_post_schema(post).to_json
+      # A standalone JSON-LD document needs its own @context; the index nests
+      # the same post objects inside a Blog that already carries one.
+      structured_data = blog_post_schema(post).merge({"@context" => "https://schema.org"}).to_json
       render("show.ecr")
     else
       raise Amber::Exceptions::RouteNotFound.new(request)

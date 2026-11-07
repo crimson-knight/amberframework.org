@@ -2806,6 +2806,23 @@ pre {
 .docs-content h1 { display: none; }
 .docs-content h2 { margin: 2.6em 0 0.8em; padding-bottom: 0.32em; border-bottom: 1px solid var(--line); font-size: 2rem; }
 .docs-content h3 { margin: 2em 0 0.65em; font-size: 1.45rem; }
+
+/* Section self-links: the target heading clears the sticky site nav, and the
+   link shows on hover or keyboard focus (always, faintly, on touch screens). */
+:is(.docs-content, .post-article) :is(h2, h3, h4, h5, h6)[id] { scroll-margin-top: 96px; }
+.heading-anchor {
+  margin-left: 0.35em;
+  color: var(--amber-700);
+  font-family: var(--mono);
+  font-size: 0.7em;
+  font-weight: 700;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+:is(h1, h2, h3, h4, h5, h6):hover > .heading-anchor,
+.heading-anchor:focus-visible { opacity: 1; }
+@media (hover: none) { .heading-anchor { opacity: 0.55; } }
 .docs-content p, .docs-content ul, .docs-content ol { margin-block: 1em; }
 .docs-content li + li { margin-top: 0.32em; }
 

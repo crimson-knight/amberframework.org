@@ -33,3 +33,18 @@ describe "config/routes.cr" do
     routed_action("/blog").should eq("BlogController#index")
   end
 end
+
+describe "config/routes.cr sitemap" do
+  it "serves the generated sitemap" do
+    routed_action("/sitemap.xml").should eq("SitemapController#show")
+  end
+
+  it "routes every non-docs sitemap location to a page action" do
+    PublicSitemap.list_of_entries.each do |entry|
+      path = entry.location.sub("https://amberframework.org", "")
+      next if path.starts_with?("/docs/")
+      routed_action(path).should_not eq("not found")
+      routed_action(path).should_not contain("Static")
+    end
+  end
+end
