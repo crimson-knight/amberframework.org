@@ -14,7 +14,7 @@ for file in "${files[@]}"; do
   test -s "$file"
 done
 
-forbidden='crimson-knight/(amber|gemma)|amberframework/amber-cli|brew tap crimson-knight|brew install (amber-v2|amber-cli)|template: slang|branch: (master|v2-dev)|version: ~> 2\.0\.0|Crystal 1\.10'
+forbidden='crimson-knight/(amber|gemma)|amberframework/amber-cli|brew tap crimson-knight/amber|brew install (amber-v2|amber-cli)|template: slang|branch: (master|v2-dev)|version: ~> 2\.0\.0|Crystal 1\.10'
 if rg -n -i -e "$forbidden" "${files[@]}"; then
   echo "V2 beta onboarding docs contain a stale install, dependency, or template instruction" >&2
   exit 1
@@ -23,16 +23,16 @@ fi
 rg -F 'brew install amberframework/amber_cli/amber_cli' docs/v2/getting-started/installation.md
 rg -F 'amber new my_app' docs/v2/index.md
 rg -F 'not release-gated with the V2 web beta' docs/v2/guides/native-preview/index.md
-rg -F '2.0.0-beta.5' docs/v2/cli/new.md
+rg -F '2.0.0-beta.10' docs/v2/cli/new.md
 rg -F 'Amber CLI' docs/v2/cli/index.md
-rg -F '2.0.6' docs/v2/getting-started/installation.md
-rg -F 'asset_pipeline `0.37.0`' docs/v2/guides/assets/index.md
+rg -F '2.0.10' docs/v2/getting-started/installation.md
+rg -F 'asset_pipeline `0.37.1`' docs/v2/guides/assets/index.md
 rg -F 'amber assets check' docs/v2/getting-started/index.md
-rg -F 'use the latest stable Crystal release' docs/v2/getting-started/installation.md
+rg -F 'brew trust --tap amberframework/amber_cli' docs/v2/getting-started/installation.md
 rg -F '| ARM64 Linux | Verified on GitHub-hosted ARM64 Linux | `linux-arm64` archive | Yes |' docs/v2/beta-support.md
 rg -F '| Windows x86-64 | Verified in GitHub Actions | None | No |' docs/v2/beta-support.md
 
-if rg -n 'brew tap amberframework/amber_cli|brew (install|upgrade|uninstall) amber_cli' "${files[@]}"; then
+if rg -n 'brew (install|upgrade|uninstall) amber_cli' "${files[@]}"; then
   echo "V2 beta onboarding docs must use the fully qualified trusted formula" >&2
   exit 1
 fi

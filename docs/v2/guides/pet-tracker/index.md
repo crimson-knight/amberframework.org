@@ -121,8 +121,8 @@ end
 Amber validates browser input before the action assigns values to the Grant
 model. The generated HTML failure hook returns status 422 and re-renders
 `src/views/pet/new.ecr` or `src/views/pet/edit.ecr` with `@errors`; it does not
-turn the form into a JSON error. This is the released CLI `2.0.6` and framework
-`2.0.0-beta.5` path.
+turn the form into a JSON error. This is the released CLI `2.0.10` and framework
+`2.0.0-beta.10` path.
 
 Database constraints remain in the migration; request validation does not
 replace them.

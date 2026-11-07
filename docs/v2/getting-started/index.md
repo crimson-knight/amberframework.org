@@ -25,13 +25,12 @@ amber new my_app --type web
 cd my_app
 ```
 
-Dependencies install automatically. If you used `--no-deps`, run `shards
+Dependencies install automatically. If you used `--no-deps`, run `minecart
 install` now.
 
 The generated project uses ECR, typed environment YAML, Grant, SQLite, and
-static routes. Its `shard.yml` pins Amber `2.0.0-beta.5` from
-`amberframework/amber` and the reviewed Grant V2 commit. The latest release is
-[`2.0.0-beta.6`](https://github.com/amberframework/amber/releases/tag/v2.0.0-beta.6); change the pin to `2.0.0-beta.6` to use it.
+static routes. Its `shard.yml` pins Amber `2.0.0-beta.10` from
+`amberframework/amber` and the reviewed Grant V2 commit.
 
 ## Prove the clean scaffold works
 
