@@ -3,13 +3,13 @@ title: "Amber 2.0 Beta"
 section: ""
 order: 10
 is_section: true
-description: "Install, verify, and evaluate Amber 2.0.0-beta.6"
+description: "Install, verify, and evaluate Amber 2.0.0-beta.10"
 ---
 
 # Amber 2.0 Beta
 
-Amber `2.0.0-beta.6` is the latest V2 release
-([release notes](https://github.com/amberframework/amber/releases/tag/v2.0.0-beta.6), November 1, 2026) and is available for evaluation. The V2 release train remains
+Amber `2.0.0-beta.10` is the latest V2 release
+([release notes](https://github.com/amberframework/amber/releases/tag/v2.0.0-beta.10), November 7, 2026) and is available for evaluation. The V2 release train remains
 a prerelease, but the web path is deliberately backwards compatible and mostly
 additive. Pin the exact beta, test upgrades, and do not treat it as a formal
 production-support promise.

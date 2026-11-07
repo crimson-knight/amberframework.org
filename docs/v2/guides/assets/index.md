@@ -8,8 +8,8 @@ description: "Build and serve fingerprinted Amber V2 assets with exact file and 
 
 # Asset Pipeline
 
-> **Supported web path:** Amber `2.0.0-beta.5`, Amber CLI `2.0.6`, and
-> asset_pipeline `0.37.0` are release-gated together. A new CLI web application
+> **Supported web path:** Amber `2.0.0-beta.10`, Amber CLI `2.0.10`, and
+> asset_pipeline `0.37.1` are release-gated together. A new CLI web application
 > already contains every file and command shown below.
 
 Asset Pipeline turns application-authored CSS, JavaScript, images, fonts, and

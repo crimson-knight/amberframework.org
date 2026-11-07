@@ -12,8 +12,8 @@ server-rendered application can use browser-native ESM and import maps. Removing
 a working build tool is still a migration, not a prerequisite for upgrading the
 Amber runtime.
 
-> **Release boundary:** Amber `2.0.0-beta.5`, Amber CLI `2.0.6`, and
-> asset_pipeline `0.37.0` support the manifest contract below. Keep the existing
+> **Release boundary:** Amber `2.0.0-beta.10`, Amber CLI `2.0.10`, and
+> asset_pipeline `0.37.1` support the manifest contract below. Keep the existing
 > build whenever the application still needs Sass,
 > TypeScript, JSX, Vue single-file components, PostCSS, or another compiler.
 

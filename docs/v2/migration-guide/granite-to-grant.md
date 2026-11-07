@@ -10,7 +10,7 @@ description: "Move an existing Granite model layer to the Grant version pinned b
 Grant is the default model layer in new Amber CLI `2.0.6` web applications.
 That does not make an ORM replacement part of the Amber 1-to-2 framework
 upgrade. First prove that the existing application can run on Amber
-`2.0.0-beta.5` with its current persistence stack. Start this guide only when
+`2.0.0-beta.10` with its current persistence stack. Start this guide only when
 moving to Grant is an explicit second decision.
 
 ## Establish the safety boundary

@@ -50,4 +50,4 @@ Amber CLI `2.0.6` binds scaffold and API schemas
 directly to `create` and `update`, then reads request-local typed values with
 `validated_as`. HTML scaffolds re-render their ECR forms on validation failure;
 API resources use the framework's structured JSON failure. This is the
-released generator path for Amber `2.0.0-beta.5`.
+released generator path for Amber `2.0.0-beta.10`.
