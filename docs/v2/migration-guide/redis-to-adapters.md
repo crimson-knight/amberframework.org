@@ -61,7 +61,7 @@ The clean V2 application selects the built-in adapters by name:
 # config/environments/development.yml
 session:
   key: "my_app.session"
-  store: "signed_cookie"
+  store: "adapter"
   adapter: "memory"
   expires: 3600
 
@@ -106,12 +106,14 @@ Amber::Adapters::AdapterFactory.register_session_adapter("redis") do
 end
 ```
 
-Then select the registered name in the environment configuration:
+Then keep sessions on the server and select the registered name in the
+environment configuration (Amber 2.0.0-beta.10 and earlier accept `redis` in
+place of `adapter` as the store value):
 
 ```yaml
 session:
   key: "my_app.session"
-  store: "signed_cookie"
+  store: "adapter"
   adapter: "redis"
   expires: 86400
 ```

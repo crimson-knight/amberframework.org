@@ -38,13 +38,17 @@ and `pubsub:` keys. Apply the same shape deliberately to `test.yml` or
 ```yaml
 session:
   key: "amber.session"
-  store: "signed_cookie"
+  store: "adapter"
   adapter: "memory"
   expires: 3600
 
 pubsub:
   adapter: "memory"
 ```
+
+`store: "adapter"` keeps session values on the server through `adapter`; see
+[Session Adapters](sessions.md) for each store value and how Amber
+2.0.0-beta.10 differs.
 
 Memory adapters are perfect for:
 
@@ -78,6 +82,7 @@ section after registering the custom `database` adapter.**
 ```yaml
 session:
   key: "myapp.session"
+  store: "adapter"
   adapter: "database"  # Your custom adapter
   expires: 86400       # 24 hours
 ```
