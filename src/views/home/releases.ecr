@@ -94,7 +94,7 @@
                   <time datetime="<%= historical_release.published_at %>"><%= historical_release.published_on %></time>
                 </summary>
                 <div class="release-note-body">
-                  <% unless historical_release.body.empty? %><%= MarkdownPreprocessor.render(historical_release.body, preprocess: false, safe: true) %><% end %>
+                  <% unless historical_release.body.empty? %><%= MarkdownPreprocessor.render(historical_release.body, preprocess: false, safe: true, add_heading_anchors: false) %><% end %>
                   <a href="<%= historical_release.url %>" target="_blank" rel="noopener">Open the source release on GitHub →</a>
                 </div>
               </details>

@@ -2,6 +2,8 @@ require "../models/doc_page"
 require "../models/doc_version"
 require "../services/docs_scanner"
 require "../services/markdown_preprocessor"
+require "../services/public_sitemap"
+require "../models/documentation_article_schema"
 
 class DocsController < ApplicationController
   LAYOUT = "application.ecr"
@@ -289,6 +291,34 @@ class DocsController < ApplicationController
     else
       "#{entry[:label]}: Not available"
     end
+  end
+
+  # Returns the page title with its docs version, so the same guide in two
+  # versions does not share one title in search results.
+  def documentation_title(page : DocPage) : String
+    "#{page.title} — Amber #{@version.try(&.label) || @version_id} documentation"
+  end
+
+  # Returns the front-matter description, or a page-specific sentence for the
+  # inherited guides that have none.
+  def documentation_description(page : DocPage) : String
+    return page.description unless page.description.empty?
+
+    "#{page.title} in the Amber Framework #{@version.try(&.label) || @version_id} documentation."
+  end
+
+  # Returns the page's TechArticle JSON-LD, or "{}" when no page is loaded.
+  def documentation_structured_data : String
+    page = @page
+    return "{}" unless page
+
+    DocumentationArticleSchema.new(
+      headline: page.title,
+      description: documentation_description(page),
+      url: "#{PublicSitemap::ORIGIN}/docs/#{page.url_path}",
+      version: @version.try(&.label) || @version_id,
+      date_modified: page.last_updated.try(&.to_s("%F")),
+    ).to_script_json
   end
 
   # Helper to render markdown with preprocessing

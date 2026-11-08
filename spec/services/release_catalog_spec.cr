@@ -5,8 +5,10 @@ describe ReleaseCatalog do
     snapshot = ReleaseCatalog.load
 
     snapshot.releases.should_not be_empty
-    ReleaseCatalog.find(snapshot, "amberframework/amber", "v1.5.0").should_not be_nil
-    # The hourly sync keeps only the newest releases, so name the V2 and CLI lines, not a tag.
+    # The hourly sync keeps only the newest releases, so look up a release the snapshot holds
+    # and name the V2 and CLI lines, not a tag.
+    newest_release = snapshot.releases.first
+    ReleaseCatalog.find(snapshot, newest_release.repository, newest_release.tag_name).should_not be_nil
     snapshot.releases.any? { |release| release.repository == "amberframework/amber" && release.tag_name.starts_with?("v2.0.0-beta.") }.should be_true
     snapshot.releases.any? { |release| release.repository == "amberframework/amber_cli" && release.tag_name.starts_with?("v2.0.") }.should be_true
 

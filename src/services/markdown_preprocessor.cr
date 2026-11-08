@@ -1,3 +1,4 @@
+require "html"
 require "markd"
 
 # Service to preprocess markdown content, converting GitBook-specific syntax to HTML
@@ -20,19 +21,63 @@ module MarkdownPreprocessor
 
   # Render site Markdown with GitHub Flavored Markdown enabled so the tables
   # used throughout the versioned guides become semantic HTML tables.
-  def render(content : String, *, preprocess : Bool = true, safe : Bool = false, version_id : String? = nil, page_path : String? = nil) : String
+  #
+  # Pass `add_heading_anchors: false` when several renders share one page
+  # (the release notes list), because heading ids are unique per render only.
+  def render(content : String, *, preprocess : Bool = true, safe : Bool = false, version_id : String? = nil, page_path : String? = nil, add_heading_anchors : Bool = true) : String
     source = preprocess ? process(content, version_id: version_id, page_path: page_path) : content
     options = Markd::Options.new(gfm: true, safe: safe)
-    enhance_html(Markd.to_html(source, options))
+    enhance_html(Markd.to_html(source, options), add_heading_anchors: add_heading_anchors)
   end
 
   # Add presentation wrappers after Markdown has been rendered. The wrapper
-  # keeps table semantics intact while providing an overflow region, and gives
-  # code samples a local editor or terminal component based on what the sample
-  # actually represents.
-  def enhance_html(html : String) : String
+  # keeps table semantics intact while providing an overflow region, gives
+  # headings linkable ids, and gives code samples a local editor or terminal
+  # component based on what the sample actually represents.
+  def enhance_html(html : String, *, add_heading_anchors : Bool = true) : String
     result = wrap_tables(html)
+    result = anchor_headings(result) if add_heading_anchors
     wrap_code_windows(result)
+  end
+
+  # Returns the GitHub-style slug for a heading's visible text: lowercase,
+  # punctuation removed, spaces turned into hyphens. The GitBook-era guides
+  # already link to sections in this form (`routing.md#pipelines`).
+  #
+  # ```
+  # MarkdownPreprocessor.heading_slug("Pipes & Pipelines") # => "pipes--pipelines"
+  # ```
+  def heading_slug(text : String) : String
+    slug = text.downcase.gsub(/[^\p{L}\p{M}\p{N}\p{Pc}\- ]/, "").gsub(' ', '-')
+    slug.empty? ? "section" : slug
+  end
+
+  # Gives every heading without attributes a stable, page-unique id and a
+  # self-link, so a reader can link to one section. A repeated slug gets "-1",
+  # "-2", ... as on GitHub. A heading written with its own id keeps it.
+  private def anchor_headings(html : String) : String
+    list_of_taken_ids = Set(String).new
+    html.scan(/\sid="([^"]*)"/) { |id_match| list_of_taken_ids << id_match[1] }
+
+    html.gsub(/<h([1-6])>(.*?)<\/h\1>/m) do
+      level = $1
+      inner_html = $2
+      heading_text = HTML.unescape(inner_html.gsub(/<[^>]*>/, "")).strip
+      heading_id = unique_heading_id(heading_slug(heading_text), list_of_taken_ids)
+
+      %(<h#{level} id="#{heading_id}">#{inner_html}<a class="heading-anchor" href="##{heading_id}" aria-label="Link to the section #{HTML.escape(heading_text)}">#</a></h#{level}>)
+    end
+  end
+
+  private def unique_heading_id(base_slug : String, list_of_taken_ids : Set(String)) : String
+    candidate = base_slug
+    suffix = 0
+    while list_of_taken_ids.includes?(candidate)
+      suffix += 1
+      candidate = "#{base_slug}-#{suffix}"
+    end
+    list_of_taken_ids << candidate
+    candidate
   end
 
   private def wrap_tables(html : String) : String

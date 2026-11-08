@@ -43,6 +43,7 @@ Amber::Server.configure do |app|
     get "/blog/feed", BlogController, :feed
     get "/blog/feed.xml", BlogController, :feed
     get "/rss", BlogController, :feed
+    get "/sitemap.xml", SitemapController, :show
 
     # Amber normalizes the built-in JSON extension before matching, so each
     # base action inspects the original request path. Markdown is registered

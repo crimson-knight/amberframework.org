@@ -53,7 +53,7 @@ describe MarkdownPreprocessor do
     it "can suppress raw HTML for synchronized external Markdown" do
       rendered = MarkdownPreprocessor.render("## Notes\n<script>alert('no')</script>\n- safe item", preprocess: false, safe: true)
 
-      rendered.should contain("<h2>Notes</h2>")
+      rendered.should contain(%(<h2 id="notes">Notes<a class="heading-anchor"))
       rendered.should contain("safe item")
       rendered.should_not contain("<script>")
     end
@@ -238,6 +238,69 @@ describe MarkdownPreprocessor do
         content.should match(/`(?:config|public|shard\.yml|spec|src)[^`]*`/),
           "#{path} has a placement section but does not name an application path"
       end
+    end
+  end
+end
+
+describe MarkdownPreprocessor do
+  describe ".heading_slug" do
+    it "follows GitHub's slug rules so existing section links keep working" do
+      MarkdownPreprocessor.heading_slug("Pipes & Pipelines").should eq("pipes--pipelines")
+      MarkdownPreprocessor.heading_slug("Configure `config/routes.cr`").should eq("configure-configroutescr")
+      MarkdownPreprocessor.heading_slug("Step 2: Run the app").should eq("step-2-run-the-app")
+      MarkdownPreprocessor.heading_slug("snake_case and kebab-case").should eq("snake_case-and-kebab-case")
+      MarkdownPreprocessor.heading_slug("!!!").should eq("section")
+    end
+  end
+
+  describe "heading anchors" do
+    it "gives each rendered heading a slugged id and a self-link" do
+      html = MarkdownPreprocessor.render("## Size the `pool`\n\nText", preprocess: false)
+
+      html.should contain(%(<h2 id="size-the-pool">Size the <code>pool</code><a class="heading-anchor" href="#size-the-pool" aria-label="Link to the section Size the pool">#</a></h2>))
+    end
+
+    it "keeps ids unique within one page" do
+      html = MarkdownPreprocessor.render("## Setup\n\n### Setup\n\n## Setup", preprocess: false)
+
+      html.scan(/id="(setup(?:-\d)?)"/).map(&.[1]).should eq(["setup", "setup-1", "setup-2"])
+    end
+
+    it "decodes entities before slugging and escapes the accessible label" do
+      html = MarkdownPreprocessor.render(%(## Tom & "Jerry"), preprocess: false)
+
+      html.should contain(%(id="tom--jerry"))
+      html.should contain(%(aria-label="Link to the section Tom &amp; &quot;Jerry&quot;"))
+    end
+
+    it "keeps an id the author wrote and avoids reusing it" do
+      html = MarkdownPreprocessor.enhance_html(%(<h2 id="setup">Custom</h2>\n<h2>Setup</h2>))
+
+      html.should contain(%(<h2 id="setup">Custom</h2>))
+      html.should contain(%(<h2 id="setup-1">Setup))
+    end
+
+    it "anchors headings inside rendered GitBook hints" do
+      html = MarkdownPreprocessor.render(%({% hint style="info" %}\n### Inside a hint\n{% endhint %}))
+
+      html.should contain(%(<h3 id="inside-a-hint">))
+    end
+
+    it "can leave headings plain when several renders share one page" do
+      html = MarkdownPreprocessor.render("## Changes", preprocess: false, add_heading_anchors: false)
+
+      html.should contain("<h2>Changes</h2>")
+      html.should_not contain("heading-anchor")
+    end
+
+    it "anchors every heading of a real V2 guide with unique ids" do
+      html = MarkdownPreprocessor.render(File.read("docs/v2/getting-started/installation.md"), version_id: "v2", page_path: "getting-started/installation")
+
+      heading_count = html.scan(/<h[1-6][ >]/).size
+      ids = html.scan(/<h[1-6] id="([^"]+)"/).map(&.[1])
+      heading_count.should be > 1
+      ids.size.should eq(heading_count)
+      ids.uniq.size.should eq(ids.size)
     end
   end
 end

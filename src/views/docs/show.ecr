@@ -1,7 +1,8 @@
 <% page = @page.not_nil! %>
 <% version = @version %>
-<% @title = "#{page.title} — Amber Framework documentation" %>
-<% @meta = page.description.empty? ? "Amber Framework documentation" : page.description %>
+<% @title = documentation_title(page) %>
+<% @meta = documentation_description(page) %>
+<script type="application/ld+json"><%= documentation_structured_data %></script>
 
 <header class="docs-page-banner">
   <div class="site-container docs-page-banner-inner">
