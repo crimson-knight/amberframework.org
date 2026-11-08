@@ -45,6 +45,28 @@ report backend availability.
 or pipelining. The expiration operation applies to the complete session, not an
 individual key.
 
+## Choose where sessions live
+
+`session.store` decides where session values are kept:
+
+- `signed_cookie` (the default) keeps them in the visitor's cookie, signed so
+  they cannot be altered. Nothing is held on the server and `adapter` is not
+  used. A cookie holds about 4 KB.
+- `encrypted_cookie` also keeps them in the cookie, encrypted so the visitor
+  cannot read them.
+- `adapter` keeps them on the server through the adapter named by `adapter`;
+  the cookie carries only the session ID.
+
+With `store: "adapter"`, `expires` (seconds after the last change) is also how
+long the adapter keeps an idle session. The built-in memory adapter holds at
+most 10,000 sessions per process and evicts the oldest when it is full, so a
+session with `expires: 0` lives until it is evicted.
+
+**Amber 2.0.0-beta.10 and earlier** keep every session on the server through
+`adapter`, whatever `store` says, and accept `redis` (in place of `adapter`)
+as the server-side store value. `store: "adapter"` is accepted from the first
+release after 2.0.0-beta.10.
+
 ## Built-in memory adapter
 
 **File: the applicable file under `config/environments/`, such as
@@ -53,7 +75,7 @@ individual key.
 ```yaml
 session:
   key: "my_app.session"
-  store: "signed_cookie"
+  store: "adapter"
   adapter: "memory"
   expires: 3600
 ```
@@ -89,7 +111,7 @@ section after the adapter is registered.**
 # config/environments/production.yml
 session:
   key: "my_app.session"
-  store: "signed_cookie"
+  store: "adapter"
   adapter: "redis"
   expires: 86400
 ```
