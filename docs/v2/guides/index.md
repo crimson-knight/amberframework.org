@@ -43,6 +43,7 @@ directory labeled as generated output.
 - [WebSockets and live pages](websockets/) — server-rendered documents with channel-driven ES module updates
 - [Background jobs](background-jobs/) — queues, retries, delayed work, work stealing, and capacity boundaries
 - [Adapters](adapters/) — framework adapter concepts and extension points
+- [Fast from the start](fast-from-the-start/) — the compiler, regex patterns, settings and build flags for the best app on day one, each with its measurement
 
 ## Preview ecosystem material
 
