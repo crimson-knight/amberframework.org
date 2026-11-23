@@ -9,7 +9,8 @@ description: "Which Mica regex features work with the stock Crystal compiler and
 
 Mica is Amber's pure-Crystal regex engine. You can use it with the stock
 Crystal compiler through the `mica` shard's own API. Running the standard
-library's `Regex` on Mica (`-Duse_mica`) needs crystal-alpha.
+library's `Regex` and `YAML` on Mica needs crystal-alpha 1.21.0-incremental-6
+or later, where Mica is the default engine for both.
 
 ## Where the examples go
 
@@ -21,7 +22,7 @@ library's `Regex` on Mica (`-Duse_mica`) needs crystal-alpha.
 
 ## What works where
 
-| Feature | Stock Crystal 1.21 and later | crystal-alpha with `-Duse_mica` |
+| Feature | Stock Crystal 1.21 and later | crystal-alpha 1.21.0-incremental-6 and later |
 |---|---|---|
 | `Mica::Regex::Expression`: compile and search with explicit limits | Yes | Yes |
 | `Mica::Regex.static`: a pattern compiled while the app builds | Yes | Yes |
@@ -29,11 +30,14 @@ library's `Regex` on Mica (`-Duse_mica`) needs crystal-alpha.
 | `Mica::Regex::Syntax.check` / `error?`: check a pattern without compiling it | Yes | Yes |
 | Your existing `Regex`, regex literals, `=~`, `$~`, `String#match`, `gsub`, `scan`, `split` running on Mica | No: they run on PCRE2 | Yes |
 | A regex literal Mica cannot run is a compile error, not a runtime exception | No | Yes |
-| No `libpcre2-8` linked into the binary | Only when nothing in the app or its shards uses `Regex` | Yes |
+| No `libpcre2-8` linked into the binary | Only when nothing in the app or its shards uses `Regex` | Yes, unless built with `-Duse_pcre2` |
+| Crystal's `YAML` running on Mica, no `libyaml` linked | No: it runs on libyaml | Yes, unless built with `-Duse_libyaml` |
 
-The `mica` shard requires Crystal `>= 1.21.0, < 2.0.0`. `-Duse_mica` is on
-crystal-alpha's `incremental-compilation` branch from commit `e61119eb`
-(November 21, 2026). The tagged release `1.21.0-incremental-4` predates it.
+The `mica` shard requires Crystal `>= 1.21.0, < 2.0.0`. Mica became
+crystal-alpha's default `Regex` and `YAML` engine in the tagged release
+`1.21.0-incremental-6`; the `agent-crystal` Homebrew formula installs
+`1.21.0-incremental-8`. Releases before `1.21.0-incremental-6` run `Regex` on
+PCRE2 and `YAML` on libyaml by default.
 
 ## Add the shard
 
@@ -116,22 +120,30 @@ those losses.
 
 ## What needs crystal-alpha
 
-- **`-Duse_mica`.** Every `Regex` in the app and its shards (Amber, Grant,
-  your own code) runs on Mica, and the binary links no PCRE2.
-- **The literal check.** Under `-Duse_mica` a literal Mica cannot run, such as
-  a lookahead, stops the build with
-  `invalid regex for -Duse_mica: lookahead (at 7) is not supported by the Mica
-  regex engine` (for `/(\d{3})(?=\d)/`). On stock
-  Crystal the same pattern runs on PCRE2 and never reaches Mica.
+- **Mica as the default engine.** Every `Regex` and `YAML` call in the app
+  and its shards (Amber, Grant, your own code) runs on Mica, and the binary
+  links neither PCRE2 nor libyaml. No flag is needed; `-Duse_pcre2` and
+  `-Duse_libyaml` put one engine back on its C library.
+- **The literal check.** A literal Mica cannot run, such as a lookahead,
+  stops the build with
+  `invalid regex for the Mica regex engine: lookahead (at 7) is not supported;
+  build with -Duse_pcre2 to run this pattern on PCRE2` (for
+  `/(\d{3})(?=\d)/`). On stock Crystal the same pattern runs on PCRE2 and
+  never reaches Mica.
 
-In a production Amber app, `-Duse_mica` left speed and memory where they were
-and made the release binary 1.21× as large (5,018,672 bytes against
-4,163,632); the measurements are in [Fast from the start](../).
+In a production Amber app, running `Regex` on Mica left speed and memory
+where they were and made the release binary 1.21× as large (5,018,672 bytes
+against 4,163,632); the measurements are in [Fast from the start](../).
+Amber's [performance guide](https://github.com/amberframework/amber/blob/v2-dev/docs/guides/performance.md)
+covers the rest of the Mica setup, including the `regex-on-mica` CI check.
 
 ## Sources
 
 - Mica 0.2.0 release notes: benchmark run at Mica `f0bb0f6`, the tree of
   release commit `a3a3fd60`.
 - crystal-alpha `doc/regex_mica.md` at `e61119eb`.
+- Mica as the default engine and the `-Duse_pcre2` and `-Duse_libyaml`
+  opt-outs: crystal-alpha 1.21.0-incremental-6 release notes
+  (crimson-knight/crystal#19).
 - The static-pattern and `Expression` examples were compiled and run with
   Mica 0.2.0 on stock Crystal 1.22.3 and on crystal-alpha 1.21.0.

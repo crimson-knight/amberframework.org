@@ -13,11 +13,17 @@ from its first deploy. Every recommendation comes with the measurement behind
 it. Most of them are already the default in an app from Amber CLI 2.0.12; the
 page says what each default does, so you keep it when you change things.
 
+Amber keeps its own [performance guide](https://github.com/amberframework/amber/blob/v2-dev/docs/guides/performance.md)
+beside the framework source. It covers the steps this page does not: the
+`regex-on-mica` CI check, `-Dwithout_zlib` and `-Dwithout_openssl`, collector
+block sizes, release units, view caching and the `scripts/probe_app.rb`
+measuring harness.
+
 ## The checklist
 
 | Step | What to do | Measured effect |
 |---|---|---|
-| 1 | Build with crystal-alpha and `-Duse_mica` | No PCRE2 linked and linear-time searches; a production app ran at the same speed and memory, with a binary 1.21× as large |
+| 1 | Build with crystal-alpha 1.21.0-incremental-6 or later | Mica runs `Regex` and `YAML`: no PCRE2 or libyaml linked and linear-time searches; a production app ran at the same speed and memory, with a binary 1.21× as large |
 | 2 | Write regex patterns that hit Mica's fast paths | Static patterns compile 24× as fast as PCRE2 and search 1.97× as fast |
 | 3 | Keep `session.store: signed_cookie` | 875 MiB after 90 s with server-side sessions on beta.11, 14.9 MiB with cookie sessions |
 | 4 | Compress through `Amber::Pipe::Compression` | 299,887 bytes per compressed page down to 23,050 |
@@ -46,28 +52,31 @@ Variants ran interleaved (A, B, B, A) so a busy machine slowed both sides
 alike. Requests per second moved with the machine's load; bytes per request,
 CPU time per request and peak memory are the steadier figures.
 
-## 1. Build with crystal-alpha and `-Duse_mica`
+## 1. Build with crystal-alpha
 
 **Run from: the application root.**
 
 ```bash
-crystal-alpha build --release --no-debug -Duse_mica src/my_app.cr -o bin/my_app
+crystal-alpha build --release --no-debug src/my_app.cr -o bin/my_app
 ```
 
-`-Duse_mica` runs Crystal's standard `Regex` on Mica, Amber's pure-Crystal
-regex engine. Regex literals, `=~`, `$~`, `String#match`, `gsub`, `scan` and
+From crystal-alpha 1.21.0-incremental-6, Crystal's standard `Regex` and
+`YAML` run on Mica, Amber's pure-Crystal engines, by default; no flag is
+needed. Regex literals, `=~`, `$~`, `String#match`, `gsub`, `scan` and
 `split` keep their API. Every search runs in time linear in its input, and
-the binary links no PCRE2. On the 13 catastrophic-backtracking pattern
-families in Mica's ReDoS set, Mica finished every input size up to 1 MiB
-within the 1 s deadline, growing linearly; PCRE2 with JIT hit its match or
-stack limit on 10 of the 13 and timed out on one.
+the binary links neither PCRE2 nor libyaml. On the 13
+catastrophic-backtracking pattern families in Mica's ReDoS set, Mica
+finished every input size up to 1 MiB within the 1 s deadline, growing
+linearly; PCRE2 with JIT hit its match or stack limit on 10 of the 13 and
+timed out on one.
 
 ### What it changed in a real app
 
 We built a production Amber V2 app both ways: the license and checkout
 server behind Scribe Pro (Amber 2.0.0-beta.7 with Grant and SQLite; forms
 with CSRF and sessions, a JSON API that verifies and signs Ed25519 tokens and
-writes audit rows, static files). Same compiler (crystal-alpha `e61119eb`),
+writes audit rows, static files). Same compiler (crystal-alpha `e61119eb`,
+from before Mica became the default, so the Mica build passed `-Duse_mica`),
 same flags (`--release --no-debug`), six interleaved pairs per route at 32
 connections. CPU time per request is the steadiest figure on a shared machine:
 
@@ -95,23 +104,31 @@ app and its shards searches in linear time, and the binary carries its own
 engine instead of linking PCRE2. The app's own spec suite passed on both
 engines: 370 examples, 0 failures.
 
-`-Duse_mica` needs crystal-alpha built from the `incremental-compilation`
-branch at commit `e61119eb` (November 21, 2026) or later. On the stock Crystal
-compiler, use the `mica` shard directly: see
+Mica is the default from crystal-alpha 1.21.0-incremental-6; the
+`agent-crystal` Homebrew formula installs 1.21.0-incremental-8. To run one
+engine on its C library again, build with `-Duse_pcre2` (Regex on PCRE2) or
+`-Duse_libyaml` (YAML on libyaml); the app then links that library, where it
+is built and where it runs. `-Duse_mica` is still accepted. On the stock
+Crystal compiler, use the `mica` shard directly: see
 [Mica on stock Crystal](mica-on-stock-crystal/).
 
 ## 2. Regex patterns that hit Mica's fast paths
 
 ### Write patterns as literals
 
-A regex literal is parsed once, and under `-Duse_mica` the compiler checks it
+A regex literal is parsed once, and on crystal-alpha the compiler checks it
 against Mica while it builds. A pattern Mica cannot run stops the build
 instead of raising the first time a request reaches it; for
 `/(\d{3})(?=\d)/` the compiler says:
 
 ```text
-Error: invalid regex for -Duse_mica: lookahead (at 7) is not supported by the Mica regex engine; see doc/regex_mica.md for rewrites
+Error: invalid regex for the Mica regex engine: lookahead (at 7) is not supported; build with -Duse_pcre2 to run this pattern on PCRE2, or see doc/regex_mica.md for rewrites
 ```
+
+The compiler checks only the literals the program reaches, so a pattern in a
+method no spec calls still compiles. To check every file in CI, use the
+`regex-on-mica` check in Amber's
+[performance guide](https://github.com/amberframework/amber/blob/v2-dev/docs/guides/performance.md).
 
 **File: any file under `src/`.**
 
@@ -197,9 +214,10 @@ the input is ASCII.
 
 ### Rewrites for syntax Mica does not run
 
-Backreferences and lookaround need backtracking, which Mica does not do. Under
-`-Duse_mica` a literal that uses one stops the build; `Regex.new` with one
-raises `Regex::UnsupportedSyntaxError`. Each has a rewrite:
+Backreferences and lookaround need backtracking, which Mica does not do. On
+crystal-alpha a literal that uses one stops the build; `Regex.new` with one
+raises `Regex::UnsupportedSyntaxError`. Each has a rewrite. If one pattern
+truly needs PCRE2, build with `-Duse_pcre2`; the app then links PCRE2 again.
 
 **Lookahead.** Amber's number helper used to group digits with
 `/(\d{3})(?=\d)/`. Match the groups and decide in Crystal:
@@ -414,10 +432,11 @@ compressed bodies, and then bound the body yourself.
 **Run from: the application root, on the build machine or in the release image.**
 
 ```bash
-crystal-alpha build --release --no-debug -Duse_mica src/my_app.cr -o bin/my_app
+crystal-alpha build --release --no-debug src/my_app.cr -o bin/my_app
 ```
 
-Measured on the same license-server app, all three builds with `-Duse_mica`:
+Measured on the same license-server app, all three builds on Mica
+(`-Duse_mica` on crystal-alpha `e61119eb`, before Mica became the default):
 
 | Build | Binary | CPU per request, GET / | CPU per request, POST /licenses/activate |
 |---|---:|---:|---:|
@@ -441,8 +460,14 @@ Measured on the same license-server app, all three builds with `-Duse_mica`:
 Every number on this page comes from a measured run with its harness and raw
 results kept beside the report:
 
-- Real-app `-Duse_mica` results: the Scribe license server benchmark of
-  November 22, 2026 (app commit `768b51d`, crystal-alpha `e61119eb`, six
+- Mica as the default `Regex` and `YAML` engine, and the `-Duse_pcre2` and
+  `-Duse_libyaml` opt-outs: crystal-alpha 1.21.0-incremental-6 release notes
+  (crimson-knight/crystal#19). The `agent-crystal` Homebrew formula pins
+  1.21.0-incremental-8.
+- Amber's own [performance guide](https://github.com/amberframework/amber/blob/v2-dev/docs/guides/performance.md)
+  (amberframework/amber#1471).
+- Real-app Mica results (built with `-Duse_mica`): the Scribe license server
+  benchmark of November 22, 2026 (app commit `768b51d`, crystal-alpha `e61119eb`, six
   interleaved pairs per route, 95% bootstrap intervals of the paired ratios).
 - Mica 0.2.0 regex benchmark (Mica release notes, harness at Mica `f0bb0f6`)
   and Mica round 9 (November 20, 2026) for the per-case losses.
