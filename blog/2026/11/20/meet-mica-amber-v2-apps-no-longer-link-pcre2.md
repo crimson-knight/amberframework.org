@@ -129,9 +129,11 @@ Over 93 cases, decompressing is 1.09× as fast as zlib in one call and 1.12×
 as fast streamed, though 19 single cases are still up to 1.21× slower in one
 call. Compressing is 1.29× as fast as zlib at the default level, with output
 within 0.03% of zlib's size. Amber's compression pipe, Grant and
-asset_pipeline use it, and an app built with `-Dwithout_zlib` links no libz
-at all while still serving gzipped pages. That work is merged and comes with
-the next releases.
+asset_pipeline carry pinned copies of Mica's gzip, and an app built with
+`-Dwithout_zlib` links no libz at all while still serving gzipped pages.
+That work is merged and comes with the next releases. Their copies were
+taken just before these last speed gains, which reach them with the next
+copy.
 
 **Beryl's cryptography is at least as fast as OpenSSL.** Beryl, the crew
 member who decides who gets in, is the other half of security. Her hashes
@@ -143,7 +145,9 @@ least as fast in all 32 measurements, from 1.035× to 2.01× as fast. Before
 this work, the same ciphers were up to 55.64× slower. Amber's signed and
 encrypted cookies now run on Beryl, so an app built with `-Dwithout_openssl`
 links no OpenSSL; that change is also merged and comes with the next Amber
-release. Beryl's own repository is not public yet.
+release. Amber's copy of Beryl was taken before this speed work, which
+reaches Amber when it takes a newer copy. Beryl's own repository is not
+public yet.
 
 ## What is not done yet
 
