@@ -195,8 +195,10 @@ Grant::Connections << Grant::Adapter::Pg.new(
 3. [Validations](validations/) - Ensure data integrity
 4. [Callbacks](callbacks/) - Hook into the lifecycle
 5. [Querying](queries/) - Find and filter data
-6. [Transactions](transactions/) - Maintain data consistency
-7. [Security](security/) - Encryption, tokens, and secure IDs
+6. [Raw SQL](raw-sql/) - Bind SQL values and read raw results
+7. [Transactions](transactions/) - Maintain data consistency
+8. [Security](security/) - Encryption, tokens, and secure IDs
+9. [ActiveRecord parity](activerecord-parity/) - See Grant's feature tracker and current gaps
 
 ## Migration from Granite
 
